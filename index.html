@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Web IME Pro | 分页增强版</title>
+        <style>
+            :root {
+                --primary: #007aff;
+                --bg: #f5f7fa;
+            }
+            body {
+                font-family: "PingFang SC", system-ui, sans-serif;
+                padding: 20px;
+                background: var(--bg);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .container {
+                background: white;
+                padding: 25px;
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                width: 100%;
+                max-width: 650px;
+            }
+
+            #status {
+                font-size: 13px;
+                color: #666;
+                margin-bottom: 10px;
+                min-height: 18px;
+            }
+            #status b {
+                color: var(--primary);
+                font-weight: 600;
+            }
+            #status .page-info {
+                color: #999;
+                margin-left: 10px;
+            }
+
+            #ime {
+                width: 100%;
+                font-size: 20px;
+                padding: 12px;
+                border: 2px solid #eee;
+                border-radius: 10px;
+                outline: none;
+                transition: 0.3s;
+                box-sizing: border-box;
+            }
+            #ime:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+            }
+
+            #candidates {
+                margin: 15px 0;
+                padding: 12px;
+                background: #f9f9f9;
+                border-radius: 8px;
+                min-height: 50px;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            /* 适配移动端或小屏幕可以改为 flex */
+            @media (min-width: 480px) {
+                #candidates {
+                    grid-template-columns: repeat(9, 1fr);
+                }
+            }
+
+            .cand {
+                cursor: pointer;
+                padding: 8px 4px;
+                border-radius: 6px;
+                font-size: 18px;
+                background: white;
+                border: 1px solid #eee;
+                text-align: center;
+                transition: 0.2s;
+                user-select: none;
+            }
+            .cand:hover {
+                background: var(--primary);
+                color: white;
+                border-color: var(--primary);
+            }
+            .cand b {
+                color: var(--primary);
+                margin-right: 4px;
+                font-size: 13px;
+                font-weight: normal;
+            }
+            .cand:hover b {
+                color: white;
+                opacity: 0.8;
+            }
+
+            .action-group {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                margin-top: 20px;
+            }
+            button {
+                padding: 12px 5px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: 0.2s;
+                font-size: 13px;
+            }
+            .btn-text {
+                background: #e1f5fe;
+                color: #01579b;
+            }
+            .btn-copy-img {
+                background: var(--primary);
+                color: white;
+            }
+            .btn-save {
+                background: #34c759;
+                color: white;
+            }
+            button:hover {
+                opacity: 0.9;
+                transform: translateY(-1px);
+            }
+
+            canvas {
+                margin-top: 20px;
+                border-radius: 12px;
+                width: 100%;
+                background: #fff;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                cursor: crosshair;
+            }
+            .tips {
+                margin-top: 15px;
+                font-size: 12px;
+                color: #bbb;
+                text-align: center;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div id="status">正在加载词库...</div>
+            <input
+                id="ime"
+                autofocus
+                placeholder="请稍候..."
+                autocomplete="off"
+            />
+
+            <div id="candidates"></div>
+
+            <div class="action-group">
+                <button class="btn-text" onclick="copyPureText()">
+                    复制纯文本
+                </button>
+                <button class="btn-copy-img" onclick="copyCanvasImage()">
+                    复制图片
+                </button>
+                <button class="btn-save" onclick="downloadImage()">
+                    保存 PNG
+                </button>
+            </div>
+
+            <canvas id="canvas"></canvas>
+
+            <p class="tips">
+                快捷键：<b>1-9</b> 选择词条 | <b>空格</b> 选第一个<br />
+                翻页：<b>=</b> 或 <b>+</b> 下一页 | <b>-</b> 上一页 |
+                <b>退格</b> 撤销
+            </p>
+        </div>
+
+        <script>
+            let DICT = {};
+            let SYLLABLE_SET = new Set();
+            let buffer = "";
+            let committedText = "";
+            let candidates = [];
+
+            // 分页逻辑变量
+            let currentPage = 0;
+            const PAGE_SIZE = 9;
+
+            const imeInput = document.getElementById("ime");
+            const candBox = document.getElementById("candidates");
+            const statusBox = document.getElementById("status");
+
+            // 1. 初始化词库
+            async function initDict() {
+                try {
+                    const resp = await fetch("dict.json");
+                    if (!resp.ok)
+                        throw new Error(
+                            "无法读取 dict.json，请检查是否启动了本地服务器",
+                        );
+                    DICT = await resp.json();
+                    SYLLABLE_SET = new Set(Object.keys(DICT));
+                    statusBox.innerText = "词库准备就绪";
+                    imeInput.placeholder = "开始键入 (如: yi)";
+                } catch (err) {
+                    statusBox.innerHTML = `<b style="color:red">加载失败: ${err.message}</b>`;
+                }
+            }
+
+            // 2. 拼音切分
+            function splitPinyin(str) {
+                let res = [];
+                let i = 0;
+                while (i < str.length) {
+                    let matched = false;
+                    for (let len = 8; len >= 1; len--) {
+                        let sub = str.substring(i, i + len);
+                        if (SYLLABLE_SET.has(sub)) {
+                            res.push(sub);
+                            i += len;
+                            matched = true;
+                            break;
+                        }
+                    }
+                    if (!matched) {
+                        res.push(str[i]);
+                        i++;
+                    }
+                }
+                return res;
+            }
+
+            // 3. 核心更新逻辑
+            function update() {
+                const parts = splitPinyin(buffer);
+                if (buffer.length > 0) {
+                    const currentPinyin = parts[0];
+                    statusBox.innerHTML = `输入中: <b>${parts.join("'")}</b>`;
+                    candidates = DICT[currentPinyin] || [currentPinyin];
+                } else {
+                    statusBox.innerHTML = committedText
+                        ? `已上屏: ${committedText}`
+                        : "等待输入...";
+                    candidates = [];
+                }
+                currentPage = 0; // 每次输入新字母，重置页码
+                renderCandidates();
+                renderImage(committedText);
+            }
+
+            // 4. 渲染候选词
+            function renderCandidates() {
+                const start = currentPage * PAGE_SIZE;
+                const end = start + PAGE_SIZE;
+                const currentView = candidates.slice(start, end);
+                const totalPages = Math.ceil(candidates.length / PAGE_SIZE);
+
+                // 渲染按钮
+                candBox.innerHTML = currentView
+                    .map(
+                        (c, i) =>
+                            `<div class="cand" onclick="handleSelect('${c}')"><b>${i + 1}</b>${c}</div>`,
+                    )
+                    .join("");
+
+                // 更新分页信息
+                if (candidates.length > PAGE_SIZE) {
+                    statusBox.innerHTML += `<span class="page-info">第 ${currentPage + 1}/${totalPages} 页 (翻页: +/-)</span>`;
+                }
+            }
+
+            function handleSelect(text) {
+                const parts = splitPinyin(buffer);
+                commit(text, parts[0]);
+            }
+
+            function commit(text, matchedPinyin) {
+                committedText += text;
+                buffer = buffer.substring(matchedPinyin.length);
+                update();
+            }
+
+            // 5. 按键监听
+            imeInput.addEventListener("keydown", (e) => {
+                const parts = splitPinyin(buffer);
+
+                if (/^[a-z]$/i.test(e.key)) {
+                    buffer += e.key.toLowerCase();
+                    update();
+                    e.preventDefault();
+                } else if (e.key === "Backspace") {
+                    if (buffer.length > 0) buffer = buffer.slice(0, -1);
+                    else committedText = committedText.slice(0, -1);
+                    update();
+                    e.preventDefault();
+                } else if (e.key === " ") {
+                    // 空格选第一个
+                    if (candidates.length > 0) {
+                        const firstInView = candidates[currentPage * PAGE_SIZE];
+                        commit(firstInView, parts[0]);
+                    }
+                    e.preventDefault();
+                } else if (e.key === "=" || e.key === "+") {
+                    // 下一页
+                    if ((currentPage + 1) * PAGE_SIZE < candidates.length) {
+                        currentPage++;
+                        renderCandidates();
+                    }
+                    e.preventDefault();
+                } else if (e.key === "-" || e.key === "_") {
+                    // 上一页
+                    if (currentPage > 0) {
+                        currentPage--;
+                        renderCandidates();
+                    }
+                    e.preventDefault();
+                } else if (/^[1-9]$/.test(e.key)) {
+                    // 数字选词
+                    const relativeIdx = parseInt(e.key) - 1;
+                    const absoluteIdx = currentPage * PAGE_SIZE + relativeIdx;
+                    if (candidates[absoluteIdx]) {
+                        commit(candidates[absoluteIdx], parts[0]);
+                    }
+                    e.preventDefault();
+                }
+            });
+
+            // 6. Canvas 视觉
+            function renderImage(text) {
+                const canvas = document.getElementById("canvas");
+                const ctx = canvas.getContext("2d");
+                ctx.font = "bold 38px 'Microsoft YaHei', sans-serif";
+
+                const padding = 80;
+                const textWidth = ctx.measureText(text || " ").width;
+                canvas.width = Math.max(450, textWidth + padding);
+                canvas.height = 130;
+
+                // 背景
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // 简单的底部装饰线
+                ctx.fillStyle = "#eee";
+                ctx.fillRect(20, canvas.height - 30, canvas.width - 40, 2);
+
+                // 文字
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "#333";
+                ctx.fillText(
+                    text || "等待输入",
+                    canvas.width / 2,
+                    canvas.height / 2 - 5,
+                );
+            }
+
+            // 7. 工具功能
+            async function copyPureText() {
+                if (!committedText) return;
+                await navigator.clipboard.writeText(committedText);
+                alert("已复制纯文本");
+            }
+
+            async function copyCanvasImage() {
+                const canvas = document.getElementById("canvas");
+                canvas.toBlob((blob) => {
+                    const item = new ClipboardItem({ "image/png": blob });
+                    navigator.clipboard
+                        .write([item])
+                        .then(() => alert("图片已存入剪贴板"));
+                });
+            }
+
+            function downloadImage() {
+                const link = document.createElement("a");
+                link.download = "my-text.png";
+                link.href = document.getElementById("canvas").toDataURL();
+                link.click();
+            }
+
+            initDict();
+            renderImage("");
+        </script>
+    </body>
+</html>
