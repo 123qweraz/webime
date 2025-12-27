@@ -2,390 +2,465 @@
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Web IME Pro | 流式智能版</title>
+        <title>Web IME | 混沌灵感流 (默认关闭版)</title>
         <style>
             :root {
                 --primary: #007aff;
-                --bg: #f5f7fa;
-                --text: #333;
+                --bg: #ffffff;
+                --history-bg: #f8f9fa;
             }
             body {
                 font-family:
-                    "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-                padding: 20px;
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
                 background: var(--bg);
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                color: var(--text);
+                padding: 20px;
+                min-height: 100vh;
+                margin: 0;
+                overflow-x: hidden;
+            }
+
+            .main-layout {
+                display: flex;
+                gap: 20px;
+                width: 100%;
+                max-width: 1100px;
+                z-index: 100;
+                margin-top: 20px;
             }
             .container {
                 background: white;
-                padding: 30px;
-                border-radius: 16px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-                width: 100%;
-                max-width: 700px;
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
+                padding: 25px;
+                border-radius: 20px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+                flex: 2;
+                position: relative;
             }
 
-            /* 结果展示区 */
-            #output {
-                width: 100%;
-                min-height: 80px;
+            /* 历史面板 */
+            .history-panel {
+                flex: 0.8;
+                background: var(--history-bg);
+                padding: 20px;
+                border-radius: 20px;
+                border: 1px solid #eee;
+                max-height: 600px;
+                overflow-y: auto;
+            }
+            .history-item {
+                font-size: 14px;
+                background: white;
+                padding: 12px;
+                border-radius: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #eee;
+                cursor: pointer;
+                transition: 0.2s;
+            }
+            .history-item:hover {
+                transform: translateX(5px);
+                border-color: var(--primary);
+            }
+
+            #output-area {
+                min-height: 140px;
+                font-size: 28px;
                 padding: 15px;
                 background: #fff;
-                border: 2px dashed #e0e0e0;
-                border-radius: 10px;
-                font-size: 24px;
-                line-height: 1.5;
-                box-sizing: border-box;
-                word-wrap: break-word;
-                display: flex;
-                align-items: center;
-            }
-            #output.empty {
-                color: #bbb;
-                font-size: 16px;
-            }
-
-            /* 状态栏 */
-            #status {
-                font-size: 14px;
-                color: #666;
-                height: 24px;
-            }
-            #status b {
-                color: var(--primary);
-                font-weight: 600;
-            }
-
-            /* 输入框 */
-            #ime {
-                width: 100%;
-                font-size: 20px;
-                padding: 14px;
-                border: 2px solid #eee;
-                border-radius: 10px;
+                border: 2px solid #f0f0f0;
+                border-radius: 15px;
+                margin-bottom: 15px;
+                word-break: break-all;
                 outline: none;
-                box-sizing: border-box;
+                line-height: 1.5;
             }
-            #ime:focus {
-                border-color: var(--primary);
-            }
-
-            /* 候选词区域 - 重构为流式布局 */
-            #candidates {
-                padding: 12px;
-                background: #f9f9f9;
-                border-radius: 10px;
-                max-height: 200px; /* 限制高度 */
-                overflow-y: auto; /* 超出滚动 */
-                display: flex;
-                flex-wrap: wrap; /* 关键：流式折行 */
-                gap: 8px;
-                align-content: flex-start;
-            }
-
-            .cand {
-                cursor: pointer;
-                padding: 6px 14px;
-                border-radius: 6px;
-                font-size: 18px;
-                background: white;
-                border: 1px solid #ddd;
-                user-select: none;
-                transition: all 0.1s;
-                display: flex;
-                align-items: center;
-                gap: 5px;
-            }
-            .cand:hover {
-                background: var(--primary);
-                color: white;
-                border-color: var(--primary);
-                transform: translateY(-1px);
-            }
-
-            /* 编号只在首排或前几个显示，或者作为辅助提示 */
-            .cand .num {
-                font-size: 11px;
+            #buffer-display {
+                font-size: 20px;
                 color: var(--primary);
                 font-weight: bold;
-                margin-right: 4px;
-            }
-            .cand:hover .num {
-                color: rgba(255, 255, 255, 0.8);
+                margin-bottom: 10px;
+                height: 28px;
+                letter-spacing: 1px;
             }
 
-            /* 标签样式 */
-            .tag {
-                font-size: 9px;
-                padding: 1px 3px;
-                border-radius: 3px;
+            #candidate-panel {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                max-height: 180px;
+                overflow-y: auto;
+                background: #fdfdfd;
+                padding: 12px;
+                border-radius: 12px;
+                border: 1px solid #eee;
             }
-            .tag-en {
-                background: #e6f7ff;
-                color: #007aff;
+            .candidate-item {
+                cursor: pointer;
+                padding: 10px 16px;
+                background: white;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                font-size: 20px;
             }
-            .tag-smart {
-                background: #f6ffed;
-                color: #52c41a;
-            }
-            .cand:hover .tag {
-                background: rgba(255, 255, 255, 0.2);
+            .candidate-item:hover {
+                background: var(--primary);
                 color: white;
             }
 
-            .action-group {
+            /* 混沌瀑布流 - 默认 Display: None */
+            #inspiration-flow {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 260px;
+                background: white;
+                border-top: 1px solid #eee;
+                overflow: hidden;
+                z-index: 1;
+                display: none;
+                align-items: center;
+            }
+            #inspiration-flow.active {
+                display: flex;
+            }
+            .flow-wrapper {
+                display: flex;
+                white-space: nowrap;
+                animation: move-flow 100s linear infinite;
+                will-change: transform;
+            }
+            .flow-item {
+                font-size: 100px;
+                font-weight: 900;
+                color: #f5f5f5;
+                padding: 0 70px;
+                cursor: pointer;
+                transition: 0.4s;
+                user-select: none;
+            }
+            .flow-item:hover {
+                color: var(--primary);
+                transform: scale(1.1) rotate(2deg);
+                z-index: 10;
+            }
+
+            @keyframes move-flow {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            .action-bar {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                margin-top: 20px;
             }
-            button {
-                padding: 10px 24px;
+            .copy-btn {
+                padding: 12px 30px;
+                background: #222;
+                color: white;
                 border: none;
-                border-radius: 8px;
+                border-radius: 10px;
                 cursor: pointer;
-                background: #e1f5fe;
-                color: #01579b;
                 font-weight: bold;
             }
-
-            /* Toast */
             #toast {
                 position: fixed;
-                bottom: 30px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(0, 0, 0, 0.8);
+                top: 30px;
+                background: #333;
                 color: white;
-                padding: 8px 20px;
-                border-radius: 20px;
-                font-size: 14px;
+                padding: 10px 30px;
+                border-radius: 30px;
                 opacity: 0;
-                transition: 0.3s;
-                pointer-events: none;
-            }
-            #toast.show {
-                opacity: 1;
+                transition: 0.4s;
+                z-index: 1000;
             }
         </style>
     </head>
     <body>
-        <div class="container">
-            <div id="output" class="empty">等待输入...</div>
-            <div id="status">
-                <span id="pinyin-display">词典加载中...</span>
-            </div>
-            <input
-                id="ime"
-                autofocus
-                placeholder="直接输入拼音，鼠标点击或空格选词"
-                autocomplete="off"
-            />
-            <div id="candidates"></div>
-            <div class="action-group">
-                <div style="font-size: 12px; color: #999">
-                    <kbd>Ctrl+Enter</kbd> 复制 | <kbd>Space</kbd> 选首词
+        <div class="main-layout">
+            <div
+                class="container"
+                onclick="document.getElementById('hidden-input').focus()"
+            >
+                <div id="output-area"></div>
+                <div id="buffer-display"></div>
+                <input type="text" id="hidden-input" autocomplete="off" />
+                <div id="candidate-panel"></div>
+
+                <div class="action-bar">
+                    <label
+                        style="
+                            font-size: 14px;
+                            color: #666;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        "
+                    >
+                        <input
+                            type="checkbox"
+                            id="flow-toggle"
+                            onchange="toggleFlow(this.checked)"
+                        />
+                        <span>激活混沌灵感流</span>
+                    </label>
+                    <button class="copy-btn" onclick="archiveAndCopy()">
+                        归档并复制 (Ctrl+C)
+                    </button>
                 </div>
-                <button onclick="copyPureText()">复制文本</button>
+            </div>
+
+            <div class="history-panel">
+                <div
+                    style="
+                        font-size: 14px;
+                        font-weight: bold;
+                        margin-bottom: 15px;
+                        color: #333;
+                    "
+                >
+                    创作存档记录
+                </div>
+                <div id="history-list"></div>
             </div>
         </div>
-        <div id="toast">已复制</div>
+
+        <div id="inspiration-flow">
+            <div class="flow-wrapper" id="flow-content"></div>
+        </div>
+        <div id="toast">已同步至剪切板</div>
 
         <script>
             let DICT = {},
                 EN_DICT = {},
-                SYLLABLE_SET = new Set();
+                ALL_CHARS = [];
             let buffer = "",
-                committedText = "",
-                candidates = [];
-
-            const imeInput = document.getElementById("ime");
-            const candBox = document.getElementById("candidates");
-            const statusText = document.getElementById("pinyin-display");
-            const outputBox = document.getElementById("output");
-            const toast = document.getElementById("toast");
+                committed = "";
+            let currentCandidates = [];
+            let HISTORY = JSON.parse(
+                localStorage.getItem("ime_history") || "[]",
+            );
 
             async function init() {
                 try {
-                    const [resPy, resEn] = await Promise.all([
-                        fetch(`dict.json?t=${Date.now()}`),
-                        fetch(`en_dict.json?t=${Date.now()}`),
+                    const [d1, d2] = await Promise.all([
+                        fetch("dict.json").then((r) => r.json()),
+                        fetch("en_dict.json").then((r) => r.json()),
                     ]);
-                    DICT = await resPy.json();
-                    EN_DICT = await resEn.json();
-                    SYLLABLE_SET = new Set(Object.keys(DICT));
-                    statusText.innerText = "词典已就绪 (所有匹配词已平铺)";
+                    DICT = d1;
+                    EN_DICT = d2;
+                    let charSet = new Set();
+                    Object.values(DICT).forEach((list) => {
+                        list.forEach((word) => {
+                            if (word.length === 1) charSet.add(word);
+                        });
+                    });
+                    ALL_CHARS = Array.from(charSet);
+
+                    // 强制初始化 UI 状态
+                    document.getElementById("flow-toggle").checked = false;
+                    updateHistoryUI();
                 } catch (e) {
-                    statusText.innerHTML = "<b style='color:red'>加载失败</b>";
+                    console.error("Data error");
                 }
             }
 
-            function splitPinyin(str) {
-                let res = [],
-                    i = 0;
-                while (i < str.length) {
-                    let matched = false;
-                    for (let len = 8; len >= 1; len--) {
-                        let sub = str.substring(i, i + len);
-                        if (SYLLABLE_SET.has(sub)) {
-                            res.push(sub);
-                            i += len;
-                            matched = true;
-                            break;
-                        }
-                    }
-                    if (!matched) {
-                        res.push(str[i]);
-                        i++;
-                    }
+            function getChaosWord() {
+                const len =
+                    Math.random() > 0.7 ? (Math.random() > 0.5 ? 4 : 3) : 2;
+                let word = "";
+                for (let i = 0; i < len; i++) {
+                    word +=
+                        ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
                 }
-                return res;
+                return word;
             }
+
+            // 只有在勾选时才触发生成
+            function toggleFlow(isActive) {
+                const flow = document.getElementById("inspiration-flow");
+                const content = document.getElementById("flow-content");
+
+                if (isActive) {
+                    // 激活时实时生成混沌池
+                    let words = [];
+                    for (let i = 0; i < 60; i++) words.push(getChaosWord());
+                    words = words.sort(() => Math.random() - 0.5);
+                    const html = words
+                        .map(
+                            (w) =>
+                                `<div class="flow-item" onclick="capture('${w}')">${w}</div>`,
+                        )
+                        .join("");
+                    content.innerHTML = html + html;
+
+                    flow.classList.add("active");
+                } else {
+                    flow.classList.remove("active");
+                    content.innerHTML = ""; // 关闭时清空 DOM，节省性能
+                }
+            }
+
+            window.capture = function (w) {
+                committed += w;
+                update();
+                showToast("捕获灵感: " + w);
+            };
 
             function update() {
-                outputBox.innerText = committedText || "等待输入...";
-                outputBox.classList.toggle("empty", !committedText);
-
-                if (buffer.length > 0) {
-                    const lower = buffer.toLowerCase();
-                    const parts = splitPinyin(lower);
-                    let pyResults = [],
-                        smartResults = [],
-                        enResults = [];
-
-                    // 1. 拼音匹配 (高优先级)
-                    if (DICT[parts[0]]) {
-                        DICT[parts[0]].forEach((v) =>
-                            pyResults.push({ val: v, type: "py" }),
+                document.getElementById("output-area").innerText = committed;
+                document.getElementById("buffer-display").innerText = buffer;
+                let list = [];
+                if (buffer) {
+                    const b = buffer.toLowerCase();
+                    if (EN_DICT[b])
+                        EN_DICT[b].forEach((v) =>
+                            list.push({ text: v, weight: 100 }),
                         );
+                    for (let key in DICT) {
+                        if (key === b)
+                            DICT[key].forEach((v) =>
+                                list.push({ text: v, weight: 80 }),
+                            );
+                        else if (key.startsWith(b)) {
+                            let w = 50 - (key.length - b.length);
+                            DICT[key].forEach((v) =>
+                                list.push({ text: v, weight: w }),
+                            );
+                        }
                     }
-
-                    // 2. 智能联搜 (中优先级)
-                    if (parts.length >= 2) {
-                        const w1 = DICT[parts[0]] ? DICT[parts[0]][0] : "";
-                        const w2 = DICT[parts[1]] ? DICT[parts[1]][0] : "";
-                        if (w1 && w2)
-                            smartResults.push({
-                                val: w1 + w2,
-                                type: "smart",
-                                len: parts[0].length + parts[1].length,
-                            });
-                    }
-
-                    // 3. 英文辅助 (辅助优先级)
-                    if (EN_DICT[lower]) {
-                        EN_DICT[lower].forEach((v) => {
-                            if (!pyResults.find((x) => x.val === v))
-                                enResults.push({ val: v, type: "en" });
-                        });
-                    }
-
-                    candidates = [...pyResults, ...smartResults, ...enResults];
-                    if (candidates.length === 0)
-                        candidates.push({ val: buffer, type: "raw" });
-                    statusText.innerHTML = `输入: <b>${parts.join("'")}</b>`;
-                } else {
-                    statusText.innerText = "就绪";
-                    candidates = [];
                 }
-                renderCandidates();
+                const sorted = list.sort((a, b) => b.weight - a.weight);
+                const seen = new Set();
+                currentCandidates = sorted.filter((item) => {
+                    if (seen.has(item.text)) return false;
+                    seen.add(item.text);
+                    return true;
+                });
+                render();
             }
 
-            function renderCandidates() {
-                // 直接显示所有候选词，不再进行分页
-                candBox.innerHTML = candidates
-                    .map((item, i) => {
-                        let tag = "";
-                        if (item.type === "en")
-                            tag = '<span class="tag tag-en">En</span>';
-                        if (item.type === "smart")
-                            tag = '<span class="tag tag-smart">组</span>';
-                        // 前9个保留数字提示，之后的纯点击
-                        let numHint =
-                            i < 9 ? `<span class="num">${i + 1}</span>` : "";
-                        return `
-                    <div class="cand" onclick="handleSelectByIndex(${i})">
-                        ${numHint}${item.val}${tag}
-                    </div>`;
-                    })
+            function render() {
+                const panel = document.getElementById("candidate-panel");
+                panel.innerHTML = currentCandidates
+                    .map(
+                        (item, i) => `
+                <div class="candidate-item" onclick="confirmSelect(${i})">
+                    ${i < 9 ? `<span style="opacity:0.3;font-size:12px;margin-right:5px;">${i + 1}</span>` : ""}${item.text}
+                </div>
+            `,
+                    )
                     .join("");
             }
 
-            window.handleSelectByIndex = function (index) {
-                const item = candidates[index];
+            function confirmSelect(idx) {
+                const item = currentCandidates[idx];
                 if (!item) return;
-
-                if (item.type === "smart") {
-                    buffer = buffer.substring(item.len);
-                } else if (item.type === "en") {
-                    buffer = "";
-                } else {
-                    const parts = splitPinyin(buffer.toLowerCase());
-                    buffer = buffer.substring(parts[0].length);
-                }
-                committedText += item.val;
+                committed += item.text;
+                buffer = "";
                 update();
-                imeInput.focus();
+                document.getElementById("hidden-input").focus();
+            }
+
+            async function archiveAndCopy() {
+                if (!committed) return;
+                await navigator.clipboard.writeText(committed);
+                HISTORY.unshift({
+                    text: committed,
+                    time: new Date().toLocaleTimeString(),
+                });
+                if (HISTORY.length > 50) HISTORY.pop();
+                localStorage.setItem("ime_history", JSON.stringify(HISTORY));
+                updateHistoryUI();
+                committed = "";
+                buffer = "";
+                update();
+                showToast("已归档并清空画布");
+            }
+
+            function updateHistoryUI() {
+                const list = document.getElementById("history-list");
+                if (HISTORY.length === 0) {
+                    list.innerHTML = `<div style="color:#ccc;text-align:center;margin-top:20px;font-size:12px;">等待创作</div>`;
+                    return;
+                }
+                list.innerHTML = HISTORY.map(
+                    (item, i) => `
+                <div class="history-item" onclick="restoreHistory(${i})">
+                    <div style="font-size:10px;color:#bbb;margin-bottom:4px;">${item.time}</div>
+                    ${item.text}
+                </div>
+            `,
+                ).join("");
+            }
+
+            window.restoreHistory = function (idx) {
+                committed = HISTORY[idx].text;
+                update();
+                showToast("内容已回填");
             };
 
-            imeInput.addEventListener("keydown", (e) => {
-                if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-                    copyPureText();
-                    e.preventDefault();
-                    return;
-                }
-                if (e.key === "Enter") {
-                    if (!buffer && committedText) copyPureText();
-                    else if (buffer) {
-                        committedText += buffer;
-                        buffer = "";
+            document
+                .getElementById("hidden-input")
+                .addEventListener("keydown", (e) => {
+                    if (
+                        (e.ctrlKey || e.metaKey) &&
+                        (e.key === "c" || e.key === "Enter")
+                    ) {
+                        archiveAndCopy();
+                        e.preventDefault();
+                        return;
+                    }
+                    if (/^[a-z]$/i.test(e.key)) {
+                        buffer += e.key.toLowerCase();
                         update();
-                    }
-                    e.preventDefault();
-                    return;
-                }
-                if (/^[a-z]$/i.test(e.key)) {
-                    buffer += e.key;
-                    update();
-                    e.preventDefault();
-                    return;
-                }
-                if (e.key === "Backspace") {
-                    if (buffer) buffer = buffer.slice(0, -1);
-                    else committedText = committedText.slice(0, -1);
-                    update();
-                    e.preventDefault();
-                    return;
-                }
-                if (candidates.length > 0) {
-                    if (e.key === " ") {
-                        handleSelectByIndex(0);
+                        e.preventDefault();
+                    } else if (e.key === "Backspace") {
+                        if (buffer) buffer = buffer.slice(0, -1);
+                        else committed = committed.slice(0, -1);
+                        update();
+                        e.preventDefault();
+                    } else if (e.key === " " && buffer) {
+                        confirmSelect(0);
+                        e.preventDefault();
+                    } else if (buffer && /^[1-9]$/.test(e.key)) {
+                        confirmSelect(parseInt(e.key) - 1);
+                        e.preventDefault();
+                    } else if (e.key === "Enter") {
+                        if (buffer) {
+                            committed += buffer;
+                            buffer = "";
+                            update();
+                        }
+                        e.preventDefault();
+                    } else if (e.key.length === 1 && !buffer) {
+                        committed += e.key;
+                        update();
                         e.preventDefault();
                     }
-                    // 1-9 快捷选词依然保留，但界面更像普通按钮
-                    if (/^[1-9]$/.test(e.key)) {
-                        handleSelectByIndex(parseInt(e.key) - 1);
-                        e.preventDefault();
-                    }
-                }
-            });
+                });
 
-            async function copyPureText() {
-                if (!committedText) return;
-                try {
-                    await navigator.clipboard.writeText(committedText);
-                    toast.classList.add("show");
-                    setTimeout(() => toast.classList.remove("show"), 1500);
-                } catch (err) {}
+            function showToast(msg) {
+                const t = document.getElementById("toast");
+                t.innerText = msg;
+                t.style.opacity = 1;
+                setTimeout(() => (t.style.opacity = 0), 1500);
             }
 
             init();
+            window.onload = () =>
+                document.getElementById("hidden-input").focus();
         </script>
     </body>
 </html>
