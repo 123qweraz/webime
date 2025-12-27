@@ -2,7 +2,7 @@
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
-        <title>Web IME | 混沌灵感流 (默认关闭版)</title>
+        <title>Web IME Pro | 混沌灵感 & 智能预测</title>
         <style>
             :root {
                 --primary: #007aff;
@@ -51,6 +51,15 @@
                 max-height: 600px;
                 overflow-y: auto;
             }
+            .history-title {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 15px;
+                color: #333;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
             .history-item {
                 font-size: 14px;
                 background: white;
@@ -77,6 +86,7 @@
                 word-break: break-all;
                 outline: none;
                 line-height: 1.5;
+                white-space: pre-wrap;
             }
             #buffer-display {
                 font-size: 20px;
@@ -105,19 +115,21 @@
                 border: 1px solid #ddd;
                 border-radius: 8px;
                 font-size: 20px;
+                transition: 0.1s;
             }
             .candidate-item:hover {
                 background: var(--primary);
                 color: white;
+                border-color: var(--primary);
             }
 
-            /* 混沌瀑布流 - 默认 Display: None */
+            /* 混沌瀑布流 */
             #inspiration-flow {
                 position: fixed;
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                height: 260px;
+                height: 240px;
                 background: white;
                 border-top: 1px solid #eee;
                 overflow: hidden;
@@ -135,7 +147,7 @@
                 will-change: transform;
             }
             .flow-item {
-                font-size: 100px;
+                font-size: 90px;
                 font-weight: 900;
                 color: #f5f5f5;
                 padding: 0 70px;
@@ -184,6 +196,12 @@
                 transition: 0.4s;
                 z-index: 1000;
             }
+
+            #hidden-input {
+                position: absolute;
+                opacity: 0;
+                pointer-events: none;
+            }
         </style>
     </head>
     <body>
@@ -192,7 +210,7 @@
                 class="container"
                 onclick="document.getElementById('hidden-input').focus()"
             >
-                <div id="output-area"></div>
+                <div id="output-area" placeholder="在此输入..."></div>
                 <div id="buffer-display"></div>
                 <input type="text" id="hidden-input" autocomplete="off" />
                 <div id="candidate-panel"></div>
@@ -215,22 +233,26 @@
                         />
                         <span>激活混沌灵感流</span>
                     </label>
+                    <div style="font-size: 11px; color: #ccc">Ctrl+C 归档</div>
                     <button class="copy-btn" onclick="archiveAndCopy()">
-                        归档并复制 (Ctrl+C)
+                        归档并复制
                     </button>
                 </div>
             </div>
 
             <div class="history-panel">
-                <div
-                    style="
-                        font-size: 14px;
-                        font-weight: bold;
-                        margin-bottom: 15px;
-                        color: #333;
-                    "
-                >
-                    创作存档记录
+                <div class="history-title">
+                    <span>创作存档记录</span>
+                    <a
+                        href="#"
+                        onclick="clearLocalHistory()"
+                        style="
+                            font-size: 10px;
+                            color: #ff453a;
+                            text-decoration: none;
+                        "
+                        >清空</a
+                    >
                 </div>
                 <div id="history-list"></div>
             </div>
@@ -244,7 +266,8 @@
         <script>
             let DICT = {},
                 EN_DICT = {},
-                ALL_CHARS = [];
+                ALL_CHARS = [],
+                EN_INDEX = {};
             let buffer = "",
                 committed = "";
             let currentCandidates = [];
@@ -260,6 +283,8 @@
                     ]);
                     DICT = d1;
                     EN_DICT = d2;
+
+                    // 提取单字
                     let charSet = new Set();
                     Object.values(DICT).forEach((list) => {
                         list.forEach((word) => {
@@ -268,79 +293,143 @@
                     });
                     ALL_CHARS = Array.from(charSet);
 
-                    // 强制初始化 UI 状态
+                    // 建立英文索引 A-Z
+                    for (let word in EN_DICT) {
+                        let first = word[0].toLowerCase();
+                        if (!EN_INDEX[first]) EN_INDEX[first] = [];
+                        EN_INDEX[first].push(word);
+                    }
+
                     document.getElementById("flow-toggle").checked = false;
                     updateHistoryUI();
                 } catch (e) {
-                    console.error("Data error");
+                    console.error("数据加载失败，检查文件是否存在");
                 }
             }
 
+            // 混沌组词算法
             function getChaosWord() {
                 const len =
                     Math.random() > 0.7 ? (Math.random() > 0.5 ? 4 : 3) : 2;
                 let word = "";
-                for (let i = 0; i < len; i++) {
+                for (let i = 0; i < len; i++)
                     word +=
                         ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
-                }
                 return word;
             }
 
-            // 只有在勾选时才触发生成
             function toggleFlow(isActive) {
                 const flow = document.getElementById("inspiration-flow");
                 const content = document.getElementById("flow-content");
-
                 if (isActive) {
-                    // 激活时实时生成混沌池
                     let words = [];
                     for (let i = 0; i < 60; i++) words.push(getChaosWord());
-                    words = words.sort(() => Math.random() - 0.5);
-                    const html = words
-                        .map(
-                            (w) =>
-                                `<div class="flow-item" onclick="capture('${w}')">${w}</div>`,
-                        )
-                        .join("");
-                    content.innerHTML = html + html;
-
+                    content.innerHTML =
+                        words
+                            .map(
+                                (w) =>
+                                    `<div class="flow-item" onclick="capture('${w}')">${w}</div>`,
+                            )
+                            .join("") +
+                        words
+                            .map(
+                                (w) =>
+                                    `<div class="flow-item" onclick="capture('${w}')">${w}</div>`,
+                            )
+                            .join("");
                     flow.classList.add("active");
                 } else {
                     flow.classList.remove("active");
-                    content.innerHTML = ""; // 关闭时清空 DOM，节省性能
+                    content.innerHTML = "";
                 }
             }
 
             window.capture = function (w) {
                 committed += w;
                 update();
-                showToast("捕获灵感: " + w);
             };
 
             function update() {
+                const b = buffer.toLowerCase();
+                const len = b.length;
                 document.getElementById("output-area").innerText = committed;
                 document.getElementById("buffer-display").innerText = buffer;
+
                 let list = [];
                 if (buffer) {
-                    const b = buffer.toLowerCase();
-                    if (EN_DICT[b])
-                        EN_DICT[b].forEach((v) =>
-                            list.push({ text: v, weight: 100 }),
-                        );
+                    // --- 1. 英文补全 & 汉化联动 ---
+                    const first = b[0];
+                    const subEnList = EN_INDEX[first] || [];
+
+                    subEnList.forEach((word) => {
+                        // 情况 A：完全匹配英文
+                        if (word === b) {
+                            // 放入英文单词本身
+                            list.push({
+                                text: word,
+                                weight: len > 5 ? 260 : 200,
+                                type: "en-full",
+                            });
+                            // 关键：放入该英文对应的中文翻译 (如果有的话)
+                            if (EN_DICT[word]) {
+                                EN_DICT[word].forEach((zh) => {
+                                    list.push({
+                                        text: zh,
+                                        weight: 270,
+                                        type: "zh-from-en",
+                                    }); // 中文权重更高，排在英文前面
+                                });
+                            }
+                        }
+                        // 情况 B：补全匹配 (输入 > 3位)
+                        else if (len >= 3 && word.startsWith(b)) {
+                            let w = 150 - (word.length - len);
+                            if (len < 5) w -= 100;
+
+                            // 放入补全的英文
+                            list.push({
+                                text: word,
+                                weight: w,
+                                type: "en-pred",
+                            });
+                            // 同时放入补全单词对应的中文
+                            if (EN_DICT[word]) {
+                                EN_DICT[word].forEach((zh) => {
+                                    list.push({
+                                        text: zh,
+                                        weight: w + 5,
+                                        type: "zh-from-en-pred",
+                                    });
+                                });
+                            }
+                        }
+                    });
+
+                    // --- 2. 传统中文拼音逻辑 ---
                     for (let key in DICT) {
-                        if (key === b)
+                        if (key === b) {
                             DICT[key].forEach((v) =>
-                                list.push({ text: v, weight: 80 }),
+                                list.push({
+                                    text: v,
+                                    weight: 80,
+                                    type: "zh-full",
+                                }),
                             );
-                        else if (key.startsWith(b)) {
-                            let w = 50 - (key.length - b.length);
+                        } else if (key.startsWith(b)) {
+                            let w = 50 - (key.length - len);
+                            if (len > 5) w -= 60;
                             DICT[key].forEach((v) =>
-                                list.push({ text: v, weight: w }),
+                                list.push({
+                                    text: v,
+                                    weight: w,
+                                    type: "zh-pref",
+                                }),
                             );
                         }
                     }
                 }
+
+                // 排序、去重、渲染
                 const sorted = list.sort((a, b) => b.weight - a.weight);
                 const seen = new Set();
                 currentCandidates = sorted.filter((item) => {
@@ -348,19 +437,30 @@
                     seen.add(item.text);
                     return true;
                 });
+
                 render();
             }
 
+            // 渲染函数微调：给联想出来的词加点视觉提示
             function render() {
                 const panel = document.getElementById("candidate-panel");
                 panel.innerHTML = currentCandidates
-                    .map(
-                        (item, i) => `
-                <div class="candidate-item" onclick="confirmSelect(${i})">
-                    ${i < 9 ? `<span style="opacity:0.3;font-size:12px;margin-right:5px;">${i + 1}</span>` : ""}${item.text}
-                </div>
-            `,
-                    )
+                    .map((item, i) => {
+                        let suffix = "";
+                        if (item.type.includes("pred"))
+                            suffix =
+                                '<span style="opacity:0.3;font-size:10px;">…</span>';
+                        if (item.type.includes("zh-from-en"))
+                            suffix +=
+                                '<span style="opacity:0.4;font-size:10px;margin-left:4px;">[译]</span>';
+
+                        return `
+                        <div class="candidate-item" onclick="confirmSelect(${i})">
+                            ${i < 9 ? `<span style="opacity:0.2;font-size:11px;">${i + 1}</span> ` : ""}
+                            ${item.text}${suffix}
+                        </div>
+                    `;
+                    })
                     .join("");
             }
 
@@ -386,13 +486,13 @@
                 committed = "";
                 buffer = "";
                 update();
-                showToast("已归档并清空画布");
+                showToast("归档成功并清空");
             }
 
             function updateHistoryUI() {
                 const list = document.getElementById("history-list");
                 if (HISTORY.length === 0) {
-                    list.innerHTML = `<div style="color:#ccc;text-align:center;margin-top:20px;font-size:12px;">等待创作</div>`;
+                    list.innerHTML = `<div style="color:#ccc;text-align:center;margin-top:20px;font-size:12px;">暂无记录</div>`;
                     return;
                 }
                 list.innerHTML = HISTORY.map(
@@ -408,8 +508,15 @@
             window.restoreHistory = function (idx) {
                 committed = HISTORY[idx].text;
                 update();
-                showToast("内容已回填");
             };
+
+            function clearLocalHistory() {
+                if (confirm("确定清空吗？")) {
+                    localStorage.removeItem("ime_history");
+                    HISTORY = [];
+                    updateHistoryUI();
+                }
+            }
 
             document
                 .getElementById("hidden-input")
