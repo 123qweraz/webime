@@ -2,7 +2,7 @@
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
-        <title>Web IME Pro | 完整功能版</title>
+        <title>Web IME Pro | 完整功能版（生僻词开关）</title>
         <style>
             :root {
                 --primary: #007aff;
@@ -59,6 +59,14 @@
                 background: #e5e5ea;
                 color: #333;
             }
+            .btn-toggle {
+                background: #e5e5ea;
+                color: #333;
+            }
+            .btn-toggle.active {
+                background: var(--primary);
+                color: white;
+            }
 
             /* 三栏布局 */
             .content-area {
@@ -68,7 +76,7 @@
                 min-height: 0;
             }
 
-            /* 左侧 35 格 */
+            /* 左侧扩展面板 - 动态网格 */
             .side-panel {
                 flex: 0 0 520px;
                 background: var(--panel-bg);
@@ -98,9 +106,9 @@
                 flex: 1;
                 display: grid;
                 grid-template-columns: repeat(5, 1fr);
-                grid-template-rows: repeat(7, 1fr);
                 gap: 6px;
                 padding: 12px;
+                overflow-y: auto;
             }
             .grid-item {
                 background: #fff;
@@ -113,6 +121,12 @@
                 font-size: 14px;
                 position: relative;
                 min-height: 50px;
+            }
+            .grid-item.empty {
+                background: #f9f9f9;
+                border-style: dashed;
+                cursor: default;
+                opacity: 0.6;
             }
             .grid-key {
                 font-family: monospace;
@@ -151,7 +165,6 @@
                 overflow-y: auto;
                 color: var(--text-main);
             }
-            /* 仿真光标 */
             .cursor {
                 display: inline-block;
                 width: 2.5px;
@@ -261,6 +274,13 @@
                     <button class="btn btn-secondary" onclick="refreshChaos()">
                         刷新灵感
                     </button>
+                    <button
+                        id="rare-toggle"
+                        class="btn btn-toggle"
+                        onclick="toggleRare()"
+                    >
+                        生僻词：关闭
+                    </button>
                 </div>
                 <div
                     style="
@@ -270,15 +290,15 @@
                         color: #888;
                     "
                 >
-                    <b>数字键选词已修复</b> | 无字母空格直出 | 蓝色仿真光标
+                    <b>主区10词（0键第10） | 扩展区仅字母键 | 可开关生僻词</b>
                 </div>
             </div>
 
             <div class="content-area">
                 <div class="side-panel" id="side-panel">
                     <div class="panel-header">
-                        <span>扩展候选 (Tab 键)</span
-                        ><span id="side-status" style="opacity: 0.5"
+                        <span>扩展候选 (Tab 键切换)</span>
+                        <span id="side-status" style="opacity: 0.5"
                             >NORMAL</span
                         >
                     </div>
@@ -331,6 +351,8 @@
 
         <script>
             let DICT = {},
+                LEVEL2 = null,
+                LEVEL3 = null,
                 EN_DICT = {},
                 CIZU_DICT = {},
                 ALL_CHARS = [],
@@ -342,6 +364,7 @@
             let HISTORY = JSON.parse(
                 localStorage.getItem("ime_flow_v8") || "[]",
             );
+            let rareEnabled = localStorage.getItem("rare_enabled") === "true"; // 记住状态
             const SIDE_KEYS = "123456789abcdefghijklmnopqrstuvwxyz".split("");
             const SYMBOLS = {
                 1: "，",
@@ -357,26 +380,78 @@
 
             async function init() {
                 try {
-                    const [d1, d2, d3] = await Promise.all([
+                    const promises = [
                         fetch("dict.json").then((r) => r.json()),
                         fetch("en_dict.json").then((r) => r.json()),
                         fetch("cizu_dict.json").then((r) => r.json()),
-                    ]);
+                    ];
+                    if (rareEnabled) {
+                        promises.push(
+                            fetch("level-2.json").then((r) => r.json()),
+                        );
+                        promises.push(
+                            fetch("level-3.json").then((r) => r.json()),
+                        );
+                    } else {
+                        promises.push(Promise.resolve(null));
+                        promises.push(Promise.resolve(null));
+                    }
+
+                    const [d1, d2, d3, l2, l3] = await Promise.all(promises);
                     DICT = d1;
                     EN_DICT = d2;
                     CIZU_DICT = d3;
+                    LEVEL2 = l2;
+                    LEVEL3 = l3;
+
+                    // 收集单字用于乱序灵感
                     Object.values(DICT).forEach((list) =>
                         list.forEach((w) => {
                             if (w.length === 1) ALL_CHARS.push(w);
                         }),
                     );
+                    if (LEVEL2)
+                        Object.values(LEVEL2).forEach((list) =>
+                            list.forEach((w) => {
+                                if (w.length === 1) ALL_CHARS.push(w);
+                            }),
+                        );
+                    if (LEVEL3)
+                        Object.values(LEVEL3).forEach((list) =>
+                            list.forEach((w) => {
+                                if (w.length === 1) ALL_CHARS.push(w);
+                            }),
+                        );
+
+                    updateToggleButton();
                     refreshChaos();
                     updateHistoryUI();
                     update();
                 } catch (e) {
-                    console.error("Load fail");
+                    console.error("词库加载失败", e);
+                    showToast("部分词库加载失败");
                 }
             }
+
+            function updateToggleButton() {
+                const btn = document.getElementById("rare-toggle");
+                if (rareEnabled) {
+                    btn.textContent = "生僻词：开启";
+                    btn.classList.add("active");
+                } else {
+                    btn.textContent = "生僻词：关闭";
+                    btn.classList.remove("active");
+                }
+            }
+
+            window.toggleRare = async function () {
+                rareEnabled = !rareEnabled;
+                localStorage.setItem("rare_enabled", rareEnabled);
+                showToast(rareEnabled ? "生僻词已开启" : "生僻词已关闭");
+                // 重新加载词库并更新
+                ALL_CHARS = [];
+                await init();
+            };
 
             function refreshChaos() {
                 CHAOS_POOL = [];
@@ -393,7 +468,7 @@
 
             function update() {
                 const area = document.getElementById("output-area");
-                area.innerText = committed;
+                area.innerHTML = committed;
                 const cursor = document.createElement("span");
                 cursor.className = "cursor";
                 area.appendChild(cursor);
@@ -406,14 +481,28 @@
                 let list = [];
                 if (buffer) {
                     const b = buffer.toLowerCase();
+
+                    // 常用词库（始终加载）
                     if (DICT[b])
                         DICT[b].forEach((v) =>
-                            list.push({ text: v, weight: 1200, type: "zh" }),
+                            list.push({ text: v, weight: 1300, type: "zh" }),
                         );
                     if (CIZU_DICT[b])
                         CIZU_DICT[b].forEach((v) =>
-                            list.push({ text: v, weight: 1100, type: "zh" }),
+                            list.push({ text: v, weight: 1200, type: "zh" }),
                         );
+
+                    // 生僻词只有开启时才加入
+                    if (rareEnabled && LEVEL2 && LEVEL2[b])
+                        LEVEL2[b].forEach((v) =>
+                            list.push({ text: v, weight: 900, type: "zh-l2" }),
+                        );
+                    if (rareEnabled && LEVEL3 && LEVEL3[b])
+                        LEVEL3[b].forEach((v) =>
+                            list.push({ text: v, weight: 700, type: "zh-l3" }),
+                        );
+
+                    // 英文
                     if (EN_DICT[b]) {
                         list.push({ text: b, weight: 850, type: "en" });
                         EN_DICT[b].forEach((zh) =>
@@ -440,27 +529,57 @@
                         seen.add(x.text);
                         return true;
                     });
+
                 render();
             }
 
             function render() {
-                const mainItems = combinedCandidates.slice(0, 9);
+                const mainItems = combinedCandidates.slice(0, 10);
                 document.getElementById("main-candidates").innerHTML = mainItems
-                    .map(
-                        (item, i) => `
-                    <div class="main-item ${item.type.startsWith("en") ? "is-en" : ""}" onclick="selectIdx(${i})">
-                        <span style="font-size:11px; opacity:0.3; margin-right:5px;">${i + 1}</span>${item.text}
-                    </div>
-                `,
-                    )
+                    .map((item, i) => {
+                        const keyDisplay = i === 9 ? "0" : i + 1;
+                        return `
+                            <div class="main-item ${item.type.startsWith("en") ? "is-en" : ""}" onclick="selectIdx(${i})">
+                                <span style="font-size:11px; opacity:0.3; margin-right:5px;">${keyDisplay}</span>${item.text}
+                            </div>
+                        `;
+                    })
                     .join("");
 
-                let gridHTML = "";
-                const sideItems = combinedCandidates.slice(9, 44);
-                for (let i = 0; i < 35; i++) {
-                    gridHTML += `<div class="grid-item" onclick="selectIdx(${i + 9})"><span class="grid-key">${SIDE_KEYS[i].toUpperCase()}</span>${sideItems[i] ? sideItems[i].text : ""}</div>`;
+                const sideItems = combinedCandidates.slice(10);
+                const sideGrid = document.getElementById("side-grid");
+                sideGrid.innerHTML = "";
+
+                if (sideItems.length === 0) {
+                    sideGrid.innerHTML =
+                        '<div style="grid-column: 1 / -1; text-align:center; color:#aaa; padding:20px;">无更多候选</div>';
+                } else {
+                    sideItems.forEach((item, i) => {
+                        const globalIdx = i + 10;
+                        const keyLabel = SIDE_KEYS[i]
+                            ? SIDE_KEYS[i].toUpperCase()
+                            : "";
+
+                        const div = document.createElement("div");
+                        div.className = "grid-item";
+                        div.onclick = () => selectIdx(globalIdx);
+                        div.innerHTML = `
+                            ${keyLabel ? `<span class="grid-key">${keyLabel}</span>` : ""}
+                            ${item.text}
+                        `;
+                        sideGrid.appendChild(div);
+                    });
+
+                    const remainder = sideItems.length % 5;
+                    if (remainder !== 0) {
+                        for (let j = 0; j < 5 - remainder; j++) {
+                            const empty = document.createElement("div");
+                            empty.className = "grid-item empty";
+                            sideGrid.appendChild(empty);
+                        }
+                    }
                 }
-                document.getElementById("side-grid").innerHTML = gridHTML;
+
                 document
                     .getElementById("side-panel")
                     .classList.toggle("active", isSideMode);
@@ -488,7 +607,6 @@
                 .addEventListener("keydown", (e) => {
                     const key = e.key;
 
-                    // 1. Shift 逻辑
                     if (e.shiftKey) {
                         if (SYMBOLS[key]) {
                             committed += SYMBOLS[key];
@@ -504,7 +622,6 @@
                         }
                     }
 
-                    // 2. Tab 逻辑
                     if (key === "Tab") {
                         isSideMode = !isSideMode;
                         render();
@@ -512,37 +629,47 @@
                         return;
                     }
 
-                    // 3. 有拼音 Buffer 时的选词逻辑 (含数字键修复)
                     if (buffer) {
-                        // 数字键 1-9 选词
-                        if (/^[1-9]$/.test(key) && !isSideMode) {
-                            selectIdx(parseInt(key) - 1);
-                            e.preventDefault();
-                            return;
-                        }
-                        // 扩展区字母键选词
-                        if (isSideMode) {
-                            const idx = SIDE_KEYS.indexOf(key.toLowerCase());
-                            if (idx !== -1) {
-                                selectIdx(idx + 9);
+                        if (/^[0-9]$/.test(key)) {
+                            let targetIdx;
+                            if (isSideMode) {
+                                targetIdx =
+                                    key === "0" ? 19 : parseInt(key) + 9;
+                            } else {
+                                targetIdx = key === "0" ? 9 : parseInt(key) - 1;
+                            }
+                            if (combinedCandidates[targetIdx]) {
+                                selectIdx(targetIdx);
                                 e.preventDefault();
                                 return;
                             }
                         }
-                        // 退格
+
+                        if (isSideMode) {
+                            const sideIdx = SIDE_KEYS.indexOf(
+                                key.toLowerCase(),
+                            );
+                            if (
+                                sideIdx !== -1 &&
+                                combinedCandidates[sideIdx + 10]
+                            ) {
+                                selectIdx(sideIdx + 10);
+                                e.preventDefault();
+                                return;
+                            }
+                        }
+
                         if (key === "Backspace") {
                             buffer = buffer.slice(0, -1);
                             update();
                             e.preventDefault();
                             return;
                         }
-                        // 空格上屏首位
                         if (key === " ") {
                             selectIdx(0);
                             e.preventDefault();
                             return;
                         }
-                        // 回车上屏拼音原文
                         if (key === "Enter") {
                             committed += buffer;
                             buffer = "";
@@ -552,7 +679,6 @@
                         }
                     }
 
-                    // 4. 无拼音时的逻辑
                     if (key === " ") {
                         committed += " ";
                         update();
@@ -572,19 +698,16 @@
                         return;
                     }
 
-                    // 5. 字母录入进入 Buffer
                     if (/^[a-z]$/i.test(key)) {
                         buffer += key.toLowerCase();
                         update();
                         e.preventDefault();
                     } else if (key.length === 1 && !buffer) {
-                        // 其他单个字符（标点等）直接上屏
                         committed += key;
                         update();
                         e.preventDefault();
                     }
 
-                    // Ctrl+C 快捷归档
                     if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "c") {
                         archiveAndCopy();
                         e.preventDefault();
@@ -611,11 +734,13 @@
                         `<div class="history-item"><div>${h.text}</div></div>`,
                 ).join("");
             }
+
             window.clearHistory = () => {
                 HISTORY = [];
                 localStorage.removeItem("ime_flow_v8");
                 updateHistoryUI();
             };
+
             function showToast(msg) {
                 const t = document.getElementById("toast");
                 t.innerText = msg;
