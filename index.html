@@ -2,12 +2,13 @@
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
-        <title>Web IME Pro | 混沌灵感 & 智能预测</title>
+        <title>Web IME Pro | 完整功能版</title>
         <style>
             :root {
                 --primary: #007aff;
-                --bg: #ffffff;
-                --history-bg: #f8f9fa;
+                --bg: #f2f2f7;
+                --panel-bg: #ffffff;
+                --text-main: #1d1d1f;
             }
             body {
                 font-family:
@@ -16,185 +17,218 @@
                     sans-serif;
                 background: var(--bg);
                 display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 20px;
+                justify-content: center;
+                padding: 15px;
                 min-height: 100vh;
                 margin: 0;
-                overflow-x: hidden;
+                overflow: hidden;
             }
-
             .main-layout {
                 display: flex;
-                gap: 20px;
+                flex-direction: column;
+                gap: 15px;
                 width: 100%;
-                max-width: 1100px;
-                z-index: 100;
-                margin-top: 20px;
+                max-width: 1500px;
+                height: 96vh;
             }
-            .container {
+
+            /* 顶部工具栏 */
+            .toolbar {
+                background: var(--panel-bg);
+                padding: 12px 20px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+            .btn {
+                padding: 8px 16px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 600;
+                font-size: 13px;
+                transition: 0.2s;
+            }
+            .btn-primary {
+                background: #222;
+                color: white;
+            }
+            .btn-secondary {
+                background: #e5e5ea;
+                color: #333;
+            }
+
+            /* 三栏布局 */
+            .content-area {
+                display: flex;
+                gap: 15px;
+                flex: 1;
+                min-height: 0;
+            }
+
+            /* 左侧 35 格 */
+            .side-panel {
+                flex: 0 0 520px;
+                background: var(--panel-bg);
+                border-radius: 16px;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+                transition: 0.3s;
+                border: 2px solid transparent;
+            }
+            .side-panel.active {
+                border-color: var(--primary);
+                background: #f0f7ff;
+            }
+            .panel-header {
+                padding: 10px 15px;
+                background: #f8f9fa;
+                font-size: 11px;
+                font-weight: bold;
+                border-bottom: 1px solid #eee;
+                border-radius: 16px 16px 0 0;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            #side-grid {
+                flex: 1;
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                grid-template-rows: repeat(7, 1fr);
+                gap: 6px;
+                padding: 12px;
+            }
+            .grid-item {
+                background: #fff;
+                border: 1px solid #eee;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 14px;
+                position: relative;
+                min-height: 50px;
+            }
+            .grid-key {
+                font-family: monospace;
+                font-size: 10px;
+                color: #bbb;
+                position: absolute;
+                top: 4px;
+                left: 6px;
+            }
+
+            /* 中间输入核心 */
+            .center-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            .input-card {
                 background: white;
                 padding: 25px;
                 border-radius: 20px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
-                flex: 2;
-                position: relative;
-            }
-
-            /* 历史面板 */
-            .history-panel {
-                flex: 0.8;
-                background: var(--history-bg);
-                padding: 20px;
-                border-radius: 20px;
-                border: 1px solid #eee;
-                max-height: 600px;
-                overflow-y: auto;
-            }
-            .history-title {
-                font-size: 14px;
-                font-weight: bold;
-                margin-bottom: 15px;
-                color: #333;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+                flex: 1;
                 display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .history-item {
-                font-size: 14px;
-                background: white;
-                padding: 12px;
-                border-radius: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #eee;
-                cursor: pointer;
-                transition: 0.2s;
-            }
-            .history-item:hover {
-                transform: translateX(5px);
-                border-color: var(--primary);
+                flex-direction: column;
             }
 
             #output-area {
-                min-height: 140px;
+                flex: 1;
                 font-size: 28px;
-                padding: 15px;
-                background: #fff;
-                border: 2px solid #f0f0f0;
-                border-radius: 15px;
-                margin-bottom: 15px;
-                word-break: break-all;
-                outline: none;
+                padding: 10px;
                 line-height: 1.5;
+                outline: none;
+                word-break: break-all;
                 white-space: pre-wrap;
+                overflow-y: auto;
+                color: var(--text-main);
             }
-            #buffer-display {
-                font-size: 20px;
-                color: var(--primary);
-                font-weight: bold;
-                margin-bottom: 10px;
-                height: 28px;
-                letter-spacing: 1px;
+            /* 仿真光标 */
+            .cursor {
+                display: inline-block;
+                width: 2.5px;
+                height: 32px;
+                background: var(--primary);
+                margin-left: 2px;
+                vertical-align: middle;
+                animation: blink 1s infinite;
+            }
+            @keyframes blink {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0;
+                }
             }
 
-            #candidate-panel {
+            #buffer-display {
+                font-size: 18px;
+                color: var(--primary);
+                font-weight: bold;
+                min-height: 28px;
+                margin: 10px 0;
+                display: flex;
+                align-items: center;
+                border-bottom: 2px solid #f0f0f0;
+            }
+            #main-candidates {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 8px;
-                max-height: 180px;
-                overflow-y: auto;
-                background: #fdfdfd;
-                padding: 12px;
-                border-radius: 12px;
-                border: 1px solid #eee;
+                gap: 10px;
+                min-height: 50px;
             }
-            .candidate-item {
-                cursor: pointer;
-                padding: 10px 16px;
-                background: white;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                font-size: 20px;
-                transition: 0.1s;
-            }
-            .candidate-item:hover {
-                background: var(--primary);
-                color: white;
-                border-color: var(--primary);
-            }
-
-            /* 混沌瀑布流 */
-            #inspiration-flow {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 240px;
-                background: white;
-                border-top: 1px solid #eee;
-                overflow: hidden;
-                z-index: 1;
-                display: none;
-                align-items: center;
-            }
-            #inspiration-flow.active {
-                display: flex;
-            }
-            .flow-wrapper {
-                display: flex;
-                white-space: nowrap;
-                animation: move-flow 100s linear infinite;
-                will-change: transform;
-            }
-            .flow-item {
-                font-size: 90px;
-                font-weight: 900;
-                color: #f5f5f5;
-                padding: 0 70px;
-                cursor: pointer;
-                transition: 0.4s;
-                user-select: none;
-            }
-            .flow-item:hover {
-                color: var(--primary);
-                transform: scale(1.1) rotate(2deg);
-                z-index: 10;
-            }
-
-            @keyframes move-flow {
-                0% {
-                    transform: translateX(0);
-                }
-                100% {
-                    transform: translateX(-50%);
-                }
-            }
-
-            .action-bar {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 20px;
-            }
-            .copy-btn {
-                padding: 12px 30px;
-                background: #222;
-                color: white;
-                border: none;
+            .main-item {
+                padding: 10px 18px;
+                background: #f9f9f9;
                 border-radius: 10px;
                 cursor: pointer;
-                font-weight: bold;
+                font-size: 20px;
+                border: 1px solid #eee;
+                transition: 0.1s;
             }
-            #toast {
-                position: fixed;
-                top: 30px;
-                background: #333;
-                color: white;
-                padding: 10px 30px;
-                border-radius: 30px;
-                opacity: 0;
-                transition: 0.4s;
-                z-index: 1000;
+            .main-item:hover {
+                background: #f0f0f0;
+            }
+            .main-item.is-en {
+                border: 1px dashed var(--primary);
+                color: var(--primary);
+            }
+
+            /* 右侧历史 */
+            .history-panel {
+                flex: 0 0 280px;
+                background: #fff;
+                border-radius: 16px;
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            }
+            .history-list {
+                flex: 1;
+                overflow-y: auto;
+                margin-top: 10px;
+            }
+            .history-item {
+                font-size: 13px;
+                padding: 10px;
+                border-bottom: 1px solid #f5f5f5;
+                cursor: pointer;
+                border-radius: 8px;
+                margin-bottom: 5px;
+            }
+            .history-item:hover {
+                background: #f9f9f9;
             }
 
             #hidden-input {
@@ -202,276 +236,360 @@
                 opacity: 0;
                 pointer-events: none;
             }
+            #toast {
+                position: fixed;
+                top: 70px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #333;
+                color: white;
+                padding: 8px 20px;
+                border-radius: 20px;
+                opacity: 0;
+                transition: 0.3s;
+                z-index: 999;
+            }
         </style>
     </head>
     <body>
         <div class="main-layout">
-            <div
-                class="container"
-                onclick="document.getElementById('hidden-input').focus()"
-            >
-                <div id="output-area" placeholder="在此输入..."></div>
-                <div id="buffer-display"></div>
-                <input type="text" id="hidden-input" autocomplete="off" />
-                <div id="candidate-panel"></div>
-
-                <div class="action-bar">
-                    <label
-                        style="
-                            font-size: 14px;
-                            color: #666;
-                            cursor: pointer;
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                        "
-                    >
-                        <input
-                            type="checkbox"
-                            id="flow-toggle"
-                            onchange="toggleFlow(this.checked)"
-                        />
-                        <span>激活混沌灵感流</span>
-                    </label>
-                    <div style="font-size: 11px; color: #ccc">Ctrl+C 归档</div>
-                    <button class="copy-btn" onclick="archiveAndCopy()">
-                        归档并复制
+            <div class="toolbar">
+                <div class="tool-group">
+                    <button class="btn btn-primary" onclick="archiveAndCopy()">
+                        归档并复制 (Ctrl+C)
+                    </button>
+                    <button class="btn btn-secondary" onclick="refreshChaos()">
+                        刷新灵感
                     </button>
                 </div>
-            </div>
-
-            <div class="history-panel">
-                <div class="history-title">
-                    <span>创作存档记录</span>
-                    <a
-                        href="#"
-                        onclick="clearLocalHistory()"
-                        style="
-                            font-size: 10px;
-                            color: #ff453a;
-                            text-decoration: none;
-                        "
-                        >清空</a
-                    >
+                <div
+                    style="
+                        flex: 1;
+                        text-align: right;
+                        font-size: 12px;
+                        color: #888;
+                    "
+                >
+                    <b>数字键选词已修复</b> | 无字母空格直出 | 蓝色仿真光标
                 </div>
-                <div id="history-list"></div>
+            </div>
+
+            <div class="content-area">
+                <div class="side-panel" id="side-panel">
+                    <div class="panel-header">
+                        <span>扩展候选 (Tab 键)</span
+                        ><span id="side-status" style="opacity: 0.5"
+                            >NORMAL</span
+                        >
+                    </div>
+                    <div id="side-grid"></div>
+                </div>
+
+                <div
+                    class="center-container"
+                    onclick="document.getElementById('hidden-input').focus()"
+                >
+                    <div class="input-card">
+                        <div id="output-area"></div>
+                        <div id="buffer-display"></div>
+                        <div id="main-candidates"></div>
+                        <input
+                            type="text"
+                            id="hidden-input"
+                            autocomplete="off"
+                        />
+                    </div>
+                </div>
+
+                <div class="history-panel">
+                    <div
+                        style="
+                            font-size: 14px;
+                            font-weight: bold;
+                            display: flex;
+                            justify-content: space-between;
+                        "
+                    >
+                        存档记录
+                        <a
+                            href="#"
+                            onclick="clearHistory()"
+                            style="
+                                font-size: 10px;
+                                color: #ff3b30;
+                                text-decoration: none;
+                            "
+                            >清空</a
+                        >
+                    </div>
+                    <div class="history-list" id="history-list"></div>
+                </div>
             </div>
         </div>
 
-        <div id="inspiration-flow">
-            <div class="flow-wrapper" id="flow-content"></div>
-        </div>
-        <div id="toast">已同步至剪切板</div>
+        <div id="toast">已同步</div>
 
         <script>
             let DICT = {},
                 EN_DICT = {},
+                CIZU_DICT = {},
                 ALL_CHARS = [],
-                EN_INDEX = {};
+                CHAOS_POOL = [];
             let buffer = "",
-                committed = "";
-            let currentCandidates = [];
+                committed = "",
+                isSideMode = false;
+            let combinedCandidates = [];
             let HISTORY = JSON.parse(
-                localStorage.getItem("ime_history") || "[]",
+                localStorage.getItem("ime_flow_v8") || "[]",
             );
+            const SIDE_KEYS = "123456789abcdefghijklmnopqrstuvwxyz".split("");
+            const SYMBOLS = {
+                1: "，",
+                2: "。",
+                3: "？",
+                4: "！",
+                5: "“",
+                6: "”",
+                7: "：",
+                8: "；",
+                9: "…",
+            };
 
             async function init() {
                 try {
-                    const [d1, d2] = await Promise.all([
+                    const [d1, d2, d3] = await Promise.all([
                         fetch("dict.json").then((r) => r.json()),
                         fetch("en_dict.json").then((r) => r.json()),
+                        fetch("cizu_dict.json").then((r) => r.json()),
                     ]);
                     DICT = d1;
                     EN_DICT = d2;
-
-                    // 提取单字
-                    let charSet = new Set();
-                    Object.values(DICT).forEach((list) => {
-                        list.forEach((word) => {
-                            if (word.length === 1) charSet.add(word);
-                        });
-                    });
-                    ALL_CHARS = Array.from(charSet);
-
-                    // 建立英文索引 A-Z
-                    for (let word in EN_DICT) {
-                        let first = word[0].toLowerCase();
-                        if (!EN_INDEX[first]) EN_INDEX[first] = [];
-                        EN_INDEX[first].push(word);
-                    }
-
-                    document.getElementById("flow-toggle").checked = false;
+                    CIZU_DICT = d3;
+                    Object.values(DICT).forEach((list) =>
+                        list.forEach((w) => {
+                            if (w.length === 1) ALL_CHARS.push(w);
+                        }),
+                    );
+                    refreshChaos();
                     updateHistoryUI();
+                    update();
                 } catch (e) {
-                    console.error("数据加载失败，检查文件是否存在");
+                    console.error("Load fail");
                 }
             }
 
-            // 混沌组词算法
-            function getChaosWord() {
-                const len =
-                    Math.random() > 0.7 ? (Math.random() > 0.5 ? 4 : 3) : 2;
-                let word = "";
-                for (let i = 0; i < len; i++)
-                    word +=
+            function refreshChaos() {
+                CHAOS_POOL = [];
+                for (let i = 0; i < 44; i++) {
+                    let w =
+                        ALL_CHARS[
+                            Math.floor(Math.random() * ALL_CHARS.length)
+                        ] +
                         ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
-                return word;
-            }
-
-            function toggleFlow(isActive) {
-                const flow = document.getElementById("inspiration-flow");
-                const content = document.getElementById("flow-content");
-                if (isActive) {
-                    let words = [];
-                    for (let i = 0; i < 60; i++) words.push(getChaosWord());
-                    content.innerHTML =
-                        words
-                            .map(
-                                (w) =>
-                                    `<div class="flow-item" onclick="capture('${w}')">${w}</div>`,
-                            )
-                            .join("") +
-                        words
-                            .map(
-                                (w) =>
-                                    `<div class="flow-item" onclick="capture('${w}')">${w}</div>`,
-                            )
-                            .join("");
-                    flow.classList.add("active");
-                } else {
-                    flow.classList.remove("active");
-                    content.innerHTML = "";
+                    CHAOS_POOL.push({ text: w, weight: 0, type: "chaos" });
                 }
-            }
-
-            window.capture = function (w) {
-                committed += w;
                 update();
-            };
+            }
 
             function update() {
-                const b = buffer.toLowerCase();
-                const len = b.length;
-                document.getElementById("output-area").innerText = committed;
-                document.getElementById("buffer-display").innerText = buffer;
+                const area = document.getElementById("output-area");
+                area.innerText = committed;
+                const cursor = document.createElement("span");
+                cursor.className = "cursor";
+                area.appendChild(cursor);
+
+                const bufDisp = document.getElementById("buffer-display");
+                bufDisp.innerHTML = buffer
+                    ? `<span>${buffer}</span>`
+                    : `<span style="color:#ccc; font-weight:normal; font-size:14px;">准备就绪...</span>`;
 
                 let list = [];
                 if (buffer) {
-                    // --- 1. 英文补全 & 汉化联动 ---
-                    const first = b[0];
-                    const subEnList = EN_INDEX[first] || [];
-
-                    subEnList.forEach((word) => {
-                        // 情况 A：完全匹配英文
-                        if (word === b) {
-                            // 放入英文单词本身
+                    const b = buffer.toLowerCase();
+                    if (DICT[b])
+                        DICT[b].forEach((v) =>
+                            list.push({ text: v, weight: 1200, type: "zh" }),
+                        );
+                    if (CIZU_DICT[b])
+                        CIZU_DICT[b].forEach((v) =>
+                            list.push({ text: v, weight: 1100, type: "zh" }),
+                        );
+                    if (EN_DICT[b]) {
+                        list.push({ text: b, weight: 850, type: "en" });
+                        EN_DICT[b].forEach((zh) =>
+                            list.push({ text: zh, weight: 800, type: "en-zh" }),
+                        );
+                    }
+                    for (let word in EN_DICT) {
+                        if (word.startsWith(b) && word !== b)
                             list.push({
                                 text: word,
-                                weight: len > 5 ? 260 : 200,
-                                type: "en-full",
-                            });
-                            // 关键：放入该英文对应的中文翻译 (如果有的话)
-                            if (EN_DICT[word]) {
-                                EN_DICT[word].forEach((zh) => {
-                                    list.push({
-                                        text: zh,
-                                        weight: 270,
-                                        type: "zh-from-en",
-                                    }); // 中文权重更高，排在英文前面
-                                });
-                            }
-                        }
-                        // 情况 B：补全匹配 (输入 > 3位)
-                        else if (len >= 3 && word.startsWith(b)) {
-                            let w = 150 - (word.length - len);
-                            if (len < 5) w -= 100;
-
-                            // 放入补全的英文
-                            list.push({
-                                text: word,
-                                weight: w,
+                                weight: 400 - word.length,
                                 type: "en-pred",
                             });
-                            // 同时放入补全单词对应的中文
-                            if (EN_DICT[word]) {
-                                EN_DICT[word].forEach((zh) => {
-                                    list.push({
-                                        text: zh,
-                                        weight: w + 5,
-                                        type: "zh-from-en-pred",
-                                    });
-                                });
-                            }
-                        }
-                    });
-
-                    // --- 2. 传统中文拼音逻辑 ---
-                    for (let key in DICT) {
-                        if (key === b) {
-                            DICT[key].forEach((v) =>
-                                list.push({
-                                    text: v,
-                                    weight: 80,
-                                    type: "zh-full",
-                                }),
-                            );
-                        } else if (key.startsWith(b)) {
-                            let w = 50 - (key.length - len);
-                            if (len > 5) w -= 60;
-                            DICT[key].forEach((v) =>
-                                list.push({
-                                    text: v,
-                                    weight: w,
-                                    type: "zh-pref",
-                                }),
-                            );
-                        }
                     }
+                } else {
+                    list = [...CHAOS_POOL];
                 }
 
-                // 排序、去重、渲染
-                const sorted = list.sort((a, b) => b.weight - a.weight);
                 const seen = new Set();
-                currentCandidates = sorted.filter((item) => {
-                    if (seen.has(item.text)) return false;
-                    seen.add(item.text);
-                    return true;
-                });
-
+                combinedCandidates = list
+                    .sort((a, b) => b.weight - a.weight)
+                    .filter((x) => {
+                        if (seen.has(x.text)) return false;
+                        seen.add(x.text);
+                        return true;
+                    });
                 render();
             }
 
-            // 渲染函数微调：给联想出来的词加点视觉提示
             function render() {
-                const panel = document.getElementById("candidate-panel");
-                panel.innerHTML = currentCandidates
-                    .map((item, i) => {
-                        let suffix = "";
-                        if (item.type.includes("pred"))
-                            suffix =
-                                '<span style="opacity:0.3;font-size:10px;">…</span>';
-                        if (item.type.includes("zh-from-en"))
-                            suffix +=
-                                '<span style="opacity:0.4;font-size:10px;margin-left:4px;">[译]</span>';
-
-                        return `
-                        <div class="candidate-item" onclick="confirmSelect(${i})">
-                            ${i < 9 ? `<span style="opacity:0.2;font-size:11px;">${i + 1}</span> ` : ""}
-                            ${item.text}${suffix}
-                        </div>
-                    `;
-                    })
+                const mainItems = combinedCandidates.slice(0, 9);
+                document.getElementById("main-candidates").innerHTML = mainItems
+                    .map(
+                        (item, i) => `
+                    <div class="main-item ${item.type.startsWith("en") ? "is-en" : ""}" onclick="selectIdx(${i})">
+                        <span style="font-size:11px; opacity:0.3; margin-right:5px;">${i + 1}</span>${item.text}
+                    </div>
+                `,
+                    )
                     .join("");
+
+                let gridHTML = "";
+                const sideItems = combinedCandidates.slice(9, 44);
+                for (let i = 0; i < 35; i++) {
+                    gridHTML += `<div class="grid-item" onclick="selectIdx(${i + 9})"><span class="grid-key">${SIDE_KEYS[i].toUpperCase()}</span>${sideItems[i] ? sideItems[i].text : ""}</div>`;
+                }
+                document.getElementById("side-grid").innerHTML = gridHTML;
+                document
+                    .getElementById("side-panel")
+                    .classList.toggle("active", isSideMode);
             }
 
-            function confirmSelect(idx) {
-                const item = currentCandidates[idx];
-                if (!item) return;
-                committed += item.text;
-                buffer = "";
-                update();
+            function selectIdx(idx) {
+                const item = combinedCandidates[idx];
+                if (item) {
+                    committed += item.text;
+                    buffer = "";
+                    isSideMode = false;
+                    update();
+                    scrollOutput();
+                }
+            }
+
+            function scrollOutput() {
+                const area = document.getElementById("output-area");
+                area.scrollTop = area.scrollHeight;
                 document.getElementById("hidden-input").focus();
             }
+
+            document
+                .getElementById("hidden-input")
+                .addEventListener("keydown", (e) => {
+                    const key = e.key;
+
+                    // 1. Shift 逻辑
+                    if (e.shiftKey) {
+                        if (SYMBOLS[key]) {
+                            committed += SYMBOLS[key];
+                            update();
+                            e.preventDefault();
+                            return;
+                        }
+                        if (key.length === 1) {
+                            committed += key;
+                            update();
+                            e.preventDefault();
+                            return;
+                        }
+                    }
+
+                    // 2. Tab 逻辑
+                    if (key === "Tab") {
+                        isSideMode = !isSideMode;
+                        render();
+                        e.preventDefault();
+                        return;
+                    }
+
+                    // 3. 有拼音 Buffer 时的选词逻辑 (含数字键修复)
+                    if (buffer) {
+                        // 数字键 1-9 选词
+                        if (/^[1-9]$/.test(key) && !isSideMode) {
+                            selectIdx(parseInt(key) - 1);
+                            e.preventDefault();
+                            return;
+                        }
+                        // 扩展区字母键选词
+                        if (isSideMode) {
+                            const idx = SIDE_KEYS.indexOf(key.toLowerCase());
+                            if (idx !== -1) {
+                                selectIdx(idx + 9);
+                                e.preventDefault();
+                                return;
+                            }
+                        }
+                        // 退格
+                        if (key === "Backspace") {
+                            buffer = buffer.slice(0, -1);
+                            update();
+                            e.preventDefault();
+                            return;
+                        }
+                        // 空格上屏首位
+                        if (key === " ") {
+                            selectIdx(0);
+                            e.preventDefault();
+                            return;
+                        }
+                        // 回车上屏拼音原文
+                        if (key === "Enter") {
+                            committed += buffer;
+                            buffer = "";
+                            update();
+                            e.preventDefault();
+                            return;
+                        }
+                    }
+
+                    // 4. 无拼音时的逻辑
+                    if (key === " ") {
+                        committed += " ";
+                        update();
+                        e.preventDefault();
+                        return;
+                    }
+                    if (key === "Backspace") {
+                        committed = committed.slice(0, -1);
+                        update();
+                        e.preventDefault();
+                        return;
+                    }
+                    if (key === "Enter") {
+                        committed += "\n";
+                        update();
+                        e.preventDefault();
+                        return;
+                    }
+
+                    // 5. 字母录入进入 Buffer
+                    if (/^[a-z]$/i.test(key)) {
+                        buffer += key.toLowerCase();
+                        update();
+                        e.preventDefault();
+                    } else if (key.length === 1 && !buffer) {
+                        // 其他单个字符（标点等）直接上屏
+                        committed += key;
+                        update();
+                        e.preventDefault();
+                    }
+
+                    // Ctrl+C 快捷归档
+                    if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "c") {
+                        archiveAndCopy();
+                        e.preventDefault();
+                    }
+                });
 
             async function archiveAndCopy() {
                 if (!committed) return;
@@ -480,84 +598,24 @@
                     text: committed,
                     time: new Date().toLocaleTimeString(),
                 });
-                if (HISTORY.length > 50) HISTORY.pop();
-                localStorage.setItem("ime_history", JSON.stringify(HISTORY));
-                updateHistoryUI();
                 committed = "";
-                buffer = "";
+                localStorage.setItem("ime_flow_v8", JSON.stringify(HISTORY));
                 update();
-                showToast("归档成功并清空");
+                updateHistoryUI();
+                showToast("归档成功");
             }
 
             function updateHistoryUI() {
-                const list = document.getElementById("history-list");
-                if (HISTORY.length === 0) {
-                    list.innerHTML = `<div style="color:#ccc;text-align:center;margin-top:20px;font-size:12px;">暂无记录</div>`;
-                    return;
-                }
-                list.innerHTML = HISTORY.map(
-                    (item, i) => `
-                <div class="history-item" onclick="restoreHistory(${i})">
-                    <div style="font-size:10px;color:#bbb;margin-bottom:4px;">${item.time}</div>
-                    ${item.text}
-                </div>
-            `,
+                document.getElementById("history-list").innerHTML = HISTORY.map(
+                    (h) =>
+                        `<div class="history-item"><div>${h.text}</div></div>`,
                 ).join("");
             }
-
-            window.restoreHistory = function (idx) {
-                committed = HISTORY[idx].text;
-                update();
+            window.clearHistory = () => {
+                HISTORY = [];
+                localStorage.removeItem("ime_flow_v8");
+                updateHistoryUI();
             };
-
-            function clearLocalHistory() {
-                if (confirm("确定清空吗？")) {
-                    localStorage.removeItem("ime_history");
-                    HISTORY = [];
-                    updateHistoryUI();
-                }
-            }
-
-            document
-                .getElementById("hidden-input")
-                .addEventListener("keydown", (e) => {
-                    if (
-                        (e.ctrlKey || e.metaKey) &&
-                        (e.key === "c" || e.key === "Enter")
-                    ) {
-                        archiveAndCopy();
-                        e.preventDefault();
-                        return;
-                    }
-                    if (/^[a-z]$/i.test(e.key)) {
-                        buffer += e.key.toLowerCase();
-                        update();
-                        e.preventDefault();
-                    } else if (e.key === "Backspace") {
-                        if (buffer) buffer = buffer.slice(0, -1);
-                        else committed = committed.slice(0, -1);
-                        update();
-                        e.preventDefault();
-                    } else if (e.key === " " && buffer) {
-                        confirmSelect(0);
-                        e.preventDefault();
-                    } else if (buffer && /^[1-9]$/.test(e.key)) {
-                        confirmSelect(parseInt(e.key) - 1);
-                        e.preventDefault();
-                    } else if (e.key === "Enter") {
-                        if (buffer) {
-                            committed += buffer;
-                            buffer = "";
-                            update();
-                        }
-                        e.preventDefault();
-                    } else if (e.key.length === 1 && !buffer) {
-                        committed += e.key;
-                        update();
-                        e.preventDefault();
-                    }
-                });
-
             function showToast(msg) {
                 const t = document.getElementById("toast");
                 t.innerText = msg;
