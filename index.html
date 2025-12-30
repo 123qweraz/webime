@@ -393,7 +393,10 @@
                         color: #888;
                     "
                 >
-                    <b>最好一个一个地输入 · 支持词组补全</b>
+                    <b
+                        >最好一个一个地输入 · 支持词组补全 ·
+                        现已支持直接英文输入</b
+                    >
                 </div>
             </div>
             <div class="content-area" id="content-area">
@@ -555,12 +558,7 @@
 
             function update() {
                 const area = document.getElementById("output-area");
-                if (committed) {
-                    area.innerHTML = committed;
-                } else {
-                    area.innerHTML =
-                        '<span style="color:#ccc; font-size:22px;">已上屏文字将显示在这里...</span>';
-                }
+                area.innerHTML = committed || "";
                 const cursor = document.createElement("span");
                 cursor.className = "cursor";
                 area.appendChild(cursor);
@@ -758,21 +756,21 @@
 
             window.addEventListener("resize", updatePanelVisibility);
 
+            // ==================== 关键修改：添加直接英文输入支持 ====================
             document
                 .getElementById("hidden-input")
                 .addEventListener("keydown", (e) => {
-                    if (
-                        (e.ctrlKey || e.metaKey) &&
-                        e.key.toLowerCase() === "c"
-                    ) {
+                    const key = e.key;
+
+                    // Ctrl+C 归档复制
+                    if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "c") {
                         archiveAndCopy();
                         e.preventDefault();
                         e.stopPropagation();
                         return;
                     }
 
-                    const key = e.key;
-
+                    // Shift + 数字键 → 中文标点
                     if (e.shiftKey && SYMBOLS[key]) {
                         committed += SYMBOLS[key];
                         update();
@@ -780,6 +778,15 @@
                         return;
                     }
 
+                    // Shift + 任意键 → 直接上屏原字符（支持大写英文、英文标点等）
+                    if (e.shiftKey && key.length === 1) {
+                        committed += key;
+                        update();
+                        e.preventDefault();
+                        return;
+                    }
+
+                    // Tab 切换扩展模式
                     if (key === "Tab" && sideVisible) {
                         isSideMode = !isSideMode;
                         render();
@@ -787,6 +794,7 @@
                         return;
                     }
 
+                    // 扩展模式翻页
                     if (isSideMode && sideVisible) {
                         if (key === "-" && currentSidePage > 0) {
                             currentSidePage--;
@@ -807,6 +815,7 @@
                         }
                     }
 
+                    // 数字键选候选
                     if (buffer && /^[0-9]$/.test(key)) {
                         const targetIdx =
                             isSideMode && sideVisible
@@ -823,6 +832,7 @@
                         return;
                     }
 
+                    // 扩展模式字母键选候选
                     if (isSideMode && sideVisible) {
                         const sideIdx = SIDE_KEYS.indexOf(key.toLowerCase());
                         if (sideIdx !== -1) {
@@ -837,6 +847,7 @@
                         }
                     }
 
+                    // Backspace
                     if (key === "Backspace") {
                         if (buffer) buffer = buffer.slice(0, -1);
                         else if (committed) committed = committed.slice(0, -1);
@@ -845,37 +856,54 @@
                         return;
                     }
 
+                    // 空格
                     if (key === " ") {
-                        if (buffer) selectIdx(0);
-                        else committed += " ";
+                        if (buffer) {
+                            selectIdx(0); // 有拼音时空格选首候选
+                        } else {
+                            committed += " "; // 无拼音时直接上屏空格
+                        }
                         update();
                         e.preventDefault();
                         return;
                     }
 
+                    // Enter
                     if (key === "Enter") {
                         if (buffer) {
-                            committed += buffer;
+                            committed += buffer; // 有拼音时回车强制上屏拼音本身
                             buffer = "";
-                        } else committed += "\n";
+                        } else {
+                            committed += "\n";
+                        }
                         update();
                         e.preventDefault();
                         return;
                     }
 
-                    if (/^[a-z]$/i.test(key)) {
-                        buffer += key.toLowerCase();
+                    // 小写 a-z → 进入拼音 buffer
+                    if (/^[a-z]$/.test(key)) {
+                        buffer += key;
                         update();
                         e.preventDefault();
                         return;
                     }
 
-                    if (key.length === 1 && !buffer) {
+                    // buffer 为空时，其他可打印字符直接上屏（包括数字、符号、小写英文等）
+                    if (
+                        key.length === 1 &&
+                        !buffer &&
+                        !e.ctrlKey &&
+                        !e.metaKey &&
+                        !e.altKey
+                    ) {
                         committed += key;
                         update();
                         e.preventDefault();
+                        return;
                     }
                 });
+            // ===================================================================
 
             async function archiveAndCopy() {
                 if (!committed) return;
@@ -899,7 +927,6 @@
                 }
             }
 
-            /* ==================== 优化后的存档记录功能 ==================== */
             function updateHistoryUI() {
                 const list = document.getElementById("history-list");
                 list.innerHTML = HISTORY.map(
@@ -912,12 +939,9 @@
                 `,
                 ).join("");
 
-                // 添加点击（复制）和双击（恢复）事件
                 list.querySelectorAll(".history-item").forEach((item) => {
-                    // 点击：复制到剪贴板（仅单次点击）
                     item.onclick = function (e) {
                         if (e.detail === 1) {
-                            // 只处理单击
                             const text =
                                 this.querySelector(".history-text").innerText;
                             navigator.clipboard
@@ -938,7 +962,6 @@
                         }
                     };
 
-                    // 双击：恢复到文字区继续编辑
                     item.ondblclick = function () {
                         const index = parseInt(this.dataset.index);
                         restoreHistory(index);
@@ -968,7 +991,6 @@
                     showToast("已清空");
                 }
             };
-            /* ============================================================= */
 
             function showToast(msg) {
                 const t = document.getElementById("toast");
