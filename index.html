@@ -2,7 +2,7 @@
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
-        <title>Web IME Pro | 完整功能版（生僻词开关）</title>
+        <title>Web IME Pro | 简洁版</title>
         <style>
             :root {
                 --primary: #007aff;
@@ -31,8 +31,6 @@
                 max-width: 1500px;
                 height: 96vh;
             }
-
-            /* 顶部工具栏 */
             .toolbar {
                 background: var(--panel-bg);
                 padding: 12px 20px;
@@ -68,17 +66,15 @@
                 color: white;
             }
 
-            /* 三栏布局 */
             .content-area {
                 display: flex;
                 gap: 15px;
                 flex: 1;
                 min-height: 0;
             }
-
-            /* 左侧扩展面板 - 动态网格 */
             .side-panel {
-                flex: 0 0 520px;
+                flex: 0 0 35%;
+                min-width: 400px;
                 background: var(--panel-bg);
                 border-radius: 16px;
                 display: flex;
@@ -101,7 +97,6 @@
                 display: flex;
                 justify-content: space-between;
             }
-
             #side-grid {
                 flex: 1;
                 display: grid;
@@ -137,7 +132,6 @@
                 left: 6px;
             }
 
-            /* 中间输入核心 */
             .center-container {
                 flex: 1;
                 display: flex;
@@ -153,7 +147,6 @@
                 display: flex;
                 flex-direction: column;
             }
-
             #output-area {
                 flex: 1;
                 font-size: 28px;
@@ -212,12 +205,11 @@
             .main-item:hover {
                 background: #f0f0f0;
             }
-            .main-item.is-en {
+            .main-item.is-pred {
                 border: 1px dashed var(--primary);
                 color: var(--primary);
             }
 
-            /* 右侧历史 */
             .history-panel {
                 flex: 0 0 280px;
                 background: #fff;
@@ -271,9 +263,6 @@
                     <button class="btn btn-primary" onclick="archiveAndCopy()">
                         归档并复制 (Ctrl+C)
                     </button>
-                    <button class="btn btn-secondary" onclick="refreshChaos()">
-                        刷新灵感
-                    </button>
                     <button
                         id="rare-toggle"
                         class="btn btn-toggle"
@@ -290,7 +279,7 @@
                         color: #888;
                     "
                 >
-                    <b>主区10词（0键第10） | 扩展区仅字母键 | 可开关生僻词</b>
+                    <b>最好一个一个地输入 · 支持词组补全</b>
                 </div>
             </div>
 
@@ -354,9 +343,7 @@
                 LEVEL2 = null,
                 LEVEL3 = null,
                 EN_DICT = {},
-                CIZU_DICT = {},
-                ALL_CHARS = [],
-                CHAOS_POOL = [];
+                CIZU_DICT = {};
             let buffer = "",
                 committed = "",
                 isSideMode = false;
@@ -364,7 +351,7 @@
             let HISTORY = JSON.parse(
                 localStorage.getItem("ime_flow_v8") || "[]",
             );
-            let rareEnabled = localStorage.getItem("rare_enabled") === "true"; // 记住状态
+            let rareEnabled = localStorage.getItem("rare_enabled") === "true";
             const SIDE_KEYS = "123456789abcdefghijklmnopqrstuvwxyz".split("");
             const SYMBOLS = {
                 1: "，",
@@ -377,6 +364,9 @@
                 8: "；",
                 9: "…",
             };
+
+            let currentSidePage = 0;
+            const CANDIDATES_PER_PAGE = 35;
 
             async function init() {
                 try {
@@ -404,27 +394,7 @@
                     LEVEL2 = l2;
                     LEVEL3 = l3;
 
-                    // 收集单字用于乱序灵感
-                    Object.values(DICT).forEach((list) =>
-                        list.forEach((w) => {
-                            if (w.length === 1) ALL_CHARS.push(w);
-                        }),
-                    );
-                    if (LEVEL2)
-                        Object.values(LEVEL2).forEach((list) =>
-                            list.forEach((w) => {
-                                if (w.length === 1) ALL_CHARS.push(w);
-                            }),
-                        );
-                    if (LEVEL3)
-                        Object.values(LEVEL3).forEach((list) =>
-                            list.forEach((w) => {
-                                if (w.length === 1) ALL_CHARS.push(w);
-                            }),
-                        );
-
                     updateToggleButton();
-                    refreshChaos();
                     updateHistoryUI();
                     update();
                 } catch (e) {
@@ -448,23 +418,9 @@
                 rareEnabled = !rareEnabled;
                 localStorage.setItem("rare_enabled", rareEnabled);
                 showToast(rareEnabled ? "生僻词已开启" : "生僻词已关闭");
-                // 重新加载词库并更新
-                ALL_CHARS = [];
+                currentSidePage = 0;
                 await init();
             };
-
-            function refreshChaos() {
-                CHAOS_POOL = [];
-                for (let i = 0; i < 44; i++) {
-                    let w =
-                        ALL_CHARS[
-                            Math.floor(Math.random() * ALL_CHARS.length)
-                        ] +
-                        ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
-                    CHAOS_POOL.push({ text: w, weight: 0, type: "chaos" });
-                }
-                update();
-            }
 
             function update() {
                 const area = document.getElementById("output-area");
@@ -476,23 +432,29 @@
                 const bufDisp = document.getElementById("buffer-display");
                 bufDisp.innerHTML = buffer
                     ? `<span>${buffer}</span>`
-                    : `<span style="color:#ccc; font-weight:normal; font-size:14px;">准备就绪...</span>`;
+                    : `<span style="color:#ccc; font-weight:normal; font-size:14px;">等待输入...</span>`;
 
                 let list = [];
                 if (buffer) {
                     const b = buffer.toLowerCase();
 
-                    // 常用词库（始终加载）
+                    // 精确匹配：单字
                     if (DICT[b])
                         DICT[b].forEach((v) =>
                             list.push({ text: v, weight: 1300, type: "zh" }),
                         );
+
+                    // 精确匹配：词组
                     if (CIZU_DICT[b])
                         CIZU_DICT[b].forEach((v) =>
-                            list.push({ text: v, weight: 1200, type: "zh" }),
+                            list.push({
+                                text: v,
+                                weight: 1250,
+                                type: "zh-cizu",
+                            }),
                         );
 
-                    // 生僻词只有开启时才加入
+                    // 生僻词
                     if (rareEnabled && LEVEL2 && LEVEL2[b])
                         LEVEL2[b].forEach((v) =>
                             list.push({ text: v, weight: 900, type: "zh-l2" }),
@@ -502,13 +464,28 @@
                             list.push({ text: v, weight: 700, type: "zh-l3" }),
                         );
 
-                    // 英文
+                    // 英文精确 + 翻译
                     if (EN_DICT[b]) {
                         list.push({ text: b, weight: 850, type: "en" });
                         EN_DICT[b].forEach((zh) =>
                             list.push({ text: zh, weight: 800, type: "en-zh" }),
                         );
                     }
+
+                    // === 新增：词组前缀补全（模仿英文补全）===
+                    for (let pinyin in CIZU_DICT) {
+                        if (pinyin.startsWith(b) && pinyin !== b) {
+                            CIZU_DICT[pinyin].forEach((hanzi) => {
+                                list.push({
+                                    text: hanzi,
+                                    weight: 1100 - pinyin.length * 10, // 越长权重越低
+                                    type: "cizu-pred",
+                                });
+                            });
+                        }
+                    }
+
+                    // === 英文前缀补全（原有逻辑）===
                     for (let word in EN_DICT) {
                         if (word.startsWith(b) && word !== b)
                             list.push({
@@ -517,8 +494,6 @@
                                 type: "en-pred",
                             });
                     }
-                } else {
-                    list = [...CHAOS_POOL];
                 }
 
                 const seen = new Set();
@@ -530,43 +505,63 @@
                         return true;
                     });
 
+                currentSidePage = 0;
                 render();
             }
 
             function render() {
+                // 主候选区（前10个）
                 const mainItems = combinedCandidates.slice(0, 10);
                 document.getElementById("main-candidates").innerHTML = mainItems
                     .map((item, i) => {
                         const keyDisplay = i === 9 ? "0" : i + 1;
-                        return `
-                            <div class="main-item ${item.type.startsWith("en") ? "is-en" : ""}" onclick="selectIdx(${i})">
-                                <span style="font-size:11px; opacity:0.3; margin-right:5px;">${keyDisplay}</span>${item.text}
-                            </div>
-                        `;
+                        const isPred = item.type.endsWith("-pred");
+                        return `<div class="main-item ${isPred ? "is-pred" : ""}" onclick="selectIdx(${i})">
+                            <span style="font-size:11px; opacity:0.3; margin-right:5px;">${keyDisplay}</span>${item.text}
+                        </div>`;
                     })
                     .join("");
 
-                const sideItems = combinedCandidates.slice(10);
+                // 扩展候选区
                 const sideGrid = document.getElementById("side-grid");
                 sideGrid.innerHTML = "";
 
-                if (sideItems.length === 0) {
-                    sideGrid.innerHTML =
-                        '<div style="grid-column: 1 / -1; text-align:center; color:#aaa; padding:20px;">无更多候选</div>';
+                const sideItemsAll = combinedCandidates.slice(10);
+                const totalPages = Math.ceil(
+                    sideItemsAll.length / CANDIDATES_PER_PAGE,
+                );
+                currentSidePage = Math.max(
+                    0,
+                    Math.min(currentSidePage, totalPages - 1),
+                );
+
+                const start = currentSidePage * CANDIDATES_PER_PAGE;
+                const sideItems = sideItemsAll.slice(
+                    start,
+                    start + CANDIDATES_PER_PAGE,
+                );
+
+                if (sideItemsAll.length > 0) {
+                    document.getElementById("side-status").textContent =
+                        `第 ${currentSidePage + 1}/${totalPages} 页 (-/= 翻页)`;
                 } else {
+                    document.getElementById("side-status").textContent =
+                        "NORMAL";
+                }
+
+                if (buffer && sideItems.length > 0) {
                     sideItems.forEach((item, i) => {
-                        const globalIdx = i + 10;
+                        const globalIdx = start + i + 10;
                         const keyLabel = SIDE_KEYS[i]
                             ? SIDE_KEYS[i].toUpperCase()
                             : "";
-
                         const div = document.createElement("div");
                         div.className = "grid-item";
+                        const isPred = item.type.endsWith("-pred");
+                        if (isPred)
+                            div.style.border = `1px dashed ${getComputedStyle(document.documentElement).getPropertyValue("--primary")}`;
                         div.onclick = () => selectIdx(globalIdx);
-                        div.innerHTML = `
-                            ${keyLabel ? `<span class="grid-key">${keyLabel}</span>` : ""}
-                            ${item.text}
-                        `;
+                        div.innerHTML = `${keyLabel ? `<span class="grid-key">${keyLabel}</span>` : ""}${item.text}`;
                         sideGrid.appendChild(div);
                     });
 
@@ -578,6 +573,9 @@
                             sideGrid.appendChild(empty);
                         }
                     }
+                } else if (buffer) {
+                    sideGrid.innerHTML =
+                        '<div style="grid-column: 1 / -1; text-align:center; color:#aaa; padding:20px;">无更多候选</div>';
                 }
 
                 document
@@ -591,6 +589,7 @@
                     committed += item.text;
                     buffer = "";
                     isSideMode = false;
+                    currentSidePage = 0;
                     update();
                     scrollOutput();
                 }
@@ -629,15 +628,38 @@
                         return;
                     }
 
+                    if (isSideMode) {
+                        if (key === "-") {
+                            if (currentSidePage > 0) {
+                                currentSidePage--;
+                                render();
+                            }
+                            e.preventDefault();
+                            return;
+                        }
+                        if (key === "=") {
+                            const sideItemsAll = combinedCandidates.slice(10);
+                            const totalPages = Math.ceil(
+                                sideItemsAll.length / CANDIDATES_PER_PAGE,
+                            );
+                            if (currentSidePage < totalPages - 1) {
+                                currentSidePage++;
+                                render();
+                            }
+                            e.preventDefault();
+                            return;
+                        }
+                    }
+
                     if (buffer) {
                         if (/^[0-9]$/.test(key)) {
-                            let targetIdx;
-                            if (isSideMode) {
-                                targetIdx =
-                                    key === "0" ? 19 : parseInt(key) + 9;
-                            } else {
-                                targetIdx = key === "0" ? 9 : parseInt(key) - 1;
-                            }
+                            let targetIdx = isSideMode
+                                ? key === "0"
+                                    ? 19
+                                    : parseInt(key) + 9
+                                : key === "0"
+                                  ? 9
+                                  : parseInt(key) - 1;
                             if (combinedCandidates[targetIdx]) {
                                 selectIdx(targetIdx);
                                 e.preventDefault();
@@ -649,13 +671,16 @@
                             const sideIdx = SIDE_KEYS.indexOf(
                                 key.toLowerCase(),
                             );
-                            if (
-                                sideIdx !== -1 &&
-                                combinedCandidates[sideIdx + 10]
-                            ) {
-                                selectIdx(sideIdx + 10);
-                                e.preventDefault();
-                                return;
+                            if (sideIdx !== -1) {
+                                const globalIdx =
+                                    currentSidePage * CANDIDATES_PER_PAGE +
+                                    sideIdx +
+                                    10;
+                                if (combinedCandidates[globalIdx]) {
+                                    selectIdx(globalIdx);
+                                    e.preventDefault();
+                                    return;
+                                }
                             }
                         }
 
@@ -685,19 +710,18 @@
                         e.preventDefault();
                         return;
                     }
-                    if (key === "Backspace") {
+                    if (key === "Backspace" && !buffer) {
                         committed = committed.slice(0, -1);
                         update();
                         e.preventDefault();
                         return;
                     }
-                    if (key === "Enter") {
+                    if (key === "Enter" && !buffer) {
                         committed += "\n";
                         update();
                         e.preventDefault();
                         return;
                     }
-
                     if (/^[a-z]$/i.test(key)) {
                         buffer += key.toLowerCase();
                         update();
