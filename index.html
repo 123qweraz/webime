@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Web IME Pro | 简洁版</title>
+        <title>Web IME Pro | 搜索增强修复版</title>
         <style>
             :root {
                 --primary: #007aff;
@@ -63,6 +63,23 @@
                 background: var(--primary);
                 color: white;
             }
+            .btn-export {
+                background: #28a745;
+                color: white;
+            }
+            .btn-import {
+                background: #ffc107;
+                color: #212529;
+            }
+            .btn-baidu {
+                background: #de0f17;
+                color: white;
+            }
+            .btn-google {
+                background: #4285f4;
+                color: white;
+            }
+
             .content-area {
                 flex: 1;
                 display: flex;
@@ -77,7 +94,6 @@
                 gap: 15px;
             }
 
-            /* 已上屏文字区 */
             .output-card {
                 position: relative;
                 background: white;
@@ -120,17 +136,15 @@
                 }
             }
 
-            /* 归档并复制按钮 */
-            #archive-btn {
+            .action-btns {
                 position: absolute;
                 right: 20px;
                 bottom: 20px;
                 z-index: 10;
-                padding: 10px 18px;
-                font-size: 13px;
+                display: flex;
+                gap: 8px;
             }
 
-            /* 输入候选区 */
             .input-card {
                 background: white;
                 padding: 20px;
@@ -177,6 +191,7 @@
                 border: 1px dashed var(--primary);
                 color: var(--primary);
             }
+
             #extended-section {
                 display: none;
                 flex-direction: column;
@@ -196,6 +211,7 @@
                 border-color: var(--primary);
                 background: #f0f7ff;
             }
+
             .panel-header {
                 padding: 10px 15px;
                 background: #f8f9fa;
@@ -245,7 +261,6 @@
                 left: 4px;
             }
 
-            /* 右侧存档面板优化样式 */
             .history-panel {
                 flex: 0 0 280px;
                 background: #fff;
@@ -277,9 +292,6 @@
                 margin-bottom: 4px;
                 font-size: 14px;
                 line-height: 1.4;
-            }
-            .history-item:hover .copy-hint {
-                opacity: 0.6 !important;
             }
             .copy-hint {
                 float: right;
@@ -337,15 +349,6 @@
                     min-height: 120px;
                     font-size: 22px;
                 }
-                #side-grid {
-                    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-                }
-                #archive-btn {
-                    right: 15px;
-                    bottom: 15px;
-                    padding: 8px 14px;
-                    font-size: 12px;
-                }
             }
             #overlay {
                 display: none;
@@ -371,6 +374,20 @@
                         生僻词：关闭
                     </button>
                     <button
+                        id="english-toggle"
+                        class="btn btn-toggle"
+                        onclick="toggleEnglish()"
+                    >
+                        英文支持：关闭
+                    </button>
+                    <button
+                        id="cizu-toggle"
+                        class="btn btn-toggle"
+                        onclick="toggleCizu()"
+                    >
+                        词组补全：关闭
+                    </button>
+                    <button
                         id="toggle-side"
                         class="btn btn-toggle"
                         onclick="toggleSidePanel()"
@@ -384,6 +401,24 @@
                     >
                         存档记录：隐藏
                     </button>
+                    <button class="btn btn-export" onclick="exportHistory()">
+                        导出存档
+                    </button>
+                    <button
+                        class="btn btn-import"
+                        onclick="
+                            document.getElementById('import-input').click()
+                        "
+                    >
+                        导入存档
+                    </button>
+                    <input
+                        type="file"
+                        id="import-input"
+                        accept=".json"
+                        style="display: none"
+                        onchange="importHistory(event)"
+                    />
                 </div>
                 <div
                     style="
@@ -393,10 +428,7 @@
                         color: #888;
                     "
                 >
-                    <b
-                        >最好一个一个地输入 · 支持词组补全 ·
-                        现已支持直接英文输入</b
-                    >
+                    <b>支持 Ctrl+B (百度) | Ctrl+G (Google)</b>
                 </div>
             </div>
             <div class="content-area" id="content-area">
@@ -404,23 +436,35 @@
                     class="center-container"
                     onclick="document.getElementById('hidden-input').focus()"
                 >
-                    <!-- 已上屏文字区 -->
                     <div class="output-card">
                         <div id="output-area">
                             <span style="color: #ccc; font-size: 22px"
                                 >已上屏文字将显示在这里...</span
                             >
                         </div>
-                        <button
-                            id="archive-btn"
-                            class="btn btn-primary"
-                            onclick="archiveAndCopy()"
-                        >
-                            归档并复制 (Ctrl+C)
-                        </button>
+                        <div class="action-btns">
+                            <button
+                                class="btn btn-baidu"
+                                onclick="searchBaidu()"
+                            >
+                                百度
+                            </button>
+                            <button
+                                class="btn btn-google"
+                                onclick="searchGoogle()"
+                            >
+                                Google
+                            </button>
+                            <button
+                                id="archive-btn"
+                                class="btn btn-primary"
+                                onclick="archiveAndCopy()"
+                            >
+                                归档并复制 (Ctrl+C)
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- 输入候选区 -->
                     <div class="input-card">
                         <div id="buffer-display">
                             <span
@@ -491,9 +535,15 @@
             let HISTORY = JSON.parse(
                 localStorage.getItem("ime_flow_v8") || "[]",
             );
+
             let rareEnabled = localStorage.getItem("rare_enabled") === "true";
+            let englishEnabled =
+                localStorage.getItem("english_enabled") === "true";
+            let cizuEnabled = localStorage.getItem("cizu_enabled") === "true";
+
             let sideVisible = true;
             let historyVisible = true;
+
             const SIDE_KEYS = "123456789abcdefghijklmnopqrstuvwxyz".split("");
             const SYMBOLS = {
                 1: "，",
@@ -511,11 +561,17 @@
 
             async function init() {
                 try {
-                    const promises = [
-                        fetch("dict.json").then((r) => r.json()),
-                        fetch("en_dict.json").then((r) => r.json()),
-                        fetch("cizu_dict.json").then((r) => r.json()),
-                    ];
+                    const promises = [fetch("dict.json").then((r) => r.json())];
+                    if (englishEnabled)
+                        promises.push(
+                            fetch("en_dict.json").then((r) => r.json()),
+                        );
+                    else promises.push(Promise.resolve({}));
+                    if (cizuEnabled)
+                        promises.push(
+                            fetch("cizu_dict.json").then((r) => r.json()),
+                        );
+                    else promises.push(Promise.resolve({}));
                     if (rareEnabled) {
                         promises.push(
                             fetch("level-2.json").then((r) => r.json()),
@@ -527,13 +583,15 @@
                         promises.push(Promise.resolve(null));
                         promises.push(Promise.resolve(null));
                     }
-                    const [d1, d2, d3, l2, l3] = await Promise.all(promises);
+
+                    const [d1, enDict, cizuDict, l2, l3] =
+                        await Promise.all(promises);
                     DICT = d1;
-                    EN_DICT = d2;
-                    CIZU_DICT = d3;
+                    EN_DICT = enDict;
+                    CIZU_DICT = cizuDict;
                     LEVEL2 = l2;
                     LEVEL3 = l3;
-                    updateToggleButton();
+                    updateAllToggleButtons();
                     updateHistoryUI();
                     update();
                 } catch (e) {
@@ -542,17 +600,35 @@
                 }
             }
 
-            function updateToggleButton() {
-                const btn = document.getElementById("rare-toggle");
-                btn.textContent = rareEnabled ? "生僻词：开启" : "生僻词：关闭";
-                btn.classList.toggle("active", rareEnabled);
+            function updateAllToggleButtons() {
+                updateToggleButton("rare-toggle", rareEnabled, "生僻词");
+                updateToggleButton(
+                    "english-toggle",
+                    englishEnabled,
+                    "英文支持",
+                );
+                updateToggleButton("cizu-toggle", cizuEnabled, "词组补全");
+            }
+
+            function updateToggleButton(id, enabled, label) {
+                const btn = document.getElementById(id);
+                btn.textContent = `${label}：${enabled ? "开启" : "关闭"}`;
+                btn.classList.toggle("active", enabled);
             }
 
             window.toggleRare = async function () {
                 rareEnabled = !rareEnabled;
                 localStorage.setItem("rare_enabled", rareEnabled);
-                showToast(rareEnabled ? "生僻词已开启" : "生僻词已关闭");
-                currentSidePage = 0;
+                await init();
+            };
+            window.toggleEnglish = async function () {
+                englishEnabled = !englishEnabled;
+                localStorage.setItem("english_enabled", englishEnabled);
+                await init();
+            };
+            window.toggleCizu = async function () {
+                cizuEnabled = !cizuEnabled;
+                localStorage.setItem("cizu_enabled", cizuEnabled);
                 await init();
             };
 
@@ -575,7 +651,7 @@
                         DICT[b].forEach((v) =>
                             list.push({ text: v, weight: 1300, type: "zh" }),
                         );
-                    if (CIZU_DICT[b])
+                    if (cizuEnabled && CIZU_DICT[b])
                         CIZU_DICT[b].forEach((v) =>
                             list.push({
                                 text: v,
@@ -591,37 +667,31 @@
                         LEVEL3[b].forEach((v) =>
                             list.push({ text: v, weight: 700, type: "zh-l3" }),
                         );
-                    if (EN_DICT[b]) {
+                    if (englishEnabled && EN_DICT[b]) {
                         list.push({ text: b, weight: 850, type: "en" });
                         EN_DICT[b].forEach((zh) =>
                             list.push({ text: zh, weight: 800, type: "en-zh" }),
                         );
                     }
-                    for (let pinyin in CIZU_DICT) {
-                        if (pinyin.startsWith(b) && pinyin !== b) {
-                            CIZU_DICT[pinyin].forEach((hanzi) =>
-                                list.push({
-                                    text: hanzi,
-                                    weight: 1100 - pinyin.length * 10,
-                                    type: "cizu-pred",
-                                }),
-                            );
+                    if (cizuEnabled) {
+                        for (let pinyin in CIZU_DICT) {
+                            if (pinyin.startsWith(b) && pinyin !== b) {
+                                CIZU_DICT[pinyin].forEach((hanzi) =>
+                                    list.push({
+                                        text: hanzi,
+                                        weight: 1100 - pinyin.length * 10,
+                                        type: "cizu-pred",
+                                    }),
+                                );
+                            }
                         }
                     }
-                    for (let word in EN_DICT) {
-                        if (word.startsWith(b) && word !== b)
-                            list.push({
-                                text: word,
-                                weight: 400 - word.length,
-                                type: "en-pred",
-                            });
-                    }
                 }
+
                 const seen = new Set();
                 combinedCandidates = list
                     .sort((a, b) => b.weight - a.weight)
                     .filter((x) => !seen.has(x.text) && seen.add(x.text));
-
                 currentSidePage = 0;
                 render();
                 scrollOutput();
@@ -633,9 +703,7 @@
                     .map((item, i) => {
                         const keyDisplay = i === 9 ? "0" : i + 1;
                         const isPred = item.type.endsWith("-pred");
-                        return `<div class="main-item ${isPred ? "is-pred" : ""}" onclick="selectIdx(${i})">
-                            <span style="font-size:10px;opacity:0.3;margin-right:4px;">${keyDisplay}</span>${item.text}
-                        </div>`;
+                        return `<div class="main-item ${isPred ? "is-pred" : ""}" onclick="selectIdx(${i})"><span style="font-size:10px;opacity:0.3;margin-right:4px;">${keyDisplay}</span>${item.text}</div>`;
                     })
                     .join("");
 
@@ -645,23 +713,16 @@
                 const totalPages = Math.ceil(
                     sideItemsAll.length / CANDIDATES_PER_PAGE,
                 );
-                currentSidePage = Math.max(
-                    0,
-                    Math.min(currentSidePage, totalPages - 1),
-                );
                 const start = currentSidePage * CANDIDATES_PER_PAGE;
                 const sideItems = sideItemsAll.slice(
                     start,
                     start + CANDIDATES_PER_PAGE,
                 );
 
-                if (sideItemsAll.length > 0) {
-                    document.getElementById("side-status").textContent =
-                        `第 ${currentSidePage + 1}/${totalPages} 页 (-/= 翻页)`;
-                } else {
-                    document.getElementById("side-status").textContent =
-                        "NORMAL";
-                }
+                document.getElementById("side-status").textContent =
+                    sideItemsAll.length > 0
+                        ? `第 ${currentSidePage + 1}/${totalPages} 页 (-/= 翻页)`
+                        : "NORMAL";
 
                 if (sideVisible && sideItems.length > 0) {
                     sideItems.forEach((item, i) => {
@@ -672,16 +733,12 @@
                         const div = document.createElement("div");
                         div.className = "grid-item";
                         if (item.type.endsWith("-pred"))
-                            div.style.border = `1px dashed var(--primary)`;
+                            div.style.border = "1px dashed var(--primary)";
                         div.onclick = () => selectIdx(globalIdx);
                         div.innerHTML = `${keyLabel ? `<span class="grid-key">${keyLabel}</span>` : ""}${item.text}`;
                         sideGrid.appendChild(div);
                     });
-                } else if (sideVisible) {
-                    sideGrid.innerHTML =
-                        '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:30px;">无更多候选</div>';
                 }
-
                 document
                     .getElementById("extended-section")
                     .classList.toggle("active", isSideMode);
@@ -693,7 +750,6 @@
                     committed += item.text;
                     buffer = "";
                     isSideMode = false;
-                    currentSidePage = 0;
                     update();
                 }
             }
@@ -704,18 +760,34 @@
                 document.getElementById("hidden-input").focus();
             }
 
+            window.searchBaidu = function () {
+                const text = committed.trim();
+                if (!text) return showToast("内容为空");
+                window.open(
+                    `https://www.baidu.com/s?wd=${encodeURIComponent(text)}`,
+                    "_blank",
+                );
+            };
+
+            window.searchGoogle = function () {
+                const text = committed.trim();
+                if (!text) return showToast("内容为空");
+                window.open(
+                    `https://www.google.com/search?q=${encodeURIComponent(text)}`,
+                    "_blank",
+                );
+            };
+
             function toggleSidePanel() {
                 sideVisible = !sideVisible;
                 if (!sideVisible) isSideMode = false;
                 updatePanelVisibility();
                 render();
             }
-
             function toggleHistoryPanel() {
                 historyVisible = !historyVisible;
                 updatePanelVisibility();
             }
-
             function closeAllPanels() {
                 historyVisible = false;
                 updatePanelVisibility();
@@ -728,65 +800,48 @@
                 const toggleSideBtn = document.getElementById("toggle-side");
                 const toggleHistoryBtn =
                     document.getElementById("toggle-history");
-                const overlay = document.getElementById("overlay");
-                const contentArea = document.getElementById("content-area");
-
                 extendedSection.classList.toggle("visible", sideVisible);
-
                 if (window.innerWidth > 767) {
                     historyPanel.style.display = historyVisible
                         ? "flex"
                         : "none";
-                    overlay.classList.remove("visible");
-                    contentArea.classList.remove("has-side-open");
                 } else {
                     historyPanel.classList.toggle("visible", historyVisible);
-                    overlay.classList.toggle("visible", historyVisible);
-                    contentArea.classList.toggle(
-                        "has-side-open",
-                        historyVisible,
-                    );
+                    document
+                        .getElementById("overlay")
+                        .classList.toggle("visible", historyVisible);
                 }
-
-                toggleSideBtn.textContent = `扩展候选：${sideVisible ? "显示" : "隐藏"}`;
                 toggleSideBtn.classList.toggle("active", sideVisible);
-                toggleHistoryBtn.textContent = `存档记录：${historyVisible ? "显示" : "隐藏"}`;
                 toggleHistoryBtn.classList.toggle("active", historyVisible);
             }
 
-            window.addEventListener("resize", updatePanelVisibility);
-
-            // ==================== 关键修改：添加直接英文输入支持 ====================
             document
                 .getElementById("hidden-input")
                 .addEventListener("keydown", (e) => {
                     const key = e.key;
 
-                    // Ctrl+C 归档复制
+                    // 1. 快捷键逻辑
+                    if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "b") {
+                        searchBaidu();
+                        e.preventDefault();
+                        return;
+                    }
+                    if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "g") {
+                        searchGoogle();
+                        e.preventDefault();
+                        return;
+                    }
                     if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "c") {
                         archiveAndCopy();
                         e.preventDefault();
-                        e.stopPropagation();
                         return;
                     }
-
-                    // Shift + 数字键 → 中文标点
                     if (e.shiftKey && SYMBOLS[key]) {
                         committed += SYMBOLS[key];
                         update();
                         e.preventDefault();
                         return;
                     }
-
-                    // Shift + 任意键 → 直接上屏原字符（支持大写英文、英文标点等）
-                    if (e.shiftKey && key.length === 1) {
-                        committed += key;
-                        update();
-                        e.preventDefault();
-                        return;
-                    }
-
-                    // Tab 切换扩展模式
                     if (key === "Tab" && sideVisible) {
                         isSideMode = !isSideMode;
                         render();
@@ -794,7 +849,7 @@
                         return;
                     }
 
-                    // 扩展模式翻页
+                    // 2. 扩展区域翻页与字母选词优先判断
                     if (isSideMode && sideVisible) {
                         if (key === "-" && currentSidePage > 0) {
                             currentSidePage--;
@@ -813,9 +868,22 @@
                             e.preventDefault();
                             return;
                         }
+                        // 重要修复：在扩展模式下，如果按下的是字母键，优先匹配扩展区按键
+                        const sideIdx = SIDE_KEYS.indexOf(key.toLowerCase());
+                        if (sideIdx !== -1) {
+                            const globalIdx =
+                                currentSidePage * CANDIDATES_PER_PAGE +
+                                sideIdx +
+                                10;
+                            if (combinedCandidates[globalIdx]) {
+                                selectIdx(globalIdx);
+                                e.preventDefault(); // 阻止字母进入 buffer
+                                return;
+                            }
+                        }
                     }
 
-                    // 数字键选候选
+                    // 3. 数字选词逻辑 (不管是否 sideMode)
                     if (buffer && /^[0-9]$/.test(key)) {
                         const targetIdx =
                             isSideMode && sideVisible
@@ -832,22 +900,7 @@
                         return;
                     }
 
-                    // 扩展模式字母键选候选
-                    if (isSideMode && sideVisible) {
-                        const sideIdx = SIDE_KEYS.indexOf(key.toLowerCase());
-                        if (sideIdx !== -1) {
-                            const globalIdx =
-                                currentSidePage * CANDIDATES_PER_PAGE +
-                                sideIdx +
-                                10;
-                            if (combinedCandidates[globalIdx]) {
-                                selectIdx(globalIdx);
-                                e.preventDefault();
-                            }
-                        }
-                    }
-
-                    // Backspace
+                    // 4. 标准输入逻辑
                     if (key === "Backspace") {
                         if (buffer) buffer = buffer.slice(0, -1);
                         else if (committed) committed = committed.slice(0, -1);
@@ -855,47 +908,33 @@
                         e.preventDefault();
                         return;
                     }
-
-                    // 空格
                     if (key === " ") {
-                        if (buffer) {
-                            selectIdx(0); // 有拼音时空格选首候选
-                        } else {
-                            committed += " "; // 无拼音时直接上屏空格
-                        }
+                        if (buffer) selectIdx(0);
+                        else committed += " ";
                         update();
                         e.preventDefault();
                         return;
                     }
-
-                    // Enter
                     if (key === "Enter") {
                         if (buffer) {
-                            committed += buffer; // 有拼音时回车强制上屏拼音本身
+                            committed += buffer;
                             buffer = "";
-                        } else {
-                            committed += "\n";
-                        }
+                        } else committed += "\n";
                         update();
                         e.preventDefault();
                         return;
                     }
-
-                    // 小写 a-z → 进入拼音 buffer
                     if (/^[a-z]$/.test(key)) {
                         buffer += key;
                         update();
                         e.preventDefault();
                         return;
                     }
-
-                    // buffer 为空时，其他可打印字符直接上屏（包括数字、符号、小写英文等）
                     if (
                         key.length === 1 &&
                         !buffer &&
                         !e.ctrlKey &&
-                        !e.metaKey &&
-                        !e.altKey
+                        !e.metaKey
                     ) {
                         committed += key;
                         update();
@@ -903,7 +942,6 @@
                         return;
                     }
                 });
-            // ===================================================================
 
             async function archiveAndCopy() {
                 if (!committed) return;
@@ -920,10 +958,9 @@
                     );
                     update();
                     updateHistoryUI();
-                    showToast("归档成功，已复制到剪贴板");
+                    showToast("归档成功并复制");
                 } catch (err) {
-                    showToast("复制失败（权限或HTTPS问题）");
-                    console.error(err);
+                    showToast("复制失败");
                 }
             }
 
@@ -931,64 +968,27 @@
                 const list = document.getElementById("history-list");
                 list.innerHTML = HISTORY.map(
                     (h, index) => `
-                    <div class="history-item" data-index="${index}">
+                    <div class="history-item" onclick="copyHistory('${index}')">
                         <div class="history-text">${h.text}</div>
                         <small style="opacity:0.5;">${h.time}</small>
                         <span class="copy-hint">点击复制</span>
                     </div>
                 `,
                 ).join("");
-
-                list.querySelectorAll(".history-item").forEach((item) => {
-                    item.onclick = function (e) {
-                        if (e.detail === 1) {
-                            const text =
-                                this.querySelector(".history-text").innerText;
-                            navigator.clipboard
-                                .writeText(text)
-                                .then(() => {
-                                    const hint =
-                                        this.querySelector(".copy-hint");
-                                    hint.style.opacity = "1";
-                                    showToast("已复制到剪贴板");
-                                    setTimeout(
-                                        () => (hint.style.opacity = "0"),
-                                        1500,
-                                    );
-                                })
-                                .catch(() => {
-                                    showToast("复制失败");
-                                });
-                        }
-                    };
-
-                    item.ondblclick = function () {
-                        const index = parseInt(this.dataset.index);
-                        restoreHistory(index);
-                    };
-                });
             }
 
-            window.restoreHistory = function (index) {
-                const entry = HISTORY[index];
-                if (!entry) return;
-
-                committed = entry.text;
-                buffer = "";
-                isSideMode = false;
-                currentSidePage = 0;
-
-                update();
-                scrollOutput();
-                showToast("已恢复到文字区（可继续编辑）");
+            window.copyHistory = function (index) {
+                const text = HISTORY[index].text;
+                navigator.clipboard
+                    .writeText(text)
+                    .then(() => showToast("已复制"));
             };
 
             window.clearHistory = () => {
-                if (confirm("确定清空所有存档记录？")) {
+                if (confirm("清空？")) {
                     HISTORY = [];
                     localStorage.removeItem("ime_flow_v8");
                     updateHistoryUI();
-                    showToast("已清空");
                 }
             };
 
@@ -999,13 +999,9 @@
                 setTimeout(() => (t.style.opacity = 0), 2000);
             }
 
-            init().then(() => {
-                updatePanelVisibility();
-            });
-
-            window.onload = () => {
+            init();
+            window.onload = () =>
                 document.getElementById("hidden-input").focus();
-            };
         </script>
     </body>
 </html>
