@@ -2,6 +2,7 @@
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Web IME Pro | 简洁版</title>
         <style>
             :root {
@@ -16,11 +17,11 @@
                     -apple-system,
                     sans-serif;
                 background: var(--bg);
-                display: flex;
-                justify-content: center;
+                margin: 0;
                 padding: 15px;
                 min-height: 100vh;
-                margin: 0;
+                display: flex;
+                justify-content: center;
                 overflow: hidden;
             }
             .main-layout {
@@ -37,7 +38,8 @@
                 border-radius: 12px;
                 display: flex;
                 align-items: center;
-                gap: 20px;
+                gap: 12px;
+                flex-wrap: wrap;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             }
             .btn {
@@ -53,10 +55,6 @@
                 background: #222;
                 color: white;
             }
-            .btn-secondary {
-                background: #e5e5ea;
-                color: #333;
-            }
             .btn-toggle {
                 background: #e5e5ea;
                 color: #333;
@@ -65,92 +63,37 @@
                 background: var(--primary);
                 color: white;
             }
-
             .content-area {
+                flex: 1;
                 display: flex;
                 gap: 15px;
-                flex: 1;
                 min-height: 0;
-            }
-            .side-panel {
-                flex: 0 0 35%;
-                min-width: 400px;
-                background: var(--panel-bg);
-                border-radius: 16px;
-                display: flex;
-                flex-direction: column;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-                transition: 0.3s;
-                border: 2px solid transparent;
-            }
-            .side-panel.active {
-                border-color: var(--primary);
-                background: #f0f7ff;
-            }
-            .panel-header {
-                padding: 10px 15px;
-                background: #f8f9fa;
-                font-size: 11px;
-                font-weight: bold;
-                border-bottom: 1px solid #eee;
-                border-radius: 16px 16px 0 0;
-                display: flex;
-                justify-content: space-between;
-            }
-            #side-grid {
-                flex: 1;
-                display: grid;
-                grid-template-columns: repeat(5, 1fr);
-                gap: 6px;
-                padding: 12px;
-                overflow-y: auto;
-            }
-            .grid-item {
-                background: #fff;
-                border: 1px solid #eee;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                font-size: 14px;
                 position: relative;
-                min-height: 50px;
             }
-            .grid-item.empty {
-                background: #f9f9f9;
-                border-style: dashed;
-                cursor: default;
-                opacity: 0.6;
-            }
-            .grid-key {
-                font-family: monospace;
-                font-size: 10px;
-                color: #bbb;
-                position: absolute;
-                top: 4px;
-                left: 6px;
-            }
-
             .center-container {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
                 gap: 15px;
             }
-            .input-card {
+
+            /* 已上屏文字区 */
+            .output-card {
+                position: relative;
                 background: white;
                 padding: 25px;
                 border-radius: 20px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                flex: 1;
+                height: 15%;
+                min-height: 120px;
+                max-height: 300px;
                 display: flex;
                 flex-direction: column;
+                overflow: hidden;
             }
             #output-area {
                 flex: 1;
-                font-size: 28px;
-                padding: 10px;
+                font-size: 26px;
                 line-height: 1.5;
                 outline: none;
                 word-break: break-all;
@@ -161,7 +104,7 @@
             .cursor {
                 display: inline-block;
                 width: 2.5px;
-                height: 32px;
+                height: 30px;
                 background: var(--primary);
                 margin-left: 2px;
                 vertical-align: middle;
@@ -177,12 +120,33 @@
                 }
             }
 
+            /* 归档并复制按钮 */
+            #archive-btn {
+                position: absolute;
+                right: 20px;
+                bottom: 20px;
+                z-index: 10;
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+
+            /* 输入候选区 */
+            .input-card {
+                background: white;
+                padding: 20px;
+                border-radius: 20px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+                flex: 1;
+                min-height: 0;
+                display: flex;
+                flex-direction: column;
+            }
             #buffer-display {
                 font-size: 18px;
                 color: var(--primary);
                 font-weight: bold;
                 min-height: 28px;
-                margin: 10px 0;
+                margin: 10px 0 15px 0;
                 display: flex;
                 align-items: center;
                 border-bottom: 2px solid #f0f0f0;
@@ -192,24 +156,96 @@
                 flex-wrap: wrap;
                 gap: 10px;
                 min-height: 50px;
+                margin-bottom: 12px;
             }
             .main-item {
-                padding: 10px 18px;
+                padding: 10px 16px;
                 background: #f9f9f9;
                 border-radius: 10px;
                 cursor: pointer;
                 font-size: 20px;
                 border: 1px solid #eee;
                 transition: 0.1s;
+                min-width: 60px;
+                text-align: center;
             }
             .main-item:hover {
                 background: #f0f0f0;
+                transform: translateY(-1px);
             }
             .main-item.is-pred {
                 border: 1px dashed var(--primary);
                 color: var(--primary);
             }
+            #extended-section {
+                display: none;
+                flex-direction: column;
+                margin-top: 15px;
+                border-radius: 16px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+                overflow: hidden;
+                border: 2px solid transparent;
+                transition: 0.3s;
+                flex: 1;
+                min-height: 0;
+            }
+            #extended-section.visible {
+                display: flex;
+            }
+            #extended-section.active {
+                border-color: var(--primary);
+                background: #f0f7ff;
+            }
+            .panel-header {
+                padding: 10px 15px;
+                background: #f8f9fa;
+                font-size: 12px;
+                font-weight: bold;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+            }
+            #side-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 8px;
+                padding: 15px;
+                overflow-y: auto;
+                background: #f9fbff;
+                flex: 1;
+                min-height: 0;
+            }
+            .grid-item {
+                background: #fff;
+                border: 1px solid #eee;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 16px;
+                position: relative;
+                min-height: 45px;
+                padding: 4px;
+                box-sizing: border-box;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .grid-item:hover {
+                background: #f5f5ff;
+                transform: translateY(-1px);
+            }
+            .grid-key {
+                font-family: monospace;
+                font-size: 10px;
+                color: #bbb;
+                position: absolute;
+                top: 2px;
+                left: 4px;
+            }
 
+            /* 右侧存档面板优化样式 */
             .history-panel {
                 flex: 0 0 280px;
                 background: #fff;
@@ -225,15 +261,32 @@
                 margin-top: 10px;
             }
             .history-item {
-                font-size: 13px;
+                position: relative;
                 padding: 10px;
                 border-bottom: 1px solid #f5f5f5;
                 cursor: pointer;
                 border-radius: 8px;
                 margin-bottom: 5px;
+                transition: background 0.2s;
             }
             .history-item:hover {
                 background: #f9f9f9;
+            }
+            .history-text {
+                word-break: break-all;
+                margin-bottom: 4px;
+                font-size: 14px;
+                line-height: 1.4;
+            }
+            .history-item:hover .copy-hint {
+                opacity: 0.6 !important;
+            }
+            .copy-hint {
+                float: right;
+                font-size: 10px;
+                color: var(--primary);
+                opacity: 0;
+                transition: opacity 0.2s;
             }
 
             #hidden-input {
@@ -248,11 +301,61 @@
                 transform: translateX(-50%);
                 background: #333;
                 color: white;
-                padding: 8px 20px;
+                padding: 10px 24px;
                 border-radius: 20px;
                 opacity: 0;
                 transition: 0.3s;
                 z-index: 999;
+                font-size: 14px;
+            }
+            @media (max-width: 1024px) {
+                .history-panel {
+                    display: none;
+                }
+            }
+            @media (max-width: 767px) {
+                .history-panel {
+                    position: fixed;
+                    right: -100%;
+                    top: 0;
+                    height: 100vh;
+                    width: 80vw;
+                    max-width: 350px;
+                    z-index: 100;
+                    transition: right 0.3s ease;
+                    border-radius: 0;
+                }
+                .history-panel.visible {
+                    right: 0;
+                }
+                .content-area.has-side-open {
+                    filter: blur(5px);
+                    pointer-events: none;
+                }
+                .output-card {
+                    height: 20%;
+                    min-height: 120px;
+                    font-size: 22px;
+                }
+                #side-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                }
+                #archive-btn {
+                    right: 15px;
+                    bottom: 15px;
+                    padding: 8px 14px;
+                    font-size: 12px;
+                }
+            }
+            #overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 99;
+            }
+            #overlay.visible {
+                display: block;
             }
         </style>
     </head>
@@ -260,15 +363,26 @@
         <div class="main-layout">
             <div class="toolbar">
                 <div class="tool-group">
-                    <button class="btn btn-primary" onclick="archiveAndCopy()">
-                        归档并复制 (Ctrl+C)
-                    </button>
                     <button
                         id="rare-toggle"
                         class="btn btn-toggle"
                         onclick="toggleRare()"
                     >
                         生僻词：关闭
+                    </button>
+                    <button
+                        id="toggle-side"
+                        class="btn btn-toggle"
+                        onclick="toggleSidePanel()"
+                    >
+                        扩展候选：显示
+                    </button>
+                    <button
+                        id="toggle-history"
+                        class="btn btn-toggle"
+                        onclick="toggleHistoryPanel()"
+                    >
+                        存档记录：隐藏
                     </button>
                 </div>
                 <div
@@ -282,26 +396,49 @@
                     <b>最好一个一个地输入 · 支持词组补全</b>
                 </div>
             </div>
-
-            <div class="content-area">
-                <div class="side-panel" id="side-panel">
-                    <div class="panel-header">
-                        <span>扩展候选 (Tab 键切换)</span>
-                        <span id="side-status" style="opacity: 0.5"
-                            >NORMAL</span
-                        >
-                    </div>
-                    <div id="side-grid"></div>
-                </div>
-
+            <div class="content-area" id="content-area">
                 <div
                     class="center-container"
                     onclick="document.getElementById('hidden-input').focus()"
                 >
+                    <!-- 已上屏文字区 -->
+                    <div class="output-card">
+                        <div id="output-area">
+                            <span style="color: #ccc; font-size: 22px"
+                                >已上屏文字将显示在这里...</span
+                            >
+                        </div>
+                        <button
+                            id="archive-btn"
+                            class="btn btn-primary"
+                            onclick="archiveAndCopy()"
+                        >
+                            归档并复制 (Ctrl+C)
+                        </button>
+                    </div>
+
+                    <!-- 输入候选区 -->
                     <div class="input-card">
-                        <div id="output-area"></div>
-                        <div id="buffer-display"></div>
+                        <div id="buffer-display">
+                            <span
+                                style="
+                                    color: #ccc;
+                                    font-weight: normal;
+                                    font-size: 14px;
+                                "
+                                >等待输入...</span
+                            >
+                        </div>
                         <div id="main-candidates"></div>
+                        <div id="extended-section">
+                            <div class="panel-header">
+                                <span>扩展候选 (Tab 键切换模式)</span>
+                                <span id="side-status" style="opacity: 0.5"
+                                    >NORMAL</span
+                                >
+                            </div>
+                            <div id="side-grid"></div>
+                        </div>
                         <input
                             type="text"
                             id="hidden-input"
@@ -310,7 +447,7 @@
                     </div>
                 </div>
 
-                <div class="history-panel">
+                <div class="history-panel" id="history-panel">
                     <div
                         style="
                             font-size: 14px;
@@ -333,10 +470,10 @@
                     </div>
                     <div class="history-list" id="history-list"></div>
                 </div>
+                <div id="overlay" onclick="closeAllPanels()"></div>
             </div>
         </div>
-
-        <div id="toast">已同步</div>
+        <div id="toast">已就绪</div>
 
         <script>
             let DICT = {},
@@ -352,6 +489,8 @@
                 localStorage.getItem("ime_flow_v8") || "[]",
             );
             let rareEnabled = localStorage.getItem("rare_enabled") === "true";
+            let sideVisible = true;
+            let historyVisible = true;
             const SIDE_KEYS = "123456789abcdefghijklmnopqrstuvwxyz".split("");
             const SYMBOLS = {
                 1: "，",
@@ -364,7 +503,6 @@
                 8: "；",
                 9: "…",
             };
-
             let currentSidePage = 0;
             const CANDIDATES_PER_PAGE = 35;
 
@@ -386,14 +524,12 @@
                         promises.push(Promise.resolve(null));
                         promises.push(Promise.resolve(null));
                     }
-
                     const [d1, d2, d3, l2, l3] = await Promise.all(promises);
                     DICT = d1;
                     EN_DICT = d2;
                     CIZU_DICT = d3;
                     LEVEL2 = l2;
                     LEVEL3 = l3;
-
                     updateToggleButton();
                     updateHistoryUI();
                     update();
@@ -405,13 +541,8 @@
 
             function updateToggleButton() {
                 const btn = document.getElementById("rare-toggle");
-                if (rareEnabled) {
-                    btn.textContent = "生僻词：开启";
-                    btn.classList.add("active");
-                } else {
-                    btn.textContent = "生僻词：关闭";
-                    btn.classList.remove("active");
-                }
+                btn.textContent = rareEnabled ? "生僻词：开启" : "生僻词：关闭";
+                btn.classList.toggle("active", rareEnabled);
             }
 
             window.toggleRare = async function () {
@@ -424,7 +555,12 @@
 
             function update() {
                 const area = document.getElementById("output-area");
-                area.innerHTML = committed;
+                if (committed) {
+                    area.innerHTML = committed;
+                } else {
+                    area.innerHTML =
+                        '<span style="color:#ccc; font-size:22px;">已上屏文字将显示在这里...</span>';
+                }
                 const cursor = document.createElement("span");
                 cursor.className = "cursor";
                 area.appendChild(cursor);
@@ -437,14 +573,10 @@
                 let list = [];
                 if (buffer) {
                     const b = buffer.toLowerCase();
-
-                    // 精确匹配：单字
                     if (DICT[b])
                         DICT[b].forEach((v) =>
                             list.push({ text: v, weight: 1300, type: "zh" }),
                         );
-
-                    // 精确匹配：词组
                     if (CIZU_DICT[b])
                         CIZU_DICT[b].forEach((v) =>
                             list.push({
@@ -453,8 +585,6 @@
                                 type: "zh-cizu",
                             }),
                         );
-
-                    // 生僻词
                     if (rareEnabled && LEVEL2 && LEVEL2[b])
                         LEVEL2[b].forEach((v) =>
                             list.push({ text: v, weight: 900, type: "zh-l2" }),
@@ -463,29 +593,23 @@
                         LEVEL3[b].forEach((v) =>
                             list.push({ text: v, weight: 700, type: "zh-l3" }),
                         );
-
-                    // 英文精确 + 翻译
                     if (EN_DICT[b]) {
                         list.push({ text: b, weight: 850, type: "en" });
                         EN_DICT[b].forEach((zh) =>
                             list.push({ text: zh, weight: 800, type: "en-zh" }),
                         );
                     }
-
-                    // === 新增：词组前缀补全（模仿英文补全）===
                     for (let pinyin in CIZU_DICT) {
                         if (pinyin.startsWith(b) && pinyin !== b) {
-                            CIZU_DICT[pinyin].forEach((hanzi) => {
+                            CIZU_DICT[pinyin].forEach((hanzi) =>
                                 list.push({
                                     text: hanzi,
-                                    weight: 1100 - pinyin.length * 10, // 越长权重越低
+                                    weight: 1100 - pinyin.length * 10,
                                     type: "cizu-pred",
-                                });
-                            });
+                                }),
+                            );
                         }
                     }
-
-                    // === 英文前缀补全（原有逻辑）===
                     for (let word in EN_DICT) {
                         if (word.startsWith(b) && word !== b)
                             list.push({
@@ -495,37 +619,30 @@
                             });
                     }
                 }
-
                 const seen = new Set();
                 combinedCandidates = list
                     .sort((a, b) => b.weight - a.weight)
-                    .filter((x) => {
-                        if (seen.has(x.text)) return false;
-                        seen.add(x.text);
-                        return true;
-                    });
+                    .filter((x) => !seen.has(x.text) && seen.add(x.text));
 
                 currentSidePage = 0;
                 render();
+                scrollOutput();
             }
 
             function render() {
-                // 主候选区（前10个）
                 const mainItems = combinedCandidates.slice(0, 10);
                 document.getElementById("main-candidates").innerHTML = mainItems
                     .map((item, i) => {
                         const keyDisplay = i === 9 ? "0" : i + 1;
                         const isPred = item.type.endsWith("-pred");
                         return `<div class="main-item ${isPred ? "is-pred" : ""}" onclick="selectIdx(${i})">
-                            <span style="font-size:11px; opacity:0.3; margin-right:5px;">${keyDisplay}</span>${item.text}
+                            <span style="font-size:10px;opacity:0.3;margin-right:4px;">${keyDisplay}</span>${item.text}
                         </div>`;
                     })
                     .join("");
 
-                // 扩展候选区
                 const sideGrid = document.getElementById("side-grid");
                 sideGrid.innerHTML = "";
-
                 const sideItemsAll = combinedCandidates.slice(10);
                 const totalPages = Math.ceil(
                     sideItemsAll.length / CANDIDATES_PER_PAGE,
@@ -534,7 +651,6 @@
                     0,
                     Math.min(currentSidePage, totalPages - 1),
                 );
-
                 const start = currentSidePage * CANDIDATES_PER_PAGE;
                 const sideItems = sideItemsAll.slice(
                     start,
@@ -549,7 +665,7 @@
                         "NORMAL";
                 }
 
-                if (buffer && sideItems.length > 0) {
+                if (sideVisible && sideItems.length > 0) {
                     sideItems.forEach((item, i) => {
                         const globalIdx = start + i + 10;
                         const keyLabel = SIDE_KEYS[i]
@@ -557,29 +673,19 @@
                             : "";
                         const div = document.createElement("div");
                         div.className = "grid-item";
-                        const isPred = item.type.endsWith("-pred");
-                        if (isPred)
-                            div.style.border = `1px dashed ${getComputedStyle(document.documentElement).getPropertyValue("--primary")}`;
+                        if (item.type.endsWith("-pred"))
+                            div.style.border = `1px dashed var(--primary)`;
                         div.onclick = () => selectIdx(globalIdx);
                         div.innerHTML = `${keyLabel ? `<span class="grid-key">${keyLabel}</span>` : ""}${item.text}`;
                         sideGrid.appendChild(div);
                     });
-
-                    const remainder = sideItems.length % 5;
-                    if (remainder !== 0) {
-                        for (let j = 0; j < 5 - remainder; j++) {
-                            const empty = document.createElement("div");
-                            empty.className = "grid-item empty";
-                            sideGrid.appendChild(empty);
-                        }
-                    }
-                } else if (buffer) {
+                } else if (sideVisible) {
                     sideGrid.innerHTML =
-                        '<div style="grid-column: 1 / -1; text-align:center; color:#aaa; padding:20px;">无更多候选</div>';
+                        '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:30px;">无更多候选</div>';
                 }
 
                 document
-                    .getElementById("side-panel")
+                    .getElementById("extended-section")
                     .classList.toggle("active", isSideMode);
             }
 
@@ -591,7 +697,6 @@
                     isSideMode = false;
                     currentSidePage = 0;
                     update();
-                    scrollOutput();
                 }
             }
 
@@ -601,180 +706,284 @@
                 document.getElementById("hidden-input").focus();
             }
 
+            function toggleSidePanel() {
+                sideVisible = !sideVisible;
+                if (!sideVisible) isSideMode = false;
+                updatePanelVisibility();
+                render();
+            }
+
+            function toggleHistoryPanel() {
+                historyVisible = !historyVisible;
+                updatePanelVisibility();
+            }
+
+            function closeAllPanels() {
+                historyVisible = false;
+                updatePanelVisibility();
+            }
+
+            function updatePanelVisibility() {
+                const extendedSection =
+                    document.getElementById("extended-section");
+                const historyPanel = document.getElementById("history-panel");
+                const toggleSideBtn = document.getElementById("toggle-side");
+                const toggleHistoryBtn =
+                    document.getElementById("toggle-history");
+                const overlay = document.getElementById("overlay");
+                const contentArea = document.getElementById("content-area");
+
+                extendedSection.classList.toggle("visible", sideVisible);
+
+                if (window.innerWidth > 767) {
+                    historyPanel.style.display = historyVisible
+                        ? "flex"
+                        : "none";
+                    overlay.classList.remove("visible");
+                    contentArea.classList.remove("has-side-open");
+                } else {
+                    historyPanel.classList.toggle("visible", historyVisible);
+                    overlay.classList.toggle("visible", historyVisible);
+                    contentArea.classList.toggle(
+                        "has-side-open",
+                        historyVisible,
+                    );
+                }
+
+                toggleSideBtn.textContent = `扩展候选：${sideVisible ? "显示" : "隐藏"}`;
+                toggleSideBtn.classList.toggle("active", sideVisible);
+                toggleHistoryBtn.textContent = `存档记录：${historyVisible ? "显示" : "隐藏"}`;
+                toggleHistoryBtn.classList.toggle("active", historyVisible);
+            }
+
+            window.addEventListener("resize", updatePanelVisibility);
+
             document
                 .getElementById("hidden-input")
                 .addEventListener("keydown", (e) => {
-                    const key = e.key;
-
-                    if (e.shiftKey) {
-                        if (SYMBOLS[key]) {
-                            committed += SYMBOLS[key];
-                            update();
-                            e.preventDefault();
-                            return;
-                        }
-                        if (key.length === 1) {
-                            committed += key;
-                            update();
-                            e.preventDefault();
-                            return;
-                        }
+                    if (
+                        (e.ctrlKey || e.metaKey) &&
+                        e.key.toLowerCase() === "c"
+                    ) {
+                        archiveAndCopy();
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return;
                     }
 
-                    if (key === "Tab") {
+                    const key = e.key;
+
+                    if (e.shiftKey && SYMBOLS[key]) {
+                        committed += SYMBOLS[key];
+                        update();
+                        e.preventDefault();
+                        return;
+                    }
+
+                    if (key === "Tab" && sideVisible) {
                         isSideMode = !isSideMode;
                         render();
                         e.preventDefault();
                         return;
                     }
 
-                    if (isSideMode) {
-                        if (key === "-") {
-                            if (currentSidePage > 0) {
-                                currentSidePage--;
-                                render();
-                            }
+                    if (isSideMode && sideVisible) {
+                        if (key === "-" && currentSidePage > 0) {
+                            currentSidePage--;
+                            render();
                             e.preventDefault();
                             return;
                         }
                         if (key === "=") {
-                            const sideItemsAll = combinedCandidates.slice(10);
                             const totalPages = Math.ceil(
-                                sideItemsAll.length / CANDIDATES_PER_PAGE,
+                                combinedCandidates.slice(10).length /
+                                    CANDIDATES_PER_PAGE,
                             );
-                            if (currentSidePage < totalPages - 1) {
+                            if (currentSidePage < totalPages - 1)
                                 currentSidePage++;
-                                render();
-                            }
+                            render();
                             e.preventDefault();
                             return;
                         }
                     }
 
-                    if (buffer) {
-                        if (/^[0-9]$/.test(key)) {
-                            let targetIdx = isSideMode
+                    if (buffer && /^[0-9]$/.test(key)) {
+                        const targetIdx =
+                            isSideMode && sideVisible
                                 ? key === "0"
                                     ? 19
                                     : parseInt(key) + 9
                                 : key === "0"
                                   ? 9
                                   : parseInt(key) - 1;
-                            if (combinedCandidates[targetIdx]) {
-                                selectIdx(targetIdx);
+                        if (combinedCandidates[targetIdx]) {
+                            selectIdx(targetIdx);
+                            e.preventDefault();
+                        }
+                        return;
+                    }
+
+                    if (isSideMode && sideVisible) {
+                        const sideIdx = SIDE_KEYS.indexOf(key.toLowerCase());
+                        if (sideIdx !== -1) {
+                            const globalIdx =
+                                currentSidePage * CANDIDATES_PER_PAGE +
+                                sideIdx +
+                                10;
+                            if (combinedCandidates[globalIdx]) {
+                                selectIdx(globalIdx);
                                 e.preventDefault();
-                                return;
                             }
                         }
+                    }
 
-                        if (isSideMode) {
-                            const sideIdx = SIDE_KEYS.indexOf(
-                                key.toLowerCase(),
-                            );
-                            if (sideIdx !== -1) {
-                                const globalIdx =
-                                    currentSidePage * CANDIDATES_PER_PAGE +
-                                    sideIdx +
-                                    10;
-                                if (combinedCandidates[globalIdx]) {
-                                    selectIdx(globalIdx);
-                                    e.preventDefault();
-                                    return;
-                                }
-                            }
-                        }
-
-                        if (key === "Backspace") {
-                            buffer = buffer.slice(0, -1);
-                            update();
-                            e.preventDefault();
-                            return;
-                        }
-                        if (key === " ") {
-                            selectIdx(0);
-                            e.preventDefault();
-                            return;
-                        }
-                        if (key === "Enter") {
-                            committed += buffer;
-                            buffer = "";
-                            update();
-                            e.preventDefault();
-                            return;
-                        }
+                    if (key === "Backspace") {
+                        if (buffer) buffer = buffer.slice(0, -1);
+                        else if (committed) committed = committed.slice(0, -1);
+                        update();
+                        e.preventDefault();
+                        return;
                     }
 
                     if (key === " ") {
-                        committed += " ";
+                        if (buffer) selectIdx(0);
+                        else committed += " ";
                         update();
                         e.preventDefault();
                         return;
                     }
-                    if (key === "Backspace" && !buffer) {
-                        committed = committed.slice(0, -1);
+
+                    if (key === "Enter") {
+                        if (buffer) {
+                            committed += buffer;
+                            buffer = "";
+                        } else committed += "\n";
                         update();
                         e.preventDefault();
                         return;
                     }
-                    if (key === "Enter" && !buffer) {
-                        committed += "\n";
-                        update();
-                        e.preventDefault();
-                        return;
-                    }
+
                     if (/^[a-z]$/i.test(key)) {
                         buffer += key.toLowerCase();
                         update();
                         e.preventDefault();
-                    } else if (key.length === 1 && !buffer) {
-                        committed += key;
-                        update();
-                        e.preventDefault();
+                        return;
                     }
 
-                    if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "c") {
-                        archiveAndCopy();
+                    if (key.length === 1 && !buffer) {
+                        committed += key;
+                        update();
                         e.preventDefault();
                     }
                 });
 
             async function archiveAndCopy() {
                 if (!committed) return;
-                await navigator.clipboard.writeText(committed);
-                HISTORY.unshift({
-                    text: committed,
-                    time: new Date().toLocaleTimeString(),
-                });
-                committed = "";
-                localStorage.setItem("ime_flow_v8", JSON.stringify(HISTORY));
-                update();
-                updateHistoryUI();
-                showToast("归档成功");
+                try {
+                    await navigator.clipboard.writeText(committed);
+                    HISTORY.unshift({
+                        text: committed,
+                        time: new Date().toLocaleTimeString(),
+                    });
+                    committed = "";
+                    localStorage.setItem(
+                        "ime_flow_v8",
+                        JSON.stringify(HISTORY),
+                    );
+                    update();
+                    updateHistoryUI();
+                    showToast("归档成功，已复制到剪贴板");
+                } catch (err) {
+                    showToast("复制失败（权限或HTTPS问题）");
+                    console.error(err);
+                }
             }
 
+            /* ==================== 优化后的存档记录功能 ==================== */
             function updateHistoryUI() {
-                document.getElementById("history-list").innerHTML = HISTORY.map(
-                    (h) =>
-                        `<div class="history-item"><div>${h.text}</div></div>`,
+                const list = document.getElementById("history-list");
+                list.innerHTML = HISTORY.map(
+                    (h, index) => `
+                    <div class="history-item" data-index="${index}">
+                        <div class="history-text">${h.text}</div>
+                        <small style="opacity:0.5;">${h.time}</small>
+                        <span class="copy-hint">点击复制</span>
+                    </div>
+                `,
                 ).join("");
+
+                // 添加点击（复制）和双击（恢复）事件
+                list.querySelectorAll(".history-item").forEach((item) => {
+                    // 点击：复制到剪贴板（仅单次点击）
+                    item.onclick = function (e) {
+                        if (e.detail === 1) {
+                            // 只处理单击
+                            const text =
+                                this.querySelector(".history-text").innerText;
+                            navigator.clipboard
+                                .writeText(text)
+                                .then(() => {
+                                    const hint =
+                                        this.querySelector(".copy-hint");
+                                    hint.style.opacity = "1";
+                                    showToast("已复制到剪贴板");
+                                    setTimeout(
+                                        () => (hint.style.opacity = "0"),
+                                        1500,
+                                    );
+                                })
+                                .catch(() => {
+                                    showToast("复制失败");
+                                });
+                        }
+                    };
+
+                    // 双击：恢复到文字区继续编辑
+                    item.ondblclick = function () {
+                        const index = parseInt(this.dataset.index);
+                        restoreHistory(index);
+                    };
+                });
             }
+
+            window.restoreHistory = function (index) {
+                const entry = HISTORY[index];
+                if (!entry) return;
+
+                committed = entry.text;
+                buffer = "";
+                isSideMode = false;
+                currentSidePage = 0;
+
+                update();
+                scrollOutput();
+                showToast("已恢复到文字区（可继续编辑）");
+            };
 
             window.clearHistory = () => {
-                HISTORY = [];
-                localStorage.removeItem("ime_flow_v8");
-                updateHistoryUI();
+                if (confirm("确定清空所有存档记录？")) {
+                    HISTORY = [];
+                    localStorage.removeItem("ime_flow_v8");
+                    updateHistoryUI();
+                    showToast("已清空");
+                }
             };
+            /* ============================================================= */
 
             function showToast(msg) {
                 const t = document.getElementById("toast");
                 t.innerText = msg;
                 t.style.opacity = 1;
-                setTimeout(() => (t.style.opacity = 0), 1500);
+                setTimeout(() => (t.style.opacity = 0), 2000);
             }
 
-            init();
-            window.onload = () =>
+            init().then(() => {
+                updatePanelVisibility();
+            });
+
+            window.onload = () => {
                 document.getElementById("hidden-input").focus();
+            };
         </script>
     </body>
 </html>
