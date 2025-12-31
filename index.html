@@ -3,13 +3,17 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Web IME Pro | 搜索增强修复版</title>
+        <title>Web IME Pro | 联想增强版</title>
         <style>
             :root {
                 --primary: #007aff;
                 --bg: #f2f2f7;
                 --panel-bg: #ffffff;
                 --text-main: #1d1d1f;
+                --item-bg: #f9f9f9;
+                --item-border: #eee;
+                --baidu-color: #de0f17;
+                --google-color: #4285f4;
             }
             body {
                 font-family:
@@ -29,7 +33,7 @@
                 flex-direction: column;
                 gap: 15px;
                 width: 100%;
-                max-width: 1500px;
+                max-width: 1900px;
                 height: 96vh;
             }
             .toolbar {
@@ -50,6 +54,7 @@
                 font-weight: 600;
                 font-size: 13px;
                 transition: 0.2s;
+                user-select: none;
             }
             .btn-primary {
                 background: #222;
@@ -63,21 +68,20 @@
                 background: var(--primary);
                 color: white;
             }
-            .btn-export {
-                background: #28a745;
+            .btn-send {
+                background: #5856d6;
                 color: white;
             }
-            .btn-import {
-                background: #ffc107;
-                color: #212529;
-            }
-            .btn-baidu {
-                background: #de0f17;
+            .btn-search {
                 color: white;
+                min-width: 110px;
+                transition: 0.3s;
             }
-            .btn-google {
-                background: #4285f4;
-                color: white;
+            .btn-search.baidu {
+                background: var(--baidu-color);
+            }
+            .btn-search.google {
+                background: var(--google-color);
             }
 
             .content-area {
@@ -86,181 +90,10 @@
                 gap: 15px;
                 min-height: 0;
                 position: relative;
-            }
-            .center-container {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
+                justify-content: center; /* 确保中间内容在两侧面板关掉时居中 */
             }
 
-            .output-card {
-                position: relative;
-                background: white;
-                padding: 25px;
-                border-radius: 20px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                height: 15%;
-                min-height: 120px;
-                max-height: 300px;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-            }
-            #output-area {
-                flex: 1;
-                font-size: 26px;
-                line-height: 1.5;
-                outline: none;
-                word-break: break-all;
-                white-space: pre-wrap;
-                overflow-y: auto;
-                color: var(--text-main);
-            }
-            .cursor {
-                display: inline-block;
-                width: 2.5px;
-                height: 30px;
-                background: var(--primary);
-                margin-left: 2px;
-                vertical-align: middle;
-                animation: blink 1s infinite;
-            }
-            @keyframes blink {
-                0%,
-                100% {
-                    opacity: 1;
-                }
-                50% {
-                    opacity: 0;
-                }
-            }
-
-            .action-btns {
-                position: absolute;
-                right: 20px;
-                bottom: 20px;
-                z-index: 10;
-                display: flex;
-                gap: 8px;
-            }
-
-            .input-card {
-                background: white;
-                padding: 20px;
-                border-radius: 20px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                flex: 1;
-                min-height: 0;
-                display: flex;
-                flex-direction: column;
-            }
-            #buffer-display {
-                font-size: 18px;
-                color: var(--primary);
-                font-weight: bold;
-                min-height: 28px;
-                margin: 10px 0 15px 0;
-                display: flex;
-                align-items: center;
-                border-bottom: 2px solid #f0f0f0;
-            }
-            #main-candidates {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                min-height: 50px;
-                margin-bottom: 12px;
-            }
-            .main-item {
-                padding: 10px 16px;
-                background: #f9f9f9;
-                border-radius: 10px;
-                cursor: pointer;
-                font-size: 20px;
-                border: 1px solid #eee;
-                transition: 0.1s;
-                min-width: 60px;
-                text-align: center;
-            }
-            .main-item:hover {
-                background: #f0f0f0;
-                transform: translateY(-1px);
-            }
-            .main-item.is-pred {
-                border: 1px dashed var(--primary);
-                color: var(--primary);
-            }
-
-            #extended-section {
-                display: none;
-                flex-direction: column;
-                margin-top: 15px;
-                border-radius: 16px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-                overflow: hidden;
-                border: 2px solid transparent;
-                transition: 0.3s;
-                flex: 1;
-                min-height: 0;
-            }
-            #extended-section.visible {
-                display: flex;
-            }
-            #extended-section.active {
-                border-color: var(--primary);
-                background: #f0f7ff;
-            }
-
-            .panel-header {
-                padding: 10px 15px;
-                background: #f8f9fa;
-                font-size: 12px;
-                font-weight: bold;
-                border-bottom: 1px solid #eee;
-                display: flex;
-                justify-content: space-between;
-            }
-            #side-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-                gap: 8px;
-                padding: 15px;
-                overflow-y: auto;
-                background: #f9fbff;
-                flex: 1;
-                min-height: 0;
-            }
-            .grid-item {
-                background: #fff;
-                border: 1px solid #eee;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                font-size: 16px;
-                position: relative;
-                min-height: 45px;
-                padding: 4px;
-                box-sizing: border-box;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-            .grid-item:hover {
-                background: #f5f5ff;
-                transform: translateY(-1px);
-            }
-            .grid-key {
-                font-family: monospace;
-                font-size: 10px;
-                color: #bbb;
-                position: absolute;
-                top: 2px;
-                left: 4px;
-            }
-
+            /* 历史记录面板 */
             .history-panel {
                 flex: 0 0 280px;
                 background: #fff;
@@ -282,14 +115,9 @@
                 cursor: pointer;
                 border-radius: 8px;
                 margin-bottom: 5px;
-                transition: background 0.2s;
-            }
-            .history-item:hover {
-                background: #f9f9f9;
             }
             .history-text {
                 word-break: break-all;
-                margin-bottom: 4px;
                 font-size: 14px;
                 line-height: 1.4;
             }
@@ -298,7 +126,210 @@
                 font-size: 10px;
                 color: var(--primary);
                 opacity: 0;
-                transition: opacity 0.2s;
+            }
+            .history-item:hover .copy-hint {
+                opacity: 0.6;
+            }
+
+            .history-footer {
+                margin-top: 10px;
+                padding-top: 10px;
+                border-top: 1px solid #eee;
+                display: flex;
+                gap: 5px;
+            }
+            .btn-small {
+                padding: 5px;
+                font-size: 11px;
+                flex: 1;
+            }
+
+            /* 中间主容器：优化后的宽度控制 */
+            .center-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                min-width: 300px;
+                max-width: 900px; /* 限制最大宽度，防止满屏过宽 */
+                margin: 0 auto; /* 居中平衡 */
+            }
+
+            .output-card {
+                position: relative;
+                background: white;
+                padding: 25px;
+                border-radius: 20px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+                height: 150px;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                border: 2px solid transparent;
+            }
+            .output-card.is-focused {
+                border-color: rgba(0, 122, 255, 0.1);
+            }
+            #output-area {
+                flex: 1;
+                font-size: 26px;
+                line-height: 1.5;
+                word-break: break-all;
+                white-space: pre-wrap;
+                overflow-y: auto;
+                color: var(--text-main);
+            }
+
+            .cursor {
+                display: none;
+                width: 2.5px;
+                height: 30px;
+                background: var(--primary);
+                margin-left: 2px;
+                vertical-align: middle;
+            }
+            .output-card.is-focused .cursor {
+                display: inline-block;
+                animation: blink 1s infinite;
+            }
+            @keyframes blink {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0;
+                }
+            }
+
+            .action-btns {
+                position: absolute;
+                right: 20px;
+                bottom: 15px;
+                z-index: 10;
+                display: flex;
+                gap: 8px;
+            }
+
+            .input-card {
+                background: white;
+                padding: 20px; /* 增加一点内边距更透气 */
+                border-radius: 20px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+                flex: 1;
+                min-height: 0;
+                display: flex;
+                flex-direction: column;
+            }
+            #buffer-display {
+                font-size: 18px;
+                color: var(--primary);
+                font-weight: bold;
+                min-height: 28px;
+                margin-bottom: 10px;
+                border-bottom: 2px solid #f0f0f0;
+            }
+            #main-candidates {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                margin-bottom: 10px;
+            }
+
+            .candidate-item {
+                position: relative;
+                padding: 12px 12px 6px 12px;
+                background: var(--item-bg);
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 18px;
+                border: 1px solid var(--item-border);
+                transition: 0.1s;
+                min-width: 30px;
+                text-align: center;
+            }
+            .candidate-item:hover {
+                background: #f0f0f0;
+                transform: translateY(-1px);
+            }
+            .candidate-item.is-pred {
+                border: 1px dashed var(--primary);
+                color: var(--primary);
+            }
+
+            .cand-key {
+                position: absolute;
+                top: 2px;
+                left: 5px;
+                font-size: 10px;
+                opacity: 0.4;
+                font-family: Monaco, monospace;
+            }
+
+            #extended-section {
+                display: none;
+                flex-direction: column;
+                flex: 1;
+                min-height: 0;
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+            }
+            #extended-section.visible {
+                display: flex;
+            }
+            #extended-section.active {
+                border: 2px solid var(--primary);
+                border-radius: 16px;
+                padding: 10px;
+                margin-top: 5px;
+                background: #fafcff;
+            }
+            #side-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                gap: 5px;
+                overflow-y: auto;
+            }
+
+            /* 长文面板 */
+            .long-text-panel {
+                flex: 0 0 300px;
+                background: white;
+                border-radius: 20px;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+                overflow: hidden;
+            }
+            .long-text-panel.hidden {
+                display: none;
+            }
+            .long-text-header {
+                padding: 12px 15px;
+                background: #f8f9fa;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            #long-text-editor {
+                flex: 1;
+                padding: 18px;
+                font-size: 17px;
+                line-height: 1.7;
+                border: none;
+                outline: none;
+                resize: none;
+                background: #fafafa;
+                pointer-events: none;
+                user-select: none;
+            }
+            #long-text-editor.editable {
+                pointer-events: auto;
+                user-select: text;
+                background: white;
             }
 
             #hidden-input {
@@ -318,47 +349,6 @@
                 opacity: 0;
                 transition: 0.3s;
                 z-index: 999;
-                font-size: 14px;
-            }
-            @media (max-width: 1024px) {
-                .history-panel {
-                    display: none;
-                }
-            }
-            @media (max-width: 767px) {
-                .history-panel {
-                    position: fixed;
-                    right: -100%;
-                    top: 0;
-                    height: 100vh;
-                    width: 80vw;
-                    max-width: 350px;
-                    z-index: 100;
-                    transition: right 0.3s ease;
-                    border-radius: 0;
-                }
-                .history-panel.visible {
-                    right: 0;
-                }
-                .content-area.has-side-open {
-                    filter: blur(5px);
-                    pointer-events: none;
-                }
-                .output-card {
-                    height: 20%;
-                    min-height: 120px;
-                    font-size: 22px;
-                }
-            }
-            #overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.4);
-                z-index: 99;
-            }
-            #overlay.visible {
-                display: block;
             }
         </style>
     </head>
@@ -371,54 +361,43 @@
                         class="btn btn-toggle"
                         onclick="toggleRare()"
                     >
-                        生僻词：关闭
+                        生僻词
                     </button>
                     <button
                         id="english-toggle"
                         class="btn btn-toggle"
                         onclick="toggleEnglish()"
                     >
-                        英文支持：关闭
+                        英文支持
                     </button>
                     <button
                         id="cizu-toggle"
                         class="btn btn-toggle"
                         onclick="toggleCizu()"
                     >
-                        词组补全：关闭
+                        词组补全
                     </button>
                     <button
                         id="toggle-side"
                         class="btn btn-toggle"
                         onclick="toggleSidePanel()"
                     >
-                        扩展候选：显示
+                        扩展区
                     </button>
                     <button
                         id="toggle-history"
                         class="btn btn-toggle"
                         onclick="toggleHistoryPanel()"
                     >
-                        存档记录：隐藏
-                    </button>
-                    <button class="btn btn-export" onclick="exportHistory()">
-                        导出存档
+                        存档记录
                     </button>
                     <button
-                        class="btn btn-import"
-                        onclick="
-                            document.getElementById('import-input').click()
-                        "
+                        id="toggle-longtext"
+                        class="btn btn-toggle"
+                        onclick="toggleLongTextPanel()"
                     >
-                        导入存档
+                        长文编辑
                     </button>
-                    <input
-                        type="file"
-                        id="import-input"
-                        accept=".json"
-                        style="display: none"
-                        onchange="importHistory(event)"
-                    />
                 </div>
                 <div
                     style="
@@ -428,72 +407,11 @@
                         color: #888;
                     "
                 >
-                    <b>支持 Ctrl+B (百度) | Ctrl+G (Google)</b>
+                    Ctrl+Enter 发送长文 | Ctrl+C 归档
                 </div>
             </div>
-            <div class="content-area" id="content-area">
-                <div
-                    class="center-container"
-                    onclick="document.getElementById('hidden-input').focus()"
-                >
-                    <div class="output-card">
-                        <div id="output-area">
-                            <span style="color: #ccc; font-size: 22px"
-                                >已上屏文字将显示在这里...</span
-                            >
-                        </div>
-                        <div class="action-btns">
-                            <button
-                                class="btn btn-baidu"
-                                onclick="searchBaidu()"
-                            >
-                                百度
-                            </button>
-                            <button
-                                class="btn btn-google"
-                                onclick="searchGoogle()"
-                            >
-                                Google
-                            </button>
-                            <button
-                                id="archive-btn"
-                                class="btn btn-primary"
-                                onclick="archiveAndCopy()"
-                            >
-                                归档并复制 (Ctrl+C)
-                            </button>
-                        </div>
-                    </div>
 
-                    <div class="input-card">
-                        <div id="buffer-display">
-                            <span
-                                style="
-                                    color: #ccc;
-                                    font-weight: normal;
-                                    font-size: 14px;
-                                "
-                                >等待输入...</span
-                            >
-                        </div>
-                        <div id="main-candidates"></div>
-                        <div id="extended-section">
-                            <div class="panel-header">
-                                <span>扩展候选 (Tab 键切换模式)</span>
-                                <span id="side-status" style="opacity: 0.5"
-                                    >NORMAL</span
-                                >
-                            </div>
-                            <div id="side-grid"></div>
-                        </div>
-                        <input
-                            type="text"
-                            id="hidden-input"
-                            autocomplete="off"
-                        />
-                    </div>
-                </div>
-
+            <div class="content-area">
                 <div class="history-panel" id="history-panel">
                     <div
                         style="
@@ -509,15 +427,133 @@
                             onclick="clearHistory()"
                             style="
                                 font-size: 10px;
-                                color: #ff3b30;
+                                color: red;
                                 text-decoration: none;
                             "
                             >清空</a
                         >
                     </div>
                     <div class="history-list" id="history-list"></div>
+
+                    <div class="history-footer">
+                        <button
+                            class="btn btn-toggle btn-small"
+                            onclick="exportHistory()"
+                        >
+                            导出记录
+                        </button>
+                        <button
+                            class="btn btn-toggle btn-small"
+                            onclick="
+                                document.getElementById('import-input').click()
+                            "
+                        >
+                            导入记录
+                        </button>
+                        <input
+                            type="file"
+                            id="import-input"
+                            accept=".json"
+                            style="display: none"
+                            onchange="importHistory(event)"
+                        />
+                    </div>
                 </div>
-                <div id="overlay" onclick="closeAllPanels()"></div>
+
+                <div class="center-container" onclick="focusHiddenInput()">
+                    <div class="output-card" id="output-card">
+                        <div id="output-area"></div>
+                        <div class="action-btns">
+                            <button
+                                id="search-btn"
+                                class="btn btn-search baidu"
+                            >
+                                百度 (长按切换)
+                            </button>
+                            <button
+                                class="btn btn-send"
+                                onclick="sendToLongText()"
+                            >
+                                发送长文 (Ctrl+Enter)
+                            </button>
+                            <button
+                                class="btn btn-primary"
+                                onclick="archiveAndCopy()"
+                            >
+                                归档 (Ctrl+C)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-card">
+                        <div id="buffer-display"></div>
+                        <div id="main-candidates"></div>
+                        <div id="extended-section">
+                            <div
+                                style="
+                                    padding: 0 0 10px 5px;
+                                    font-size: 12px;
+                                    opacity: 0.6;
+                                "
+                            >
+                                扩展候选 (Tab 键翻页)
+                                <span id="side-status"></span>
+                            </div>
+                            <div id="side-grid"></div>
+                        </div>
+                        <input
+                            type="text"
+                            id="hidden-input"
+                            autocomplete="off"
+                        />
+                    </div>
+                </div>
+
+                <div class="long-text-panel" id="long-text-panel">
+                    <div class="long-text-header">
+                        <span>长文编辑区</span>
+                        <button
+                            id="edit-mode-btn"
+                            class="btn btn-toggle"
+                            style="padding: 4px 8px; font-size: 11px"
+                            onclick="toggleLongTextEdit()"
+                        >
+                            编辑/锁定
+                        </button>
+                    </div>
+                    <textarea
+                        id="long-text-editor"
+                        placeholder="在此累积句子..."
+                    ></textarea>
+                    <div
+                        style="
+                            padding: 10px;
+                            border-top: 1px solid #eee;
+                            display: flex;
+                            gap: 5px;
+                        "
+                    >
+                        <button
+                            class="btn"
+                            style="flex: 1; font-size: 11px"
+                            onclick="copyLongText()"
+                        >
+                            全选复制
+                        </button>
+                        <button
+                            class="btn"
+                            style="flex: 1; font-size: 11px; color: red"
+                            onclick="
+                                if (confirm('清空？'))
+                                    document.getElementById(
+                                        'long-text-editor',
+                                    ).value = '';
+                            "
+                        >
+                            清空
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="toast">已就绪</div>
@@ -530,107 +566,129 @@
                 CIZU_DICT = {};
             let buffer = "",
                 committed = "",
-                isSideMode = false;
-            let combinedCandidates = [];
-            let HISTORY = JSON.parse(
-                localStorage.getItem("ime_flow_v8") || "[]",
-            );
+                isSideMode = false,
+                currentSidePage = 0;
+            let combinedCandidates = [],
+                HISTORY = JSON.parse(
+                    localStorage.getItem("ime_flow_v9") || "[]",
+                );
 
             let rareEnabled = localStorage.getItem("rare_enabled") === "true";
             let englishEnabled =
                 localStorage.getItem("english_enabled") === "true";
             let cizuEnabled = localStorage.getItem("cizu_enabled") === "true";
 
-            let sideVisible = true;
-            let historyVisible = true;
+            let sideVisible = localStorage.getItem("side_visible") !== "false";
+            let historyVisible =
+                localStorage.getItem("history_visible") !== "false";
+            let longTextVisible =
+                localStorage.getItem("longtext_visible") !== "false";
+            let isLongTextEditable = false;
+
+            let currentSearchEngine =
+                localStorage.getItem("search_engine") || "baidu";
+            let searchTimer,
+                isLongPress = false;
 
             const SIDE_KEYS = "123456789abcdefghijklmnopqrstuvwxyz".split("");
-            const SYMBOLS = {
-                1: "，",
-                2: "。",
-                3: "？",
-                4: "！",
-                5: "“",
-                6: "”",
-                7: "：",
-                8: "；",
-                9: "…",
-            };
-            let currentSidePage = 0;
             const CANDIDATES_PER_PAGE = 35;
+
+            const hInput = document.getElementById("hidden-input");
+            const oCard = document.getElementById("output-card");
+            hInput.addEventListener("focus", () =>
+                oCard.classList.add("is-focused"),
+            );
+            hInput.addEventListener("blur", () =>
+                oCard.classList.remove("is-focused"),
+            );
+
+            const searchBtn = document.getElementById("search-btn");
+            function updateSearchBtnUI() {
+                searchBtn.innerText =
+                    currentSearchEngine === "google"
+                        ? "Google (长按切换)"
+                        : "百度 (长按切换)";
+                searchBtn.className = `btn btn-search ${currentSearchEngine}`;
+            }
+            updateSearchBtnUI();
+
+            searchBtn.addEventListener("mousedown", () => {
+                isLongPress = false;
+                searchTimer = setTimeout(() => {
+                    currentSearchEngine =
+                        currentSearchEngine === "baidu" ? "google" : "baidu";
+                    localStorage.setItem("search_engine", currentSearchEngine);
+                    updateSearchBtnUI();
+                    showToast(
+                        `已切换至 ${currentSearchEngine === "baidu" ? "百度" : "Google"}`,
+                    );
+                    isLongPress = true;
+                }, 600);
+            });
+            searchBtn.addEventListener("mouseup", () => {
+                clearTimeout(searchTimer);
+                if (!isLongPress) executeSearch();
+            });
+
+            function executeSearch() {
+                if (!committed) {
+                    showToast("内容为空");
+                    return;
+                }
+                const url =
+                    currentSearchEngine === "baidu"
+                        ? `https://www.baidu.com/s?wd=${encodeURIComponent(committed)}`
+                        : `https://www.google.com/search?q=${encodeURIComponent(committed)}`;
+                window.open(url);
+                archiveToHistory(committed);
+                committed = "";
+                update();
+            }
 
             async function init() {
                 try {
                     const promises = [fetch("dict.json").then((r) => r.json())];
-                    if (englishEnabled)
-                        promises.push(
-                            fetch("en_dict.json").then((r) => r.json()),
-                        );
-                    else promises.push(Promise.resolve({}));
-                    if (cizuEnabled)
-                        promises.push(
-                            fetch("cizu_dict.json").then((r) => r.json()),
-                        );
-                    else promises.push(Promise.resolve({}));
+                    promises.push(
+                        englishEnabled
+                            ? fetch("en_dict.json").then((r) => r.json())
+                            : Promise.resolve({}),
+                    );
+                    promises.push(
+                        cizuEnabled
+                            ? fetch("cizu_dict.json").then((r) => r.json())
+                            : Promise.resolve({}),
+                    );
                     if (rareEnabled) {
                         promises.push(
                             fetch("level-2.json").then((r) => r.json()),
-                        );
-                        promises.push(
                             fetch("level-3.json").then((r) => r.json()),
                         );
                     } else {
-                        promises.push(Promise.resolve(null));
-                        promises.push(Promise.resolve(null));
+                        promises.push(
+                            Promise.resolve(null),
+                            Promise.resolve(null),
+                        );
                     }
-
-                    const [d1, enDict, cizuDict, l2, l3] =
-                        await Promise.all(promises);
+                    const [d1, en, cz, l2, l3] = await Promise.all(promises);
                     DICT = d1;
-                    EN_DICT = enDict;
-                    CIZU_DICT = cizuDict;
+                    EN_DICT = en;
+                    CIZU_DICT = cz;
                     LEVEL2 = l2;
                     LEVEL3 = l3;
+
+                    document.getElementById("history-panel").style.display =
+                        historyVisible ? "flex" : "none";
+                    document
+                        .getElementById("long-text-panel")
+                        .classList.toggle("hidden", !longTextVisible);
+
                     updateAllToggleButtons();
                     updateHistoryUI();
                     update();
                 } catch (e) {
-                    console.error("词库加载失败", e);
-                    showToast("部分词库加载失败");
+                    showToast("词库加载失败");
                 }
             }
-
-            function updateAllToggleButtons() {
-                updateToggleButton("rare-toggle", rareEnabled, "生僻词");
-                updateToggleButton(
-                    "english-toggle",
-                    englishEnabled,
-                    "英文支持",
-                );
-                updateToggleButton("cizu-toggle", cizuEnabled, "词组补全");
-            }
-
-            function updateToggleButton(id, enabled, label) {
-                const btn = document.getElementById(id);
-                btn.textContent = `${label}：${enabled ? "开启" : "关闭"}`;
-                btn.classList.toggle("active", enabled);
-            }
-
-            window.toggleRare = async function () {
-                rareEnabled = !rareEnabled;
-                localStorage.setItem("rare_enabled", rareEnabled);
-                await init();
-            };
-            window.toggleEnglish = async function () {
-                englishEnabled = !englishEnabled;
-                localStorage.setItem("english_enabled", englishEnabled);
-                await init();
-            };
-            window.toggleCizu = async function () {
-                cizuEnabled = !cizuEnabled;
-                localStorage.setItem("cizu_enabled", cizuEnabled);
-                await init();
-            };
 
             function update() {
                 const area = document.getElementById("output-area");
@@ -638,11 +696,7 @@
                 const cursor = document.createElement("span");
                 cursor.className = "cursor";
                 area.appendChild(cursor);
-
-                const bufDisp = document.getElementById("buffer-display");
-                bufDisp.innerHTML = buffer
-                    ? `<span>${buffer}</span>`
-                    : `<span style="color:#ccc; font-weight:normal; font-size:14px;">等待输入...</span>`;
+                document.getElementById("buffer-display").innerText = buffer;
 
                 let list = [];
                 if (buffer) {
@@ -653,11 +707,7 @@
                         );
                     if (cizuEnabled && CIZU_DICT[b])
                         CIZU_DICT[b].forEach((v) =>
-                            list.push({
-                                text: v,
-                                weight: 1250,
-                                type: "zh-cizu",
-                            }),
+                            list.push({ text: v, weight: 1250, type: "zh-cz" }),
                         );
                     if (rareEnabled && LEVEL2 && LEVEL2[b])
                         LEVEL2[b].forEach((v) =>
@@ -674,334 +724,344 @@
                         );
                     }
                     if (cizuEnabled) {
-                        for (let pinyin in CIZU_DICT) {
-                            if (pinyin.startsWith(b) && pinyin !== b) {
-                                CIZU_DICT[pinyin].forEach((hanzi) =>
+                        for (let p in CIZU_DICT) {
+                            if (p.startsWith(b) && p !== b) {
+                                CIZU_DICT[p].forEach((h) =>
                                     list.push({
-                                        text: hanzi,
-                                        weight: 1100 - pinyin.length * 10,
-                                        type: "cizu-pred",
+                                        text: h,
+                                        weight: 1100 - p.length * 10,
+                                        type: "cz-pred",
                                     }),
                                 );
                             }
                         }
                     }
                 }
-
                 const seen = new Set();
                 combinedCandidates = list
                     .sort((a, b) => b.weight - a.weight)
                     .filter((x) => !seen.has(x.text) && seen.add(x.text));
-                currentSidePage = 0;
                 render();
-                scrollOutput();
+                area.scrollTop = area.scrollHeight;
             }
 
             function render() {
-                const mainItems = combinedCandidates.slice(0, 10);
-                document.getElementById("main-candidates").innerHTML = mainItems
-                    .map((item, i) => {
-                        const keyDisplay = i === 9 ? "0" : i + 1;
-                        const isPred = item.type.endsWith("-pred");
-                        return `<div class="main-item ${isPred ? "is-pred" : ""}" onclick="selectIdx(${i})"><span style="font-size:10px;opacity:0.3;margin-right:4px;">${keyDisplay}</span>${item.text}</div>`;
-                    })
-                    .join("");
+                document.getElementById("main-candidates").innerHTML =
+                    combinedCandidates
+                        .slice(0, 10)
+                        .map(
+                            (item, i) => `
+                    <div class="candidate-item ${item.type && item.type.endsWith("-pred") ? "is-pred" : ""}" onclick="selectIdx(${i})">
+                        <span class="cand-key">${i === 9 ? 0 : i + 1}</span>
+                        <div class="cand-text">${item.text}</div>
+                    </div>
+                `,
+                        )
+                        .join("");
 
-                const sideGrid = document.getElementById("side-grid");
-                sideGrid.innerHTML = "";
-                const sideItemsAll = combinedCandidates.slice(10);
-                const totalPages = Math.ceil(
-                    sideItemsAll.length / CANDIDATES_PER_PAGE,
-                );
+                const sideAll = combinedCandidates.slice(10);
+                const totalP = Math.ceil(sideAll.length / CANDIDATES_PER_PAGE);
                 const start = currentSidePage * CANDIDATES_PER_PAGE;
-                const sideItems = sideItemsAll.slice(
+                const sideItems = sideAll.slice(
                     start,
                     start + CANDIDATES_PER_PAGE,
                 );
 
-                document.getElementById("side-status").textContent =
-                    sideItemsAll.length > 0
-                        ? `第 ${currentSidePage + 1}/${totalPages} 页 (-/= 翻页)`
-                        : "NORMAL";
+                document.getElementById("side-status").innerText =
+                    sideAll.length ? `(${currentSidePage + 1}/${totalP})` : "";
+                const grid = document.getElementById("side-grid");
+                grid.innerHTML = sideItems
+                    .map(
+                        (item, i) => `
+                    <div class="candidate-item ${item.type && item.type.endsWith("-pred") ? "is-pred" : ""}" onclick="selectIdx(${start + i + 10})">
+                        <span class="cand-key">${SIDE_KEYS[i].toUpperCase()}</span>
+                        <div class="cand-text">${item.text}</div>
+                    </div>
+                `,
+                    )
+                    .join("");
 
-                if (sideVisible && sideItems.length > 0) {
-                    sideItems.forEach((item, i) => {
-                        const globalIdx = start + i + 10;
-                        const keyLabel = SIDE_KEYS[i]
-                            ? SIDE_KEYS[i].toUpperCase()
-                            : "";
-                        const div = document.createElement("div");
-                        div.className = "grid-item";
-                        if (item.type.endsWith("-pred"))
-                            div.style.border = "1px dashed var(--primary)";
-                        div.onclick = () => selectIdx(globalIdx);
-                        div.innerHTML = `${keyLabel ? `<span class="grid-key">${keyLabel}</span>` : ""}${item.text}`;
-                        sideGrid.appendChild(div);
-                    });
-                }
+                document
+                    .getElementById("extended-section")
+                    .classList.toggle(
+                        "visible",
+                        sideVisible && combinedCandidates.length > 10,
+                    );
                 document
                     .getElementById("extended-section")
                     .classList.toggle("active", isSideMode);
             }
 
             function selectIdx(idx) {
-                const item = combinedCandidates[idx];
-                if (item) {
-                    committed += item.text;
+                if (combinedCandidates[idx]) {
+                    committed += combinedCandidates[idx].text;
                     buffer = "";
                     isSideMode = false;
+                    currentSidePage = 0;
                     update();
                 }
             }
 
-            function scrollOutput() {
-                const area = document.getElementById("output-area");
-                area.scrollTop = area.scrollHeight;
-                document.getElementById("hidden-input").focus();
-            }
-
-            window.searchBaidu = function () {
-                const text = committed.trim();
-                if (!text) return showToast("内容为空");
-                window.open(
-                    `https://www.baidu.com/s?wd=${encodeURIComponent(text)}`,
-                    "_blank",
-                );
+            window.toggleLongTextPanel = () => {
+                longTextVisible = !longTextVisible;
+                localStorage.setItem("longtext_visible", longTextVisible);
+                document
+                    .getElementById("long-text-panel")
+                    .classList.toggle("hidden", !longTextVisible);
+                document
+                    .getElementById("toggle-longtext")
+                    .classList.toggle("active", longTextVisible);
             };
 
-            window.searchGoogle = function () {
-                const text = committed.trim();
-                if (!text) return showToast("内容为空");
-                window.open(
-                    `https://www.google.com/search?q=${encodeURIComponent(text)}`,
-                    "_blank",
-                );
+            window.toggleLongTextEdit = () => {
+                isLongTextEditable = !isLongTextEditable;
+                const editor = document.getElementById("long-text-editor");
+                editor.classList.toggle("editable", isLongTextEditable);
+                document
+                    .getElementById("edit-mode-btn")
+                    .classList.toggle("active", isLongTextEditable);
+                if (isLongTextEditable) editor.focus();
+                else focusHiddenInput();
             };
 
-            function toggleSidePanel() {
-                sideVisible = !sideVisible;
-                if (!sideVisible) isSideMode = false;
-                updatePanelVisibility();
-                render();
-            }
-            function toggleHistoryPanel() {
-                historyVisible = !historyVisible;
-                updatePanelVisibility();
-            }
-            function closeAllPanels() {
-                historyVisible = false;
-                updatePanelVisibility();
-            }
+            window.copyLongText = () => {
+                const editor = document.getElementById("long-text-editor");
+                editor.select();
+                document.execCommand("copy");
+                showToast("全选复制成功");
+            };
 
-            function updatePanelVisibility() {
-                const extendedSection =
-                    document.getElementById("extended-section");
-                const historyPanel = document.getElementById("history-panel");
-                const toggleSideBtn = document.getElementById("toggle-side");
-                const toggleHistoryBtn =
-                    document.getElementById("toggle-history");
-                extendedSection.classList.toggle("visible", sideVisible);
-                if (window.innerWidth > 767) {
-                    historyPanel.style.display = historyVisible
-                        ? "flex"
-                        : "none";
-                } else {
-                    historyPanel.classList.toggle("visible", historyVisible);
-                    document
-                        .getElementById("overlay")
-                        .classList.toggle("visible", historyVisible);
+            window.sendToLongText = () => {
+                if (!committed) return;
+                const editor = document.getElementById("long-text-editor");
+                editor.value += (editor.value ? "\n" : "") + committed;
+                committed = "";
+                update();
+                showToast("已发送到长文");
+            };
+
+            hInput.addEventListener("keydown", (e) => {
+                const key = e.key;
+                if ((e.ctrlKey || e.metaKey) && key === "Enter") {
+                    e.preventDefault();
+                    sendToLongText();
+                    return;
                 }
-                toggleSideBtn.classList.toggle("active", sideVisible);
-                toggleHistoryBtn.classList.toggle("active", historyVisible);
-            }
+                if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "c") {
+                    e.preventDefault();
+                    archiveAndCopy();
+                    return;
+                }
+                if (key === "Tab") {
+                    e.preventDefault();
+                    isSideMode = !isSideMode;
+                    render();
+                    return;
+                }
 
-            document
-                .getElementById("hidden-input")
-                .addEventListener("keydown", (e) => {
-                    const key = e.key;
-
-                    // 1. 快捷键逻辑
-                    if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "b") {
-                        searchBaidu();
-                        e.preventDefault();
-                        return;
-                    }
-                    if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "g") {
-                        searchGoogle();
-                        e.preventDefault();
-                        return;
-                    }
-                    if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "c") {
-                        archiveAndCopy();
-                        e.preventDefault();
-                        return;
-                    }
-                    if (e.shiftKey && SYMBOLS[key]) {
-                        committed += SYMBOLS[key];
-                        update();
-                        e.preventDefault();
-                        return;
-                    }
-                    if (key === "Tab" && sideVisible) {
-                        isSideMode = !isSideMode;
+                if (isSideMode) {
+                    if (key === "=") {
+                        currentSidePage++;
                         render();
                         e.preventDefault();
                         return;
                     }
-
-                    // 2. 扩展区域翻页与字母选词优先判断
-                    if (isSideMode && sideVisible) {
-                        if (key === "-" && currentSidePage > 0) {
-                            currentSidePage--;
-                            render();
+                    if (key === "-" && currentSidePage > 0) {
+                        currentSidePage--;
+                        render();
+                        e.preventDefault();
+                        return;
+                    }
+                    const sIdx = SIDE_KEYS.indexOf(key.toLowerCase());
+                    if (sIdx !== -1) {
+                        const gIdx =
+                            currentSidePage * CANDIDATES_PER_PAGE + sIdx + 10;
+                        if (combinedCandidates[gIdx]) {
+                            selectIdx(gIdx);
                             e.preventDefault();
                             return;
                         }
-                        if (key === "=") {
-                            const totalPages = Math.ceil(
-                                combinedCandidates.slice(10).length /
-                                    CANDIDATES_PER_PAGE,
-                            );
-                            if (currentSidePage < totalPages - 1)
-                                currentSidePage++;
-                            render();
-                            e.preventDefault();
-                            return;
-                        }
-                        // 重要修复：在扩展模式下，如果按下的是字母键，优先匹配扩展区按键
-                        const sideIdx = SIDE_KEYS.indexOf(key.toLowerCase());
-                        if (sideIdx !== -1) {
-                            const globalIdx =
-                                currentSidePage * CANDIDATES_PER_PAGE +
-                                sideIdx +
-                                10;
-                            if (combinedCandidates[globalIdx]) {
-                                selectIdx(globalIdx);
-                                e.preventDefault(); // 阻止字母进入 buffer
-                                return;
-                            }
-                        }
                     }
+                }
+                if (buffer && /^[0-9]$/.test(key)) {
+                    e.preventDefault();
+                    const n = key === "0" ? 9 : parseInt(key) - 1;
+                    selectIdx(n);
+                    return;
+                }
+                if (key === "Backspace") {
+                    if (buffer) buffer = buffer.slice(0, -1);
+                    else committed = committed.slice(0, -1);
+                    update();
+                    e.preventDefault();
+                    return;
+                }
+                if (key === " ") {
+                    e.preventDefault();
+                    if (buffer) selectIdx(0);
+                    else committed += " ";
+                    update();
+                    return;
+                }
+                if (key === "Enter") {
+                    e.preventDefault();
+                    if (buffer) {
+                        committed += buffer;
+                        buffer = "";
+                    } else committed += "\n";
+                    update();
+                    return;
+                }
+                if (/^[a-z]$/.test(key)) {
+                    e.preventDefault();
+                    buffer += key;
+                    update();
+                    return;
+                }
+                if (key.length === 1 && !buffer && !e.ctrlKey) {
+                    e.preventDefault();
+                    committed += key;
+                    update();
+                    return;
+                }
+            });
 
-                    // 3. 数字选词逻辑 (不管是否 sideMode)
-                    if (buffer && /^[0-9]$/.test(key)) {
-                        const targetIdx =
-                            isSideMode && sideVisible
-                                ? key === "0"
-                                    ? 19
-                                    : parseInt(key) + 9
-                                : key === "0"
-                                  ? 9
-                                  : parseInt(key) - 1;
-                        if (combinedCandidates[targetIdx]) {
-                            selectIdx(targetIdx);
-                            e.preventDefault();
-                        }
-                        return;
-                    }
-
-                    // 4. 标准输入逻辑
-                    if (key === "Backspace") {
-                        if (buffer) buffer = buffer.slice(0, -1);
-                        else if (committed) committed = committed.slice(0, -1);
-                        update();
-                        e.preventDefault();
-                        return;
-                    }
-                    if (key === " ") {
-                        if (buffer) selectIdx(0);
-                        else committed += " ";
-                        update();
-                        e.preventDefault();
-                        return;
-                    }
-                    if (key === "Enter") {
-                        if (buffer) {
-                            committed += buffer;
-                            buffer = "";
-                        } else committed += "\n";
-                        update();
-                        e.preventDefault();
-                        return;
-                    }
-                    if (/^[a-z]$/.test(key)) {
-                        buffer += key;
-                        update();
-                        e.preventDefault();
-                        return;
-                    }
-                    if (
-                        key.length === 1 &&
-                        !buffer &&
-                        !e.ctrlKey &&
-                        !e.metaKey
-                    ) {
-                        committed += key;
-                        update();
-                        e.preventDefault();
-                        return;
-                    }
+            function archiveToHistory(text) {
+                if (!text) return;
+                HISTORY.unshift({
+                    text: text,
+                    time: new Date().toLocaleTimeString(),
                 });
+                if (HISTORY.length > 100) HISTORY = HISTORY.slice(0, 100);
+                localStorage.setItem("ime_flow_v9", JSON.stringify(HISTORY));
+                updateHistoryUI();
+            }
 
             async function archiveAndCopy() {
                 if (!committed) return;
-                try {
-                    await navigator.clipboard.writeText(committed);
-                    HISTORY.unshift({
-                        text: committed,
-                        time: new Date().toLocaleTimeString(),
-                    });
-                    committed = "";
-                    localStorage.setItem(
-                        "ime_flow_v8",
-                        JSON.stringify(HISTORY),
-                    );
-                    update();
-                    updateHistoryUI();
-                    showToast("归档成功并复制");
-                } catch (err) {
-                    showToast("复制失败");
-                }
+                await navigator.clipboard.writeText(committed);
+                archiveToHistory(committed);
+                committed = "";
+                update();
+                showToast("已归档并复制");
             }
 
             function updateHistoryUI() {
-                const list = document.getElementById("history-list");
-                list.innerHTML = HISTORY.map(
-                    (h, index) => `
-                    <div class="history-item" onclick="copyHistory('${index}')">
+                document.getElementById("history-list").innerHTML = HISTORY.map(
+                    (h, i) => `
+                    <div class="history-item" onclick="copyHistory(${i})" ondblclick="restoreHistory(${i})">
                         <div class="history-text">${h.text}</div>
-                        <small style="opacity:0.5;">${h.time}</small>
-                        <span class="copy-hint">点击复制</span>
+                        <span class="copy-hint">点击复制/双击恢复</span>
                     </div>
                 `,
                 ).join("");
             }
 
-            window.copyHistory = function (index) {
-                const text = HISTORY[index].text;
+            window.copyHistory = (i) =>
                 navigator.clipboard
-                    .writeText(text)
+                    .writeText(HISTORY[i].text)
                     .then(() => showToast("已复制"));
+            window.restoreHistory = (i) => {
+                committed = HISTORY[i].text;
+                update();
+                showToast("已恢复");
             };
-
             window.clearHistory = () => {
                 if (confirm("清空？")) {
                     HISTORY = [];
-                    localStorage.removeItem("ime_flow_v8");
                     updateHistoryUI();
                 }
             };
 
-            function showToast(msg) {
+            window.exportHistory = () => {
+                const a = Object.assign(document.createElement("a"), {
+                    href: URL.createObjectURL(
+                        new Blob([JSON.stringify(HISTORY)], {
+                            type: "application/json",
+                        }),
+                    ),
+                    download: `history.json`,
+                });
+                a.click();
+                showToast("导出成功");
+            };
+            window.importHistory = async (e) => {
+                try {
+                    const text = await e.target.files[0].text();
+                    HISTORY = [...JSON.parse(text), ...HISTORY].slice(0, 100);
+                    localStorage.setItem(
+                        "ime_flow_v9",
+                        JSON.stringify(HISTORY),
+                    );
+                    updateHistoryUI();
+                    showToast("导入成功");
+                } catch (err) {
+                    showToast("导入失败");
+                }
+            };
+
+            function updateAllToggleButtons() {
+                const items = {
+                    "rare-toggle": [rareEnabled, "生僻词"],
+                    "english-toggle": [englishEnabled, "英文"],
+                    "cizu-toggle": [cizuEnabled, "词组"],
+                    "toggle-side": [sideVisible, "扩展区"],
+                    "toggle-history": [historyVisible, "存档记录"],
+                    "toggle-longtext": [longTextVisible, "长文编辑"],
+                };
+                for (let id in items) {
+                    const b = document.getElementById(id);
+                    if (b) {
+                        b.textContent = `${items[id][1]}：${items[id][0] ? "开" : "关"}`;
+                        b.classList.toggle("active", items[id][0]);
+                    }
+                }
+            }
+
+            function showToast(m) {
                 const t = document.getElementById("toast");
-                t.innerText = msg;
+                t.innerText = m;
                 t.style.opacity = 1;
                 setTimeout(() => (t.style.opacity = 0), 2000);
             }
+            function focusHiddenInput() {
+                if (!isLongTextEditable)
+                    document.getElementById("hidden-input").focus();
+            }
+
+            window.toggleRare = async () => {
+                rareEnabled = !rareEnabled;
+                localStorage.setItem("rare_enabled", rareEnabled);
+                await init();
+            };
+            window.toggleEnglish = async () => {
+                englishEnabled = !englishEnabled;
+                localStorage.setItem("english_enabled", englishEnabled);
+                await init();
+            };
+            window.toggleCizu = async () => {
+                cizuEnabled = !cizuEnabled;
+                localStorage.setItem("cizu_enabled", cizuEnabled);
+                await init();
+            };
+
+            window.toggleSidePanel = () => {
+                sideVisible = !sideVisible;
+                localStorage.setItem("side_visible", sideVisible);
+                updateAllToggleButtons();
+                render();
+            };
+
+            window.toggleHistoryPanel = () => {
+                historyVisible = !historyVisible;
+                localStorage.setItem("history_visible", historyVisible);
+                document.getElementById("history-panel").style.display =
+                    historyVisible ? "flex" : "none";
+                updateAllToggleButtons();
+            };
 
             init();
-            window.onload = () =>
-                document.getElementById("hidden-input").focus();
+            window.onload = focusHiddenInput;
         </script>
     </body>
 </html>
