@@ -842,6 +842,23 @@
 
             hInput.addEventListener("keydown", (e) => {
                 const key = e.key;
+                // --- 新增：Ctrl + B 百度搜索 ---
+                if ((e.ctrlKey || e.metaKey) && key === "b") {
+                    e.preventDefault();
+                    currentSearchEngine = "baidu";
+                    updateSearchBtnUI();
+                    executeSearch();
+                    return;
+                }
+
+                // --- 新增：Ctrl + G Google 搜索 ---
+                if ((e.ctrlKey || e.metaKey) && key === "g") {
+                    e.preventDefault();
+                    currentSearchEngine = "google";
+                    updateSearchBtnUI();
+                    executeSearch();
+                    return;
+                }
                 if ((e.ctrlKey || e.metaKey) && key === "Enter") {
                     e.preventDefault();
                     sendToLongText();
