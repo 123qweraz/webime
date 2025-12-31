@@ -27,6 +27,7 @@
                 display: flex;
                 justify-content: center;
                 overflow: hidden;
+                user-select: none; /* 拖拽时避免选中文本 */
             }
             .main-layout {
                 display: flex;
@@ -90,10 +91,21 @@
                 gap: 15px;
                 min-height: 0;
                 position: relative;
-                justify-content: center; /* 确保中间内容在两侧面板关掉时居中 */
             }
 
-            /* 历史记录面板 */
+            /* 可拖拽调整宽度的分隔条 */
+            .resizer {
+                width: 6px;
+                background: #ddd;
+                cursor: col-resize;
+                position: relative;
+                z-index: 10;
+            }
+            .resizer:hover {
+                background: var(--primary);
+            }
+
+            /* 左侧历史面板 */
             .history-panel {
                 flex: 0 0 280px;
                 background: #fff;
@@ -102,7 +114,38 @@
                 display: flex;
                 flex-direction: column;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+                min-width: 200px;
+                max-width: 600px;
             }
+
+            /* 中间主容器 */
+            .center-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                min-width: 300px;
+                max-width: 900px;
+                margin: 0 auto;
+            }
+
+            /* 右侧长文面板 */
+            .long-text-panel {
+                flex: 0 0 300px;
+                background: white;
+                border-radius: 20px;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+                overflow: hidden;
+                min-width: 220px;
+                max-width: 700px;
+            }
+            .long-text-panel.hidden {
+                display: none;
+            }
+
+            /* 其余样式保持不变 */
             .history-list {
                 flex: 1;
                 overflow-y: auto;
@@ -130,7 +173,6 @@
             .history-item:hover .copy-hint {
                 opacity: 0.6;
             }
-
             .history-footer {
                 margin-top: 10px;
                 padding-top: 10px;
@@ -142,17 +184,6 @@
                 padding: 5px;
                 font-size: 11px;
                 flex: 1;
-            }
-
-            /* 中间主容器：优化后的宽度控制 */
-            .center-container {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-                min-width: 300px;
-                max-width: 900px; /* 限制最大宽度，防止满屏过宽 */
-                margin: 0 auto; /* 居中平衡 */
             }
 
             .output-card {
@@ -179,7 +210,6 @@
                 overflow-y: auto;
                 color: var(--text-main);
             }
-
             .cursor {
                 display: none;
                 width: 2.5px;
@@ -213,7 +243,7 @@
 
             .input-card {
                 background: white;
-                padding: 20px; /* 增加一点内边距更透气 */
+                padding: 20px;
                 border-radius: 20px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
                 flex: 1;
@@ -235,7 +265,6 @@
                 gap: 5px;
                 margin-bottom: 10px;
             }
-
             .candidate-item {
                 position: relative;
                 padding: 12px 12px 6px 12px;
@@ -256,7 +285,6 @@
                 border: 1px dashed var(--primary);
                 color: var(--primary);
             }
-
             .cand-key {
                 position: absolute;
                 top: 2px;
@@ -291,19 +319,6 @@
                 overflow-y: auto;
             }
 
-            /* 长文面板 */
-            .long-text-panel {
-                flex: 0 0 300px;
-                background: white;
-                border-radius: 20px;
-                display: flex;
-                flex-direction: column;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                overflow: hidden;
-            }
-            .long-text-panel.hidden {
-                display: none;
-            }
             .long-text-header {
                 padding: 12px 15px;
                 background: #f8f9fa;
@@ -412,6 +427,7 @@
             </div>
 
             <div class="content-area">
+                <!-- 左侧历史面板 + 拖拽条 -->
                 <div class="history-panel" id="history-panel">
                     <div
                         style="
@@ -434,7 +450,6 @@
                         >
                     </div>
                     <div class="history-list" id="history-list"></div>
-
                     <div class="history-footer">
                         <button
                             class="btn btn-toggle btn-small"
@@ -459,7 +474,9 @@
                         />
                     </div>
                 </div>
+                <div class="resizer" id="left-resizer"></div>
 
+                <!-- 中间主区 -->
                 <div class="center-container" onclick="focusHiddenInput()">
                     <div class="output-card" id="output-card">
                         <div id="output-area"></div>
@@ -509,17 +526,32 @@
                     </div>
                 </div>
 
+                <!-- 右侧长文面板 + 拖拽条 -->
+                <div class="resizer" id="right-resizer"></div>
                 <div class="long-text-panel" id="long-text-panel">
                     <div class="long-text-header">
                         <span>长文编辑区</span>
-                        <button
-                            id="edit-mode-btn"
-                            class="btn btn-toggle"
-                            style="padding: 4px 8px; font-size: 11px"
-                            onclick="toggleLongTextEdit()"
-                        >
-                            编辑/锁定
-                        </button>
+                        <div>
+                            <button
+                                id="edit-mode-btn"
+                                class="btn btn-toggle"
+                                style="
+                                    padding: 4px 8px;
+                                    font-size: 11px;
+                                    margin-right: 5px;
+                                "
+                                onclick="toggleLongTextEdit()"
+                            >
+                                编辑/锁定
+                            </button>
+                            <button
+                                class="btn btn-primary"
+                                style="padding: 4px 8px; font-size: 11px"
+                                onclick="sendLongTextToMain()"
+                            >
+                                → 主区
+                            </button>
+                        </div>
                     </div>
                     <textarea
                         id="long-text-editor"
@@ -559,6 +591,7 @@
         <div id="toast">已就绪</div>
 
         <script>
+            /* ============ 全局变量保持不变 ============ */
             let DICT = {},
                 LEVEL2 = null,
                 LEVEL3 = null,
@@ -602,6 +635,61 @@
                 oCard.classList.remove("is-focused"),
             );
 
+            /* ============ 拖拽调整宽度功能 ============ */
+            function makeResizable(resizerId, targetId, isRight = false) {
+                const resizer = document.getElementById(resizerId);
+                const target = document.getElementById(targetId);
+                let startX, startWidth;
+
+                const onMouseMove = (e) => {
+                    if (!startX) return;
+                    const diff = isRight
+                        ? startX - e.clientX
+                        : e.clientX - startX;
+                    const newWidth = startWidth + diff;
+                    if (newWidth >= 200 && newWidth <= 700) {
+                        target.style.flex = "0 0 " + newWidth + "px";
+                        localStorage.setItem(targetId + "_width", newWidth);
+                    }
+                };
+
+                const onMouseUp = () => {
+                    document.removeEventListener("mousemove", onMouseMove);
+                    document.removeEventListener("mouseup", onMouseUp);
+                    startX = null;
+                };
+
+                resizer.addEventListener("mousedown", (e) => {
+                    e.preventDefault();
+                    startX = e.clientX;
+                    startWidth = target.offsetWidth;
+                    document.addEventListener("mousemove", onMouseMove);
+                    document.addEventListener("mouseup", onMouseUp);
+                });
+            }
+
+            // 恢复上次保存的宽度
+            function restorePanelWidth(id) {
+                const saved = localStorage.getItem(id + "_width");
+                if (saved) {
+                    document.getElementById(id).style.flex =
+                        "0 0 " + saved + "px";
+                }
+            }
+
+            /* ============ 长文区 → 主区功能 ============ */
+            window.sendLongTextToMain = () => {
+                const editor = document.getElementById("long-text-editor");
+                if (!editor.value.trim()) {
+                    showToast("长文区为空");
+                    return;
+                }
+                committed += (committed ? "\n" : "") + editor.value.trim();
+                update();
+                showToast("长文已发送到主区");
+            };
+
+            /* ============ 其余原有代码保持不变 ============ */
             const searchBtn = document.getElementById("search-btn");
             function updateSearchBtnUI() {
                 searchBtn.innerText =
@@ -682,6 +770,10 @@
                         .getElementById("long-text-panel")
                         .classList.toggle("hidden", !longTextVisible);
 
+                    // 恢复宽度
+                    restorePanelWidth("history-panel");
+                    restorePanelWidth("long-text-panel");
+
                     updateAllToggleButtons();
                     updateHistoryUI();
                     update();
@@ -751,11 +843,10 @@
                         .slice(0, 10)
                         .map(
                             (item, i) => `
-                    <div class="candidate-item ${item.type && item.type.endsWith("-pred") ? "is-pred" : ""}" onclick="selectIdx(${i})">
+                    <div class="candidate-item ${item.type?.endsWith("-pred") ? "is-pred" : ""}" onclick="selectIdx(${i})">
                         <span class="cand-key">${i === 9 ? 0 : i + 1}</span>
                         <div class="cand-text">${item.text}</div>
-                    </div>
-                `,
+                    </div>`,
                         )
                         .join("");
 
@@ -769,15 +860,13 @@
 
                 document.getElementById("side-status").innerText =
                     sideAll.length ? `(${currentSidePage + 1}/${totalP})` : "";
-                const grid = document.getElementById("side-grid");
-                grid.innerHTML = sideItems
+                document.getElementById("side-grid").innerHTML = sideItems
                     .map(
                         (item, i) => `
-                    <div class="candidate-item ${item.type && item.type.endsWith("-pred") ? "is-pred" : ""}" onclick="selectIdx(${start + i + 10})">
+                    <div class="candidate-item ${item.type?.endsWith("-pred") ? "is-pred" : ""}" onclick="selectIdx(${start + i + 10})">
                         <span class="cand-key">${SIDE_KEYS[i].toUpperCase()}</span>
                         <div class="cand-text">${item.text}</div>
-                    </div>
-                `,
+                    </div>`,
                     )
                     .join("");
 
@@ -802,6 +891,7 @@
                 }
             }
 
+            // 所有 toggle 函数保持不变...
             window.toggleLongTextPanel = () => {
                 longTextVisible = !longTextVisible;
                 localStorage.setItem("longtext_visible", longTextVisible);
@@ -842,7 +932,6 @@
 
             hInput.addEventListener("keydown", (e) => {
                 const key = e.key;
-                // --- 新增：Ctrl + B 百度搜索 ---
                 if ((e.ctrlKey || e.metaKey) && key === "b") {
                     e.preventDefault();
                     currentSearchEngine = "baidu";
@@ -850,8 +939,6 @@
                     executeSearch();
                     return;
                 }
-
-                // --- 新增：Ctrl + G Google 搜索 ---
                 if ((e.ctrlKey || e.metaKey) && key === "g") {
                     e.preventDefault();
                     currentSearchEngine = "google";
@@ -946,7 +1033,7 @@
             function archiveToHistory(text) {
                 if (!text) return;
                 HISTORY.unshift({
-                    text: text,
+                    text,
                     time: new Date().toLocaleTimeString(),
                 });
                 if (HISTORY.length > 100) HISTORY = HISTORY.slice(0, 100);
@@ -969,11 +1056,9 @@
                     <div class="history-item" onclick="copyHistory(${i})" ondblclick="restoreHistory(${i})">
                         <div class="history-text">${h.text}</div>
                         <span class="copy-hint">点击复制/双击恢复</span>
-                    </div>
-                `,
+                    </div>`,
                 ).join("");
             }
-
             window.copyHistory = (i) =>
                 navigator.clipboard
                     .writeText(HISTORY[i].text)
@@ -989,7 +1074,6 @@
                     updateHistoryUI();
                 }
             };
-
             window.exportHistory = () => {
                 const a = Object.assign(document.createElement("a"), {
                     href: URL.createObjectURL(
@@ -997,7 +1081,7 @@
                             type: "application/json",
                         }),
                     ),
-                    download: `history.json`,
+                    download: "history.json",
                 });
                 a.click();
                 showToast("导出成功");
@@ -1012,7 +1096,7 @@
                     );
                     updateHistoryUI();
                     showToast("导入成功");
-                } catch (err) {
+                } catch {
                     showToast("导入失败");
                 }
             };
@@ -1061,14 +1145,12 @@
                 localStorage.setItem("cizu_enabled", cizuEnabled);
                 await init();
             };
-
             window.toggleSidePanel = () => {
                 sideVisible = !sideVisible;
                 localStorage.setItem("side_visible", sideVisible);
                 updateAllToggleButtons();
                 render();
             };
-
             window.toggleHistoryPanel = () => {
                 historyVisible = !historyVisible;
                 localStorage.setItem("history_visible", historyVisible);
@@ -1076,6 +1158,12 @@
                     historyVisible ? "flex" : "none";
                 updateAllToggleButtons();
             };
+
+            // 初始化拖拽
+            document.addEventListener("DOMContentLoaded", () => {
+                makeResizable("left-resizer", "history-panel", false);
+                makeResizable("right-resizer", "long-text-panel", true);
+            });
 
             init();
             window.onload = focusHiddenInput;
