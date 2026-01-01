@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Web IME Pro | 联想增强版</title>
+        <title>Web IME Pro | 联想增强版 (支持纵向调节)</title>
         <style>
             :root {
                 --primary: #007aff;
@@ -27,7 +27,7 @@
                 display: flex;
                 justify-content: center;
                 overflow: hidden;
-                user-select: none; /* 拖拽时避免选中文本 */
+                user-select: none;
             }
             .main-layout {
                 display: flex;
@@ -93,15 +93,31 @@
                 position: relative;
             }
 
-            /* 可拖拽调整宽度的分隔条 */
+            /* 横向分隔条 */
             .resizer {
                 width: 6px;
                 background: #ddd;
                 cursor: col-resize;
                 position: relative;
                 z-index: 10;
+                transition: 0.2s;
             }
             .resizer:hover {
+                background: var(--primary);
+            }
+
+            /* 纵向分隔条 */
+            .resizer-v {
+                height: 6px;
+                background: #ddd;
+                cursor: row-resize;
+                position: relative;
+                z-index: 10;
+                border-radius: 3px;
+                transition: 0.2s;
+                margin: 2px 0;
+            }
+            .resizer-v:hover {
                 background: var(--primary);
             }
 
@@ -123,10 +139,10 @@
                 flex: 1;
                 display: flex;
                 flex-direction: column;
-                gap: 15px;
                 min-width: 300px;
                 max-width: 900px;
                 margin: 0 auto;
+                gap: 0; /* 间距由分隔条控制 */
             }
 
             /* 右侧长文面板 */
@@ -145,7 +161,6 @@
                 display: none;
             }
 
-            /* 其余样式保持不变 */
             .history-list {
                 flex: 1;
                 overflow-y: auto;
@@ -192,11 +207,12 @@
                 padding: 25px;
                 border-radius: 20px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                height: 150px;
+                height: 180px; /* 初始高度 */
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
                 border: 2px solid transparent;
+                flex-shrink: 0;
             }
             .output-card.is-focused {
                 border-color: rgba(0, 122, 255, 0.1);
@@ -247,9 +263,10 @@
                 border-radius: 20px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
                 flex: 1;
-                min-height: 0;
+                min-height: 100px;
                 display: flex;
                 flex-direction: column;
+                overflow: hidden;
             }
             #buffer-display {
                 font-size: 18px;
@@ -259,12 +276,17 @@
                 margin-bottom: 10px;
                 border-bottom: 2px solid #f0f0f0;
             }
+
             #main-candidates {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 5px;
-                margin-bottom: 10px;
+                padding-bottom: 10px;
+                min-height: 50px;
+                overflow-y: auto;
+                flex-shrink: 0; /* 初始高度固定或由拖拽控制 */
             }
+
             .candidate-item {
                 position: relative;
                 padding: 12px 12px 6px 12px;
@@ -298,9 +320,10 @@
                 display: none;
                 flex-direction: column;
                 flex: 1;
-                min-height: 0;
+                min-height: 50px;
                 border-top: 1px solid #eee;
-                padding-top: 15px;
+                padding-top: 10px;
+                overflow: hidden;
             }
             #extended-section.visible {
                 display: flex;
@@ -312,11 +335,13 @@
                 margin-top: 5px;
                 background: #fafcff;
             }
+
             #side-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
                 gap: 5px;
                 overflow-y: auto;
+                flex: 1;
             }
 
             .long-text-header {
@@ -427,7 +452,6 @@
             </div>
 
             <div class="content-area">
-                <!-- 左侧历史面板 + 拖拽条 -->
                 <div class="history-panel" id="history-panel">
                     <div
                         style="
@@ -476,7 +500,6 @@
                 </div>
                 <div class="resizer" id="left-resizer"></div>
 
-                <!-- 中间主区 -->
                 <div class="center-container" onclick="focusHiddenInput()">
                     <div class="output-card" id="output-card">
                         <div id="output-area"></div>
@@ -502,9 +525,18 @@
                         </div>
                     </div>
 
-                    <div class="input-card">
+                    <div class="resizer-v" id="center-v-resizer"></div>
+
+                    <div class="input-card" id="input-card">
                         <div id="buffer-display"></div>
                         <div id="main-candidates"></div>
+
+                        <div
+                            class="resizer-v"
+                            id="cand-v-resizer"
+                            style="display: none"
+                        ></div>
+
                         <div id="extended-section">
                             <div
                                 style="
@@ -526,7 +558,6 @@
                     </div>
                 </div>
 
-                <!-- 右侧长文面板 + 拖拽条 -->
                 <div class="resizer" id="right-resizer"></div>
                 <div class="long-text-panel" id="long-text-panel">
                     <div class="long-text-header">
@@ -591,7 +622,7 @@
         <div id="toast">已就绪</div>
 
         <script>
-            /* ============ 全局变量保持不变 ============ */
+            /* ============ 全局变量 ============ */
             let DICT = {},
                 LEVEL2 = null,
                 LEVEL3 = null,
@@ -610,7 +641,6 @@
             let englishEnabled =
                 localStorage.getItem("english_enabled") === "true";
             let cizuEnabled = localStorage.getItem("cizu_enabled") === "true";
-
             let sideVisible = localStorage.getItem("side_visible") !== "false";
             let historyVisible =
                 localStorage.getItem("history_visible") !== "false";
@@ -625,42 +655,32 @@
 
             const SIDE_KEYS = "123456789abcdefghijklmnopqrstuvwxyz".split("");
             const CANDIDATES_PER_PAGE = 35;
-
             const hInput = document.getElementById("hidden-input");
             const oCard = document.getElementById("output-card");
-            hInput.addEventListener("focus", () =>
-                oCard.classList.add("is-focused"),
-            );
-            hInput.addEventListener("blur", () =>
-                oCard.classList.remove("is-focused"),
-            );
 
-            /* ============ 拖拽调整宽度功能 ============ */
+            /* ============ 核心拖拽函数 (横向 & 纵向) ============ */
             function makeResizable(resizerId, targetId, isRight = false) {
                 const resizer = document.getElementById(resizerId);
                 const target = document.getElementById(targetId);
                 let startX, startWidth;
-
                 const onMouseMove = (e) => {
                     if (!startX) return;
                     const diff = isRight
                         ? startX - e.clientX
                         : e.clientX - startX;
-                    const newWidth = startWidth + diff;
-                    if (newWidth >= 200 && newWidth <= 700) {
-                        target.style.flex = "0 0 " + newWidth + "px";
-                        localStorage.setItem(targetId + "_width", newWidth);
-                    }
+                    const newWidth = Math.max(
+                        200,
+                        Math.min(700, startWidth + diff),
+                    );
+                    target.style.flex = `0 0 ${newWidth}px`;
+                    localStorage.setItem(targetId + "_width", newWidth);
                 };
-
                 const onMouseUp = () => {
                     document.removeEventListener("mousemove", onMouseMove);
                     document.removeEventListener("mouseup", onMouseUp);
                     startX = null;
                 };
-
                 resizer.addEventListener("mousedown", (e) => {
-                    e.preventDefault();
                     startX = e.clientX;
                     startWidth = target.offsetWidth;
                     document.addEventListener("mousemove", onMouseMove);
@@ -668,71 +688,51 @@
                 });
             }
 
-            // 恢复上次保存的宽度
-            function restorePanelWidth(id) {
-                const saved = localStorage.getItem(id + "_width");
-                if (saved) {
-                    document.getElementById(id).style.flex =
-                        "0 0 " + saved + "px";
-                }
-            }
-
-            /* ============ 长文区 → 主区功能 ============ */
-            window.sendLongTextToMain = () => {
-                const editor = document.getElementById("long-text-editor");
-                if (!editor.value.trim()) {
-                    showToast("长文区为空");
-                    return;
-                }
-                committed += (committed ? "\n" : "") + editor.value.trim();
-                update();
-                showToast("长文已发送到主区");
-            };
-
-            /* ============ 其余原有代码保持不变 ============ */
-            const searchBtn = document.getElementById("search-btn");
-            function updateSearchBtnUI() {
-                searchBtn.innerText =
-                    currentSearchEngine === "google"
-                        ? "Google (长按切换)"
-                        : "百度 (长按切换)";
-                searchBtn.className = `btn btn-search ${currentSearchEngine}`;
-            }
-            updateSearchBtnUI();
-
-            searchBtn.addEventListener("mousedown", () => {
-                isLongPress = false;
-                searchTimer = setTimeout(() => {
-                    currentSearchEngine =
-                        currentSearchEngine === "baidu" ? "google" : "baidu";
-                    localStorage.setItem("search_engine", currentSearchEngine);
-                    updateSearchBtnUI();
-                    showToast(
-                        `已切换至 ${currentSearchEngine === "baidu" ? "百度" : "Google"}`,
+            function makeResizableV(
+                resizerId,
+                targetId,
+                storageKey,
+                minH = 50,
+                maxH = 600,
+            ) {
+                const resizer = document.getElementById(resizerId);
+                const target = document.getElementById(targetId);
+                let startY, startHeight;
+                const onMouseMove = (e) => {
+                    if (!startY) return;
+                    const diff = e.clientY - startY;
+                    const newHeight = Math.max(
+                        minH,
+                        Math.min(maxH, startHeight + diff),
                     );
-                    isLongPress = true;
-                }, 600);
-            });
-            searchBtn.addEventListener("mouseup", () => {
-                clearTimeout(searchTimer);
-                if (!isLongPress) executeSearch();
-            });
-
-            function executeSearch() {
-                if (!committed) {
-                    showToast("内容为空");
-                    return;
-                }
-                const url =
-                    currentSearchEngine === "baidu"
-                        ? `https://www.baidu.com/s?wd=${encodeURIComponent(committed)}`
-                        : `https://www.google.com/search?q=${encodeURIComponent(committed)}`;
-                window.open(url);
-                archiveToHistory(committed);
-                committed = "";
-                update();
+                    target.style.height = `${newHeight}px`;
+                    localStorage.setItem(storageKey, newHeight);
+                };
+                const onMouseUp = () => {
+                    document.removeEventListener("mousemove", onMouseMove);
+                    document.removeEventListener("mouseup", onMouseUp);
+                    startY = null;
+                };
+                resizer.addEventListener("mousedown", (e) => {
+                    startY = e.clientY;
+                    startHeight = target.offsetHeight;
+                    document.addEventListener("mousemove", onMouseMove);
+                    document.addEventListener("mouseup", onMouseUp);
+                });
             }
 
+            function restoreSize(id, key, prop = "width") {
+                const saved = localStorage.getItem(key);
+                if (saved) {
+                    if (prop === "width")
+                        document.getElementById(id).style.flex =
+                            `0 0 ${saved}px`;
+                    else
+                        document.getElementById(id).style.height = `${saved}px`;
+                }
+            }
+
+            /* ============ 业务逻辑 ============ */
             async function init() {
                 try {
                     const promises = [fetch("dict.json").then((r) => r.json())];
@@ -764,15 +764,30 @@
                     LEVEL2 = l2;
                     LEVEL3 = l3;
 
+                    // 恢复界面显示状态
                     document.getElementById("history-panel").style.display =
                         historyVisible ? "flex" : "none";
                     document
                         .getElementById("long-text-panel")
                         .classList.toggle("hidden", !longTextVisible);
 
-                    // 恢复宽度
-                    restorePanelWidth("history-panel");
-                    restorePanelWidth("long-text-panel");
+                    // 恢复尺寸
+                    restoreSize(
+                        "history-panel",
+                        "history-panel_width",
+                        "width",
+                    );
+                    restoreSize(
+                        "long-text-panel",
+                        "long-text-panel_width",
+                        "width",
+                    );
+                    restoreSize("output-card", "output_height", "height");
+                    restoreSize(
+                        "main-candidates",
+                        "main_cand_height",
+                        "height",
+                    );
 
                     updateAllToggleButtons();
                     updateHistoryUI();
@@ -838,19 +853,25 @@
             }
 
             function render() {
-                document.getElementById("main-candidates").innerHTML =
-                    combinedCandidates
-                        .slice(0, 10)
-                        .map(
-                            (item, i) => `
+                const mainArea = document.getElementById("main-candidates");
+                mainArea.innerHTML = combinedCandidates
+                    .slice(0, 10)
+                    .map(
+                        (item, i) => `
                     <div class="candidate-item ${item.type?.endsWith("-pred") ? "is-pred" : ""}" onclick="selectIdx(${i})">
                         <span class="cand-key">${i === 9 ? 0 : i + 1}</span>
                         <div class="cand-text">${item.text}</div>
                     </div>`,
-                        )
-                        .join("");
+                    )
+                    .join("");
 
                 const sideAll = combinedCandidates.slice(10);
+                const hasExtended = sideVisible && sideAll.length > 0;
+
+                // 控制扩展区纵向分隔条的显示
+                document.getElementById("cand-v-resizer").style.display =
+                    hasExtended ? "block" : "none";
+
                 const totalP = Math.ceil(sideAll.length / CANDIDATES_PER_PAGE);
                 const start = currentSidePage * CANDIDATES_PER_PAGE;
                 const sideItems = sideAll.slice(
@@ -872,10 +893,7 @@
 
                 document
                     .getElementById("extended-section")
-                    .classList.toggle(
-                        "visible",
-                        sideVisible && combinedCandidates.length > 10,
-                    );
+                    .classList.toggle("visible", hasExtended);
                 document
                     .getElementById("extended-section")
                     .classList.toggle("active", isSideMode);
@@ -891,16 +909,68 @@
                 }
             }
 
-            // 所有 toggle 函数保持不变...
+            /* ============ 按钮功能 ============ */
+            const searchBtn = document.getElementById("search-btn");
+            function updateSearchBtnUI() {
+                searchBtn.innerText =
+                    currentSearchEngine === "google"
+                        ? "Google (长按切换)"
+                        : "百度 (长按切换)";
+                searchBtn.className = `btn btn-search ${currentSearchEngine}`;
+            }
+            updateSearchBtnUI();
+
+            searchBtn.addEventListener("mousedown", () => {
+                isLongPress = false;
+                searchTimer = setTimeout(() => {
+                    currentSearchEngine =
+                        currentSearchEngine === "baidu" ? "google" : "baidu";
+                    localStorage.setItem("search_engine", currentSearchEngine);
+                    updateSearchBtnUI();
+                    showToast(
+                        `已切换至 ${currentSearchEngine === "baidu" ? "百度" : "Google"}`,
+                    );
+                    isLongPress = true;
+                }, 600);
+            });
+            searchBtn.addEventListener("mouseup", () => {
+                clearTimeout(searchTimer);
+                if (!isLongPress) executeSearch();
+            });
+
+            function executeSearch() {
+                if (!committed) {
+                    showToast("内容为空");
+                    return;
+                }
+                const url =
+                    currentSearchEngine === "baidu"
+                        ? `https://www.baidu.com/s?wd=${encodeURIComponent(committed)}`
+                        : `https://www.google.com/search?q=${encodeURIComponent(committed)}`;
+                window.open(url);
+                archiveToHistory(committed);
+                committed = "";
+                update();
+            }
+
+            window.sendLongTextToMain = () => {
+                const editor = document.getElementById("long-text-editor");
+                if (!editor.value.trim()) {
+                    showToast("长文区为空");
+                    return;
+                }
+                committed += (committed ? "\n" : "") + editor.value.trim();
+                update();
+                showToast("长文已发送到主区");
+            };
+
             window.toggleLongTextPanel = () => {
                 longTextVisible = !longTextVisible;
                 localStorage.setItem("longtext_visible", longTextVisible);
                 document
                     .getElementById("long-text-panel")
                     .classList.toggle("hidden", !longTextVisible);
-                document
-                    .getElementById("toggle-longtext")
-                    .classList.toggle("active", longTextVisible);
+                updateAllToggleButtons();
             };
 
             window.toggleLongTextEdit = () => {
@@ -930,22 +1000,9 @@
                 showToast("已发送到长文");
             };
 
+            /* ============ 键盘事件 ============ */
             hInput.addEventListener("keydown", (e) => {
                 const key = e.key;
-                if ((e.ctrlKey || e.metaKey) && key === "b") {
-                    e.preventDefault();
-                    currentSearchEngine = "baidu";
-                    updateSearchBtnUI();
-                    executeSearch();
-                    return;
-                }
-                if ((e.ctrlKey || e.metaKey) && key === "g") {
-                    e.preventDefault();
-                    currentSearchEngine = "google";
-                    updateSearchBtnUI();
-                    executeSearch();
-                    return;
-                }
                 if ((e.ctrlKey || e.metaKey) && key === "Enter") {
                     e.preventDefault();
                     sendToLongText();
@@ -962,7 +1019,6 @@
                     render();
                     return;
                 }
-
                 if (isSideMode) {
                     if (key === "=") {
                         currentSidePage++;
@@ -1030,6 +1086,7 @@
                 }
             });
 
+            /* ============ 历史与存档 ============ */
             function archiveToHistory(text) {
                 if (!text) return;
                 HISTORY.unshift({
@@ -1074,33 +1131,8 @@
                     updateHistoryUI();
                 }
             };
-            window.exportHistory = () => {
-                const a = Object.assign(document.createElement("a"), {
-                    href: URL.createObjectURL(
-                        new Blob([JSON.stringify(HISTORY)], {
-                            type: "application/json",
-                        }),
-                    ),
-                    download: "history.json",
-                });
-                a.click();
-                showToast("导出成功");
-            };
-            window.importHistory = async (e) => {
-                try {
-                    const text = await e.target.files[0].text();
-                    HISTORY = [...JSON.parse(text), ...HISTORY].slice(0, 100);
-                    localStorage.setItem(
-                        "ime_flow_v9",
-                        JSON.stringify(HISTORY),
-                    );
-                    updateHistoryUI();
-                    showToast("导入成功");
-                } catch {
-                    showToast("导入失败");
-                }
-            };
 
+            /* ============ 辅助功能 ============ */
             function updateAllToggleButtons() {
                 const items = {
                     "rare-toggle": [rareEnabled, "生僻词"],
@@ -1126,8 +1158,7 @@
                 setTimeout(() => (t.style.opacity = 0), 2000);
             }
             function focusHiddenInput() {
-                if (!isLongTextEditable)
-                    document.getElementById("hidden-input").focus();
+                if (!isLongTextEditable) hInput.focus();
             }
 
             window.toggleRare = async () => {
@@ -1159,10 +1190,29 @@
                 updateAllToggleButtons();
             };
 
-            // 初始化拖拽
+            /* ============ 初始化拖拽 ============ */
             document.addEventListener("DOMContentLoaded", () => {
+                // 横向
                 makeResizable("left-resizer", "history-panel", false);
                 makeResizable("right-resizer", "long-text-panel", true);
+
+                // 纵向：输出区 vs 输入区
+                makeResizableV(
+                    "center-v-resizer",
+                    "output-card",
+                    "output_height",
+                    100,
+                    500,
+                );
+
+                // 纵向：主候选区 vs 扩展候选区
+                makeResizableV(
+                    "cand-v-resizer",
+                    "main-candidates",
+                    "main_cand_height",
+                    50,
+                    400,
+                );
             });
 
             init();
