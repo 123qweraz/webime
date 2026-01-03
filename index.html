@@ -2,32 +2,25 @@
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Web IME Pro | 联想增强版 (支持纵向调节)</title>
+        <title>Web IME Pro | 核心功能修复版</title>
         <style>
             :root {
                 --primary: #007aff;
                 --bg: #f2f2f7;
                 --panel-bg: #ffffff;
-                --text-main: #1d1d1f;
                 --item-bg: #f9f9f9;
                 --item-border: #eee;
-                --baidu-color: #de0f17;
-                --google-color: #4285f4;
+                --github-dark: #24292e;
             }
             body {
-                font-family:
-                    system-ui,
-                    -apple-system,
-                    sans-serif;
+                font-family: system-ui, sans-serif;
                 background: var(--bg);
                 margin: 0;
                 padding: 15px;
-                min-height: 100vh;
+                height: 100vh;
                 display: flex;
                 justify-content: center;
                 overflow: hidden;
-                user-select: none;
             }
             .main-layout {
                 display: flex;
@@ -37,29 +30,28 @@
                 max-width: 1900px;
                 height: 96vh;
             }
+
+            /* 顶部工具栏 */
             .toolbar {
                 background: var(--panel-bg);
-                padding: 12px 20px;
+                padding: 10px 20px;
                 border-radius: 12px;
                 display: flex;
                 align-items: center;
-                gap: 12px;
-                flex-wrap: wrap;
+                gap: 10px;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             }
             .btn {
-                padding: 8px 16px;
+                padding: 6px 14px;
                 border: none;
-                border-radius: 8px;
+                border-radius: 6px;
                 cursor: pointer;
                 font-weight: 600;
-                font-size: 13px;
+                font-size: 12px;
                 transition: 0.2s;
-                user-select: none;
-            }
-            .btn-primary {
-                background: #222;
-                color: white;
+                display: flex;
+                align-items: center;
+                gap: 5px;
             }
             .btn-toggle {
                 background: #e5e5ea;
@@ -69,20 +61,11 @@
                 background: var(--primary);
                 color: white;
             }
-            .btn-send {
-                background: #5856d6;
+            .btn-github {
+                background: var(--github-dark);
                 color: white;
-            }
-            .btn-search {
-                color: white;
-                min-width: 110px;
-                transition: 0.3s;
-            }
-            .btn-search.baidu {
-                background: var(--baidu-color);
-            }
-            .btn-search.google {
-                background: var(--google-color);
+                text-decoration: none;
+                margin-left: auto;
             }
 
             .content-area {
@@ -92,150 +75,71 @@
                 min-height: 0;
                 position: relative;
             }
-
-            /* 横向分隔条 */
             .resizer {
                 width: 6px;
                 background: #ddd;
                 cursor: col-resize;
-                position: relative;
                 z-index: 10;
-                transition: 0.2s;
             }
-            .resizer:hover {
-                background: var(--primary);
-            }
-
-            /* 纵向分隔条 */
             .resizer-v {
                 height: 6px;
                 background: #ddd;
                 cursor: row-resize;
-                position: relative;
                 z-index: 10;
-                border-radius: 3px;
-                transition: 0.2s;
                 margin: 2px 0;
             }
-            .resizer-v:hover {
-                background: var(--primary);
-            }
 
-            /* 左侧历史面板 */
             .history-panel {
-                flex: 0 0 280px;
+                flex: 0 0 260px;
                 background: #fff;
                 border-radius: 16px;
                 padding: 15px;
                 display: flex;
                 flex-direction: column;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-                min-width: 200px;
-                max-width: 600px;
             }
-
-            /* 中间主容器 */
             .center-container {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
-                min-width: 300px;
-                max-width: 900px;
+                min-width: 400px;
+                max-width: 1000px;
                 margin: 0 auto;
-                gap: 0; /* 间距由分隔条控制 */
             }
 
-            /* 右侧长文面板 */
-            .long-text-panel {
-                flex: 0 0 300px;
-                background: white;
-                border-radius: 20px;
-                display: flex;
-                flex-direction: column;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                overflow: hidden;
-                min-width: 220px;
-                max-width: 700px;
-            }
-            .long-text-panel.hidden {
-                display: none;
-            }
-
-            .history-list {
-                flex: 1;
-                overflow-y: auto;
-                margin-top: 10px;
-            }
-            .history-item {
-                position: relative;
-                padding: 10px;
-                border-bottom: 1px solid #f5f5f5;
-                cursor: pointer;
-                border-radius: 8px;
-                margin-bottom: 5px;
-            }
-            .history-text {
-                word-break: break-all;
-                font-size: 14px;
-                line-height: 1.4;
-            }
-            .copy-hint {
-                float: right;
-                font-size: 10px;
-                color: var(--primary);
-                opacity: 0;
-            }
-            .history-item:hover .copy-hint {
-                opacity: 0.6;
-            }
-            .history-footer {
-                margin-top: 10px;
-                padding-top: 10px;
-                border-top: 1px solid #eee;
-                display: flex;
-                gap: 5px;
-            }
-            .btn-small {
-                padding: 5px;
-                font-size: 11px;
-                flex: 1;
-            }
-
+            /* 输出区：确保控制组在右下角 */
             .output-card {
-                position: relative;
                 background: white;
-                padding: 25px;
                 border-radius: 20px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                height: 180px; /* 初始高度 */
+                position: relative;
                 display: flex;
                 flex-direction: column;
-                overflow: hidden;
+                min-height: 100px;
                 border: 2px solid transparent;
-                flex-shrink: 0;
             }
-            .output-card.is-focused {
-                border-color: rgba(0, 122, 255, 0.1);
+            .output-card.editing {
+                border: 2px solid #ff9500;
             }
             #output-area {
                 flex: 1;
-                font-size: 26px;
-                line-height: 1.5;
+                padding: 25px;
+                font-size: 24px;
+                line-height: 1.6;
                 word-break: break-all;
                 white-space: pre-wrap;
                 overflow-y: auto;
-                color: var(--text-main);
+                outline: none;
+                user-select: text;
             }
-            .cursor {
-                display: none;
-                width: 2.5px;
-                height: 30px;
-                background: var(--primary);
-                margin-left: 2px;
-                vertical-align: middle;
-            }
-            .output-card.is-focused .cursor {
+            #output-area.locked::after {
+                content: "";
                 display: inline-block;
+                width: 2px;
+                height: 28px;
+                background: var(--primary);
+                vertical-align: middle;
+                margin-left: 2px;
                 animation: blink 1s infinite;
             }
             @keyframes blink {
@@ -248,308 +152,233 @@
                 }
             }
 
-            .action-btns {
+            /* 关键点：右下角控制按钮 */
+            .control-group {
                 position: absolute;
-                right: 20px;
+                right: 15px;
                 bottom: 15px;
-                z-index: 10;
                 display: flex;
                 gap: 8px;
+                z-index: 100;
             }
 
+            /* 候选区 */
             .input-card {
                 background: white;
                 padding: 20px;
                 border-radius: 20px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
                 flex: 1;
-                min-height: 100px;
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
+                border: 3px solid transparent;
+            }
+            .input-card.tab-mode {
+                border-color: var(--primary);
+                background: #f0f7ff;
+            }
+            .input-status-bar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 5px;
+                min-height: 30px;
             }
             #buffer-display {
                 font-size: 18px;
                 color: var(--primary);
                 font-weight: bold;
-                min-height: 28px;
-                margin-bottom: 10px;
-                border-bottom: 2px solid #f0f0f0;
             }
 
             #main-candidates {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 5px;
-                padding-bottom: 10px;
-                min-height: 50px;
+                gap: 8px;
                 overflow-y: auto;
-                flex-shrink: 0; /* 初始高度固定或由拖拽控制 */
             }
-
             .candidate-item {
                 position: relative;
-                padding: 12px 12px 6px 12px;
+                padding: 10px 15px;
                 background: var(--item-bg);
                 border-radius: 10px;
                 cursor: pointer;
-                font-size: 18px;
                 border: 1px solid var(--item-border);
-                transition: 0.1s;
-                min-width: 30px;
-                text-align: center;
-            }
-            .candidate-item:hover {
-                background: #f0f0f0;
-                transform: translateY(-1px);
-            }
-            .candidate-item.is-pred {
-                border: 1px dashed var(--primary);
-                color: var(--primary);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-width: 60px;
             }
             .cand-key {
                 position: absolute;
                 top: 2px;
-                left: 5px;
+                left: 4px;
                 font-size: 10px;
-                opacity: 0.4;
-                font-family: Monaco, monospace;
-            }
-
-            #extended-section {
-                display: none;
-                flex-direction: column;
-                flex: 1;
-                min-height: 50px;
-                border-top: 1px solid #eee;
-                padding-top: 10px;
-                overflow: hidden;
-            }
-            #extended-section.visible {
-                display: flex;
-            }
-            #extended-section.active {
-                border: 2px solid var(--primary);
-                border-radius: 16px;
-                padding: 10px;
-                margin-top: 5px;
-                background: #fafcff;
-            }
-
-            #side-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-                gap: 5px;
-                overflow-y: auto;
-                flex: 1;
-            }
-
-            .long-text-header {
-                padding: 12px 15px;
-                background: #f8f9fa;
-                border-bottom: 1px solid #eee;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                font-size: 14px;
+                opacity: 0.5;
+                color: var(--primary);
                 font-weight: bold;
             }
-            #long-text-editor {
-                flex: 1;
-                padding: 18px;
-                font-size: 17px;
-                line-height: 1.7;
-                border: none;
-                outline: none;
-                resize: none;
-                background: #fafafa;
-                pointer-events: none;
-                user-select: none;
+            .cand-text {
+                font-size: 22px;
+                font-weight: 500;
             }
-            #long-text-editor.editable {
-                pointer-events: auto;
-                user-select: text;
-                background: white;
-            }
+            .cand-desc {
+                font-size: 11px;
+                color: #888;
+                margin-top: 4px;
+            } /* 辅助编码样式 */
 
             #hidden-input {
-                position: absolute;
+                position: fixed;
+                left: -999px;
                 opacity: 0;
-                pointer-events: none;
             }
             #toast {
                 position: fixed;
-                top: 70px;
+                top: 20px;
                 left: 50%;
                 transform: translateX(-50%);
                 background: #333;
                 color: white;
-                padding: 10px 24px;
+                padding: 8px 20px;
                 border-radius: 20px;
                 opacity: 0;
                 transition: 0.3s;
                 z-index: 999;
+                pointer-events: none;
             }
         </style>
     </head>
     <body>
         <div class="main-layout">
             <div class="toolbar">
-                <div class="tool-group">
-                    <button
-                        id="rare-toggle"
-                        class="btn btn-toggle"
-                        onclick="toggleRare()"
-                    >
-                        生僻词
-                    </button>
-                    <button
-                        id="english-toggle"
-                        class="btn btn-toggle"
-                        onclick="toggleEnglish()"
-                    >
-                        英文支持
-                    </button>
-                    <button
-                        id="cizu-toggle"
-                        class="btn btn-toggle"
-                        onclick="toggleCizu()"
-                    >
-                        词组补全
-                    </button>
-                    <button
-                        id="toggle-side"
-                        class="btn btn-toggle"
-                        onclick="toggleSidePanel()"
-                    >
-                        扩展区
-                    </button>
-                    <button
-                        id="toggle-history"
-                        class="btn btn-toggle"
-                        onclick="toggleHistoryPanel()"
-                    >
-                        存档记录
-                    </button>
-                    <button
-                        id="toggle-longtext"
-                        class="btn btn-toggle"
-                        onclick="toggleLongTextPanel()"
-                    >
-                        长文编辑
-                    </button>
-                </div>
+                <button
+                    id="l-hist-btn"
+                    class="btn btn-toggle"
+                    onclick="toggleHistory()"
+                >
+                    历史记录
+                </button>
                 <div
                     style="
-                        flex: 1;
-                        text-align: right;
-                        font-size: 12px;
-                        color: #888;
+                        width: 1px;
+                        height: 20px;
+                        background: #ddd;
+                        margin: 0 10px;
                     "
+                ></div>
+                <button
+                    id="l1-btn"
+                    class="btn btn-toggle"
+                    onclick="toggleLevel(1)"
                 >
-                    Ctrl+Enter 发送长文 | Ctrl+C 归档
-                </div>
+                    一级
+                </button>
+                <button
+                    id="l2-btn"
+                    class="btn btn-toggle"
+                    onclick="toggleLevel(2)"
+                >
+                    二级
+                </button>
+                <button
+                    id="l3-btn"
+                    class="btn btn-toggle"
+                    onclick="toggleLevel(3)"
+                >
+                    三级
+                </button>
+                <div
+                    style="
+                        width: 1px;
+                        height: 20px;
+                        background: #ddd;
+                        margin: 0 10px;
+                    "
+                ></div>
+                <button
+                    id="def-btn"
+                    class="btn btn-toggle"
+                    onclick="toggleDefaultChars()"
+                >
+                    常用字
+                </button>
+
+                <a
+                    href="https://github.com/123qweraz/webime"
+                    target="_blank"
+                    class="btn btn-github"
+                >
+                    <svg
+                        height="16"
+                        width="16"
+                        viewBox="0 0 16 16"
+                        fill="white"
+                    >
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                        ></path>
+                    </svg>
+                    GitHub Star
+                </a>
             </div>
 
             <div class="content-area">
                 <div class="history-panel" id="history-panel">
                     <div
                         style="
-                            font-size: 14px;
                             font-weight: bold;
-                            display: flex;
-                            justify-content: space-between;
+                            font-size: 14px;
+                            border-bottom: 1px solid #eee;
+                            padding-bottom: 8px;
                         "
                     >
-                        存档记录
-                        <a
-                            href="#"
-                            onclick="clearHistory()"
-                            style="
-                                font-size: 10px;
-                                color: red;
-                                text-decoration: none;
-                            "
-                            >清空</a
-                        >
+                        最近归档
                     </div>
-                    <div class="history-list" id="history-list"></div>
-                    <div class="history-footer">
-                        <button
-                            class="btn btn-toggle btn-small"
-                            onclick="exportHistory()"
-                        >
-                            导出记录
-                        </button>
-                        <button
-                            class="btn btn-toggle btn-small"
-                            onclick="
-                                document.getElementById('import-input').click()
-                            "
-                        >
-                            导入记录
-                        </button>
-                        <input
-                            type="file"
-                            id="import-input"
-                            accept=".json"
-                            style="display: none"
-                            onchange="importHistory(event)"
-                        />
-                    </div>
+                    <div
+                        id="history-list"
+                        style="flex: 1; overflow-y: auto; margin-top: 10px"
+                    ></div>
                 </div>
                 <div class="resizer" id="left-resizer"></div>
-
-                <div class="center-container" onclick="focusHiddenInput()">
+                <div class="center-container">
                     <div class="output-card" id="output-card">
-                        <div id="output-area"></div>
-                        <div class="action-btns">
+                        <div
+                            id="output-area"
+                            class="locked"
+                            spellcheck="false"
+                            oninput="syncFromEditor()"
+                        ></div>
+                        <div class="control-group">
                             <button
-                                id="search-btn"
-                                class="btn btn-search baidu"
+                                id="edit-mode-btn"
+                                class="btn btn-toggle"
+                                onclick="toggleEditMode()"
                             >
-                                百度 (长按切换)
+                                锁定模式
                             </button>
                             <button
-                                class="btn btn-send"
-                                onclick="sendToLongText()"
-                            >
-                                发送长文 (Ctrl+Enter)
-                            </button>
-                            <button
-                                class="btn btn-primary"
+                                class="btn btn-toggle active"
+                                style="background: #222"
                                 onclick="archiveAndCopy()"
                             >
-                                归档 (Ctrl+C)
+                                归档并复制
                             </button>
                         </div>
                     </div>
-
                     <div class="resizer-v" id="center-v-resizer"></div>
-
-                    <div class="input-card" id="input-card">
-                        <div id="buffer-display"></div>
-                        <div id="main-candidates"></div>
-
-                        <div
-                            class="resizer-v"
-                            id="cand-v-resizer"
-                            style="display: none"
-                        ></div>
-
-                        <div id="extended-section">
-                            <div
-                                style="
-                                    padding: 0 0 10px 5px;
-                                    font-size: 12px;
-                                    opacity: 0.6;
-                                "
-                            >
-                                扩展候选 (Tab 键翻页)
-                                <span id="side-status"></span>
-                            </div>
-                            <div id="side-grid"></div>
+                    <div
+                        class="input-card"
+                        id="input-container"
+                        onclick="focusHiddenInput()"
+                    >
+                        <div class="input-status-bar">
+                            <div id="buffer-display"></div>
+                            <div id="page-counter"></div>
                         </div>
+                        <div id="main-candidates"></div>
                         <input
                             type="text"
                             id="hidden-input"
@@ -557,600 +386,363 @@
                         />
                     </div>
                 </div>
-
-                <div class="resizer" id="right-resizer"></div>
-                <div class="long-text-panel" id="long-text-panel">
-                    <div class="long-text-header">
-                        <span>长文编辑区</span>
-                        <div>
-                            <button
-                                id="edit-mode-btn"
-                                class="btn btn-toggle"
-                                style="
-                                    padding: 4px 8px;
-                                    font-size: 11px;
-                                    margin-right: 5px;
-                                "
-                                onclick="toggleLongTextEdit()"
-                            >
-                                编辑/锁定
-                            </button>
-                            <button
-                                class="btn btn-primary"
-                                style="padding: 4px 8px; font-size: 11px"
-                                onclick="sendLongTextToMain()"
-                            >
-                                → 主区
-                            </button>
-                        </div>
-                    </div>
-                    <textarea
-                        id="long-text-editor"
-                        placeholder="在此累积句子..."
-                    ></textarea>
-                    <div
-                        style="
-                            padding: 10px;
-                            border-top: 1px solid #eee;
-                            display: flex;
-                            gap: 5px;
-                        "
-                    >
-                        <button
-                            class="btn"
-                            style="flex: 1; font-size: 11px"
-                            onclick="copyLongText()"
-                        >
-                            全选复制
-                        </button>
-                        <button
-                            class="btn"
-                            style="flex: 1; font-size: 11px; color: red"
-                            onclick="
-                                if (confirm('清空？'))
-                                    document.getElementById(
-                                        'long-text-editor',
-                                    ).value = '';
-                            "
-                        >
-                            清空
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
-        <div id="toast">已就绪</div>
+        <div id="toast"></div>
 
         <script>
-            /* ============ 全局变量 ============ */
-            let DICT = {},
-                LEVEL2 = null,
-                LEVEL3 = null,
-                EN_DICT = {},
-                CIZU_DICT = {};
+            const DEFAULT_CHARS = [
+                { text: "的" },
+                { text: "一" },
+                { text: "是" },
+                { text: "了" },
+                { text: "我" },
+                { text: "不" },
+                { text: "人" },
+                { text: "在" },
+                { text: "他" },
+                { text: "有" },
+            ];
+            let DB = { level1: {}, level2: {}, level3: {} };
+            let settings = JSON.parse(
+                localStorage.getItem("ime_settings") ||
+                    '{"levels":[true, true, false], "history":true, "outputHeight":300, "showDefault":true}',
+            );
             let buffer = "",
                 committed = "",
-                isSideMode = false,
-                currentSidePage = 0;
+                isTabMode = false,
+                enFilter = "",
+                isEditMode = false;
             let combinedCandidates = [],
-                HISTORY = JSON.parse(
-                    localStorage.getItem("ime_flow_v9") || "[]",
+                pageIndex = 0;
+            const pageSize = 10;
+            let HISTORY = JSON.parse(
+                localStorage.getItem("ime_history_v18") || "[]",
+            );
+
+            const hInput = document.getElementById("hidden-input");
+            const outputArea = document.getElementById("output-area");
+
+            async function init() {
+                document.getElementById("output-card").style.height =
+                    settings.outputHeight + "px";
+                document.getElementById("history-panel").style.display =
+                    settings.history ? "flex" : "none";
+                document
+                    .getElementById("l-hist-btn")
+                    .classList.toggle("active", settings.history);
+                document
+                    .getElementById("def-btn")
+                    .classList.toggle("active", settings.showDefault);
+                settings.levels.forEach((active, i) =>
+                    document
+                        .getElementById(`l${i + 1}-btn`)
+                        .classList.toggle("active", active),
                 );
 
-            let rareEnabled = localStorage.getItem("rare_enabled") === "true";
-            let englishEnabled =
-                localStorage.getItem("english_enabled") === "true";
-            let cizuEnabled = localStorage.getItem("cizu_enabled") === "true";
-            let sideVisible = localStorage.getItem("side_visible") !== "false";
-            let historyVisible =
-                localStorage.getItem("history_visible") !== "false";
-            let longTextVisible =
-                localStorage.getItem("longtext_visible") !== "false";
-            let isLongTextEditable = false;
-
-            let currentSearchEngine =
-                localStorage.getItem("search_engine") || "baidu";
-            let searchTimer,
-                isLongPress = false;
-
-            const SIDE_KEYS = "123456789abcdefghijklmnopqrstuvwxyz".split("");
-            const CANDIDATES_PER_PAGE = 35;
-            const hInput = document.getElementById("hidden-input");
-            const oCard = document.getElementById("output-card");
-
-            /* ============ 核心拖拽函数 (横向 & 纵向) ============ */
-            function makeResizable(resizerId, targetId, isRight = false) {
-                const resizer = document.getElementById(resizerId);
-                const target = document.getElementById(targetId);
-                let startX, startWidth;
-                const onMouseMove = (e) => {
-                    if (!startX) return;
-                    const diff = isRight
-                        ? startX - e.clientX
-                        : e.clientX - startX;
-                    const newWidth = Math.max(
-                        200,
-                        Math.min(700, startWidth + diff),
-                    );
-                    target.style.flex = `0 0 ${newWidth}px`;
-                    localStorage.setItem(targetId + "_width", newWidth);
-                };
-                const onMouseUp = () => {
-                    document.removeEventListener("mousemove", onMouseMove);
-                    document.removeEventListener("mouseup", onMouseUp);
-                    startX = null;
-                };
-                resizer.addEventListener("mousedown", (e) => {
-                    startX = e.clientX;
-                    startWidth = target.offsetWidth;
-                    document.addEventListener("mousemove", onMouseMove);
-                    document.addEventListener("mouseup", onMouseUp);
-                });
-            }
-
-            function makeResizableV(
-                resizerId,
-                targetId,
-                storageKey,
-                minH = 50,
-                maxH = 600,
-            ) {
-                const resizer = document.getElementById(resizerId);
-                const target = document.getElementById(targetId);
-                let startY, startHeight;
-                const onMouseMove = (e) => {
-                    if (!startY) return;
-                    const diff = e.clientY - startY;
-                    const newHeight = Math.max(
-                        minH,
-                        Math.min(maxH, startHeight + diff),
-                    );
-                    target.style.height = `${newHeight}px`;
-                    localStorage.setItem(storageKey, newHeight);
-                };
-                const onMouseUp = () => {
-                    document.removeEventListener("mousemove", onMouseMove);
-                    document.removeEventListener("mouseup", onMouseUp);
-                    startY = null;
-                };
-                resizer.addEventListener("mousedown", (e) => {
-                    startY = e.clientY;
-                    startHeight = target.offsetHeight;
-                    document.addEventListener("mousemove", onMouseMove);
-                    document.addEventListener("mouseup", onMouseUp);
-                });
-            }
-
-            function restoreSize(id, key, prop = "width") {
-                const saved = localStorage.getItem(key);
-                if (saved) {
-                    if (prop === "width")
-                        document.getElementById(id).style.flex =
-                            `0 0 ${saved}px`;
-                    else
-                        document.getElementById(id).style.height = `${saved}px`;
-                }
-            }
-
-            /* ============ 业务逻辑 ============ */
-            async function init() {
-                try {
-                    const promises = [fetch("dict.json").then((r) => r.json())];
-                    promises.push(
-                        englishEnabled
-                            ? fetch("en_dict.json").then((r) => r.json())
-                            : Promise.resolve({}),
-                    );
-                    promises.push(
-                        cizuEnabled
-                            ? fetch("cizu_dict.json").then((r) => r.json())
-                            : Promise.resolve({}),
-                    );
-                    if (rareEnabled) {
-                        promises.push(
-                            fetch("level-2.json").then((r) => r.json()),
-                            fetch("level-3.json").then((r) => r.json()),
-                        );
-                    } else {
-                        promises.push(
-                            Promise.resolve(null),
-                            Promise.resolve(null),
-                        );
+                const load = async (num, dir, files) => {
+                    const t = DB[`level${num}`];
+                    for (const f of files) {
+                        try {
+                            const r = await fetch(`dicts/${dir}/${f}`);
+                            if (!r.ok) continue;
+                            const d = await r.json();
+                            for (let k in d) {
+                                let key = k.toLowerCase();
+                                if (!t[key]) t[key] = [];
+                                t[key] = t[key].concat(
+                                    Array.isArray(d[k]) ? d[k] : [d[k]],
+                                );
+                            }
+                        } catch (e) {}
                     }
-                    const [d1, en, cz, l2, l3] = await Promise.all(promises);
-                    DICT = d1;
-                    EN_DICT = en;
-                    CIZU_DICT = cz;
-                    LEVEL2 = l2;
-                    LEVEL3 = l3;
-
-                    // 恢复界面显示状态
-                    document.getElementById("history-panel").style.display =
-                        historyVisible ? "flex" : "none";
-                    document
-                        .getElementById("long-text-panel")
-                        .classList.toggle("hidden", !longTextVisible);
-
-                    // 恢复尺寸
-                    restoreSize(
-                        "history-panel",
-                        "history-panel_width",
-                        "width",
-                    );
-                    restoreSize(
-                        "long-text-panel",
-                        "long-text-panel_width",
-                        "width",
-                    );
-                    restoreSize("output-card", "output_height", "height");
-                    restoreSize(
-                        "main-candidates",
-                        "main_cand_height",
-                        "height",
-                    );
-
-                    updateAllToggleButtons();
-                    updateHistoryUI();
-                    update();
-                } catch (e) {
-                    showToast("词库加载失败");
-                }
+                };
+                await Promise.all([
+                    load(1, "first_dict", [
+                        "dict.json",
+                        "cizu_dict.json",
+                        "en_dict.json",
+                    ]),
+                    load(2, "second_dict", ["dict.json", "cizu_dict.json"]),
+                    load(3, "third_dict", ["dict.json"]),
+                ]);
+                update();
+                updateHistoryUI();
             }
 
             function update() {
-                const area = document.getElementById("output-area");
-                area.innerHTML = committed || "";
-                const cursor = document.createElement("span");
-                cursor.className = "cursor";
-                area.appendChild(cursor);
-                document.getElementById("buffer-display").innerText = buffer;
+                if (isEditMode) return;
+                outputArea.innerText = committed;
+                outputArea.scrollTop = outputArea.scrollHeight;
+                document
+                    .getElementById("input-container")
+                    .classList.toggle("tab-mode", isTabMode);
 
-                let list = [];
                 if (buffer) {
+                    document.getElementById("buffer-display").innerText =
+                        isTabMode
+                            ? buffer + " [过滤: " + enFilter + "]"
+                            : buffer;
+                    let list = [];
                     const b = buffer.toLowerCase();
-                    if (DICT[b])
-                        DICT[b].forEach((v) =>
-                            list.push({ text: v, weight: 1300, type: "zh" }),
-                        );
-                    if (cizuEnabled && CIZU_DICT[b])
-                        CIZU_DICT[b].forEach((v) =>
-                            list.push({ text: v, weight: 1250, type: "zh-cz" }),
-                        );
-                    if (rareEnabled && LEVEL2 && LEVEL2[b])
-                        LEVEL2[b].forEach((v) =>
-                            list.push({ text: v, weight: 900, type: "zh-l2" }),
-                        );
-                    if (rareEnabled && LEVEL3 && LEVEL3[b])
-                        LEVEL3[b].forEach((v) =>
-                            list.push({ text: v, weight: 700, type: "zh-l3" }),
-                        );
-                    if (englishEnabled && EN_DICT[b]) {
-                        list.push({ text: b, weight: 850, type: "en" });
-                        EN_DICT[b].forEach((zh) =>
-                            list.push({ text: zh, weight: 800, type: "en-zh" }),
-                        );
-                    }
-                    if (cizuEnabled) {
-                        for (let p in CIZU_DICT) {
-                            if (p.startsWith(b) && p !== b) {
-                                CIZU_DICT[p].forEach((h) =>
-                                    list.push({
-                                        text: h,
-                                        weight: 1100 - p.length * 10,
-                                        type: "cz-pred",
-                                    }),
-                                );
-                            }
-                        }
-                    }
+                    const find = (dict, w) => {
+                        if (dict[b])
+                            dict[b].forEach((i) => {
+                                // 确保获取辅助编码（英文注释）
+                                list.push({
+                                    text: i.char || i,
+                                    desc:
+                                        i.en ||
+                                        (typeof i === "object" ? i.en : ""),
+                                    w: w,
+                                });
+                            });
+                    };
+                    if (settings.levels[0]) find(DB.level1, 1500);
+                    if (settings.levels[1]) find(DB.level2, 1000);
+                    if (settings.levels[2]) find(DB.level3, 500);
+                    const seen = new Set();
+                    combinedCandidates = list
+                        .sort((a, b) => b.w - a.w)
+                        .filter((x) => !seen.has(x.text) && seen.add(x.text));
+                } else {
+                    document.getElementById("buffer-display").innerText = "";
+                    combinedCandidates = settings.showDefault
+                        ? DEFAULT_CHARS
+                        : [];
                 }
-                const seen = new Set();
-                combinedCandidates = list
-                    .sort((a, b) => b.weight - a.weight)
-                    .filter((x) => !seen.has(x.text) && seen.add(x.text));
                 render();
-                area.scrollTop = area.scrollHeight;
             }
 
             function render() {
-                const mainArea = document.getElementById("main-candidates");
-                mainArea.innerHTML = combinedCandidates
-                    .slice(0, 10)
-                    .map(
-                        (item, i) => `
-                    <div class="candidate-item ${item.type?.endsWith("-pred") ? "is-pred" : ""}" onclick="selectIdx(${i})">
-                        <span class="cand-key">${i === 9 ? 0 : i + 1}</span>
-                        <div class="cand-text">${item.text}</div>
-                    </div>`,
-                    )
-                    .join("");
-
-                const sideAll = combinedCandidates.slice(10);
-                const hasExtended = sideVisible && sideAll.length > 0;
-
-                // 控制扩展区纵向分隔条的显示
-                document.getElementById("cand-v-resizer").style.display =
-                    hasExtended ? "block" : "none";
-
-                const totalP = Math.ceil(sideAll.length / CANDIDATES_PER_PAGE);
-                const start = currentSidePage * CANDIDATES_PER_PAGE;
-                const sideItems = sideAll.slice(
-                    start,
-                    start + CANDIDATES_PER_PAGE,
-                );
-
-                document.getElementById("side-status").innerText =
-                    sideAll.length ? `(${currentSidePage + 1}/${totalP})` : "";
-                document.getElementById("side-grid").innerHTML = sideItems
-                    .map(
-                        (item, i) => `
-                    <div class="candidate-item ${item.type?.endsWith("-pred") ? "is-pred" : ""}" onclick="selectIdx(${start + i + 10})">
-                        <span class="cand-key">${SIDE_KEYS[i].toUpperCase()}</span>
-                        <div class="cand-text">${item.text}</div>
-                    </div>`,
-                    )
-                    .join("");
-
-                document
-                    .getElementById("extended-section")
-                    .classList.toggle("visible", hasExtended);
-                document
-                    .getElementById("extended-section")
-                    .classList.toggle("active", isSideMode);
-            }
-
-            function selectIdx(idx) {
-                if (combinedCandidates[idx]) {
-                    committed += combinedCandidates[idx].text;
-                    buffer = "";
-                    isSideMode = false;
-                    currentSidePage = 0;
-                    update();
-                }
-            }
-
-            /* ============ 按钮功能 ============ */
-            const searchBtn = document.getElementById("search-btn");
-            function updateSearchBtnUI() {
-                searchBtn.innerText =
-                    currentSearchEngine === "google"
-                        ? "Google (长按切换)"
-                        : "百度 (长按切换)";
-                searchBtn.className = `btn btn-search ${currentSearchEngine}`;
-            }
-            updateSearchBtnUI();
-
-            searchBtn.addEventListener("mousedown", () => {
-                isLongPress = false;
-                searchTimer = setTimeout(() => {
-                    currentSearchEngine =
-                        currentSearchEngine === "baidu" ? "google" : "baidu";
-                    localStorage.setItem("search_engine", currentSearchEngine);
-                    updateSearchBtnUI();
-                    showToast(
-                        `已切换至 ${currentSearchEngine === "baidu" ? "百度" : "Google"}`,
+                let display = combinedCandidates;
+                if (isTabMode && enFilter) {
+                    display = combinedCandidates.filter(
+                        (i) =>
+                            i.desc &&
+                            i.desc
+                                .toLowerCase()
+                                .startsWith(enFilter.toLowerCase()),
                     );
-                    isLongPress = true;
-                }, 600);
-            });
-            searchBtn.addEventListener("mouseup", () => {
-                clearTimeout(searchTimer);
-                if (!isLongPress) executeSearch();
-            });
-
-            function executeSearch() {
-                if (!committed) {
-                    showToast("内容为空");
-                    return;
+                    if (display.length === 1) {
+                        selectCandidate(display[0].text);
+                        return;
+                    }
                 }
-                const url =
-                    currentSearchEngine === "baidu"
-                        ? `https://www.baidu.com/s?wd=${encodeURIComponent(committed)}`
-                        : `https://www.google.com/search?q=${encodeURIComponent(committed)}`;
-                window.open(url);
-                archiveToHistory(committed);
-                committed = "";
-                update();
+                const totalPages = Math.ceil(display.length / pageSize);
+                document.getElementById("page-counter").innerText = buffer
+                    ? `${pageIndex + 1} / ${totalPages || 1}`
+                    : "";
+
+                const pageData = display.slice(
+                    pageIndex * pageSize,
+                    (pageIndex + 1) * pageSize,
+                );
+                document.getElementById("main-candidates").innerHTML = pageData
+                    .map(
+                        (item, i) => `
+                    <div class="candidate-item" onclick="selectCandidate('${item.text}')">
+                        <span class="cand-key">${(i + 1) % 10}</span>
+                        <div class="cand-text">${item.text}</div>
+                        ${item.desc ? `<div class="cand-desc">${item.desc}</div>` : ""}
+                    </div>`,
+                    )
+                    .join("");
             }
 
-            window.sendLongTextToMain = () => {
-                const editor = document.getElementById("long-text-editor");
-                if (!editor.value.trim()) {
-                    showToast("长文区为空");
-                    return;
-                }
-                committed += (committed ? "\n" : "") + editor.value.trim();
+            function selectCandidate(t) {
+                committed += t;
+                resetInput();
                 update();
-                showToast("长文已发送到主区");
-            };
+            }
+            function resetInput() {
+                buffer = "";
+                enFilter = "";
+                isTabMode = false;
+                pageIndex = 0;
+                hInput.value = "";
+            }
 
-            window.toggleLongTextPanel = () => {
-                longTextVisible = !longTextVisible;
-                localStorage.setItem("longtext_visible", longTextVisible);
-                document
-                    .getElementById("long-text-panel")
-                    .classList.toggle("hidden", !longTextVisible);
-                updateAllToggleButtons();
-            };
-
-            window.toggleLongTextEdit = () => {
-                isLongTextEditable = !isLongTextEditable;
-                const editor = document.getElementById("long-text-editor");
-                editor.classList.toggle("editable", isLongTextEditable);
-                document
-                    .getElementById("edit-mode-btn")
-                    .classList.toggle("active", isLongTextEditable);
-                if (isLongTextEditable) editor.focus();
-                else focusHiddenInput();
-            };
-
-            window.copyLongText = () => {
-                const editor = document.getElementById("long-text-editor");
-                editor.select();
-                document.execCommand("copy");
-                showToast("全选复制成功");
-            };
-
-            window.sendToLongText = () => {
-                if (!committed) return;
-                const editor = document.getElementById("long-text-editor");
-                editor.value += (editor.value ? "\n" : "") + committed;
-                committed = "";
-                update();
-                showToast("已发送到长文");
-            };
-
-            /* ============ 键盘事件 ============ */
+            /* ============ 核心交互逻辑 ============ */
             hInput.addEventListener("keydown", (e) => {
+                if (isEditMode) return;
                 const key = e.key;
-                if ((e.ctrlKey || e.metaKey) && key === "Enter") {
-                    e.preventDefault();
-                    sendToLongText();
-                    return;
-                }
-                if ((e.ctrlKey || e.metaKey) && key.toLowerCase() === "c") {
-                    e.preventDefault();
-                    archiveAndCopy();
-                    return;
-                }
                 if (key === "Tab") {
                     e.preventDefault();
-                    isSideMode = !isSideMode;
-                    render();
+                    if (buffer) {
+                        isTabMode = !isTabMode;
+                        enFilter = "";
+                        update();
+                    }
                     return;
                 }
-                if (isSideMode) {
-                    if (key === "=") {
-                        currentSidePage++;
-                        render();
+
+                if (isTabMode && buffer) {
+                    if (/^[a-zA-Z]$/.test(key)) {
                         e.preventDefault();
+                        enFilter += key.toLowerCase();
+                        pageIndex = 0;
+                        render();
                         return;
                     }
-                    if (key === "-" && currentSidePage > 0) {
-                        currentSidePage--;
-                        render();
+                    if (key === "Backspace") {
                         e.preventDefault();
-                        return;
-                    }
-                    const sIdx = SIDE_KEYS.indexOf(key.toLowerCase());
-                    if (sIdx !== -1) {
-                        const gIdx =
-                            currentSidePage * CANDIDATES_PER_PAGE + sIdx + 10;
-                        if (combinedCandidates[gIdx]) {
-                            selectIdx(gIdx);
-                            e.preventDefault();
-                            return;
+                        if (enFilter) {
+                            enFilter = enFilter.slice(0, -1);
+                            render();
+                        } else {
+                            isTabMode = false;
+                            update();
                         }
+                        return;
                     }
                 }
-                if (buffer && /^[0-9]$/.test(key)) {
+
+                if (/^[0-9]$/.test(key)) {
                     e.preventDefault();
-                    const n = key === "0" ? 9 : parseInt(key) - 1;
-                    selectIdx(n);
-                    return;
-                }
-                if (key === "Backspace") {
-                    if (buffer) buffer = buffer.slice(0, -1);
-                    else committed = committed.slice(0, -1);
-                    update();
-                    e.preventDefault();
-                    return;
-                }
-                if (key === " ") {
-                    e.preventDefault();
-                    if (buffer) selectIdx(0);
-                    else committed += " ";
-                    update();
+                    const idx = key === "0" ? 9 : parseInt(key) - 1;
+                    const list =
+                        isTabMode && buffer
+                            ? combinedCandidates.filter((c) =>
+                                  c.desc?.toLowerCase().startsWith(enFilter),
+                              )
+                            : combinedCandidates;
+                    const pageData = list.slice(
+                        pageIndex * pageSize,
+                        (pageIndex + 1) * pageSize,
+                    );
+                    if (pageData[idx]) selectCandidate(pageData[idx].text);
                     return;
                 }
                 if (key === "Enter") {
                     e.preventDefault();
                     if (buffer) {
                         committed += buffer;
-                        buffer = "";
-                    } else committed += "\n";
+                        resetInput();
+                    } else {
+                        committed += "\n";
+                    }
                     update();
-                    return;
-                }
-                if (/^[a-z]$/.test(key)) {
+                } else if (key === "Backspace" && !buffer) {
                     e.preventDefault();
-                    buffer += key;
+                    committed = committed.slice(0, -1);
                     update();
-                    return;
-                }
-                if (key.length === 1 && !buffer && !e.ctrlKey) {
+                } else if (key === " " && buffer) {
                     e.preventDefault();
-                    committed += key;
-                    update();
-                    return;
+                    const list = isTabMode
+                        ? combinedCandidates.filter((c) =>
+                              c.desc?.toLowerCase().startsWith(enFilter),
+                          )
+                        : combinedCandidates;
+                    const pageData = list.slice(
+                        pageIndex * pageSize,
+                        (pageIndex + 1) * pageSize,
+                    );
+                    if (pageData[0]) selectCandidate(pageData[0].text);
                 }
             });
 
-            /* ============ 历史与存档 ============ */
-            function archiveToHistory(text) {
-                if (!text) return;
-                HISTORY.unshift({
-                    text,
-                    time: new Date().toLocaleTimeString(),
-                });
-                if (HISTORY.length > 100) HISTORY = HISTORY.slice(0, 100);
-                localStorage.setItem("ime_flow_v9", JSON.stringify(HISTORY));
-                updateHistoryUI();
-            }
+            document.addEventListener("keydown", (e) => {
+                const key = e.key.toLowerCase();
+                if (e.ctrlKey && key === "e") {
+                    e.preventDefault();
+                    toggleEditMode();
+                }
+                if (e.ctrlKey && key === "c" && !isEditMode) {
+                    e.preventDefault();
+                    archiveAndCopy();
+                }
+                if (e.key === "Escape" && isEditMode) toggleEditMode();
+            });
 
-            async function archiveAndCopy() {
-                if (!committed) return;
-                await navigator.clipboard.writeText(committed);
-                archiveToHistory(committed);
-                committed = "";
+            hInput.addEventListener("input", () => {
+                if (!isTabMode && !isEditMode) {
+                    buffer = hInput.value.replace(/[^a-zA-Z]/g, "");
+                    pageIndex = 0;
+                    update();
+                }
+            });
+
+            function toggleDefaultChars() {
+                settings.showDefault = !settings.showDefault;
+                document
+                    .getElementById("def-btn")
+                    .classList.toggle("active", settings.showDefault);
+                saveSettings();
                 update();
-                showToast("已归档并复制");
+            }
+            function toggleLevel(n) {
+                settings.levels[n - 1] = !settings.levels[n - 1];
+                document
+                    .getElementById(`l${n}-btn`)
+                    .classList.toggle("active", settings.levels[n - 1]);
+                saveSettings();
+                update();
+            }
+            function toggleHistory() {
+                settings.history = !settings.history;
+                document.getElementById("history-panel").style.display =
+                    settings.history ? "flex" : "none";
+                document
+                    .getElementById("l-hist-btn")
+                    .classList.toggle("active", settings.history);
+                saveSettings();
+            }
+            function saveSettings() {
+                localStorage.setItem("ime_settings", JSON.stringify(settings));
             }
 
+            function toggleEditMode() {
+                isEditMode = !isEditMode;
+                outputArea.contentEditable = isEditMode;
+                outputArea.classList.toggle("locked", !isEditMode);
+                document.getElementById("edit-mode-btn").innerText = isEditMode
+                    ? "编辑中 (ESC退出)"
+                    : "锁定模式";
+                document
+                    .getElementById("edit-mode-btn")
+                    .classList.toggle("active", isEditMode);
+                document
+                    .getElementById("output-card")
+                    .classList.toggle("editing", isEditMode);
+                if (!isEditMode) {
+                    committed = outputArea.innerText;
+                    resetInput();
+                    update();
+                    focusHiddenInput();
+                } else {
+                    outputArea.focus();
+                }
+            }
+            function syncFromEditor() {
+                if (isEditMode) committed = outputArea.innerText;
+            }
+            function archiveAndCopy() {
+                if (!committed) return;
+                navigator.clipboard.writeText(committed).then(() => {
+                    HISTORY.unshift({
+                        text: committed,
+                        time: new Date().toLocaleTimeString(),
+                    });
+                    localStorage.setItem(
+                        "ime_history_v18",
+                        JSON.stringify(HISTORY.slice(0, 30)),
+                    );
+                    committed = "";
+                    updateHistoryUI();
+                    update();
+                    showToast("已归档并复制");
+                });
+            }
             function updateHistoryUI() {
                 document.getElementById("history-list").innerHTML = HISTORY.map(
-                    (h, i) => `
-                    <div class="history-item" onclick="copyHistory(${i})" ondblclick="restoreHistory(${i})">
-                        <div class="history-text">${h.text}</div>
-                        <span class="copy-hint">点击复制/双击恢复</span>
+                    (h) => `
+                    <div style="padding:10px; border-bottom:1px solid #eee; cursor:pointer; font-size:12px;" onclick="committed+='${h.text}';update();">
+                        <div style="color:#888; font-size:9px;">${h.time}</div>
+                        ${h.text.substring(0, 30)}...
                     </div>`,
                 ).join("");
             }
-            window.copyHistory = (i) =>
-                navigator.clipboard
-                    .writeText(HISTORY[i].text)
-                    .then(() => showToast("已复制"));
-            window.restoreHistory = (i) => {
-                committed = HISTORY[i].text;
-                update();
-                showToast("已恢复");
-            };
-            window.clearHistory = () => {
-                if (confirm("清空？")) {
-                    HISTORY = [];
-                    updateHistoryUI();
-                }
-            };
-
-            /* ============ 辅助功能 ============ */
-            function updateAllToggleButtons() {
-                const items = {
-                    "rare-toggle": [rareEnabled, "生僻词"],
-                    "english-toggle": [englishEnabled, "英文"],
-                    "cizu-toggle": [cizuEnabled, "词组"],
-                    "toggle-side": [sideVisible, "扩展区"],
-                    "toggle-history": [historyVisible, "存档记录"],
-                    "toggle-longtext": [longTextVisible, "长文编辑"],
-                };
-                for (let id in items) {
-                    const b = document.getElementById(id);
-                    if (b) {
-                        b.textContent = `${items[id][1]}：${items[id][0] ? "开" : "关"}`;
-                        b.classList.toggle("active", items[id][0]);
-                    }
-                }
-            }
-
             function showToast(m) {
                 const t = document.getElementById("toast");
                 t.innerText = m;
@@ -1158,65 +750,37 @@
                 setTimeout(() => (t.style.opacity = 0), 2000);
             }
             function focusHiddenInput() {
-                if (!isLongTextEditable) hInput.focus();
+                if (!isEditMode) hInput.focus();
             }
-
-            window.toggleRare = async () => {
-                rareEnabled = !rareEnabled;
-                localStorage.setItem("rare_enabled", rareEnabled);
-                await init();
-            };
-            window.toggleEnglish = async () => {
-                englishEnabled = !englishEnabled;
-                localStorage.setItem("english_enabled", englishEnabled);
-                await init();
-            };
-            window.toggleCizu = async () => {
-                cizuEnabled = !cizuEnabled;
-                localStorage.setItem("cizu_enabled", cizuEnabled);
-                await init();
-            };
-            window.toggleSidePanel = () => {
-                sideVisible = !sideVisible;
-                localStorage.setItem("side_visible", sideVisible);
-                updateAllToggleButtons();
-                render();
-            };
-            window.toggleHistoryPanel = () => {
-                historyVisible = !historyVisible;
-                localStorage.setItem("history_visible", historyVisible);
-                document.getElementById("history-panel").style.display =
-                    historyVisible ? "flex" : "none";
-                updateAllToggleButtons();
-            };
-
-            /* ============ 初始化拖拽 ============ */
-            document.addEventListener("DOMContentLoaded", () => {
-                // 横向
-                makeResizable("left-resizer", "history-panel", false);
-                makeResizable("right-resizer", "long-text-panel", true);
-
-                // 纵向：输出区 vs 输入区
-                makeResizableV(
-                    "center-v-resizer",
-                    "output-card",
-                    "output_height",
-                    100,
-                    500,
-                );
-
-                // 纵向：主候选区 vs 扩展候选区
-                makeResizableV(
-                    "cand-v-resizer",
-                    "main-candidates",
-                    "main_cand_height",
-                    50,
-                    400,
-                );
+            document.addEventListener("click", (e) => {
+                if (isEditMode && outputArea.contains(e.target)) return;
+                focusHiddenInput();
             });
 
+            function makeResizableV(id, targetId) {
+                const h = document.getElementById(id),
+                    t = document.getElementById(targetId);
+                h.addEventListener("mousedown", (e) => {
+                    const startY = e.clientY,
+                        startH = t.offsetHeight;
+                    const drag = (ev) => {
+                        const newH = startH + (ev.clientY - startY);
+                        t.style.height = newH + "px";
+                        settings.outputHeight = newH;
+                    };
+                    const stop = () => {
+                        document.removeEventListener("mousemove", drag);
+                        saveSettings();
+                    };
+                    document.addEventListener("mousemove", drag);
+                    document.addEventListener("mouseup", stop);
+                });
+            }
+            document.addEventListener("DOMContentLoaded", () => {
+                makeResizableV("center-v-resizer", "output-card");
+            });
             init();
-            window.onload = focusHiddenInput;
+            setInterval(focusHiddenInput, 1000);
         </script>
     </body>
 </html>
