@@ -2,7 +2,7 @@
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
-        <title>Web IME Pro | 核心功能修复版</title>
+        <title>Web IME Pro | 智能逻辑优化版</title>
         <style>
             :root {
                 --primary: #007aff;
@@ -30,8 +30,6 @@
                 max-width: 1900px;
                 height: 96vh;
             }
-
-            /* 顶部工具栏 */
             .toolbar {
                 background: var(--panel-bg);
                 padding: 10px 20px;
@@ -67,7 +65,6 @@
                 text-decoration: none;
                 margin-left: auto;
             }
-
             .content-area {
                 flex: 1;
                 display: flex;
@@ -88,7 +85,6 @@
                 z-index: 10;
                 margin: 2px 0;
             }
-
             .history-panel {
                 flex: 0 0 260px;
                 background: #fff;
@@ -106,8 +102,6 @@
                 max-width: 1000px;
                 margin: 0 auto;
             }
-
-            /* 输出区：确保控制组在右下角 */
             .output-card {
                 background: white;
                 border-radius: 20px;
@@ -130,7 +124,6 @@
                 white-space: pre-wrap;
                 overflow-y: auto;
                 outline: none;
-                user-select: text;
             }
             #output-area.locked::after {
                 content: "";
@@ -151,8 +144,6 @@
                     opacity: 0;
                 }
             }
-
-            /* 关键点：右下角控制按钮 */
             .control-group {
                 position: absolute;
                 right: 15px;
@@ -161,8 +152,6 @@
                 gap: 8px;
                 z-index: 100;
             }
-
-            /* 候选区 */
             .input-card {
                 background: white;
                 padding: 20px;
@@ -192,7 +181,6 @@
                 color: var(--primary);
                 font-weight: bold;
             }
-
             #main-candidates {
                 display: flex;
                 flex-wrap: wrap;
@@ -228,8 +216,7 @@
                 font-size: 11px;
                 color: #888;
                 margin-top: 4px;
-            } /* 辅助编码样式 */
-
+            }
             #hidden-input {
                 position: fixed;
                 left: -999px;
@@ -261,14 +248,6 @@
                 >
                     历史记录
                 </button>
-                <div
-                    style="
-                        width: 1px;
-                        height: 20px;
-                        background: #ddd;
-                        margin: 0 10px;
-                    "
-                ></div>
                 <button
                     id="l1-btn"
                     class="btn btn-toggle"
@@ -290,14 +269,6 @@
                 >
                     三级
                 </button>
-                <div
-                    style="
-                        width: 1px;
-                        height: 20px;
-                        background: #ddd;
-                        margin: 0 10px;
-                    "
-                ></div>
                 <button
                     id="def-btn"
                     class="btn btn-toggle"
@@ -305,26 +276,13 @@
                 >
                     常用字
                 </button>
-
                 <a
                     href="https://github.com/123qweraz/webime"
                     target="_blank"
                     class="btn btn-github"
+                    >GitHub Star</a
                 >
-                    <svg
-                        height="16"
-                        width="16"
-                        viewBox="0 0 16 16"
-                        fill="white"
-                    >
-                        <path
-                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
-                        ></path>
-                    </svg>
-                    GitHub Star
-                </a>
             </div>
-
             <div class="content-area">
                 <div class="history-panel" id="history-panel">
                     <div
@@ -403,6 +361,18 @@
                 { text: "他" },
                 { text: "有" },
             ];
+            const PUNCS = {
+                ",": "，",
+                ".": "。",
+                "!": "！",
+                "?": "？",
+                ";": "；",
+                ":": "：",
+                "(": "（",
+                ")": "）",
+                "[": "【",
+                "]": "】",
+            };
             let DB = { level1: {}, level2: {}, level3: {} };
             let settings = JSON.parse(
                 localStorage.getItem("ime_settings") ||
@@ -419,7 +389,6 @@
             let HISTORY = JSON.parse(
                 localStorage.getItem("ime_history_v18") || "[]",
             );
-
             const hInput = document.getElementById("hidden-input");
             const outputArea = document.getElementById("output-area");
 
@@ -474,37 +443,74 @@
                 if (isEditMode) return;
                 outputArea.innerText = committed;
                 outputArea.scrollTop = outputArea.scrollHeight;
-                document
-                    .getElementById("input-container")
-                    .classList.toggle("tab-mode", isTabMode);
 
                 if (buffer) {
+                    const b = buffer.toLowerCase();
                     document.getElementById("buffer-display").innerText =
                         isTabMode
                             ? buffer + " [过滤: " + enFilter + "]"
                             : buffer;
+
                     let list = [];
-                    const b = buffer.toLowerCase();
-                    const find = (dict, w) => {
-                        if (dict[b])
-                            dict[b].forEach((i) => {
-                                // 确保获取辅助编码（英文注释）
-                                list.push({
-                                    text: i.char || i,
-                                    desc:
-                                        i.en ||
-                                        (typeof i === "object" ? i.en : ""),
-                                    w: w,
+                    // 门槛逻辑：短码用精确，长码用模糊
+                    const isFuzzyMode = b.length >= 6;
+
+                    const findInDict = (dict, weightBase) => {
+                        if (isFuzzyMode) {
+                            // 前缀模糊匹配逻辑
+                            for (let key in dict) {
+                                if (key.startsWith(b)) {
+                                    let weight = weightBase;
+                                    if (key === b) weight += 10000; // 完全匹配置顶
+                                    weight -= (key.length - b.length) * 100; // 越短匹配度越高
+                                    dict[key].forEach((i) => {
+                                        list.push({
+                                            text: i.char || i,
+                                            desc:
+                                                i.en ||
+                                                (typeof i === "object"
+                                                    ? i.en
+                                                    : ""),
+                                            w: weight,
+                                        });
+                                    });
+                                }
+                            }
+                        } else {
+                            // 精确匹配逻辑
+                            if (dict[b]) {
+                                dict[b].forEach((i) => {
+                                    list.push({
+                                        text: i.char || i,
+                                        desc:
+                                            i.en ||
+                                            (typeof i === "object" ? i.en : ""),
+                                        w: weightBase + 10000,
+                                    });
                                 });
-                            });
+                            }
+                        }
                     };
-                    if (settings.levels[0]) find(DB.level1, 1500);
-                    if (settings.levels[1]) find(DB.level2, 1000);
-                    if (settings.levels[2]) find(DB.level3, 500);
+
+                    if (settings.levels[0]) findInDict(DB.level1, 1500);
+                    if (settings.levels[1]) findInDict(DB.level2, 1000);
+                    if (settings.levels[2]) findInDict(DB.level3, 500);
+
                     const seen = new Set();
                     combinedCandidates = list
                         .sort((a, b) => b.w - a.w)
                         .filter((x) => !seen.has(x.text) && seen.add(x.text));
+
+                    // 自动上屏逻辑：仅限模糊匹配模式且唯一匹配
+                    if (
+                        isFuzzyMode &&
+                        combinedCandidates.length === 1 &&
+                        !isTabMode
+                    ) {
+                        const word = combinedCandidates[0].text;
+                        setTimeout(() => selectCandidate(word), 10);
+                        return;
+                    }
                 } else {
                     document.getElementById("buffer-display").innerText = "";
                     combinedCandidates = settings.showDefault
@@ -530,9 +536,10 @@
                     }
                 }
                 const totalPages = Math.ceil(display.length / pageSize);
-                document.getElementById("page-counter").innerText = buffer
-                    ? `${pageIndex + 1} / ${totalPages || 1}`
-                    : "";
+                document.getElementById("page-counter").innerText =
+                    buffer && display.length > 0
+                        ? `${pageIndex + 1} / ${totalPages || 1}`
+                        : "";
 
                 const pageData = display.slice(
                     pageIndex * pageSize,
@@ -542,8 +549,7 @@
                     .map(
                         (item, i) => `
                     <div class="candidate-item" onclick="selectCandidate('${item.text}')">
-                        <span class="cand-key">${(i + 1) % 10}</span>
-                        <div class="cand-text">${item.text}</div>
+                        <span class="cand-key">${(i + 1) % 10}</span><div class="cand-text">${item.text}</div>
                         ${item.desc ? `<div class="cand-desc">${item.desc}</div>` : ""}
                     </div>`,
                     )
@@ -563,10 +569,39 @@
                 hInput.value = "";
             }
 
-            /* ============ 核心交互逻辑 ============ */
             hInput.addEventListener("keydown", (e) => {
                 if (isEditMode) return;
                 const key = e.key;
+                if (PUNCS[key]) {
+                    e.preventDefault();
+                    if (buffer && combinedCandidates.length > 0)
+                        committed += combinedCandidates[0].text;
+                    committed += PUNCS[key];
+                    resetInput();
+                    update();
+                    return;
+                }
+                if (buffer && !isTabMode) {
+                    if (key === "=") {
+                        e.preventDefault();
+                        if (
+                            (pageIndex + 1) * pageSize <
+                            combinedCandidates.length
+                        ) {
+                            pageIndex++;
+                            render();
+                        }
+                        return;
+                    }
+                    if (key === "-") {
+                        e.preventDefault();
+                        if (pageIndex > 0) {
+                            pageIndex--;
+                            render();
+                        }
+                        return;
+                    }
+                }
                 if (key === "Tab") {
                     e.preventDefault();
                     if (buffer) {
@@ -576,7 +611,6 @@
                     }
                     return;
                 }
-
                 if (isTabMode && buffer) {
                     if (/^[a-zA-Z]$/.test(key)) {
                         e.preventDefault();
@@ -597,7 +631,6 @@
                         return;
                     }
                 }
-
                 if (/^[0-9]$/.test(key)) {
                     e.preventDefault();
                     const idx = key === "0" ? 9 : parseInt(key) - 1;
@@ -612,9 +645,7 @@
                         (pageIndex + 1) * pageSize,
                     );
                     if (pageData[idx]) selectCandidate(pageData[idx].text);
-                    return;
-                }
-                if (key === "Enter") {
+                } else if (key === "Enter") {
                     e.preventDefault();
                     if (buffer) {
                         committed += buffer;
@@ -629,11 +660,12 @@
                     update();
                 } else if (key === " " && buffer) {
                     e.preventDefault();
-                    const list = isTabMode
-                        ? combinedCandidates.filter((c) =>
-                              c.desc?.toLowerCase().startsWith(enFilter),
-                          )
-                        : combinedCandidates;
+                    const list =
+                        isTabMode && buffer
+                            ? combinedCandidates.filter((c) =>
+                                  c.desc?.toLowerCase().startsWith(enFilter),
+                              )
+                            : combinedCandidates;
                     const pageData = list.slice(
                         pageIndex * pageSize,
                         (pageIndex + 1) * pageSize,
@@ -691,7 +723,6 @@
             function saveSettings() {
                 localStorage.setItem("ime_settings", JSON.stringify(settings));
             }
-
             function toggleEditMode() {
                 isEditMode = !isEditMode;
                 outputArea.contentEditable = isEditMode;
@@ -738,8 +769,7 @@
                 document.getElementById("history-list").innerHTML = HISTORY.map(
                     (h) => `
                     <div style="padding:10px; border-bottom:1px solid #eee; cursor:pointer; font-size:12px;" onclick="committed+='${h.text}';update();">
-                        <div style="color:#888; font-size:9px;">${h.time}</div>
-                        ${h.text.substring(0, 30)}...
+                        <div style="color:#888; font-size:9px;">${h.time}</div>${h.text.substring(0, 30)}...
                     </div>`,
                 ).join("");
             }
@@ -756,7 +786,6 @@
                 if (isEditMode && outputArea.contains(e.target)) return;
                 focusHiddenInput();
             });
-
             function makeResizableV(id, targetId) {
                 const h = document.getElementById(id),
                     t = document.getElementById(targetId);
