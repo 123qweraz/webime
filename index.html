@@ -832,8 +832,11 @@
                 if (buffer) {
                     const b = buffer.toLowerCase();
                     let bufferHTML = escapeHtml(buffer);
-                    if (isTabMode && enFilter) {
-                        bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
+                    if (isTabMode) {
+                        bufferHTML += "-";
+                        if (enFilter) {
+                            bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
+                        }
                     }
                     document.getElementById("buffer-display").innerHTML = bufferHTML;
                     
@@ -868,22 +871,39 @@
                         );
                     }
 
-                    const seen = new Set();
-                    combinedCandidates = list
-                        .sort((a, b) => b.w - a.w)
-                        .filter((x) => !seen.has(x.text) && seen.add(x.text));
+                                                            const seen = new Set();
 
-                    if (
-                        isFuzzyMode &&
-                        combinedCandidates.length === 1 &&
-                        !isTabMode
-                    ) {
-                        const word = combinedCandidates[0].text;
-                        setTimeout(() => selectCandidate(word), 10);
-                        return;
-                    }
-                } else {
-                    document.getElementById("buffer-display").innerText = "";
+                                                            combinedCandidates = list
+
+                                                                .sort((a, b) => b.w - a.w)
+
+                                                                .filter((x) => !seen.has(x.text) && seen.add(x.text));
+
+                                        
+
+                                                            if (
+
+                                                                b.length >= 6 &&
+
+                                                                DB[b] &&
+
+                                                                DB[b].length === 1 &&
+
+                                                                combinedCandidates.length === 1 &&
+
+                                                                !isTabMode
+
+                                                            ) {
+
+                                                                const word = combinedCandidates[0].text;
+
+                                                                setTimeout(() => selectCandidate(word), 10);
+
+                                                                return;
+
+                                                            }
+
+                                                        } else {                    document.getElementById("buffer-display").innerText = "";
                     combinedCandidates = settings.showDefault
                         ? DEFAULT_CHARS
                         : [];
