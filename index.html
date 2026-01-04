@@ -831,10 +831,12 @@
 
                 if (buffer) {
                     const b = buffer.toLowerCase();
-                    document.getElementById("buffer-display").innerText =
-                        isTabMode
-                            ? buffer + " [过滤: " + enFilter + "]"
-                            : buffer;
+                    let bufferHTML = escapeHtml(buffer);
+                    if (isTabMode && enFilter) {
+                        bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
+                    }
+                    document.getElementById("buffer-display").innerHTML = bufferHTML;
+                    
                     let list = [];
                     const isFuzzyMode = b.length >= 6;
 
@@ -1077,7 +1079,10 @@
                 }
                 if (e.key === "Escape") {
                     if (isEditMode) toggleEditMode();
-                    if (isCorrectionMode) exitCorrectionMode(false);
+                    if (isCorrectionMode) {
+                        e.preventDefault();
+                        exitCorrectionMode('update_buffer');
+                    }
                 }
             });
 
@@ -1100,11 +1105,20 @@
                 );
             }
 
-            function exitCorrectionMode(save) {
+            function exitCorrectionMode(action) {
                 isCorrectionMode = false;
                 correctionWrapper.style.display = "none";
-                if (save) {
-                    const raw = correctionInput.value.trim();
+                const raw = correctionInput.value.trim();
+
+                if (action === 'update_buffer') {
+                    // Reset tab/page state, then set buffer from correction input and update candidates
+                    enFilter = "";
+                    isTabMode = false;
+                    pageIndex = 0;
+                    buffer = raw.replace(/[^a-zA-Z]/g, "");
+                    hInput.value = buffer;
+                    update();
+                } else if (action === 'convert_sentence') {
                     if (raw) {
                         const result = convertSentence(raw);
                         committed += result;
@@ -1112,6 +1126,7 @@
                         update();
                     }
                 }
+                // If action is anything else (e.g. undefined on blur), just cancel.
                 focusHiddenInput();
             }
 
@@ -1141,13 +1156,13 @@
             correctionInput.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     e.preventDefault();
-                    exitCorrectionMode(true);
+                    exitCorrectionMode('convert_sentence');
                 } else if (e.key === "Escape") {
                     e.preventDefault();
-                    exitCorrectionMode(false);
+                    exitCorrectionMode('update_buffer');
                 } else if (e.ctrlKey && e.key.toLowerCase() === "i") {
                     e.preventDefault();
-                    exitCorrectionMode(true);
+                    exitCorrectionMode('convert_sentence');
                 }
             });
 
