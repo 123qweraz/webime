@@ -295,6 +295,20 @@
                 >
                     历史记录
                 </button>
+                <div
+                    style="
+                        width: 1px;
+                        height: 20px;
+                        background: #ddd;
+                        margin: 0 5px;
+                    "
+                ></div>
+                <button
+                    class="btn btn-action"
+                    onclick="document.getElementById('file-uploader').click()"
+                >
+                    导入词库
+                </button>
                 <button
                     id="l1-btn"
                     class="btn btn-toggle"
@@ -350,12 +364,6 @@
                     "
                 ></div>
 
-                <button
-                    class="btn btn-action"
-                    onclick="document.getElementById('file-uploader').click()"
-                >
-                    导入词库
-                </button>
                 <input
                     type="file"
                     id="file-uploader"
@@ -522,11 +530,15 @@
                 await Promise.all([
                     load(1, "first_dict", [
                         "dict.json",
-                        "cizu_dict.json",
-                        "en_dict.json",
+                        "dict_cizu.json",
+                        "dict_enlt5s.json",
+                        "dict_5_10s.json",
                     ]),
-                    load(2, "second_dict", ["dict.json", "cizu_dict.json"]),
-                    load(3, "third_dict", ["dict.json"]),
+                    load(2, "second_dict", [
+                        "level-2_char_en.json",
+                        "cizu_dict.json",
+                    ]),
+                    load(3, "third_dict", ["level-3_char_en.json"]),
                 ]);
                 update();
                 updateHistoryUI();

@@ -1,37 +1,45 @@
 #!/usr/bin/env python3
 import json
+import sys
+from collections import OrderedDict
 
-PINYIN_JSON = "dict_hanzi.json"  # 第①种
-ENGLISH_JSON = "dict_en_char.json"  # 第②种
-OUTPUT_JSON = "merged.json"
 
-# ===== 1️⃣ 加载数据 =====
-with open(PINYIN_JSON, "r", encoding="utf-8") as f:
-    pinyin_data = json.load(f)
+def load_json(path):
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
-with open(ENGLISH_JSON, "r", encoding="utf-8") as f:
-    english_data = json.load(f)
 
-# ===== 2️⃣ 英文词库反转：汉字 -> 英文 =====
-char_to_english = {}
+def save_json(data, path):
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
-for en, chars in english_data.items():
-    if chars:
-        ch = chars[0]
-        # 只保留第一个英文解释
-        if ch not in char_to_english:
-            char_to_english[ch] = en
 
-# ===== 3️⃣ 合并 =====
-merged = {}
+def merge_bc(char_en, pinyin_chars):
+    """
+    char_en: dict, char -> en
+    pinyin_chars: dict, pinyin -> [char]
+    """
+    result = OrderedDict()
 
-for py, chars in pinyin_data.items():
-    merged[py] = []
-    for ch in chars:
-        merged[py].append({"char": ch, "en": char_to_english.get(ch)})
+    for pinyin in sorted(pinyin_chars.keys()):
+        result[pinyin] = []
+        for char in pinyin_chars[pinyin]:
+            result[pinyin].append({"char": char, "en": char_en.get(char)})
 
-# ===== 4️⃣ 输出 =====
-with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
-    json.dump(merged, f, ensure_ascii=False, indent=2)
+    return result
 
-print("完成：已给拼音词表挂载英文释义")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 4:
+        print(
+            "用法: python merge_bc_to_a.py char_en.json pinyin_chars.json output.json"
+        )
+        sys.exit(1)
+
+    char_en = load_json(sys.argv[1])
+    pinyin_chars = load_json(sys.argv[2])
+
+    merged = merge_bc(char_en, pinyin_chars)
+    save_json(merged, sys.argv[3])
+
+    print(f"✔ 合并完成，拼音数: {len(merged)}")
