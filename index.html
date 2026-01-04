@@ -232,7 +232,6 @@
                 opacity: 0;
             }
 
-            /* 修正模式输入框样式 */
             #correction-wrapper {
                 position: absolute;
                 bottom: 20px;
@@ -279,10 +278,70 @@
                 z-index: 999;
                 pointer-events: none;
             }
-            /* 隐藏的文件输入 */
             #file-uploader {
                 display: none;
             }
+            .dict-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 5px;
+                font-size: 13px;
+                border-bottom: 1px solid #f5f5f5;
+            }
+            .dict-name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 160px;
+            }
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 34px;
+                height: 20px;
+            }
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                transition: 0.4s;
+                border-radius: 20px;
+            }
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 2px;
+                bottom: 2px;
+                background-color: white;
+                transition: 0.4s;
+                border-radius: 50%;
+            }
+            input:checked + .slider {
+                background-color: var(--primary);
+            }
+            input:checked + .slider:before {
+                transform: translateX(14px);
+            }
+            .history-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px; border-bottom: 1px solid #eee; }
+            .history-text { flex-grow: 1; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .history-time { color: #888; font-size: 9px; margin-bottom: 2px; }
+            .history-content { font-size: 12px; }
+            .delete-btn { color: #ff3b30; cursor: pointer; font-size: 20px; font-weight: bold; padding: 0 5px; border-radius: 50%; visibility: hidden; opacity: 0; transition: .2s; }
+            .history-item:hover .delete-btn { visibility: visible; opacity: 1; }
+            .dict-item .delete-btn { visibility: visible; opacity: 1; margin-right: 5px; }
+
         </style>
     </head>
     <body>
@@ -308,27 +367,6 @@
                     onclick="document.getElementById('file-uploader').click()"
                 >
                     导入词库
-                </button>
-                <button
-                    id="l1-btn"
-                    class="btn btn-toggle"
-                    onclick="toggleLevel(1)"
-                >
-                    一级
-                </button>
-                <button
-                    id="l2-btn"
-                    class="btn btn-toggle"
-                    onclick="toggleLevel(2)"
-                >
-                    二级
-                </button>
-                <button
-                    id="l3-btn"
-                    class="btn btn-toggle"
-                    onclick="toggleLevel(3)"
-                >
-                    三级
                 </button>
                 <button
                     id="def-btn"
@@ -382,17 +420,46 @@
                 <div class="history-panel" id="history-panel">
                     <div
                         style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
                             font-weight: bold;
                             font-size: 14px;
                             border-bottom: 1px solid #eee;
                             padding-bottom: 8px;
                         "
                     >
-                        最近归档
+                        <span>最近归档</span>
+                        <span onclick="clearHistory()" style="font-size: 11px; color: var(--primary); cursor: pointer; font-weight: normal;">清空全部</span>
                     </div>
                     <div
                         id="history-list"
-                        style="flex: 1; overflow-y: auto; margin-top: 10px"
+                        style="
+                            flex: 1;
+                            overflow-y: auto;
+                            margin-top: 10px;
+                            min-height: 50px;
+                        "
+                    ></div>
+                    <div
+                        style="
+                            margin-top: 15px;
+                            padding-top: 15px;
+                            border-top: 1px solid #eee;
+                            font-weight: bold;
+                            font-size: 14px;
+                        "
+                    >
+                        词典管理
+                    </div>
+                    <div
+                        id="dict-management-list"
+                        style="
+                            flex: 1;
+                            overflow-y: auto;
+                            margin-top: 10px;
+                            min-height: 50px;
+                        "
                     ></div>
                 </div>
                 <div class="resizer" id="left-resizer"></div>
@@ -483,23 +550,64 @@
                 "]": "】",
             };
 
-            // 词库结构
-            let DB = { level1: {}, level2: {}, level3: {} };
+            let DB = {};
+            let allDicts = [];
+            const BUILT_IN_DICTS = [
+                {
+                    name: "基础词典",
+                    path: "dicts/first_dict/dict.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "词组词典",
+                    path: "dicts/first_dict/dict_cizu.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "英文短词",
+                    path: "dicts/first_dict/dict_enlt5s.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "英文长词",
+                    path: "dicts/first_dict/dict_5_10s.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "二级字词",
+                    path: "dicts/second_dict/level-2_char_en.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "三级字词",
+                    path: "dicts/third_dict/level-3_char_en.json",
+                    enabled: false,
+                    type: "built-in",
+                },
+            ];
 
             let settings = JSON.parse(
-                localStorage.getItem("ime_settings") ||
-                    '{"levels":[true, true, false], "history":true, "outputHeight":300, "showDefault":true}',
+                localStorage.getItem("ime_settings") || "{}",
             );
+            if (!settings.outputHeight) settings.outputHeight = 300;
+            if (typeof settings.history === "undefined")
+                settings.history = true;
+            if (typeof settings.showDefault === "undefined")
+                settings.showDefault = true;
+
             let buffer = "",
                 committed = "",
                 isTabMode = false,
                 enFilter = "",
                 isEditMode = false;
-
-            // 新增状态
-            let isPracticeMode = false;
-            let practiceTargetText = "";
-            let isCorrectionMode = false;
+            let isPracticeMode = false,
+                practiceTargetText = "",
+                isCorrectionMode = false;
 
             let combinedCandidates = [],
                 pageIndex = 0;
@@ -516,46 +624,134 @@
 
             async function init() {
                 applySettings();
-                const load = async (num, dir, files) => {
-                    const t = DB[`level${num}`];
-                    for (const f of files) {
-                        try {
-                            const r = await fetch(`dicts/${dir}/${f}`);
-                            if (!r.ok) continue;
-                            const d = await r.json();
-                            mergeIntoDict(t, d);
-                        } catch (e) {}
-                    }
-                };
-                await Promise.all([
-                    load(1, "first_dict", [
-                        "dict.json",
-                        "dict_cizu.json",
-                        "dict_enlt5s.json",
-                        "dict_5_10s.json",
-                    ]),
-                    load(2, "second_dict", [
-                        "level-2_char_en.json",
-                        "cizu_dict.json",
-                    ]),
-                    load(3, "third_dict", ["level-3_char_en.json"]),
-                ]);
+                loadDictConfig();
+                renderDictManagement();
+                await loadAllDicts();
                 update();
                 updateHistoryUI();
             }
 
-            // 统一的合并词库逻辑
+            function loadDictConfig() {
+                const storedDicts = JSON.parse(
+                    localStorage.getItem("ime_dicts_config"),
+                );
+                if (storedDicts) {
+                    allDicts = storedDicts;
+                    BUILT_IN_DICTS.forEach((builtInDict) => {
+                        if (
+                            !allDicts.find((d) => d.path === builtInDict.path)
+                        ) {
+                            allDicts.push(builtInDict);
+                        }
+                    });
+                } else {
+                    allDicts = [...BUILT_IN_DICTS];
+                }
+                saveDictConfig();
+            }
+
+            function saveDictConfig() {
+                localStorage.setItem(
+                    "ime_dicts_config",
+                    JSON.stringify(allDicts),
+                );
+            }
+
+            function renderDictManagement() {
+                const listEl = document.getElementById("dict-management-list");
+                listEl.innerHTML = allDicts
+                    .map(
+                        (dict, index) => `
+                    <div class="dict-item">
+                        <span class="dict-name" title="${dict.name}">${dict.name} ${dict.wordCount !== undefined ? `(${dict.wordCount}词)` : ''}</span>
+                        <div style="display: flex; align-items: center;">
+                            ${dict.type === 'user' ? `<div class="delete-btn" style="padding-right: 10px;" title="删除词典" onclick="deleteDict(${index})">&times;</div>` : ''}
+                            <label class="switch">
+                                <input type="checkbox" ${dict.enabled ? "checked" : ""} onchange="toggleDict(${index})">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                `,
+                    )
+                    .join("");
+            }
+
+            async function deleteDict(index) {
+                const dict = allDicts[index];
+                if (dict.type !== 'user') {
+                    showToast("内置词典无法删除。");
+                    return;
+                }
+                if (confirm(`确定要删除导入的词典 "${dict.name}" 吗？此操作无法撤销。`)) {
+                    allDicts.splice(index, 1);
+                    saveDictConfig();
+                    renderDictManagement();
+                    showToast("词典已删除，正在刷新...");
+                    await loadAllDicts();
+                    update();
+                }
+            }
+
+            async function toggleDict(index) {
+                allDicts[index].enabled = !allDicts[index].enabled;
+                saveDictConfig();
+                showToast("词典设置已更新，正在重新加载...");
+                await loadAllDicts();
+                update();
+            }
+
             function mergeIntoDict(targetDict, newDict) {
                 for (let k in newDict) {
                     let key = k.toLowerCase();
                     if (!targetDict[key]) targetDict[key] = [];
-                    // 去重合并
                     const newItems = Array.isArray(newDict[k])
                         ? newDict[k]
                         : [newDict[k]];
-                    // 简单合并，实际应用可以做更复杂的去重
                     targetDict[key] = targetDict[key].concat(newItems);
                 }
+            }
+
+            function calculateWordCount(dictContent) {
+                return Object.keys(dictContent).length;
+            }
+
+            async function loadAllDicts() {
+                DB = {};
+                const loadPromises = allDicts
+                    .filter((d) => d.enabled)
+                    .map((dict, index) => {
+                        return new Promise(async (resolve) => {
+                            try {
+                                let dictData;
+                                if (dict.type === "built-in") {
+                                    const r = await fetch(dict.path);
+                                    if (!r.ok) return resolve();
+                                    dictData = await r.json();
+                                    mergeIntoDict(DB, dictData);
+                                } else if (
+                                    dict.type === "user" &&
+                                    dict.content
+                                ) {
+                                    dictData = JSON.parse(dict.content);
+                                    mergeIntoDict(DB, dictData);
+                                }
+                                if (dictData && allDicts[index]) { // Ensure allDicts[index] exists before updating
+                                    allDicts[index].wordCount = calculateWordCount(dictData);
+                                }
+                            } catch (e) {
+                                console.error(
+                                    "Failed to load or parse dict:",
+                                    dict.name,
+                                    e,
+                                );
+                            }
+                            resolve();
+                        });
+                    });
+                await Promise.all(loadPromises);
+                console.log("All enabled dicts loaded.");
+                renderDictManagement(); // Re-render to show updated counts
             }
 
             function applySettings() {
@@ -569,27 +765,35 @@
                 document
                     .getElementById("def-btn")
                     .classList.toggle("active", settings.showDefault);
-                settings.levels.forEach((active, i) =>
-                    document
-                        .getElementById(`l${i + 1}-btn`)
-                        .classList.toggle("active", active),
-                );
             }
 
-            // --- 词库导入功能 ---
             function handleImportDict(input) {
                 const file = input.files[0];
                 if (!file) return;
 
                 const reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = async function (e) {
                     try {
-                        const json = JSON.parse(e.target.result);
-                        // 将导入的词库默认合并到 Level 1 (最高优先级)
-                        mergeIntoDict(DB.level1, json);
-                        showToast(`成功导入词库: ${file.name}`);
-                        input.value = ""; // 重置 input 以便允许再次导入同名文件
-                        update(); // 刷新可能显示的候选词
+                        const content = e.target.result;
+                        const dictData = JSON.parse(content); // Parse content to get dictData
+                        
+                        const newDict = {
+                            name: file.name,
+                            enabled: true,
+                            type: 'user',
+                            content: content,
+                            wordCount: calculateWordCount(dictData) // Calculate count here
+                        };
+
+                        allDicts.push(newDict);
+                        saveDictConfig();
+                        renderDictManagement();
+                        
+                        showToast(`成功导入词库: ${file.name}, 正在重新加载...`);
+                        await loadAllDicts();
+                        update();
+                        
+                        input.value = "";
                     } catch (err) {
                         alert("词库文件格式错误，请确保是标准的 JSON 格式。");
                         console.error(err);
@@ -601,7 +805,6 @@
             function update() {
                 if (isEditMode) return;
 
-                // 练习模式渲染
                 if (isPracticeMode && practiceTargetText) {
                     if (practiceTargetText.startsWith(committed)) {
                         const remaining = practiceTargetText.substring(
@@ -611,9 +814,8 @@
                             escapeHtml(committed) +
                             `<span class="practice-hint">${escapeHtml(remaining)}</span>`;
                     } else {
-                        outputArea.innerText = committed; // 输错不显示后续提示
+                        outputArea.innerText = committed;
                     }
-                    // 自动跳下一组
                     if (committed === practiceTargetText) {
                         setTimeout(() => {
                             committed = "";
@@ -627,7 +829,6 @@
                 }
                 outputArea.scrollTop = outputArea.scrollHeight;
 
-                // 候选词逻辑
                 if (buffer) {
                     const b = buffer.toLowerCase();
                     document.getElementById("buffer-display").innerText =
@@ -637,42 +838,33 @@
                     let list = [];
                     const isFuzzyMode = b.length >= 6;
 
-                    const findInDict = (dict, weightBase) => {
-                        if (isFuzzyMode) {
-                            for (let key in dict) {
-                                if (key.startsWith(b)) {
-                                    let weight = weightBase;
-                                    if (key === b) weight += 10000;
-                                    weight -= (key.length - b.length) * 100;
-                                    dict[key].forEach((i) => {
-                                        list.push({
-                                            text: i.char || i,
-                                            desc:
-                                                i.en ||
-                                                (typeof i === "object"
-                                                    ? i.en
-                                                    : ""),
-                                            w: weight,
-                                        });
-                                    });
-                                }
+                    if (isFuzzyMode) {
+                        for (let key in DB) {
+                            if (key.startsWith(b)) {
+                                let weight = 1000;
+                                if (key === b) weight += 10000;
+                                weight -= (key.length - b.length) * 100;
+                                DB[key].forEach((i) =>
+                                    list.push({
+                                        text: i.char || i,
+                                        desc:
+                                            i.en ||
+                                            (typeof i === "object" ? i.en : ""),
+                                        w: weight,
+                                    }),
+                                );
                             }
-                        } else if (dict[b]) {
-                            dict[b].forEach((i) => {
-                                list.push({
-                                    text: i.char || i,
-                                    desc:
-                                        i.en ||
-                                        (typeof i === "object" ? i.en : ""),
-                                    w: weightBase + 10000,
-                                });
-                            });
                         }
-                    };
-
-                    if (settings.levels[0]) findInDict(DB.level1, 1500);
-                    if (settings.levels[1]) findInDict(DB.level2, 1000);
-                    if (settings.levels[2]) findInDict(DB.level3, 500);
+                    } else if (DB[b]) {
+                        DB[b].forEach((i) =>
+                            list.push({
+                                text: i.char || i,
+                                desc:
+                                    i.en || (typeof i === "object" ? i.en : ""),
+                                w: 10000,
+                            }),
+                        );
+                    }
 
                     const seen = new Set();
                     combinedCandidates = list
@@ -753,12 +945,10 @@
                 hInput.value = "";
             }
 
-            // --- 事件监听 ---
             hInput.addEventListener("keydown", (e) => {
-                if (isEditMode || isCorrectionMode) return; // 模式排他
+                if (isEditMode || isCorrectionMode) return;
                 const key = e.key;
 
-                // Ctrl+I 进入长句/修正模式
                 if (e.ctrlKey && key.toLowerCase() === "i") {
                     e.preventDefault();
                     enterCorrectionMode();
@@ -775,7 +965,6 @@
                     return;
                 }
 
-                // 翻页逻辑
                 if (buffer && !isTabMode) {
                     if (key === "=") {
                         e.preventDefault();
@@ -808,7 +997,6 @@
                     return;
                 }
 
-                // Tab 过滤模式
                 if (isTabMode && buffer) {
                     if (/^[a-zA-Z]$/.test(key)) {
                         e.preventDefault();
@@ -830,7 +1018,6 @@
                     }
                 }
 
-                // 数字选词
                 if (/^[0-9]$/.test(key)) {
                     e.preventDefault();
                     const idx = key === "0" ? 9 : parseInt(key) - 1;
@@ -845,9 +1032,7 @@
                         (pageIndex + 1) * pageSize,
                     );
                     if (pageData[idx]) selectCandidate(pageData[idx].text);
-                }
-                // 回车上屏
-                else if (key === "Enter") {
+                } else if (key === "Enter") {
                     e.preventDefault();
                     if (buffer) {
                         committed += buffer;
@@ -856,15 +1041,11 @@
                         committed += "\n";
                     }
                     update();
-                }
-                // 删除键
-                else if (key === "Backspace" && !buffer) {
+                } else if (key === "Backspace" && !buffer) {
                     e.preventDefault();
                     committed = committed.slice(0, -1);
                     update();
-                }
-                // 空格首选
-                else if (key === " " && buffer) {
+                } else if (key === " " && buffer) {
                     e.preventDefault();
                     const list =
                         isTabMode && buffer
@@ -882,13 +1063,11 @@
 
             document.addEventListener("keydown", (e) => {
                 const key = e.key.toLowerCase();
-                // Ctrl+E 切换编辑
                 if (e.ctrlKey && key === "e") {
                     e.preventDefault();
                     toggleEditMode();
                     return;
                 }
-                // Ctrl+C 复制
                 if (e.ctrlKey && key === "c") {
                     if (!isEditMode && !isCorrectionMode) {
                         e.preventDefault();
@@ -910,13 +1089,11 @@
                 }
             });
 
-            // --- 修正/长句模式逻辑 (核心更新) ---
             function enterCorrectionMode() {
                 isCorrectionMode = true;
                 correctionWrapper.style.display = "block";
-                correctionInput.value = buffer; // 预填充当前的 buffer
+                correctionInput.value = buffer;
                 correctionInput.focus();
-                // 将光标移到末尾
                 correctionInput.setSelectionRange(
                     correctionInput.value.length,
                     correctionInput.value.length,
@@ -931,45 +1108,28 @@
                     if (raw) {
                         const result = convertSentence(raw);
                         committed += result;
-                        resetInput(); // 清空原有 buffer，因为我们已经处理完了
+                        resetInput();
                         update();
                     }
                 }
                 focusHiddenInput();
             }
 
-            // 核心：把 "ni hao ma" 转换成 "你好吗"
             function convertSentence(inputStr) {
-                // 1. 按空格分割
                 const segments = inputStr.split(/\s+/);
                 let finalStr = "";
-
-                // 2. 遍历每个片段
                 for (const seg of segments) {
                     if (!seg) continue;
-                    // 纯字母视作拼音，否则直接保留原样（比如用户输了标点）
                     if (/^[a-zA-Z]+$/.test(seg)) {
                         const lowSeg = seg.toLowerCase();
-                        // 查找候选词 (Level 1 -> 2 -> 3)
-                        let best = null;
-
-                        // 辅助查找函数
-                        const getBest = (dict) => {
-                            if (dict[lowSeg]) return dict[lowSeg][0]; // 取第一个
-                            return null;
-                        };
-
-                        if (settings.levels[0]) best = getBest(DB.level1);
-                        if (!best && settings.levels[1])
-                            best = getBest(DB.level2);
-                        if (!best && settings.levels[2])
-                            best = getBest(DB.level3);
+                        let best =
+                            DB[lowSeg] && DB[lowSeg][0] ? DB[lowSeg][0] : null;
 
                         if (best) {
                             finalStr +=
                                 typeof best === "object" ? best.char : best;
                         } else {
-                            finalStr += seg; // 没找到就保留原文
+                            finalStr += seg;
                         }
                     } else {
                         finalStr += seg;
@@ -987,18 +1147,15 @@
                     exitCorrectionMode(false);
                 } else if (e.ctrlKey && e.key.toLowerCase() === "i") {
                     e.preventDefault();
-                    // 允许连按 Ctrl+I 触发确认
                     exitCorrectionMode(true);
                 }
             });
 
-            // --- 练习模式逻辑 (数量优化) ---
             function togglePracticeMode() {
                 isPracticeMode = !isPracticeMode;
                 document
                     .getElementById("practice-btn")
                     .classList.toggle("active", isPracticeMode);
-
                 if (isPracticeMode) {
                     committed = "";
                     generatePracticeText();
@@ -1014,25 +1171,17 @@
 
             function generatePracticeText() {
                 let allWords = [];
-                const collect = (dict) => {
-                    for (let k in dict) {
-                        dict[k].forEach((item) => {
-                            const text =
-                                typeof item === "object" ? item.char : item;
-                            if (text.length > 1) allWords.push(text);
-                        });
-                    }
-                };
-                if (settings.levels[0]) collect(DB.level1);
-                if (settings.levels[1]) collect(DB.level2);
-                if (settings.levels[2]) collect(DB.level3);
-
+                for (let k in DB) {
+                    DB[k].forEach((item) => {
+                        const text =
+                            typeof item === "object" ? item.char : item;
+                        if (text.length > 1) allWords.push(text);
+                    });
+                }
                 if (allWords.length === 0) {
                     practiceTargetText = "词库为空，请先加载或导入词库。";
                     return;
                 }
-
-                // 优化：只生成 5 组词
                 const COUNT = 5;
                 let result = "";
                 for (let i = 0; i < COUNT; i++) {
@@ -1044,7 +1193,6 @@
                 practiceTargetText = result;
             }
 
-            // --- 常规设置与工具函数 ---
             function toggleDefaultChars() {
                 settings.showDefault = !settings.showDefault;
                 document
@@ -1053,14 +1201,7 @@
                 saveSettings();
                 update();
             }
-            function toggleLevel(n) {
-                settings.levels[n - 1] = !settings.levels[n - 1];
-                document
-                    .getElementById(`l${n}-btn`)
-                    .classList.toggle("active", settings.levels[n - 1]);
-                saveSettings();
-                update();
-            }
+
             function toggleHistory() {
                 settings.history = !settings.history;
                 document.getElementById("history-panel").style.display =
@@ -1070,9 +1211,11 @@
                     .classList.toggle("active", settings.history);
                 saveSettings();
             }
+
             function saveSettings() {
                 localStorage.setItem("ime_settings", JSON.stringify(settings));
             }
+
             function toggleEditMode() {
                 isEditMode = !isEditMode;
                 outputArea.contentEditable = isEditMode;
@@ -1100,9 +1243,11 @@
                     focusHiddenInput();
                 }
             }
+
             function syncFromEditor() {
                 if (isEditMode) committed = outputArea.innerText;
             }
+
             function archiveAndCopy() {
                 if (!committed) return;
                 navigator.clipboard.writeText(committed).then(() => {
@@ -1120,28 +1265,54 @@
                     showToast("已归档并复制");
                 });
             }
+
+            function clearHistory() {
+                if (confirm('确定要清空所有历史记录吗？')) {
+                    HISTORY = [];
+                    localStorage.setItem("ime_history_v18", "[]");
+                    updateHistoryUI();
+                    showToast("历史记录已清空");
+                }
+            }
+
+            function deleteHistoryItem(index) {
+                HISTORY.splice(index, 1);
+                localStorage.setItem("ime_history_v18", JSON.stringify(HISTORY));
+                updateHistoryUI();
+            }
+
             function updateHistoryUI() {
                 document.getElementById("history-list").innerHTML = HISTORY.map(
-                    (h) =>
-                        `<div style="padding:10px; border-bottom:1px solid #eee; cursor:pointer; font-size:12px;" onclick="committed+='${h.text}';update();"><div style="color:#888; font-size:9px;">${h.time}</div>${h.text.substring(0, 30)}...</div>`,
+                    (h, i) =>
+                        `<div class="history-item">
+                            <div class="history-text" title="点击以上屏" onclick="committed+='${h.text.replace(/'/g, "\\'").replace(/"/g, '&quot;')}';update();">
+                                <div class="history-time">${h.time}</div>
+                                <div class="history-content">${escapeHtml(h.text.substring(0, 30))}${h.text.length > 30 ? '...' : ''}</div>
+                            </div>
+                            <div class="delete-btn" title="删除此条" onclick="deleteHistoryItem(${i})">&times;</div>
+                        </div>`,
                 ).join("");
             }
+
             function showToast(m) {
                 const t = document.getElementById("toast");
                 t.innerText = m;
                 t.style.opacity = 1;
                 setTimeout(() => (t.style.opacity = 0), 2000);
             }
+
             function focusHiddenInput() {
                 if (!isEditMode && !isCorrectionMode) hInput.focus();
             }
+
             document.addEventListener("click", (e) => {
                 if (isEditMode && outputArea.contains(e.target)) return;
                 if (isCorrectionMode && correctionWrapper.contains(e.target))
                     return;
-                if (e.target.id === "file-uploader") return; // 允许点击文件上传
+                if (e.target.id === "file-uploader") return;
                 focusHiddenInput();
             });
+
             function makeResizableV(id, targetId) {
                 const h = document.getElementById(id),
                     t = document.getElementById(targetId);
@@ -1161,9 +1332,11 @@
                     document.addEventListener("mouseup", stop);
                 });
             }
+
             document.addEventListener("DOMContentLoaded", () => {
                 makeResizableV("center-v-resizer", "output-card");
             });
+
             init();
             setInterval(focusHiddenInput, 1000);
         </script>
