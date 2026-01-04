@@ -450,19 +450,16 @@
                         isTabMode
                             ? buffer + " [过滤: " + enFilter + "]"
                             : buffer;
-
                     let list = [];
-                    // 门槛逻辑：短码用精确，长码用模糊
                     const isFuzzyMode = b.length >= 6;
 
                     const findInDict = (dict, weightBase) => {
                         if (isFuzzyMode) {
-                            // 前缀模糊匹配逻辑
                             for (let key in dict) {
                                 if (key.startsWith(b)) {
                                     let weight = weightBase;
-                                    if (key === b) weight += 10000; // 完全匹配置顶
-                                    weight -= (key.length - b.length) * 100; // 越短匹配度越高
+                                    if (key === b) weight += 10000;
+                                    weight -= (key.length - b.length) * 100;
                                     dict[key].forEach((i) => {
                                         list.push({
                                             text: i.char || i,
@@ -476,19 +473,16 @@
                                     });
                                 }
                             }
-                        } else {
-                            // 精确匹配逻辑
-                            if (dict[b]) {
-                                dict[b].forEach((i) => {
-                                    list.push({
-                                        text: i.char || i,
-                                        desc:
-                                            i.en ||
-                                            (typeof i === "object" ? i.en : ""),
-                                        w: weightBase + 10000,
-                                    });
+                        } else if (dict[b]) {
+                            dict[b].forEach((i) => {
+                                list.push({
+                                    text: i.char || i,
+                                    desc:
+                                        i.en ||
+                                        (typeof i === "object" ? i.en : ""),
+                                    w: weightBase + 10000,
                                 });
-                            }
+                            });
                         }
                     };
 
@@ -501,7 +495,6 @@
                         .sort((a, b) => b.w - a.w)
                         .filter((x) => !seen.has(x.text) && seen.add(x.text));
 
-                    // 自动上屏逻辑：仅限模糊匹配模式且唯一匹配
                     if (
                         isFuzzyMode &&
                         combinedCandidates.length === 1 &&
@@ -540,7 +533,6 @@
                     buffer && display.length > 0
                         ? `${pageIndex + 1} / ${totalPages || 1}`
                         : "";
-
                 const pageData = display.slice(
                     pageIndex * pageSize,
                     (pageIndex + 1) * pageSize,
@@ -561,6 +553,7 @@
                 resetInput();
                 update();
             }
+
             function resetInput() {
                 buffer = "";
                 enFilter = "";
@@ -674,16 +667,28 @@
                 }
             });
 
+            // 核心快捷键优化：修复 Ctrl+C
             document.addEventListener("keydown", (e) => {
                 const key = e.key.toLowerCase();
+
+                // Ctrl + E 切换编辑
                 if (e.ctrlKey && key === "e") {
                     e.preventDefault();
                     toggleEditMode();
+                    return;
                 }
-                if (e.ctrlKey && key === "c" && !isEditMode) {
-                    e.preventDefault();
-                    archiveAndCopy();
+
+                // 处理 Ctrl + C
+                if (e.ctrlKey && key === "c") {
+                    if (!isEditMode) {
+                        // 锁定模式下：归档并清空
+                        e.preventDefault();
+                        archiveAndCopy();
+                    }
+                    // 编辑模式下：不干涉，让系统执行原生复制选中文本的操作
+                    return;
                 }
+
                 if (e.key === "Escape" && isEditMode) toggleEditMode();
             });
 
@@ -723,31 +728,42 @@
             function saveSettings() {
                 localStorage.setItem("ime_settings", JSON.stringify(settings));
             }
+
+            // 核心优化：编辑模式进入时光标移至末尾
             function toggleEditMode() {
                 isEditMode = !isEditMode;
                 outputArea.contentEditable = isEditMode;
                 outputArea.classList.toggle("locked", !isEditMode);
-                document.getElementById("edit-mode-btn").innerText = isEditMode
-                    ? "编辑中 (ESC退出)"
-                    : "锁定模式";
-                document
-                    .getElementById("edit-mode-btn")
-                    .classList.toggle("active", isEditMode);
+
+                const btn = document.getElementById("edit-mode-btn");
+                btn.innerText = isEditMode ? "编辑中 (ESC退出)" : "锁定模式";
+                btn.classList.toggle("active", isEditMode);
                 document
                     .getElementById("output-card")
                     .classList.toggle("editing", isEditMode);
-                if (!isEditMode) {
+
+                if (isEditMode) {
+                    outputArea.focus();
+                    if (window.getSelection && document.createRange) {
+                        const range = document.createRange();
+                        range.selectNodeContents(outputArea);
+                        range.collapse(false);
+                        const sel = window.getSelection();
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                } else {
                     committed = outputArea.innerText;
                     resetInput();
                     update();
                     focusHiddenInput();
-                } else {
-                    outputArea.focus();
                 }
             }
+
             function syncFromEditor() {
                 if (isEditMode) committed = outputArea.innerText;
             }
+
             function archiveAndCopy() {
                 if (!committed) return;
                 navigator.clipboard.writeText(committed).then(() => {
@@ -765,6 +781,7 @@
                     showToast("已归档并复制");
                 });
             }
+
             function updateHistoryUI() {
                 document.getElementById("history-list").innerHTML = HISTORY.map(
                     (h) => `
@@ -773,6 +790,7 @@
                     </div>`,
                 ).join("");
             }
+
             function showToast(m) {
                 const t = document.getElementById("toast");
                 t.innerText = m;
@@ -786,6 +804,7 @@
                 if (isEditMode && outputArea.contains(e.target)) return;
                 focusHiddenInput();
             });
+
             function makeResizableV(id, targetId) {
                 const h = document.getElementById(id),
                     t = document.getElementById(targetId);
