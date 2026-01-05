@@ -133,6 +133,15 @@
                 color: #d1d1d6;
                 pointer-events: none;
             }
+            .caret {
+                display: inline-block;
+                width: 2px;
+                height: 1em;
+                background: var(--primary);
+                animation: blink 1s infinite;
+                vertical-align: bottom;
+            }
+
             #output-area.locked::after {
                 content: "";
                 display: inline-block;
@@ -975,12 +984,14 @@
                 if (isEditMode) return;
 
                 if (isPracticeMode && practiceTargetText) {
+                    // The 'locked' class is now managed by togglePracticeMode
                     if (practiceTargetText.startsWith(committed)) {
                         const remaining = practiceTargetText.substring(
                             committed.length,
                         );
                         outputArea.innerHTML =
                             escapeHtml(committed) +
+                            `<span class="caret"></span>` + // Insert the new caret span
                             `<span class="practice-hint">${escapeHtml(remaining)}</span>`;
                     } else {
                         outputArea.innerText = committed;
@@ -1358,11 +1369,18 @@
                 document
                     .getElementById("practice-btn")
                     .classList.toggle("active", isPracticeMode);
+                
+                // Manage 'locked' class based on practice mode
                 if (isPracticeMode) {
+                    outputArea.classList.remove("locked"); // Remove locked class in practice mode
                     committed = "";
                     generatePracticeText();
                     showToast("进入练习模式");
                 } else {
+                    // Restore 'locked' state if not in edit mode
+                    if (!isEditMode) {
+                        outputArea.classList.add("locked");
+                    }
                     practiceTargetText = "";
                     committed = "";
                     showToast("退出练习模式");
