@@ -905,8 +905,8 @@
                                     dictData = JSON.parse(dict.content);
                                     mergeIntoDict(DB, dictData);
                                 }
-                                if (dictData && allDicts[index]) { // Ensure allDicts[index] exists before updating
-                                    allDicts[index].wordCount = calculateWordCount(dictData);
+                                if (dictData) { // Ensure allDicts[index] exists before updating
+                                    dict.wordCount = calculateWordCount(dictData);
                                 }
                             } catch (e) {
                                 console.error(
