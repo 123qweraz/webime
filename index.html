@@ -571,6 +571,10 @@
                 "]": "】",
             };
 
+            function getDictLevel(dict) {
+                return typeof dict.level === "number" ? dict.level : 100; // Use 100 as per strong recommendation
+            }
+
             let DB = {};
             let allDicts = [];
             const BUILT_IN_DICTS = [
@@ -710,6 +714,24 @@
                 await loadAllDicts();
                 update();
                 updateHistoryUI();
+
+                document.getElementById('history-list').addEventListener('click', function(e) {
+                    const historyText = e.target.closest('.history-text');
+                    if (historyText && historyText.dataset.text) {
+                        committed += historyText.dataset.text;
+                        update();
+                        return;
+                    }
+
+                    const deleteBtn = e.target.closest('.delete-btn');
+                    if (deleteBtn && deleteBtn.dataset.index) {
+                        const index = parseInt(deleteBtn.dataset.index, 10);
+                        if (!isNaN(index)) {
+                            deleteHistoryItem(index);
+                        }
+                        return;
+                    }
+                });
             }
 
             function loadDictConfig() {
@@ -752,16 +774,16 @@
                 const languages = Object.keys(groupedByLang);
                 const levelNames = {
                     chinese: {
-                        1: "level-1",
-                        2: "level-2",
-                        3: "level-3",
-                        0: "用户导入" // Changed from 4 to 0
+                        1: "内置基础", // Updated from "level-1"
+                        2: "词组 / 扩展", // Updated from "level-2"
+                        3: "高级", // Updated from "level-3"
+                        100: "用户导入" // Updated from 0 to 100
                     },
                     japanese: {
                         1: "N5",
                         2: "N4",
                         3: "N3",
-                        4: "ユーザーインポート"
+                        100: "ユーザーインポート" // Updated from 4 to 100
                     }
                 };
 
@@ -771,15 +793,13 @@
                     const dictsInLang = groupedByLang[lang];
                     const currentLevelNames = levelNames[lang] || levelNames['chinese'];
                     const groupedByLevel = dictsInLang.reduce((acc, dict) => {
-                        const level = dict.level || 4;
-                        if (!acc[level]) {
-                            acc[level] = [];
-                        }
+                        const level = getDictLevel(dict);
+                        if (!acc[level]) acc[level] = [];
                         acc[level].push(dict);
                         return acc;
                     }, {});
 
-                    let levelHTML = Object.keys(groupedByLevel).sort().map(level => {
+                    let levelHTML = Object.keys(groupedByLevel).map(Number).sort((a, b) => a - b).map(level => {
                         const dictsInLevel = groupedByLevel[level];
                         let itemsHTML = dictsInLevel.map(dict => {
                             const index = allDicts.indexOf(dict);
@@ -856,7 +876,13 @@
             }
 
             function calculateWordCount(dictContent) {
-                return Object.keys(dictContent).length;
+                let count = 0;
+                for (const k in dictContent) {
+                    count += Array.isArray(dictContent[k])
+                        ? dictContent[k].length
+                        : 1;
+                }
+                return count;
             }
 
             async function loadAllDicts() {
@@ -925,7 +951,7 @@
                             content: content,
                             wordCount: calculateWordCount(dictData), // Calculate count here
                             language: 'chinese',
-                            level: 0
+                            level: 100
                         };
 
                         allDicts.push(newDict);
@@ -1049,8 +1075,8 @@
                 render();
             }
 
-            function escapeHtml(text) {
-                return text
+            function escapeHtml(text = "") {
+                return String(text)
                     .replace(/&/g, "&amp;")
                     .replace(/</g, "&lt;")
                     .replace(/>/g, "&gt;");
@@ -1451,11 +1477,11 @@
                 document.getElementById("history-list").innerHTML = HISTORY.map(
                     (h, i) =>
                         `<div class="history-item">
-                            <div class="history-text" title="点击以上屏" onclick="committed+='${h.text.replace(/'/g, "\\'").replace(/"/g, '&quot;')}';update();">
+                            <div class="history-text" title="点击以上屏" data-text="${escapeHtml(h.text)}">
                                 <div class="history-time">${h.time}</div>
                                 <div class="history-content">${escapeHtml(h.text.substring(0, 30))}${h.text.length > 30 ? '...' : ''}</div>
                             </div>
-                            <div class="delete-btn" title="删除此条" onclick="deleteHistoryItem(${i})">&times;</div>
+                            <div class="delete-btn" title="删除此条" data-index="${i}">&times;</div>
                         </div>`,
                 ).join("");
             }
