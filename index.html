@@ -656,6 +656,7 @@
                 settings.history = true;
 
 
+            let activeLanguage = 'chinese';
             let buffer = "",
                 committed = "",
                 isTabMode = false,
@@ -727,9 +728,9 @@
                 const languages = Object.keys(groupedByLang);
                 const levelNames = {
                     chinese: {
-                        1: "一级 (小学)",
-                        2: "二级 (中学)",
-                        3: "三级 (大学)",
+                        1: "level-1",
+                        2: "level-2",
+                        3: "level-3",
                         4: "用户导入"
                     },
                     japanese: {
@@ -783,13 +784,12 @@
 
                 listEl.innerHTML = `<div class="dict-tabs">${tabsHTML}</div><div class="dict-content">${contentHTML}</div>`;
 
-                // Activate the first tab by default
-                if (languages.length > 0) {
-                    switchLanguage(languages[0]);
-                }
+                // Activate the active tab
+                switchLanguage(activeLanguage);
             }
 
             function switchLanguage(lang) {
+                activeLanguage = lang;
                 const tabs = document.querySelectorAll('.dict-tab');
                 tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.lang === lang));
                 const panels = document.querySelectorAll('.dict-language-panel');
