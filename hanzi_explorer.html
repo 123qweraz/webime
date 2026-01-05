@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汉字浏览器</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --grid-bg-color: #ffffff;
+            --char-color: #212529;
+            --char-hover-bg: #e9ecef;
+            --char-hover-color: #000;
+            --border-color: #dee2e6;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        #main-container {
+            width: 100%;
+            max-width: 1600px;
+            height: calc(100vh - 40px);
+            background-color: var(--grid-bg-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        #hanzi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            justify-content: center;
+        }
+        .grid-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--char-color);
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            aspect-ratio: 1 / 1;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+        .grid-item:hover {
+            background-color: var(--char-hover-bg);
+            color: var(--char-hover-color);
+            transform: scale(1.1);
+        }
+        #loading-indicator {
+            font-size: 18px;
+            color: #6c757d;
+            text-align: center;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div id="loading-indicator">正在加载字典...</div>
+        <div id="hanzi-grid"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchHanzi();
+        });
+
+        async function fetchHanzi() {
+            const grid = document.getElementById('hanzi-grid');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            try {
+                const response = await fetch('dicts/first_dict/dict.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                const hanziSet = new Set();
+                for (const pinyin in data) {
+                    const entries = data[pinyin];
+                    entries.forEach(entry => {
+                        const chars = (typeof entry === 'string') ? entry : entry.char;
+                        if (chars) {
+                            for (const char of chars) {
+                                // Add only Chinese characters
+                                if (/[\u4e00-\u9fa5]/.test(char)) {
+                                    hanziSet.add(char);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                loadingIndicator.style.display = 'none';
+                
+                const sortedHanzi = Array.from(hanziSet).sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
+                
+                const fragment = document.createDocumentFragment();
+                sortedHanzi.forEach(char => {
+                    const item = document.createElement('div');
+                    item.className = 'grid-item';
+                    item.textContent = char;
+                    fragment.appendChild(item);
+                });
+                grid.appendChild(fragment);
+
+            } catch (error) {
+                console.error('Failed to load or process dictionary:', error);
+                loadingIndicator.textContent = '加载失败，请检查文件路径或网络连接。';
+            }
+        }
+    </script>
+</body>
+</html>

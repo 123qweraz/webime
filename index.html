@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>Web IME Pro | 导入与长句修正版</title>
+        <script src="dicts_config.js"></script>
         <style>
             :root {
                 --primary: #007aff;
@@ -451,6 +452,11 @@
                 />
 
                 <a
+                    href="hanzi_explorer.html"
+                    class="btn btn-toggle"
+                    >汉字浏览器</a
+                >
+                <a
                     href="https://github.com/123qweraz/webime"
                     target="_blank"
                     class="btn btn-github"
@@ -584,106 +590,35 @@
                 return typeof dict.level === "number" ? dict.level : 100; // Use 100 as per strong recommendation
             }
 
-            let DB = {};
+            class Trie {
+                constructor() {
+                    this.root = { children: {}, values: [] };
+                }
+
+                insert(key, value) {
+                    let node = this.root;
+                    for (const char of key) {
+                        if (!node.children[char]) {
+                            node.children[char] = { children: {}, values: [] };
+                        }
+                        node = node.children[char];
+                    }
+                    const items = Array.isArray(value) ? value : [value];
+                    node.values.push(...items);
+                }
+
+                getNode(prefix) {
+                    let node = this.root;
+                    for (const char of prefix) {
+                        if (!node.children[char]) return null;
+                        node = node.children[char];
+                    }
+                    return node;
+                }
+            }
+
+            let DB = new Trie();
             let allDicts = [];
-            const BUILT_IN_DICTS = [
-                {
-                    name: "基础词典",
-                    path: "dicts/first_dict/dict.json",
-                    enabled: true,
-                    type: "built-in",
-                    language: "chinese",
-                    level: 1,
-                },
-                {
-                    name: "词组词典",
-                    path: "dicts/first_dict/dict_cizu.json",
-                    enabled: true,
-                    type: "built-in",
-                    language: "chinese",
-                    level: 1,
-                },
-                {
-                    name: "英文短词",
-                    path: "dicts/first_dict/dict_enlt5s.json",
-                    enabled: true,
-                    type: "built-in",
-                    language: "chinese",
-                    level: 1,
-                },
-                {
-                    name: "英文长词",
-                    path: "dicts/first_dict/dict_5_10s.json",
-                    enabled: true,
-                    type: "built-in",
-                    language: "chinese",
-                    level: 1,
-                },
-                {
-                    name: "二级字词",
-                    path: "dicts/second_dict/level-2_char_en.json",
-                    enabled: true,
-                    type: "built-in",
-                    language: "chinese",
-                    level: 2,
-                },
-                {
-                    name: "三字词",
-                    path: "dicts/second_dict/3字.json",
-                    enabled: true,
-                    type: "built-in",
-                    language: "chinese",
-                    level: 2,
-                },
-                {
-                    name: "四字词",
-                    path: "dicts/second_dict/4字.json",
-                    enabled: true,
-                    type: "built-in",
-                    language: "chinese",
-                    level: 2,
-                },
-                {
-                    name: "四字以上词",
-                    path: "dicts/second_dict/4字以上.json",
-                    enabled: true,
-                    type: "built-in",
-                    language: "chinese",
-                    level: 2,
-                },
-                {
-                    name: "三级字词",
-                    path: "dicts/third_dict/level-3_char_en.json",
-                    enabled: false,
-                    type: "built-in",
-                    language: "chinese",
-                    level: 3,
-                },
-                {
-                    name: "日本語 N5",
-                    path: "dicts/japanese/n5.json",
-                    enabled: true,
-                    type: "built-in",
-                    language: "japanese",
-                    level: 1,
-                },
-                {
-                    name: "日本語 N4",
-                    path: "dicts/japanese/n4.json",
-                    enabled: false,
-                    type: "built-in",
-                    language: "japanese",
-                    level: 2,
-                },
-                {
-                    name: "日本語 N3",
-                    path: "dicts/japanese/n3.json",
-                    enabled: false,
-                    type: "built-in",
-                    language: "japanese",
-                    level: 3,
-                },
-            ];
 
             let settings = JSON.parse(
                 localStorage.getItem("ime_settings") || "{}",
@@ -783,16 +718,16 @@
                 const languages = Object.keys(groupedByLang);
                 const levelNames = {
                     chinese: {
-                        1: "内置基础", // Updated from "level-1"
-                        2: "词组 / 扩展", // Updated from "level-2"
-                        3: "高级", // Updated from "level-3"
-                        100: "用户导入" // Updated from 0 to 100
+                        1: "一级",
+                        2: "二级",
+                        3: "三级",
+                        100: "用户导入"
                     },
                     japanese: {
                         1: "N5",
                         2: "N4",
                         3: "N3",
-                        100: "ユーザーインポート" // Updated from 4 to 100
+                        100: "用户导入"
                     }
                 };
 
@@ -873,17 +808,6 @@
                 update();
             }
 
-            function mergeIntoDict(targetDict, newDict) {
-                for (let k in newDict) {
-                    let key = k.toLowerCase();
-                    if (!targetDict[key]) targetDict[key] = [];
-                    const newItems = Array.isArray(newDict[k])
-                        ? newDict[k]
-                        : [newDict[k]];
-                    targetDict[key] = targetDict[key].concat(newItems);
-                }
-            }
-
             function calculateWordCount(dictContent) {
                 let count = 0;
                 for (const k in dictContent) {
@@ -895,7 +819,7 @@
             }
 
             async function loadAllDicts() {
-                DB = {};
+                DB = new Trie();
                 const loadPromises = allDicts
                     .filter((d) => d.enabled)
                     .map((dict, index) => {
@@ -906,15 +830,19 @@
                                     const r = await fetch(dict.path);
                                     if (!r.ok) return resolve();
                                     dictData = await r.json();
-                                    mergeIntoDict(DB, dictData);
                                 } else if (
                                     dict.type === "user" &&
                                     dict.content
                                 ) {
                                     dictData = JSON.parse(dict.content);
-                                    mergeIntoDict(DB, dictData);
                                 }
-                                if (dictData) { // Ensure allDicts[index] exists before updating
+
+                                if (dictData) {
+                                    for (const k in dictData) {
+                                        const key = k.toLowerCase();
+                                        const items = Array.isArray(dictData[k]) ? dictData[k] : [dictData[k]];
+                                        DB.insert(key, items);
+                                    }
                                     dict.wordCount = calculateWordCount(dictData);
                                 }
                             } catch (e) {
@@ -1024,28 +952,38 @@
                     const isAllVowels = (str) => /^[aeiou]+$/.test(str);
 
                     let useExactMatch = false;
-                    if (b.length <= 2) {
-                        useExactMatch = true;
-                    } else if ((b.length === 3 || b.length === 4) && isAllVowels(b)) {
+                    if (b.length <= 2 || ((b.length === 3 || b.length === 4) && isAllVowels(b))) {
                         useExactMatch = true;
                     }
+                    
+                    const prefixNode = DB.getNode(b);
 
-                    for (let key in DB) {
-                        const match = useExactMatch ? key === b : key.startsWith(b);
-                        if (match) {
-                            let weight = 1000;
-                            if (key === b) weight += 10000;
-                            weight -= (key.length - b.length) * 100;
-                            DB[key].forEach((i) =>
-                                list.push({
-                                    text: i.char || i,
-                                    desc:
-                                        i.en ||
-                                        (typeof i === "object" ? i.en : ""),
-                                    w: weight,
-                                }),
-                            );
-                        }
+                    if (prefixNode) {
+                        const collect = (node, path) => {
+                            if (useExactMatch && path !== b) {
+                                return;
+                            }
+                            if (node.values.length > 0) {
+                                let weight = 1000;
+                                if (path === b) weight += 10000; // Exact match bonus
+                                weight -= (path.length - b.length) * 100;
+                                
+                                node.values.forEach((i) =>
+                                    list.push({
+                                        text: i.char || i,
+                                        desc: i.en || (typeof i === "object" ? i.en : ""),
+                                        w: weight,
+                                    }),
+                                );
+                            }
+
+                            if (!useExactMatch) {
+                                for (const char in node.children) {
+                                    collect(node.children[char], path + char);
+                                }
+                            }
+                        };
+                        collect(prefixNode, b);
                     }
 
                                                             const seen = new Set();
@@ -1216,18 +1154,23 @@
 
                 if (/^[0-9]$/.test(key)) {
                     e.preventDefault();
-                    const idx = key === "0" ? 9 : parseInt(key) - 1;
-                    const list =
-                        isTabMode && buffer
-                            ? combinedCandidates.filter((c) =>
-                                  c.desc?.toLowerCase().startsWith(enFilter),
-                              )
-                            : combinedCandidates;
-                    const pageData = list.slice(
-                        pageIndex * pageSize,
-                        (pageIndex + 1) * pageSize,
-                    );
-                    if (pageData[idx]) selectCandidate(pageData[idx].text);
+                    if (buffer && combinedCandidates.length > 0) {
+                        const idx = key === "0" ? 9 : parseInt(key) - 1;
+                        const list =
+                            isTabMode && buffer
+                                ? combinedCandidates.filter((c) =>
+                                      c.desc?.toLowerCase().startsWith(enFilter),
+                                  )
+                                : combinedCandidates;
+                        const pageData = list.slice(
+                            pageIndex * pageSize,
+                            (pageIndex + 1) * pageSize,
+                        );
+                        if (pageData[idx]) selectCandidate(pageData[idx].text);
+                    } else if (!buffer) {
+                        committed += key;
+                        update();
+                    }
                 } else if (key === "Enter") {
                     e.preventDefault();
                     if (buffer) {
@@ -1241,19 +1184,24 @@
                     e.preventDefault();
                     committed = committed.slice(0, -1);
                     update();
-                } else if (key === " " && buffer) {
+                } else if (key === " ") {
                     e.preventDefault();
-                    const list =
-                        isTabMode && buffer
-                            ? combinedCandidates.filter((c) =>
-                                  c.desc?.toLowerCase().startsWith(enFilter),
-                              )
-                            : combinedCandidates;
-                    const pageData = list.slice(
-                        pageIndex * pageSize,
-                        (pageIndex + 1) * pageSize,
-                    );
-                    if (pageData[0]) selectCandidate(pageData[0].text);
+                    if (buffer) {
+                        const list =
+                            isTabMode && buffer
+                                ? combinedCandidates.filter((c) =>
+                                      c.desc?.toLowerCase().startsWith(enFilter),
+                                  )
+                                : combinedCandidates;
+                        const pageData = list.slice(
+                            pageIndex * pageSize,
+                            (pageIndex + 1) * pageSize,
+                        );
+                        if (pageData[0]) selectCandidate(pageData[0].text);
+                    } else {
+                        committed += " ";
+                        update();
+                    }
                 }
             });
 
@@ -1335,8 +1283,8 @@
                     if (!seg) continue;
                     if (/^[a-zA-Z]+$/.test(seg)) {
                         const lowSeg = seg.toLowerCase();
-                        let best =
-                            DB[lowSeg] && DB[lowSeg][0] ? DB[lowSeg][0] : null;
+                        const node = DB.getNode(lowSeg);
+                        let best = (node && node.values.length > 0) ? node.values[0] : null;
 
                         if (best) {
                             finalStr +=
@@ -1391,13 +1339,19 @@
 
             function generatePracticeText() {
                 let allWords = [];
-                for (let k in DB) {
-                    DB[k].forEach((item) => {
-                        const text =
-                            typeof item === "object" ? item.char : item;
-                        if (text.length > 1) allWords.push(text);
-                    });
-                }
+                const collectAll = (node) => {
+                    if (node.values.length > 0) {
+                        node.values.forEach((item) => {
+                            const text = typeof item === "object" ? item.char : item;
+                            if (text.length > 1) allWords.push(text);
+                        });
+                    }
+                    for (const char in node.children) {
+                        collectAll(node.children[char]);
+                    }
+                };
+                collectAll(DB.root);
+
                 if (allWords.length === 0) {
                     practiceTargetText = "词库为空，请先加载或导入词库。";
                     return;
@@ -1548,9 +1502,9 @@
 
             document.addEventListener("DOMContentLoaded", () => {
                 makeResizableV("center-v-resizer", "output-card");
+                init();
             });
 
-            init();
             document.addEventListener("visibilitychange", () => {
                 if (!document.hidden) focusHiddenInput();
             });
