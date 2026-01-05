@@ -622,14 +622,29 @@
                     language: "chinese",
                     level: 3,
                 },
-                // Example for Japanese
                 {
-                    name: "日本語基礎",
-                    path: "dicts/japanese/basic.json",
-                    enabled: false,
+                    name: "日本語 N5",
+                    path: "dicts/japanese/n5.json",
+                    enabled: true,
                     type: "built-in",
                     language: "japanese",
                     level: 1,
+                },
+                {
+                    name: "日本語 N4",
+                    path: "dicts/japanese/n4.json",
+                    enabled: false,
+                    type: "built-in",
+                    language: "japanese",
+                    level: 2,
+                },
+                {
+                    name: "日本語 N3",
+                    path: "dicts/japanese/n3.json",
+                    enabled: false,
+                    type: "built-in",
+                    language: "japanese",
+                    level: 3,
                 },
             ];
 
@@ -711,16 +726,25 @@
 
                 const languages = Object.keys(groupedByLang);
                 const levelNames = {
-                    1: "一级 (小学)",
-                    2: "二级 (中学)",
-                    3: "三级 (大学)",
-                    4: "用户导入"
+                    chinese: {
+                        1: "一级 (小学)",
+                        2: "二级 (中学)",
+                        3: "三级 (大学)",
+                        4: "用户导入"
+                    },
+                    japanese: {
+                        1: "N5",
+                        2: "N4",
+                        3: "N3",
+                        4: "ユーザーインポート"
+                    }
                 };
 
                 let tabsHTML = languages.map(lang => `<div class="dict-tab" data-lang="${lang}" onclick="switchLanguage('${lang}')">${lang === 'chinese' ? '中文' : '日本語'}</div>`).join('');
 
                 let contentHTML = languages.map(lang => {
                     const dictsInLang = groupedByLang[lang];
+                    const currentLevelNames = levelNames[lang] || levelNames['chinese'];
                     const groupedByLevel = dictsInLang.reduce((acc, dict) => {
                         const level = dict.level || 4;
                         if (!acc[level]) {
@@ -749,7 +773,7 @@
 
                         return `
                             <div class="dict-level-category">
-                                <div class="dict-level-header" onclick="this.parentElement.classList.toggle('collapsed')">${levelNames[level]}</div>
+                                <div class="dict-level-header" onclick="this.parentElement.classList.toggle('collapsed')">${currentLevelNames[level]}</div>
                                 <div class="dict-level-content">${itemsHTML}</div>
                             </div>`;
                     }).join('');
