@@ -580,43 +580,6 @@
                 "]": "】",
             };
 
-            const PINYIN_SYLLABLES = [
-              "zhuang","chuang","shuang",
-              "zh","ch","sh",
-              "ang","eng","ing","ong",
-              "ai","ei","ui","ao","ou","iu",
-              "ie","ve","er",
-              "an","en","in","un",
-              "a","o","e","i","u","v"
-            ];
-
-            function splitPinyin(p) {
-                let result = [];
-                let i = 0;
-                while (i < p.length) {
-                    let matched = false;
-                    for (const syl of PINYIN_SYLLABLES) {
-                        if (p.startsWith(syl, i)) {
-                            result.push(syl);
-                            i += syl.length;
-                            matched = true;
-                            break;
-                        }
-                    }
-                    if (!matched) {
-                        // fallback：至少吃掉一个字母，防止死循环
-                        result.push(p[i]);
-                        i++;
-                    }
-                }
-                return result;
-            }
-
-            function getInitials(pinyin) {
-                const syllables = splitPinyin(pinyin);
-                return syllables.map(s => s[0]).join("");
-            }
-
             function getDictLevel(dict) {
                 return typeof dict.level === "number" ? dict.level : 100; // Use 100 as per strong recommendation
             }
@@ -912,19 +875,12 @@
 
             function mergeIntoDict(targetDict, newDict) {
                 for (let k in newDict) {
-                    const key = k.toLowerCase();
-                    const items = Array.isArray(newDict[k]) ? newDict[k] : [newDict[k]];
-
-                    // 1️⃣ 全拼
+                    let key = k.toLowerCase();
                     if (!targetDict[key]) targetDict[key] = [];
-                    targetDict[key].push(...items);
-
-                    // 2️⃣ 简拼
-                    const initials = getInitials(key);
-                    if (initials && initials && initials !== key) { // Added null/undefined check for initials
-                        if (!targetDict[initials]) targetDict[initials] = [];
-                        targetDict[initials].push(...items);
-                    }
+                    const newItems = Array.isArray(newDict[k])
+                        ? newDict[k]
+                        : [newDict[k]];
+                    targetDict[key] = targetDict[key].concat(newItems);
                 }
             }
 
