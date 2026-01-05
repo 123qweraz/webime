@@ -342,6 +342,53 @@
             .history-item:hover .delete-btn { visibility: visible; opacity: 1; }
             .dict-item .delete-btn { visibility: visible; opacity: 1; margin-right: 5px; }
 
+            .dict-tabs {
+                display: flex;
+                border-bottom: 1px solid #eee;
+                margin-bottom: 10px;
+            }
+            .dict-tab {
+                padding: 8px 15px;
+                cursor: pointer;
+                border-bottom: 2px solid transparent;
+                margin-bottom: -1px;
+                font-size: 13px;
+                color: #555;
+            }
+            .dict-tab.active {
+                border-bottom-color: var(--primary);
+                color: var(--primary);
+                font-weight: bold;
+            }
+            .dict-language-panel {
+                display: none;
+            }
+            .dict-language-panel.active {
+                display: block;
+            }
+            .dict-level-header {
+                font-weight: bold;
+                padding: 10px 5px;
+                background-color: #f9f9f9;
+                border-top: 1px solid #eee;
+                border-bottom: 1px solid #eee;
+                cursor: pointer;
+                font-size: 12px;
+                position: relative;
+            }
+            .dict-level-header::after {
+                content: '▼';
+                position: absolute;
+                right: 10px;
+                font-size: 10px;
+                transition: transform 0.2s;
+            }
+            .dict-level-category.collapsed .dict-level-header::after {
+                transform: rotate(-90deg);
+            }
+            .dict-level-category.collapsed .dict-level-content {
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -532,36 +579,57 @@
                     path: "dicts/first_dict/dict.json",
                     enabled: true,
                     type: "built-in",
+                    language: "chinese",
+                    level: 1,
                 },
                 {
                     name: "词组词典",
                     path: "dicts/first_dict/dict_cizu.json",
                     enabled: true,
                     type: "built-in",
+                    language: "chinese",
+                    level: 1,
                 },
                 {
                     name: "英文短词",
                     path: "dicts/first_dict/dict_enlt5s.json",
                     enabled: true,
                     type: "built-in",
+                    language: "chinese",
+                    level: 1,
                 },
                 {
                     name: "英文长词",
                     path: "dicts/first_dict/dict_5_10s.json",
                     enabled: true,
                     type: "built-in",
+                    language: "chinese",
+                    level: 1,
                 },
                 {
                     name: "二级字词",
                     path: "dicts/second_dict/level-2_char_en.json",
                     enabled: true,
                     type: "built-in",
+                    language: "chinese",
+                    level: 2,
                 },
                 {
                     name: "三级字词",
                     path: "dicts/third_dict/level-3_char_en.json",
                     enabled: false,
                     type: "built-in",
+                    language: "chinese",
+                    level: 3,
+                },
+                // Example for Japanese
+                {
+                    name: "日本語基礎",
+                    path: "dicts/japanese/basic.json",
+                    enabled: false,
+                    type: "built-in",
+                    language: "japanese",
+                    level: 1,
                 },
             ];
 
@@ -632,22 +700,76 @@
 
             function renderDictManagement() {
                 const listEl = document.getElementById("dict-management-list");
-                listEl.innerHTML = allDicts
-                    .map(
-                        (dict, index) => `
-                    <div class="dict-item">
-                        <span class="dict-name" title="${dict.name}">${dict.name} ${dict.wordCount !== undefined ? `(${dict.wordCount}词)` : ''}</span>
-                        <div style="display: flex; align-items: center;">
-                            ${dict.type === 'user' ? `<div class="delete-btn" style="padding-right: 10px;" title="删除词典" onclick="deleteDict(${index})">&times;</div>` : ''}
-                            <label class="switch">
-                                <input type="checkbox" ${dict.enabled ? "checked" : ""} onchange="toggleDict(${index})">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                `,
-                    )
-                    .join("");
+                const groupedByLang = allDicts.reduce((acc, dict) => {
+                    const lang = dict.language || 'chinese';
+                    if (!acc[lang]) {
+                        acc[lang] = [];
+                    }
+                    acc[lang].push(dict);
+                    return acc;
+                }, {});
+
+                const languages = Object.keys(groupedByLang);
+                const levelNames = {
+                    1: "一级 (小学)",
+                    2: "二级 (中学)",
+                    3: "三级 (大学)",
+                    4: "用户导入"
+                };
+
+                let tabsHTML = languages.map(lang => `<div class="dict-tab" data-lang="${lang}" onclick="switchLanguage('${lang}')">${lang === 'chinese' ? '中文' : '日本語'}</div>`).join('');
+
+                let contentHTML = languages.map(lang => {
+                    const dictsInLang = groupedByLang[lang];
+                    const groupedByLevel = dictsInLang.reduce((acc, dict) => {
+                        const level = dict.level || 4;
+                        if (!acc[level]) {
+                            acc[level] = [];
+                        }
+                        acc[level].push(dict);
+                        return acc;
+                    }, {});
+
+                    let levelHTML = Object.keys(groupedByLevel).sort().map(level => {
+                        const dictsInLevel = groupedByLevel[level];
+                        let itemsHTML = dictsInLevel.map(dict => {
+                            const index = allDicts.indexOf(dict);
+                            return `
+                                <div class="dict-item">
+                                    <span class="dict-name" title="${dict.name}">${dict.name} ${dict.wordCount !== undefined ? `(${dict.wordCount}词)` : ''}</span>
+                                    <div style="display: flex; align-items: center;">
+                                        ${dict.type === 'user' ? `<div class="delete-btn" style="padding-right: 10px;" title="删除词典" onclick="deleteDict(${index})">&times;</div>` : ''}
+                                        <label class="switch">
+                                            <input type="checkbox" ${dict.enabled ? "checked" : ""} onchange="toggleDict(${index})">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>`;
+                        }).join('');
+
+                        return `
+                            <div class="dict-level-category">
+                                <div class="dict-level-header" onclick="this.parentElement.classList.toggle('collapsed')">${levelNames[level]}</div>
+                                <div class="dict-level-content">${itemsHTML}</div>
+                            </div>`;
+                    }).join('');
+                    
+                    return `<div class="dict-language-panel" data-lang="${lang}">${levelHTML}</div>`;
+                }).join('');
+
+                listEl.innerHTML = `<div class="dict-tabs">${tabsHTML}</div><div class="dict-content">${contentHTML}</div>`;
+
+                // Activate the first tab by default
+                if (languages.length > 0) {
+                    switchLanguage(languages[0]);
+                }
+            }
+
+            function switchLanguage(lang) {
+                const tabs = document.querySelectorAll('.dict-tab');
+                tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.lang === lang));
+                const panels = document.querySelectorAll('.dict-language-panel');
+                panels.forEach(panel => panel.classList.toggle('active', panel.dataset.lang === lang));
             }
 
             async function deleteDict(index) {
@@ -753,7 +875,9 @@
                             enabled: true,
                             type: 'user',
                             content: content,
-                            wordCount: calculateWordCount(dictData) // Calculate count here
+                            wordCount: calculateWordCount(dictData), // Calculate count here
+                            language: 'chinese',
+                            level: 4
                         };
 
                         allDicts.push(newDict);
