@@ -1530,7 +1530,9 @@
             });
 
             init();
-            setInterval(focusHiddenInput, 1000);
+            document.addEventListener("visibilitychange", () => {
+                if (!document.hidden) focusHiddenInput();
+            });
         </script>
     </body>
 </html>
