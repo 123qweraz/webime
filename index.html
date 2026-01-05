@@ -1124,11 +1124,10 @@
             }
 
             function resetInput() {
-                buffer = "";
+                setBuffer(""); // Consolidates buffer = "" and hInput.value = ""
                 enFilter = "";
                 isTabMode = false;
                 pageIndex = 0;
-                hInput.value = "";
             }
 
             hInput.addEventListener("keydown", (e) => {
@@ -1272,11 +1271,16 @@
 
             hInput.addEventListener("input", () => {
                 if (!isTabMode && !isEditMode) {
-                    buffer = hInput.value.replace(/[^a-zA-Z]/g, "");
+                    setBuffer(hInput.value.replace(/[^a-zA-Z]/g, ""));
                     pageIndex = 0;
                     update();
                 }
             });
+
+            function setBuffer(val) {
+                buffer = val;
+                hInput.value = val;
+            }
 
             function enterCorrectionMode() {
                 isCorrectionMode = true;
@@ -1299,8 +1303,7 @@
                     enFilter = "";
                     isTabMode = false;
                     pageIndex = 0;
-                    buffer = raw.replace(/[^a-zA-Z]/g, "");
-                    hInput.value = buffer;
+                    setBuffer(raw.replace(/[^a-zA-Z]/g, ""));
                     update();
                 } else if (action === 'convert_sentence') {
                     if (raw) {
