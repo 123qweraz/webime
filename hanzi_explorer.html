@@ -7,11 +7,15 @@
     <style>
         :root {
             --bg-color: #f8f9fa;
-            --grid-bg-color: #ffffff;
-            --char-color: #212529;
-            --char-hover-bg: #e9ecef;
-            --char-hover-color: #000;
+            --container-bg-color: #ffffff;
+            --text-color: #212529;
+            --subtext-color: #6c757d;
+            --card-bg-color: #f8f9fa;
+            --card-hover-bg: #e9ecef;
             --border-color: #dee2e6;
+            --primary-color: #007aff;
+            --valid-color: #28a745;
+            --invalid-color: #dc3545;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -20,46 +24,187 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
         }
         #main-container {
             width: 100%;
             max-width: 1600px;
             height: calc(100vh - 40px);
-            background-color: var(--grid-bg-color);
+            background-color: var(--container-bg-color);
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            padding: 20px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        .toolbar {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        #dict-selector, #sort-selector {
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+        }
+        #search-input {
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            width: 250px;
+        }
+        #content-area {
+            padding: 20px;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
-        #hanzi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        #combination-section {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        #combination-area {
+            padding: 15px;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
             gap: 10px;
-            justify-content: center;
+            background-color: #f8f9fa;
+            transition: background-color 0.3s;
         }
-        .grid-item {
+        #combination-area.valid {
+            background-color: var(--valid-color);
+        }
+        #combination-area.invalid {
+            background-color: var(--invalid-color);
+        }
+        #combination-area .entry-char-wrapper {
+            position: relative;
+            transition: transform 0.2s;
+        }
+        #combination-area .entry-char-wrapper.selected .entry-char {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+        #combination-area .entry-char {
+            font-size: 28px;
+            padding: 5px 10px;
+            background: #fff;
+            color: var(--text-color);
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .char-toolbar {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            background: #333;
+            padding: 5px;
+            border-radius: 5px;
+            z-index: 10;
+        }
+        .char-toolbar button {
+            background: #555;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+        }
+        #clear-combination-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--subtext-color);
+            z-index: 2;
+        }
+        #combination-pinyin {
+            font-size: 16px;
+            font-weight: 500;
+            margin-left: 15px;
+            color: white;
+        }
+        #entry-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            flex-grow: 1;
+        }
+        .entry-card {
+            aspect-ratio: 1 / 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 28px;
-            font-weight: 500;
-            color: var(--char-color);
-            background-color: var(--bg-color);
+            background-color: var(--card-bg-color);
             border-radius: 8px;
-            aspect-ratio: 1 / 1;
-            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.2s, transform 0.3s;
             cursor: pointer;
+            perspective: 1000px;
+        }
+        .entry-card:hover {
+            background-color: var(--card-hover-bg);
+            transform: translateY(-5px);
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .entry-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            box-sizing: border-box;
+            background-color: var(--card-bg-color);
+            border-radius: 8px;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .entry-char {
+            font-size: 36px;
+            font-weight: 500;
+            color: var(--text-color);
             user-select: none;
         }
-        .grid-item:hover {
-            background-color: var(--char-hover-bg);
-            color: var(--char-hover-color);
-            transform: scale(1.1);
+        .entry-desc {
+            font-size: 14px;
+            line-height: 1.4;
         }
         #loading-indicator {
             font-size: 18px;
@@ -67,61 +212,545 @@
             text-align: center;
             padding: 40px;
         }
+        /* Settings Panel */
+        #settings-panel {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: right 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        body.settings-panel-open #main-container {
+            margin-right: 300px;
+        }
+        body.settings-panel-open #settings-panel {
+            right: 0;
+        }
+        #settings-panel h2 {
+            margin-top: 0;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        .settings-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .settings-group label {
+            font-weight: 500;
+        }
+        #settings-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--subtext-color);
+        }
+        #settings-btn {
+            margin-left: auto;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--subtext-color);
+        }
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+        }
+        #playground-char-container {
+            height: 200px;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        #playground-char {
+            font-size: 120px;
+            cursor: move;
+            position: absolute;
+            user-select: none;
+        }
+        #playground-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        #playground-desc {
+            font-size: 18px;
+            color: var(--subtext-color);
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div id="main-container">
-        <div id="loading-indicator">正在加载字典...</div>
-        <div id="hanzi-grid"></div>
+        <div class="toolbar">
+            <input type="search" id="search-input" placeholder="搜索汉字...">
+            <div id="settings-btn">&#9881;</div>
+        </div>
+        <div id="content-area">
+            <div id="combination-section">
+                <div id="combination-area" ondragover="event.preventDefault()" ondrop="dropHandler(event)">
+                    <span style="color: var(--subtext-color);">点击或拖拽汉字到此处进行组合</span>
+                </div>
+                <span id="clear-combination-btn" onclick="clearCombination()">&times;</span>
+            </div>
+            <div id="loading-indicator">正在加载字典...</div>
+            <div id="entry-list"></div>
+        </div>
     </div>
+
+    <div id="settings-panel">
+        <span id="settings-close-btn">&times;</span>
+        <h2>设置</h2>
+        <div class="settings-group">
+            <label for="dict-selector">选择字典:</label>
+            <select id="dict-selector"></select>
+        </div>
+        <div class="settings-group">
+            <label for="sort-selector">排序方式:</label>
+            <select id="sort-selector">
+                <option value="default">默认 (A-Z)</option>
+                <option value="pinyin">按拼音</option>
+                <option value="random">随机</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="playground-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="playground-char-container">
+                <div id="playground-char"></div>
+            </div>
+            <div id="playground-controls">
+                <div class="control-group">
+                    <label for="zoom-slider">Zoom:</label>
+                    <input type="range" id="zoom-slider" min="0.5" max="3" step="0.1" value="1">
+                </div>
+                <div class="control-group">
+                    <label for="rotate-slider">Rotate:</label>
+                    <input type="range" id="rotate-slider" min="0" max="360" step="1" value="0">
+                </div>
+                <div class="control-group">
+                    <label for="stretch-x-slider">Stretch X:</label>
+                    <input type="range" id="stretch-x-slider" min="0.5" max="2" step="0.1" value="1">
+                </div>
+                <div class="control-group">
+                    <label for="stretch-y-slider">Stretch Y:</label>
+                    <input type="range" id="stretch-y-slider" min="0.5" max="2" step="0.1" value="1">
+                </div>
+                <div class="control-group">
+                    <label for="color-picker">Color:</label>
+                    <input type="color" id="color-picker" value="#212529">
+                </div>
+            </div>
+            <div id="playground-desc"></div>
+        </div>
+    </div>
+
     <script>
+        const DICTIONARIES = [
+            { name: "基础字词", path: "dicts/first_dict/dict.json" },
+            { name: "词组", path: "dicts/first_dict/dict_cizu.json" },
+            { name: "英文短词", path: "dicts/first_dict/dict_enlt5s.json" },
+            { name: "英文长词", path: "dicts/first_dict/dict_5_10s.json" },
+        ];
+        
+        let currentEntries = [];
+        let cizuWordMap = new Map();
+
         document.addEventListener('DOMContentLoaded', () => {
-            fetchHanzi();
+            const dictSelector = document.getElementById('dict-selector');
+            const sortSelector = document.getElementById('sort-selector');
+            const searchInput = document.getElementById('search-input');
+            const settingsBtn = document.getElementById('settings-btn');
+            const settingsCloseBtn = document.getElementById('settings-close-btn');
+
+            DICTIONARIES.forEach(dict => {
+                const option = document.createElement('option');
+                option.value = dict.path;
+                option.textContent = dict.name;
+                dictSelector.appendChild(option);
+            });
+            
+            dictSelector.addEventListener('change', (e) => fetchAndDisplayDictionary(e.target.value));
+            sortSelector.addEventListener('change', () => sortAndDisplayEntries(currentEntries));
+            searchInput.addEventListener('input', handleSearch);
+            settingsBtn.addEventListener('click', () => document.body.classList.add('settings-panel-open'));
+            settingsCloseBtn.addEventListener('click', () => document.body.classList.remove('settings-panel-open'));
+
+            fetchAndDisplayDictionary(DICTIONARIES[0].path);
+            fetchCizuDict();
+            setupModal();
+            
+            document.body.addEventListener('click', (e) => {
+                if (!e.target.closest('.entry-char-wrapper')) {
+                    deselectAllChars();
+                }
+            });
         });
 
-        async function fetchHanzi() {
-            const grid = document.getElementById('hanzi-grid');
-            const loadingIndicator = document.getElementById('loading-indicator');
+        async function fetchCizuDict() {
             try {
-                const response = await fetch('dicts/first_dict/dict.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                
-                const hanziSet = new Set();
-                for (const pinyin in data) {
-                    const entries = data[pinyin];
-                    entries.forEach(entry => {
-                        const chars = (typeof entry === 'string') ? entry : entry.char;
-                        if (chars) {
-                            for (const char of chars) {
-                                // Add only Chinese characters
-                                if (/[\u4e00-\u9fa5]/.test(char)) {
-                                    hanziSet.add(char);
-                                }
-                            }
+                const response = await fetch("dicts/first_dict/dict_cizu.json");
+                if (!response.ok) throw new Error('Failed to load cizu dictionary');
+                const cizuDict = await response.json();
+                for (const pinyin in cizuDict) {
+                    cizuDict[pinyin].forEach(word => {
+                        if (!cizuWordMap.has(word)) {
+                            cizuWordMap.set(word, pinyin);
                         }
                     });
                 }
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
-                loadingIndicator.style.display = 'none';
+        async function fetchAndDisplayDictionary(dictPath) {
+            const list = document.getElementById('entry-list');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            
+            list.innerHTML = '';
+            loadingIndicator.style.display = 'block';
+            loadingIndicator.textContent = '正在加载字典...';
+
+            try {
+                const response = await fetch(dictPath);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
                 
-                const sortedHanzi = Array.from(hanziSet).sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
+                const entries = [];
+                for (const pinyin in data) {
+                    data[pinyin].forEach(entry => {
+                        const char = (typeof entry === 'string') ? entry : entry.char;
+                        const desc = (typeof entry === 'object' && entry.en) ? entry.en : '（无解释）';
+                        if (char) entries.push({ char, desc, pinyin });
+                    });
+                }
                 
-                const fragment = document.createDocumentFragment();
-                sortedHanzi.forEach(char => {
-                    const item = document.createElement('div');
-                    item.className = 'grid-item';
-                    item.textContent = char;
-                    fragment.appendChild(item);
-                });
-                grid.appendChild(fragment);
+                const uniqueEntries = Array.from(new Map(entries.map(e => [e.char, e])).values());
+                currentEntries = uniqueEntries;
+                sortAndDisplayEntries(currentEntries);
 
             } catch (error) {
                 console.error('Failed to load or process dictionary:', error);
                 loadingIndicator.textContent = '加载失败，请检查文件路径或网络连接。';
             }
+        }
+
+        function sortAndDisplayEntries(entries) {
+            const list = document.getElementById('entry-list');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const sortMethod = document.getElementById('sort-selector').value;
+            
+            let sortedEntries = [...entries];
+
+            if (sortMethod === 'pinyin') {
+                sortedEntries.sort((a, b) => a.pinyin.localeCompare(b.pinyin, 'zh-Hans-CN-u-co-pinyin'));
+            } else if (sortMethod === 'random') {
+                sortedEntries.sort(() => Math.random() - 0.5);
+            } else { // default
+                sortedEntries.sort((a, b) => a.char.localeCompare(b.char, 'zh-Hans-CN'));
+            }
+            
+            list.innerHTML = '';
+            loadingIndicator.style.display = 'none';
+
+            const fragment = document.createDocumentFragment();
+            sortedEntries.forEach(entry => {
+                const card = document.createElement('div');
+                card.className = 'entry-card';
+                card.draggable = true;
+                card.dataset.char = entry.char;
+
+                const cardInner = document.createElement('div');
+                cardInner.className = 'card-inner';
+
+                const cardFront = document.createElement('div');
+                cardFront.className = 'card-front';
+                const charEl = document.createElement('div');
+                charEl.className = 'entry-char';
+                charEl.textContent = entry.char;
+
+                const cardBack = document.createElement('div');
+                cardBack.className = 'card-back';
+                const descEl = document.createElement('div');
+                descEl.className = 'entry-desc';
+                descEl.textContent = entry.desc;
+
+                cardFront.appendChild(charEl);
+                cardBack.appendChild(descEl);
+                cardInner.appendChild(cardFront);
+                cardInner.appendChild(cardBack);
+                card.appendChild(cardInner);
+
+                card.addEventListener('click', () => addCharToCombination(entry.char));
+                card.addEventListener('dblclick', (e) => {
+                    e.preventDefault();
+                    card.classList.toggle('flipped');
+                });
+                card.addEventListener('dragstart', dragStartHandler);
+
+                fragment.appendChild(card);
+            });
+            list.appendChild(fragment);
+        }
+        
+        function handleSearch(event) {
+            const query = event.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.entry-card');
+            cards.forEach(card => {
+                const char = card.querySelector('.entry-char').textContent.toLowerCase();
+                card.style.display = char.includes(query) ? 'flex' : 'none';
+            });
+        }
+
+        function addCharToCombination(char) {
+            const combinationArea = document.getElementById('combination-area');
+            if (combinationArea.children.length === 1 && combinationArea.children[0].tagName === 'SPAN') {
+                combinationArea.innerHTML = ''; // Clear placeholder
+            }
+            
+            const charWrapper = document.createElement('div');
+            charWrapper.className = 'entry-char-wrapper';
+            charWrapper.dataset.scale = 1;
+            charWrapper.dataset.rotation = 0;
+
+            const charEl = document.createElement('div');
+            charEl.className = 'entry-char';
+            charEl.style.fontSize = '28px';
+            charEl.textContent = char;
+            
+            charWrapper.appendChild(charEl);
+            combinationArea.appendChild(charWrapper);
+
+            charWrapper.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectChar(charWrapper);
+            });
+            
+            checkCombination();
+        }
+
+        function selectChar(charWrapper) {
+            deselectAllChars();
+            charWrapper.classList.add('selected');
+            createCharToolbar(charWrapper);
+        }
+        
+        function deselectAllChars() {
+            document.querySelectorAll('.entry-char-wrapper.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.querySelectorAll('.char-toolbar').forEach(toolbar => toolbar.remove());
+        }
+
+        function createCharToolbar(charWrapper) {
+            const toolbar = document.createElement('div');
+            toolbar.className = 'char-toolbar';
+
+            const zoomInBtn = document.createElement('button');
+            zoomInBtn.textContent = '+';
+            zoomInBtn.onclick = () => {
+                let scale = parseFloat(charWrapper.dataset.scale) + 0.1;
+                charWrapper.dataset.scale = scale;
+                charWrapper.style.transform = `scale(${scale}) rotate(${charWrapper.dataset.rotation}deg)`;
+            };
+
+            const zoomOutBtn = document.createElement('button');
+            zoomOutBtn.textContent = '-';
+            zoomOutBtn.onclick = () => {
+                let scale = parseFloat(charWrapper.dataset.scale) - 0.1;
+                charWrapper.dataset.scale = scale;
+                charWrapper.style.transform = `scale(${scale}) rotate(${charWrapper.dataset.rotation}deg)`;
+            };
+
+            const rotateBtn = document.createElement('button');
+            rotateBtn.innerHTML = '&#8635;';
+            rotateBtn.onclick = () => {
+                let rotation = parseInt(charWrapper.dataset.rotation) + 15;
+                charWrapper.dataset.rotation = rotation;
+                charWrapper.style.transform = `scale(${charWrapper.dataset.scale}) rotate(${rotation}deg)`;
+            };
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.onclick = () => {
+                charWrapper.remove();
+                checkCombination();
+            };
+
+            toolbar.appendChild(zoomInBtn);
+            toolbar.appendChild(zoomOutBtn);
+            toolbar.appendChild(rotateBtn);
+            toolbar.appendChild(deleteBtn);
+            charWrapper.appendChild(toolbar);
+        }
+
+        // Drag and Drop for combination
+        function dragStartHandler(event) {
+            event.dataTransfer.setData("text/plain", event.target.dataset.char);
+            event.dataTransfer.effectAllowed = "copy";
+        }
+
+        function dropHandler(event) {
+            event.preventDefault();
+            const char = event.dataTransfer.getData("text/plain");
+            addCharToCombination(char);
+        }
+
+        function checkCombination() {
+            const combinationArea = document.getElementById('combination-area');
+            const pinyinDisplay = document.getElementById('combination-pinyin');
+            if (pinyinDisplay) pinyinDisplay.remove();
+            
+            const chars = Array.from(combinationArea.querySelectorAll('.entry-char')).map(el => el.textContent).join('');
+            
+            if (chars.length > 0) {
+                 if (cizuWordMap.has(chars)) {
+                    combinationArea.classList.add('valid');
+                    combinationArea.classList.remove('invalid');
+                    const pinyin = cizuWordMap.get(chars);
+                    const pinyinEl = document.createElement('span');
+                    pinyinEl.id = 'combination-pinyin';
+                    pinyinEl.textContent = pinyin;
+                    combinationArea.appendChild(pinyinEl);
+                } else {
+                    combinationArea.classList.add('invalid');
+                    combinationArea.classList.remove('valid');
+                }
+            } else {
+                 clearCombination();
+            }
+        }
+        
+        function clearCombination() {
+            const combinationArea = document.getElementById('combination-area');
+            combinationArea.innerHTML = '<span style="color: var(--subtext-color);">点击或拖拽汉字到此处进行组合</span>';
+            combinationArea.classList.remove('valid', 'invalid');
+        }
+
+        function setupModal() {
+            const modal = document.getElementById('playground-modal');
+            const closeModalBtn = document.querySelector('.modal-close');
+            const playgroundChar = document.getElementById('playground-char');
+            const zoomSlider = document.getElementById('zoom-slider');
+            const rotateSlider = document.getElementById('rotate-slider');
+            const stretchXSlider = document.getElementById('stretch-x-slider');
+            const stretchYSlider = document.getElementById('stretch-y-slider');
+            const colorPicker = document.getElementById('color-picker');
+
+            closeModalBtn.onclick = () => modal.style.display = 'none';
+            window.onclick = (event) => {
+                if (event.target == modal) modal.style.display = 'none';
+            };
+            
+            let scale = 1, rotation = 0, scaleX = 1, scaleY = 1;
+
+            const updateTransform = () => {
+                playgroundChar.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg) scaleX(${scaleX}) scaleY(${scaleY})`;
+            };
+
+            zoomSlider.oninput = (e) => { scale = e.target.value; updateTransform(); };
+            rotateSlider.oninput = (e) => { rotation = e.target.value; updateTransform(); };
+            stretchXSlider.oninput = (e) => { scaleX = e.target.value; updateTransform(); };
+            stretchYSlider.oninput = (e) => { scaleY = e.target.value; updateTransform(); };
+            colorPicker.oninput = (e) => playgroundChar.style.color = e.target.value;
+
+            // Drag and Drop for modal character
+            let isDragging = false, offsetX, offsetY;
+            const container = document.getElementById('playground-char-container');
+            playgroundChar.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                const rect = playgroundChar.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                offsetX = e.clientX - rect.left + containerRect.left;
+                offsetY = e.clientY - rect.top + containerRect.top;
+                playgroundChar.style.cursor = 'grabbing';
+            });
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                let x = e.clientX - offsetX;
+                let y = e.clientY - offsetY;
+                playgroundChar.style.left = `${x}px`;
+                playgroundChar.style.top = `${y}px`;
+            });
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                playgroundChar.style.cursor = 'move';
+            });
+        }
+
+        function openModal(entry) {
+            const modal = document.getElementById('playground-modal');
+            const playgroundChar = document.getElementById('playground-char');
+            const playgroundDesc = document.getElementById('playground-desc');
+            
+            document.getElementById('zoom-slider').value = 1;
+            document.getElementById('rotate-slider').value = 0;
+            document.getElementById('stretch-x-slider').value = 1;
+            document.getElementById('stretch-y-slider').value = 1;
+            document.getElementById('color-picker').value = '#212529';
+
+            playgroundChar.textContent = entry.char;
+            playgroundDesc.textContent = entry.desc;
+            
+            playgroundChar.style.color = '#212529';
+            playgroundChar.style.left = '50%';
+            playgroundChar.style.top = '50%';
+            playgroundChar.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg) scaleX(1) scaleY(1)';
+
+            modal.style.display = 'flex';
         }
     </script>
 </body>

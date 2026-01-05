@@ -399,6 +399,40 @@
             .dict-level-category.collapsed .dict-level-content {
                 display: none;
             }
+            /* Settings Panel */
+            #settings-panel {
+                position: fixed;
+                top: 0;
+                right: -320px; /* Hidden by default */
+                width: 320px;
+                height: 100%;
+                background-color: #fff;
+                box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+                padding: 20px;
+                box-sizing: border-box;
+                transition: right 0.3s ease;
+                z-index: 1001;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            body.settings-panel-open #settings-panel {
+                right: 0;
+            }
+            #settings-panel h2 {
+                margin-top: 0;
+                color: var(--text-color);
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 10px;
+            }
+            #settings-close-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                font-size: 24px;
+                cursor: pointer;
+                color: var(--subtext-color);
+            }
         </style>
     </head>
     <body>
@@ -462,6 +496,7 @@
                     class="btn btn-github"
                     >GitHub Star</a
                 >
+                <div id="settings-btn" class="btn btn-toggle">&#9881;</div>
             </div>
             <div class="content-area">
                 <div class="history-panel" id="history-panel">
@@ -481,26 +516,6 @@
                     </div>
                     <div
                         id="history-list"
-                        style="
-                            flex: 1;
-                            overflow-y: auto;
-                            margin-top: 10px;
-                            min-height: 50px;
-                        "
-                    ></div>
-                    <div
-                        style="
-                            margin-top: 15px;
-                            padding-top: 15px;
-                            border-top: 1px solid #eee;
-                            font-weight: bold;
-                            font-size: 14px;
-                        "
-                    >
-                        词典管理
-                    </div>
-                    <div
-                        id="dict-management-list"
                         style="
                             flex: 1;
                             overflow-y: auto;
@@ -568,6 +583,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="settings-panel">
+            <span id="settings-close-btn">&times;</span>
+            <h2>设置</h2>
+            <div id="dict-management-list" style="flex: 1; overflow-y: auto; min-height: 50px;"></div>
         </div>
         <div id="toast"></div>
 
@@ -869,6 +889,11 @@
                     .getElementById("l-hist-btn")
                     .classList.toggle("active", settings.history);
 
+                const settingsBtn = document.getElementById('settings-btn');
+                const settingsCloseBtn = document.getElementById('settings-close-btn');
+
+                settingsBtn.addEventListener('click', () => document.body.classList.add('settings-panel-open'));
+                settingsCloseBtn.addEventListener('click', () => document.body.classList.remove('settings-panel-open'));
             }
 
             function handleImportDict(input) {
