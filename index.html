@@ -368,22 +368,7 @@
                 >
                     导入词库
                 </button>
-                <button
-                    id="def-btn"
-                    class="btn btn-toggle"
-                    onclick="toggleDefaultChars()"
-                >
-                    常用字
-                </button>
 
-                <div
-                    style="
-                        width: 1px;
-                        height: 20px;
-                        background: #ddd;
-                        margin: 0 5px;
-                    "
-                ></div>
 
                 <button
                     id="practice-btn"
@@ -525,18 +510,7 @@
         <div id="toast"></div>
 
         <script>
-            const DEFAULT_CHARS = [
-                { text: "的" },
-                { text: "一" },
-                { text: "是" },
-                { text: "了" },
-                { text: "我" },
-                { text: "不" },
-                { text: "人" },
-                { text: "在" },
-                { text: "他" },
-                { text: "有" },
-            ];
+
             const PUNCS = {
                 ",": "，",
                 ".": "。",
@@ -597,8 +571,7 @@
             if (!settings.outputHeight) settings.outputHeight = 300;
             if (typeof settings.history === "undefined")
                 settings.history = true;
-            if (typeof settings.showDefault === "undefined")
-                settings.showDefault = true;
+
 
             let buffer = "",
                 committed = "",
@@ -762,9 +735,7 @@
                 document
                     .getElementById("l-hist-btn")
                     .classList.toggle("active", settings.history);
-                document
-                    .getElementById("def-btn")
-                    .classList.toggle("active", settings.showDefault);
+
             }
 
             function handleImportDict(input) {
@@ -841,34 +812,31 @@
                     document.getElementById("buffer-display").innerHTML = bufferHTML;
                     
                     let list = [];
-                    const isFuzzyMode = b.length >= 6;
+                    const isAllVowels = (str) => /^[aeiou]+$/.test(str);
 
-                    if (isFuzzyMode) {
-                        for (let key in DB) {
-                            if (key.startsWith(b)) {
-                                let weight = 1000;
-                                if (key === b) weight += 10000;
-                                weight -= (key.length - b.length) * 100;
-                                DB[key].forEach((i) =>
-                                    list.push({
-                                        text: i.char || i,
-                                        desc:
-                                            i.en ||
-                                            (typeof i === "object" ? i.en : ""),
-                                        w: weight,
-                                    }),
-                                );
-                            }
+                    let useExactMatch = false;
+                    if (b.length <= 2) {
+                        useExactMatch = true;
+                    } else if ((b.length === 3 || b.length === 4) && isAllVowels(b)) {
+                        useExactMatch = true;
+                    }
+
+                    for (let key in DB) {
+                        const match = useExactMatch ? key === b : key.startsWith(b);
+                        if (match) {
+                            let weight = 1000;
+                            if (key === b) weight += 10000;
+                            weight -= (key.length - b.length) * 100;
+                            DB[key].forEach((i) =>
+                                list.push({
+                                    text: i.char || i,
+                                    desc:
+                                        i.en ||
+                                        (typeof i === "object" ? i.en : ""),
+                                    w: weight,
+                                }),
+                            );
                         }
-                    } else if (DB[b]) {
-                        DB[b].forEach((i) =>
-                            list.push({
-                                text: i.char || i,
-                                desc:
-                                    i.en || (typeof i === "object" ? i.en : ""),
-                                w: 10000,
-                            }),
-                        );
                     }
 
                                                             const seen = new Set();
@@ -904,9 +872,7 @@
                                                             }
 
                                                         } else {                    document.getElementById("buffer-display").innerText = "";
-                    combinedCandidates = settings.showDefault
-                        ? DEFAULT_CHARS
-                        : [];
+                    combinedCandidates = [];
                 }
                 render();
             }
@@ -1228,14 +1194,7 @@
                 practiceTargetText = result;
             }
 
-            function toggleDefaultChars() {
-                settings.showDefault = !settings.showDefault;
-                document
-                    .getElementById("def-btn")
-                    .classList.toggle("active", settings.showDefault);
-                saveSettings();
-                update();
-            }
+
 
             function toggleHistory() {
                 settings.history = !settings.history;
