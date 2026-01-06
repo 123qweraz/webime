@@ -1267,15 +1267,16 @@
              * @param {string} action - 退出动作类型
              */
             function exitCorrectionMode(action) {
-                                                if (action === "convert_sentence") {
-                                                    const pinyinPhrase = correctionInput.value.trim();
-                                                    if (pinyinPhrase) {
-                                                        const convertedHanzi =
-                                                            convertPinyinToHanzi(pinyinPhrase);
-                                                        committed += convertedHanzi;
-                                                    }
-                                                } else if (action === 'sync_out_buffer') { // New logic for sync-out
-                                                    const correctedText = correctionInput.value.trim();
+                                                                if (action === "convert_sentence") {
+                                                                    const pinyinPhrase = correctionInput.value.trim();
+                                                                    if (pinyinPhrase) {
+                                                                        const convertedHanzi =
+                                                                            convertPinyinToHanzi(pinyinPhrase);
+                                                                        committed += convertedHanzi;
+                                                                    }
+                                                                    // Clear the main buffer after committing from correction mode
+                                                                    setBuffer(""); 
+                                                                } else if (action === 'sync_out_buffer') { // New logic for sync-out                                                    const correctedText = correctionInput.value.trim();
                                                     setBuffer(correctedText); // Update global buffer and hInput.value
                                                     pageIndex = 0; // Reset page index
                                                 }
@@ -1298,10 +1299,12 @@
                 if (isEditing) {
                     outputCard.classList.remove("editing");
                     outputArea.classList.add("locked");
+                    outputArea.contentEditable = false; // Disable contenteditable
                     editBtn.textContent = "锁定模式";
                 } else {
                     outputCard.classList.add("editing");
                     outputArea.classList.remove("locked");
+                    outputArea.contentEditable = true; // Enable contenteditable
                     editBtn.textContent = "编辑模式";
                 }
             }
@@ -1534,6 +1537,12 @@
                 "[": "【",
                 "]": "】",
             };
+
+            const NON_PINYIN_COMMITTING_CHARS = new Set([
+                '+', '-', '\'', '"', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '=',
+                '~', '`', '{', '}', '[', ']', '|', '\\', ':', ';', '<', '>', '?', '/', '.',
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+            ]);
 
             function getDictLevel(dict) {
                 return typeof dict.level === "number" ? dict.level : 100; // Use 100 as per strong recommendation
@@ -2002,7 +2011,6 @@
 
             function handleKeyDown(e) {
                 if (
-                    currentState === InputState.EDIT ||
                     currentState === InputState.CORRECTION
                 )
                     return;
@@ -2016,6 +2024,18 @@
                 }
 
                 // --- Normal Mode Logic Below ---
+
+                // Handle specific non-IME characters: +, -, ', etc.
+                if (NON_PINYIN_COMMITTING_CHARS.has(key)) {
+                    e.preventDefault();
+                    if (buffer && combinedCandidates.length > 0) {
+                        committed += combinedCandidates[0].text;
+                    }
+                    committed += key;
+                    resetInput();
+                    update();
+                    return;
+                }
 
                 // Punctuation handling for normal mode
                 if (PUNCS[key]) {
