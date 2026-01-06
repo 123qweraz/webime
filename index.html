@@ -588,6 +588,10 @@
             <span id="settings-close-btn">&times;</span>
             <h2>设置</h2>
             <div id="dict-management-list" style="flex: 1; overflow-y: auto; min-height: 50px;"></div>
+            <div class="settings-group">
+                <h3>练习模式设置</h3>
+                <div id="practice-dict-list"></div>
+            </div>
         </div>
         <div id="toast"></div>
 
@@ -646,6 +650,7 @@
             if (!settings.outputHeight) settings.outputHeight = 300;
             if (typeof settings.history === "undefined")
                 settings.history = true;
+            if (!settings.practice_dicts) settings.practice_dicts = {};
 
 
             let activeLanguage = 'chinese';
@@ -714,6 +719,14 @@
                 } else {
                     allDicts = [...BUILT_IN_DICTS];
                 }
+                
+                // Initialize practice dicts settings if not present
+                allDicts.forEach((dict, index) => {
+                    if (settings.practice_dicts[index] === undefined) {
+                        settings.practice_dicts[index] = dict.enabled;
+                    }
+                });
+
                 saveDictConfig();
             }
 
@@ -722,10 +735,13 @@
                     "ime_dicts_config",
                     JSON.stringify(allDicts),
                 );
+                saveSettings();
             }
 
             function renderDictManagement() {
                 const listEl = document.getElementById("dict-management-list");
+                const practiceListEl = document.getElementById("practice-dict-list");
+                
                 const groupedByLang = allDicts.reduce((acc, dict) => {
                     const lang = dict.language || 'chinese';
                     if (!acc[lang]) {
@@ -773,7 +789,7 @@
                                     <div style="display: flex; align-items: center;">
                                         ${dict.type === 'user' ? `<div class="delete-btn" style="padding-right: 10px;" title="删除词典" onclick="deleteDict(${index})">&times;</div>` : ''}
                                         <label class="switch">
-                                            <input type="checkbox" ${dict.enabled ? "checked" : ""} onchange="toggleDict(${index})">
+                                            <input type="checkbox" ${dict.enabled ? "checked" : ""} onchange="toggleDict(${index}, 'main')">
                                             <span class="slider"></span>
                                         </label>
                                     </div>
@@ -790,7 +806,21 @@
                     return `<div class="dict-language-panel" data-lang="${lang}">${levelHTML}</div>`;
                 }).join('');
 
-                listEl.innerHTML = `<div class="dict-tabs">${tabsHTML}</div><div class="dict-content">${contentHTML}</div>`;
+                listEl.innerHTML = `<h3>主词典</h3><div class="dict-tabs">${tabsHTML}</div><div class="dict-content">${contentHTML}</div>`;
+                
+                // Render practice dicts
+                let practiceDictsHTML = allDicts.map((dict, index) => {
+                     return `
+                        <div class="dict-item">
+                            <span class="dict-name" title="${dict.name}">${dict.name}</span>
+                            <label class="switch">
+                                <input type="checkbox" ${settings.practice_dicts[index] ? "checked" : ""} onchange="toggleDict(${index}, 'practice')">
+                                <span class="slider"></span>
+                            </label>
+                        </div>`;
+                }).join('');
+                practiceListEl.innerHTML = practiceDictsHTML;
+
 
                 // Activate the active tab
                 switchLanguage(activeLanguage);
@@ -820,11 +850,17 @@
                 }
             }
 
-            async function toggleDict(index) {
-                allDicts[index].enabled = !allDicts[index].enabled;
-                saveDictConfig();
-                showToast("词典设置已更新，正在重新加载...");
-                await loadAllDicts();
+            async function toggleDict(index, type) {
+                if (type === 'main') {
+                    allDicts[index].enabled = !allDicts[index].enabled;
+                    saveDictConfig();
+                    showToast("主词典设置已更新，正在重新加载...");
+                    await loadAllDicts();
+                } else {
+                    settings.practice_dicts[index] = !settings.practice_dicts[index];
+                    saveSettings();
+                    showToast("练习词典设置已更新。");
+                }
                 update();
             }
 
@@ -937,18 +973,42 @@
                 if (isEditMode) return;
 
                 if (isPracticeMode && practiceTargetText) {
-                    // The 'locked' class is now managed by togglePracticeMode
-                    if (practiceTargetText.startsWith(committed)) {
-                        const remaining = practiceTargetText.substring(
-                            committed.length,
-                        );
-                        outputArea.innerHTML =
-                            escapeHtml(committed) +
-                            `<span class="caret"></span>` + // Insert the new caret span
-                            `<span class="practice-hint">${escapeHtml(remaining)}</span>`;
-                    } else {
-                        outputArea.innerText = committed;
+                    // New practice mode UI
+                    const words = practiceTargetText.split('，').map(w => w.replace('。', ''));
+                    let completedHTML = '';
+                    let remainingHTML = '';
+                    let currentWordIndex = -1;
+
+                    let tempCommitted = committed;
+                    for(let i=0; i<words.length; i++) {
+                        if (tempCommitted.startsWith(words[i])) {
+                            completedHTML += `<div class="practice-word completed">${escapeHtml(words[i])}</div>`;
+                            tempCommitted = tempCommitted.substring(words[i].length);
+                        } else {
+                            currentWordIndex = i;
+                            break;
+                        }
                     }
+
+                    if (currentWordIndex !== -1) {
+                         const currentWord = words[currentWordIndex];
+                         if (currentWord.startsWith(tempCommitted)) {
+                            const typedPart = tempCommitted;
+                            const remainingPart = currentWord.substring(typedPart.length);
+                            completedHTML += `<div class="practice-word current">
+                                ${escapeHtml(typedPart)}<span class="caret"></span><span class="practice-hint">${escapeHtml(remainingPart)}</span>
+                            </div>`;
+                         } else {
+                             completedHTML += `<div class="practice-word incorrect">${escapeHtml(currentWord)}</div>`;
+                         }
+                         for(let i=currentWordIndex+1; i<words.length; i++) {
+                            remainingHTML += `<div class="practice-word upcoming">${escapeHtml(words[i])}</div>`;
+                         }
+                    }
+
+                    outputArea.innerHTML = `<div class="practice-words-container">${completedHTML}${remainingHTML}</div>`;
+
+
                     if (committed === practiceTargetText) {
                         setTimeout(() => {
                             committed = "";
@@ -1011,39 +1071,24 @@
                         collect(prefixNode, b);
                     }
 
-                                                            const seen = new Set();
+                    const seen = new Set();
+                    combinedCandidates = list
+                        .sort((a, b) => b.w - a.w)
+                        .filter((x) => !seen.has(x.text) && seen.add(x.text));
 
-                                                            combinedCandidates = list
-
-                                                                .sort((a, b) => b.w - a.w)
-
-                                                                .filter((x) => !seen.has(x.text) && seen.add(x.text));
-
-                                        
-
-                                                            if (
-
-                                                                b.length >= 6 &&
-
-                                                                DB[b] &&
-
-                                                                DB[b].length === 1 &&
-
-                                                                combinedCandidates.length === 1 &&
-
-                                                                !isTabMode
-
-                                                            ) {
-
-                                                                const word = combinedCandidates[0].text;
-
-                                                                setTimeout(() => selectCandidate(word), 10);
-
-                                                                return;
-
-                                                            }
-
-                                                        } else {                    document.getElementById("buffer-display").innerText = "";
+                    if (
+                        b.length >= 6 &&
+                        DB[b] &&
+                        DB[b].length === 1 &&
+                        combinedCandidates.length === 1 &&
+                        !isTabMode
+                    ) {
+                        const word = combinedCandidates[0].text;
+                        setTimeout(() => selectCandidate(word), 10);
+                        return;
+                    }
+                } else {
+                    document.getElementById("buffer-display").innerText = "";
                     combinedCandidates = [];
                 }
                 render();
@@ -1364,32 +1409,51 @@
 
             function generatePracticeText() {
                 let allWords = [];
-                const collectAll = (node) => {
-                    if (node.values.length > 0) {
-                        node.values.forEach((item) => {
-                            const text = typeof item === "object" ? item.char : item;
-                            if (text.length > 1) allWords.push(text);
-                        });
-                    }
-                    for (const char in node.children) {
-                        collectAll(node.children[char]);
-                    }
-                };
-                collectAll(DB.root);
+                const practiceDicts = allDicts.filter((d, i) => settings.practice_dicts[i]);
 
-                if (allWords.length === 0) {
-                    practiceTargetText = "词库为空，请先加载或导入词库。";
-                    return;
-                }
-                const COUNT = 5;
-                let result = "";
-                for (let i = 0; i < COUNT; i++) {
-                    const rand =
-                        allWords[Math.floor(Math.random() * allWords.length)];
-                    result += rand + "，";
-                }
-                result = result.slice(0, -1) + "。";
-                practiceTargetText = result;
+                const loadPromises = practiceDicts.map(dict => {
+                     return new Promise(async (resolve) => {
+                        try {
+                            let dictData;
+                            if (dict.type === "built-in") {
+                                const r = await fetch(dict.path);
+                                if (!r.ok) return resolve();
+                                dictData = await r.json();
+                            } else if (dict.type === "user" && dict.content) {
+                                dictData = JSON.parse(dict.content);
+                            }
+
+                            if (dictData) {
+                                for (const k in dictData) {
+                                    const items = Array.isArray(dictData[k]) ? dictData[k] : [dictData[k]];
+                                    items.forEach(item => {
+                                        const text = typeof item === "object" ? item.char : item;
+                                        if (text.length > 1) allWords.push(text);
+                                    });
+                                }
+                            }
+                        } catch (e) {
+                            console.error("Failed to load or parse practice dict:", dict.name, e);
+                        }
+                        resolve();
+                    });
+                });
+
+                Promise.all(loadPromises).then(() => {
+                    if (allWords.length === 0) {
+                        practiceTargetText = "练习词库为空，请在设置中选择。";
+                        update();
+                        return;
+                    }
+                    
+                    let result = [];
+                    for (let i = 0; i < 3; i++) {
+                        const rand = allWords[Math.floor(Math.random() * allWords.length)];
+                        result.push(rand);
+                    }
+                    practiceTargetText = result.join('，') + '。';
+                    update();
+                });
             }
 
 
@@ -1534,5 +1598,3 @@
                 if (!document.hidden) focusHiddenInput();
             });
         </script>
-    </body>
-</html>
