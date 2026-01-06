@@ -228,6 +228,30 @@
             .candidate-item:hover {
                 background-color: #e0e0e0;
             }
+            .completion-item {
+                position: relative;
+                padding: 6px 10px;
+                background: #e9e9eb;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 400;
+                color: #555;
+                border: 1px solid #ddd;
+                transition: background-color 0.2s;
+                margin-bottom: 5px; /* Add some space between completion items */
+            }
+            .completion-item:hover {
+                background-color: #d8d8da;
+            }
+            .completion-header {
+                font-size: 14px;
+                color: #888;
+                margin-top: 10px;
+                margin-bottom: 5px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 3px;
+            }
             .cand-key {
                 position: absolute;
                 top: 2px;
@@ -488,8 +512,10 @@
             }
             .modal-header h3 {
                 margin: 0;
-                font-size: 20px;
+                font-size: 24px;
                 color: #333;
+                border-bottom: 2px solid var(--primary);
+                padding-bottom: 10px;
             }
             .modal-header button {
                 background: none;
@@ -502,6 +528,11 @@
                 margin-bottom: 20px;
                 padding-bottom: 15px;
                 border-bottom: 1px solid #eee;
+            }
+            .modal-controls {
+                margin-bottom: 20px;
+                display: flex;
+                gap: 10px;
             }
             .dict-sections h4 {
                 margin-top: 20px;
@@ -552,6 +583,80 @@
             }
             .dict-card-actions button.delete {
                 color: #cc0000;
+            }
+
+            /* Toggle Switch Styles */
+            .toggle-switch {
+                position: relative;
+                display: inline-block;
+                width: 34px;
+                height: 20px;
+            }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: 0.4s;
+                transition: 0.4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 2px;
+                bottom: 2px;
+                background-color: white;
+                -webkit-transition: 0.4s;
+                transition: 0.4s;
+            }
+
+            input:checked + .slider {
+                background-color: var(--primary);
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px var(--primary);
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(14px);
+                -ms-transform: translateX(14px);
+                transform: translateX(14px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 20px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+
+            .settings-section {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .settings-section h4 {
+                margin-top: 0;
+                margin-bottom: 10px;
+                color: #555;
             }
         </style>
     </head>
@@ -682,6 +787,25 @@
                         <input type="file" id="dict-file-input" style="display:none" onchange="handleImport(this)">
                         <button class="btn" onclick="document.getElementById('dict-file-input').click()">导入新词典 (.json)</button>
                     </div>
+
+                    <div class="modal-controls">
+                        <button class="btn btn-toggle" onclick="sortDictsByDefaultOrder()">中文</button>
+                    </div>
+
+                    <div class="settings-section" id="completion-settings">
+                        <h4>输入补全设置</h4>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="pinyin-completion-toggle" onchange="settings.pinyinCompletionEnabled = this.checked; saveSettings(); update();">
+                            <span class="slider round"></span>
+                        </label>
+                        <label for="pinyin-completion-toggle">拼音补全提示</label>
+                        <br>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="hanzi-completion-toggle" onchange="settings.hanziCompletionEnabled = this.checked; saveSettings(); update();">
+                            <span class="slider round"></span>
+                        </label>
+                        <label for="hanzi-completion-toggle">汉字补全提示</label>
+                    </div>
                     
                     <div class="dict-sections">
                         <h4>已启用 (拖拽排序)</h4>
@@ -699,6 +823,10 @@
             function openDictModal() {
                 document.getElementById('dict-modal').style.display = 'flex';
                 renderModalDicts(); // Render dictionaries when modal opens
+
+                // Initialize completion settings toggles
+                document.getElementById('pinyin-completion-toggle').checked = settings.pinyinCompletionEnabled;
+                document.getElementById('hanzi-completion-toggle').checked = settings.hanziCompletionEnabled;
             }
 
             function closeDictModal() {
@@ -715,6 +843,58 @@
                     const dictCard = document.createElement('div');
                     dictCard.className = `dict-card ${!dict.enabled ? 'disabled' : ''}`;
                     dictCard.setAttribute('data-index', index);
+                    dictCard.setAttribute('draggable', 'true'); // Make draggable
+                    dictCard.setAttribute('tabindex', '0'); // Make focusable for keyboard navigation
+
+                    dictCard.addEventListener('dragstart', (e) => {
+                        draggedDictIndex = index;
+                        e.dataTransfer.effectAllowed = 'move';
+                        e.dataTransfer.setData('text/plain', index); // Set data for Firefox
+                        setTimeout(() => dictCard.style.opacity = '0.5', 0); // Hide dragged item
+                    });
+
+                    dictCard.addEventListener('dragover', (e) => {
+                        e.preventDefault(); // Allow drop
+                        const targetCard = e.currentTarget;
+                        if (draggedDictIndex !== null && draggedDictIndex !== index) {
+                            const bounding = targetCard.getBoundingClientRect();
+                            const offset = bounding.y + (bounding.height / 2);
+                            if (e.clientY < offset) {
+                                targetCard.style.borderTop = '2px solid var(--primary)';
+                                targetCard.style.borderBottom = '';
+                            } else {
+                                targetCard.style.borderBottom = '2px solid var(--primary)';
+                                targetCard.style.borderTop = '';
+                            }
+                        }
+                    });
+
+                    dictCard.addEventListener('dragleave', (e) => {
+                        e.currentTarget.style.borderTop = '';
+                        e.currentTarget.style.borderBottom = '';
+                    });
+
+                    dictCard.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        e.currentTarget.style.borderTop = '';
+                        e.currentTarget.style.borderBottom = '';
+                        if (draggedDictIndex !== null && draggedDictIndex !== index) {
+                            const droppedOnIndex = index;
+                            const isBefore = e.clientY < e.currentTarget.getBoundingClientRect().y + (e.currentTarget.getBoundingClientRect().height / 2);
+                            handleDictDrop(draggedDictIndex, droppedOnIndex, isBefore);
+                        }
+                    });
+
+                    dictCard.addEventListener('dragend', (e) => {
+                        e.target.style.opacity = '1'; // Restore opacity
+                        draggedDictIndex = null;
+                        document.querySelectorAll('.dict-card').forEach(card => {
+                            card.style.borderTop = '';
+                            card.style.borderBottom = '';
+                        });
+                    });
+
+                    dictCard.addEventListener('keydown', (e) => handleDictCardKeyDown(index, e));
 
                     dictCard.innerHTML = `
                         <span class="dict-card-name">${dict.name} (${dict.wordCount || 0} 词)</span>
@@ -736,7 +916,116 @@
                 });
             }
 
-            // Helper functions for dict management within modal
+            async function sortDictsByDefaultOrder() {
+                const desiredOrder = ["基础词典", "词组词典", "二级字", "三级字", "四字词"];
+                
+                // First, enable all dictionaries that are part of the desired order
+                allDicts.forEach(dict => {
+                    if (desiredOrder.includes(dict.name)) {
+                        dict.enabled = true;
+                    }
+                });
+
+                allDicts.sort((a, b) => {
+                    const indexA = desiredOrder.indexOf(a.name);
+                    const indexB = desiredOrder.indexOf(b.name);
+
+                    // If both are in desiredOrder, sort by their index
+                    if (indexA !== -1 && indexB !== -1) {
+                        return indexA - indexB;
+                    }
+                    // If only 'a' is in desiredOrder, 'a' comes first
+                    if (indexA !== -1) {
+                        return -1;
+                    }
+                    // If only 'b' is in desiredOrder, 'b' comes first
+                    if (indexB !== -1) {
+                        return 1;
+                    }
+                    // If neither is in desiredOrder, maintain current relative order (or sort by name as a fallback)
+                    return a.name.localeCompare(b.name);
+                });
+                
+                saveDictConfig();
+                await loadAllDicts();
+                renderModalDicts();
+                showToast('中文词典已启用并排序', 'info');
+            }
+
+            let draggedDictIndex = null; // Global variable to store the index of the dictionary being dragged
+
+            async function handleDictDrop(draggedIndex, droppedOnIndex, isBefore) {
+                // If dragged and dropped on the same item, or if the indices are invalid, do nothing
+                if (draggedIndex === droppedOnIndex || draggedIndex < 0 || droppedOnIndex < 0 || draggedIndex >= allDicts.length || droppedOnIndex >= allDicts.length) {
+                    return;
+                }
+
+                const [movedDict] = allDicts.splice(draggedIndex, 1);
+                let targetIndex = droppedOnIndex;
+
+                if (draggedIndex < droppedOnIndex) {
+                    // Item was dragged downwards
+                    if (isBefore) {
+                        // Dropped before the target, so new index is target - 1
+                        targetIndex = droppedOnIndex - 1;
+                    } else {
+                        // Dropped after the target, new index is target
+                        targetIndex = droppedOnIndex;
+                    }
+                } else {
+                    // Item was dragged upwards
+                    if (isBefore) {
+                        // Dropped before the target, new index is target
+                        targetIndex = droppedOnIndex;
+                    } else {
+                        // Dropped after the target, new index is target + 1
+                        targetIndex = droppedOnIndex + 1;
+                    }
+                }
+                
+                // Ensure targetIndex is within valid bounds
+                targetIndex = Math.max(0, Math.min(targetIndex, allDicts.length));
+
+                allDicts.splice(targetIndex, 0, movedDict);
+                saveDictConfig();
+                await loadAllDicts();
+                renderModalDicts();
+                showToast(`词典 "${movedDict.name}" 已移动`, 'info');
+            }
+
+            async function handleDictCardKeyDown(index, event) {
+                if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    if (index > 0) {
+                        const [movedDict] = allDicts.splice(index, 1);
+                        allDicts.splice(index - 1, 0, movedDict);
+                        saveDictConfig();
+                        await loadAllDicts();
+                        renderModalDicts();
+                        // Refocus the moved element
+                        requestAnimationFrame(() => {
+                            const newCard = document.querySelector(`.dict-card[data-index="${index - 1}"]`);
+                            if (newCard) newCard.focus();
+                        });
+                        showToast(`词典 "${movedDict.name}" 上移`, 'info');
+                    }
+                } else if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    if (index < allDicts.length - 1) {
+                        const [movedDict] = allDicts.splice(index, 1);
+                        allDicts.splice(index + 1, 0, movedDict);
+                        saveDictConfig();
+                        await loadAllDicts();
+                        renderModalDicts();
+                        // Refocus the moved element
+                        requestAnimationFrame(() => {
+                            const newCard = document.querySelector(`.dict-card[data-index="${index + 1}"]`);
+                            if (newCard) newCard.focus();
+                        });
+                        showToast(`词典 "${movedDict.name}" 下移`, 'info');
+                    }
+                }
+            }
             async function toggleDictStatus(index) {
                 if (allDicts[index]) {
                     allDicts[index].enabled = !allDicts[index].enabled;
@@ -1071,15 +1360,16 @@
              * @param {string} action - 退出动作类型
              */
             function exitCorrectionMode(action) {
-                if (action === "convert_sentence") {
-                    const pinyinPhrase = correctionInput.value.trim();
-                    if (pinyinPhrase) {
-                        const convertedHanzi =
-                            convertPinyinToHanzi(pinyinPhrase);
-                        committed += convertedHanzi;
-
-                    }
-                } else if (action === 'sync_out_buffer') { // New logic for sync-out
+                                if (action === "convert_sentence") {
+                                    const pinyinPhrase = correctionInput.value.trim();
+                                    if (pinyinPhrase) {
+                                        const convertedHanzi =
+                                            convertPinyinToHanzi(pinyinPhrase);
+                                        committed += convertedHanzi;
+                                    }
+                                    // Clear the main buffer after committing from correction mode
+                                    setBuffer(""); 
+                                } else if (action === 'sync_out_buffer') { // New logic for sync-out
                     const correctedText = correctionInput.value.trim();
                     setBuffer(correctedText); // Update global buffer and hInput.value
                     pageIndex = 0; // Reset page index
@@ -1104,10 +1394,12 @@
                 if (isEditing) {
                     outputCard.classList.remove("editing");
                     outputArea.classList.add("locked");
+                    outputArea.contentEditable = false; // Disable contenteditable
                     editBtn.textContent = "锁定模式";
                 } else {
                     outputCard.classList.add("editing");
                     outputArea.classList.remove("locked");
+                    outputArea.contentEditable = true; // Enable contenteditable
                     editBtn.textContent = "编辑模式";
                 }
             }
@@ -1385,6 +1677,10 @@
                 settings.inputFlexGrow = 3;
             if (typeof settings.history === "undefined")
                 settings.history = true;
+            if (typeof settings.pinyinCompletionEnabled === "undefined")
+                settings.pinyinCompletionEnabled = true; // Default to true
+            if (typeof settings.hanziCompletionEnabled === "undefined")
+                settings.hanziCompletionEnabled = true; // Default to true
 
             let activeLanguage = "chinese";
             let buffer = "",
@@ -1392,6 +1688,8 @@
                 enFilter = "";
 
             let combinedCandidates = [],
+                pinyinCompletionCandidates = [],
+                hanziCompletionCandidates = [],
                 pageIndex = 0;
             const pageSize = 10; // Moved pageSize outside InputState logic
             let HISTORY = JSON.parse(
@@ -1656,11 +1954,18 @@
                 ); // Debugging line
             }
 
+            let combinedCandidates = [], pageIndex = 0; // Keeping combinedCandidates for now for compatibility, will be refactored
+            let pinyinCompletionCandidates = [];
+            let hanziCompletionCandidates = [];
+
             function update() {
                 if (currentState === InputState.EDIT) return;
 
                 outputArea.innerText = committed;
                 outputArea.scrollTop = outputArea.scrollHeight;
+
+                pinyinCompletionCandidates = [];
+                hanziCompletionCandidates = [];
 
                 if (buffer) {
                     const b = buffer.toLowerCase();
@@ -1674,7 +1979,9 @@
                     document.getElementById("buffer-display").innerHTML =
                         bufferHTML;
 
-                    let list = [];
+                    let list = []; // This will now primarily hold direct Hanzi candidates
+                    let allPinyinPaths = new Set(); // To collect all pinyin paths for completion
+
                     const isAllVowels = (str) => /^[aeiou]+$/.test(str);
 
                     let useExactMatch = false;
@@ -1688,11 +1995,12 @@
                     const prefixNode = DB.getNode(b);
 
                     if (prefixNode) {
-                        const collect = (node, path) => {
-                            if (useExactMatch && path !== b) {
-                                return;
-                            }
+                        const collectTriePaths = (node, path) => {
+                            // Collect pinyin path for auto-completion
+                            allPinyinPaths.add(path);
+
                             if (node.values.length > 0) {
+                                // Collect direct Hanzi candidates
                                 let weight = 1000;
                                 if (path === b) weight += 10000; // Exact match bonus
                                 weight -= (path.length - b.length) * 100;
@@ -1708,15 +2016,40 @@
                                 );
                             }
 
-                            if (!useExactMatch) {
-                                for (const char in node.children) {
-                                    collect(node.children[char], path + char);
-                                }
+                            // Recursively collect from children
+                            for (const char in node.children) {
+                                collectTriePaths(node.children[char], path + char);
                             }
                         };
-                        collect(prefixNode, b);
+                        collectTriePaths(prefixNode, b);
                     }
 
+                    // Populate pinyinCompletionCandidates and hanziCompletionCandidates
+                    if (settings.pinyinCompletionEnabled) {
+                        pinyinCompletionCandidates = Array.from(allPinyinPaths)
+                            .filter(p => p !== b) // Exclude the current buffer itself
+                            .sort((a, b) => a.length - b.length || a.localeCompare(b))
+                            .slice(0, 5); // Limit to top 5 for performance/UI
+                    }
+
+                    if (settings.hanziCompletionEnabled) {
+                        // For Hanzi completion, we need to iterate all Pinyin paths
+                        // collected and find their associated Hanzi values, then filter for uniqueness.
+                        let uniqueHanziCompletions = new Set();
+                        Array.from(allPinyinPaths).forEach(pinyinPath => {
+                            const node = DB.getNode(pinyinPath);
+                            if (node && node.values.length > 0) {
+                                node.values.forEach(item => {
+                                    uniqueHanziCompletions.add(item.char || item);
+                                });
+                            }
+                        });
+                        hanziCompletionCandidates = Array.from(uniqueHanziCompletions)
+                            .filter(h => !list.some(item => item.text === h)) // Exclude already direct candidates
+                            .slice(0, 5) // Limit to top 5
+                            .map(h => ({text: h, desc: '补全', w: 500})); // Assign a lower weight for distinction
+                    }
+                    
                     const seen = new Set();
                     combinedCandidates = list
                         .sort((a, b) => b.w - a.w)
@@ -1747,6 +2080,9 @@
             }
 
             function render() {
+                const mainCandidatesDiv = document.getElementById("main-candidates");
+                mainCandidatesDiv.innerHTML = ''; // Clear existing content
+
                 let display = combinedCandidates;
                 if (currentState === InputState.TAB && enFilter) {
                     display = combinedCandidates.filter(
@@ -1761,6 +2097,26 @@
                         return;
                     }
                 }
+
+                let htmlContent = '';
+
+                // Display Pinyin completion candidates
+                if (settings.pinyinCompletionEnabled && pinyinCompletionCandidates.length > 0) {
+                    htmlContent += '<div class="completion-header">拼音补全提示:</div>';
+                    htmlContent += pinyinCompletionCandidates.map(pinyin => `
+                        <div class="completion-item" onclick="setBuffer('${pinyin}'); update();">${pinyin}</div>
+                    `).join('');
+                }
+
+                // Display Hanzi completion candidates
+                if (settings.hanziCompletionEnabled && hanziCompletionCandidates.length > 0) {
+                    htmlContent += '<div class="completion-header">汉字补全提示:</div>';
+                    htmlContent += hanziCompletionCandidates.map(hanzi => `
+                        <div class="completion-item" onclick="selectCandidate('${hanzi.text}');">${hanzi.text}</div>
+                    `).join('');
+                }
+
+                // Display main Hanzi candidates
                 const totalPages = Math.ceil(display.length / pageSize);
                 document.getElementById("page-counter").innerText =
                     buffer && display.length > 0
@@ -1770,7 +2126,8 @@
                     pageIndex * pageSize,
                     (pageIndex + 1) * pageSize,
                 );
-                document.getElementById("main-candidates").innerHTML = pageData
+                
+                htmlContent += pageData
                     .map(
                         (item, i) => `
                     <div class="candidate-item" onclick="selectCandidate('${item.text}')">
@@ -1779,6 +2136,8 @@
                     </div>`,
                     )
                     .join("");
+                
+                mainCandidatesDiv.innerHTML = htmlContent;
             }
 
             function selectCandidate(t) {
@@ -1808,7 +2167,6 @@
 
             function handleKeyDown(e) {
                 if (
-                    currentState === InputState.EDIT ||
                     currentState === InputState.CORRECTION
                 )
                     return;
@@ -1822,6 +2180,18 @@
                 }
 
                 // --- Normal Mode Logic Below ---
+
+                // Handle specific non-IME characters: +, -, '
+                if (key === "+" || key === "-" || key === "'") {
+                    e.preventDefault();
+                    if (buffer && combinedCandidates.length > 0) {
+                        committed += combinedCandidates[0].text;
+                    }
+                    committed += key;
+                    resetInput();
+                    update();
+                    return;
+                }
 
                 // Punctuation handling for normal mode
                 if (PUNCS[key]) {
