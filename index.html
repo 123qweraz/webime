@@ -584,6 +584,100 @@
             .dict-card-actions button.delete {
                 color: #cc0000;
             }
+
+            /* Practice Mode Styles */
+            #practice-container {
+                /* This container takes the place of output-card */
+                /* display is controlled by JS */
+                display: none;
+                flex-grow: 2;
+                flex-shrink: 0;
+                flex-direction: column;
+                position: relative;
+                justify-content: center;
+                border-radius: 20px;
+                background: white;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+                overflow: hidden;
+            }
+
+            #practice-card-container {
+                 flex-grow: 1;
+                 display: flex;
+                 align-items: center;
+                 justify-content: center;
+                 width: 100%;
+            }
+            
+            #practice-card {
+                width: 320px;
+                height: 180px;
+                background: var(--panel-bg);
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 60px;
+                font-weight: bold;
+                color: #333;
+                font-family: 'KaiTi', 'STKaiti', serif;
+                border: 2px solid var(--item-border);
+                /* Position is relative to practice-card-container now */
+                transform: translateY(-200%); 
+            }
+
+            #progress-container {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80%;
+                max-width: 400px;
+                height: 16px;
+                background: #e0e0e0;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            }
+
+            #progress-bar {
+                height: 100%;
+                width: 0%;
+                background: var(--primary);
+                border-radius: 8px;
+                transition: width 0.3s ease;
+            }
+
+            /* Animations are kept the same */
+            .practice-card-fall {
+                animation: fall 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            }
+
+            .practice-card-fly-away {
+                animation: fly-away 0.6s ease-in forwards;
+            }
+
+            .practice-card-shake {
+                animation: shake 0.4s;
+            }
+
+            @keyframes fall {
+                from { transform: translateY(-300%) rotate(-15deg); opacity: 0; }
+                to { transform: translateY(0) rotate(0); opacity: 1; }
+            }
+
+            @keyframes fly-away {
+                from { transform: translateX(0) rotate(0deg); opacity: 1; }
+                to { transform: translateX(150vw) rotate(60deg); opacity: 0; }
+            }
+
+            @keyframes shake {
+                10%, 90% { transform: translateX(-2px); }
+                20%, 80% { transform: translateX(4px); }
+                30%, 50%, 70% { transform: translateX(-8px); }
+                40%, 60% { transform: translateX(8px); }
+            }
         </style>
     </head>
     <body>
@@ -607,6 +701,8 @@
                 <a href="hanzi_explorer.html" class="btn btn-toggle"
                     >汉字浏览器</a
                 >
+                <button id="practice-mode-btn" class="btn btn-toggle" onclick="startPracticeMode()">练习模式</button>
+                <button id="exit-practice-mode-btn" class="btn btn-toggle" onclick="exitPracticeMode()" style="display: none; background-color: #ff4d4f; color: white;">退出练习</button>
                 <a
                     href="https://github.com/123qweraz/webime"
                     target="_blank"
@@ -660,6 +756,14 @@
                             >
                                 归档并复制
                             </button>
+                        </div>
+                    </div>
+                    <div id="practice-container">
+                        <div id="practice-card-container">
+                            <div id="practice-card"></div>
+                        </div>
+                        <div id="progress-container">
+                            <div id="progress-bar"></div>
                         </div>
                     </div>
                     <div class="resizer-v" id="center-v-resizer"></div>
@@ -730,6 +834,158 @@
         </div>
 
         <script>
+            // --- Practice Mode Functions ---
+
+            async function initPracticeModeData() {
+                const practiceDict = allDicts.find(d => d.name === PRACTICE_DICT_NAME);
+                if (!practiceDict) {
+                    showErrorMessage(`练习词典 "${PRACTICE_DICT_NAME}" 未找到!`);
+                    return false;
+                }
+
+                // If the content is not fetched yet, fetch it.
+                // This is a fallback, as dicts should be loaded at startup.
+                if (!practiceDict.fetchedContent) {
+                    try {
+                        const response = await fetch(practiceDict.path);
+                        if (!response.ok) throw new Error(`Network response was not ok for ${practiceDict.path}`);
+                        practiceDict.fetchedContent = await response.json();
+                    } catch (error) {
+                        showErrorMessage(`加载练习词典失败: ${error.message}`);
+                        return false;
+                    }
+                }
+                
+                const dictData = practiceDict.fetchedContent;
+                practiceWords = [];
+                for (const pinyin in dictData) {
+                    dictData[pinyin].forEach(hanzi => {
+                        practiceWords.push({ pinyin, hanzi });
+                    });
+                }
+
+                // Shuffle the words
+                for (let i = practiceWords.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [practiceWords[i], practiceWords[j]] = [practiceWords[j], practiceWords[i]];
+                }
+
+                console.log(`Practice mode ready with ${practiceWords.length} words.`);
+                return true;
+            }
+
+                        async function startPracticeMode() {
+                            if (practiceWords.length === 0) {
+                                showLoadingMessage('准备练习...');
+                                const success = await initPracticeModeData();
+                                hideLoadingMessage();
+                                if (!success) return;
+                            }
+                            
+                            setState(InputState.PRACTICE);
+                            
+                            // Load progress from localStorage or start from 0
+                            const savedIndex = localStorage.getItem(PRACTICE_PROGRESS_KEY);
+                            currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
+                            
+                            // Update progress bar to reflect loaded progress
+                            const progressBar = document.getElementById('progress-bar');
+                            const progress = practiceWords.length > 0 ? (currentPracticeWordIndex / practiceWords.length) * 100 : 0;
+                            progressBar.style.width = `${progress}%`;
+                            
+                            console.log('Starting practice mode UI...');
+                            document.getElementById('output-card').style.display = 'none';
+                            document.getElementById('practice-container').style.display = 'flex';
+                            
+                            // Toggle visibility of buttons in toolbar
+                            document.getElementById('practice-mode-btn').style.display = 'none';
+                            document.getElementById('exit-practice-mode-btn').style.display = 'flex';
+            
+                            showNextPracticeWord();
+                        }
+            
+                        function exitPracticeMode() {
+                            console.log('Exiting practice mode...');
+                isPracticeAnimating = false; // Reset animation flag
+                            setState(InputState.NORMAL);
+            
+                            document.getElementById('output-card').style.display = 'flex';
+                            document.getElementById('practice-container').style.display = 'none';
+            
+                            // Toggle visibility of buttons in toolbar
+                            document.getElementById('practice-mode-btn').style.display = 'flex';
+                            document.getElementById('exit-practice-mode-btn').style.display = 'none';
+            
+                            const card = document.getElementById('practice-card');
+                            card.className = 'practice-card';
+                            // Reset card position for next time
+                            card.style.transform = 'translateY(-200%)';
+            
+                            // Also reset progress bar to 0 when exiting
+                            document.getElementById('progress-bar').style.width = '0%';
+                        }
+            function showNextPracticeWord() {
+                if (currentPracticeWordIndex >= practiceWords.length) {
+                    alert("练习完成! 🎉");
+                    localStorage.removeItem(PRACTICE_PROGRESS_KEY);
+                    exitPracticeMode();
+                    return;
+                }
+                
+                const word = practiceWords[currentPracticeWordIndex];
+                const card = document.getElementById('practice-card');
+                card.innerText = word.hanzi;
+
+                card.className = 'practice-card';
+                void card.offsetWidth; // Trigger reflow to restart animation
+                card.classList.add('practice-card-fall');
+                
+                // Clear the input buffer for the next word
+                setBuffer('');
+                update();
+                focusHiddenInput();
+            }
+
+            function checkPracticeAnswer() {
+                if (currentState !== InputState.PRACTICE || isPracticeAnimating) return;
+
+                const currentWord = practiceWords[currentPracticeWordIndex];
+                const card = document.getElementById('practice-card');
+
+                if (buffer.toLowerCase() === currentWord.pinyin.toLowerCase()) {
+                    // Correct answer
+                    isPracticeAnimating = true;
+                    card.classList.remove('practice-card-fall');
+                    card.classList.add('practice-card-fly-away');
+                    currentPracticeWordIndex++;
+                    localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
+                    
+                    // Update progress bar
+                    const progressBar = document.getElementById('progress-bar');
+                    const progress = (currentPracticeWordIndex / practiceWords.length) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    
+                    // Use 'animationend' event to show the next word after animation finishes
+                    card.addEventListener('animationend', () => {
+                        isPracticeAnimating = false;
+                        showNextPracticeWord();
+                    }, { once: true });
+
+                } else {
+                    // Incorrect answer
+                    isPracticeAnimating = true;
+                    card.classList.add('practice-card-shake');
+                    card.addEventListener('animationend', () => {
+                        isPracticeAnimating = false;
+                        card.classList.remove('practice-card-shake');
+                    }, { once: true });
+                    
+                    // Clear buffer so user can retry
+                    setBuffer('');
+                    update();
+                }
+            }
+
             // Dictionary Modal Functions
             function openDictModal() {
                 document.getElementById('dict-modal').style.display = 'flex';
@@ -1381,11 +1637,16 @@
              */
             function toggleHistoryPanel() {
                 const historyPanel = document.getElementById("historyPanel");
-                const isVisible = historyPanel.style.display === "flex"; // Check for 'flex' now
-                historyPanel.style.display = isVisible ? "none" : "flex";
+                const isVisible = window.getComputedStyle(historyPanel).display === "flex";
+                const newVisibility = !isVisible;
+                historyPanel.style.display = newVisibility ? "flex" : "none";
 
                 const histBtn = document.getElementById("l-hist-btn");
-                histBtn.classList.toggle("active", !isVisible);
+                histBtn.classList.toggle("active", newVisibility);
+
+                // Update and save the setting
+                settings.history = newVisibility;
+                saveSettings();
             }
 
             /**
@@ -1592,6 +1853,12 @@
             let buffer = "",
                 committed = "",
                 enFilter = "";
+
+            let practiceWords = [];
+            let currentPracticeWordIndex = 0;
+            const PRACTICE_DICT_NAME = "词组词典";
+            const PRACTICE_PROGRESS_KEY = 'webime_practice_progress';
+            let isPracticeAnimating = false;
 
             let combinedCandidates = [],
                 pageIndex = 0;
@@ -2132,6 +2399,15 @@
                         update();
                     }
                 } else if (key === "Enter") {
+                    if (currentState === InputState.PRACTICE) {
+                        if (isPracticeAnimating) {
+                            e.preventDefault();
+                            return;
+                        }
+                        e.preventDefault();
+                        checkPracticeAnswer();
+                        return;
+                    }
                     // Enter key for normal mode
                     e.preventDefault();
                     if (buffer) {
