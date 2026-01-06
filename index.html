@@ -116,6 +116,8 @@
                 flex-direction: column;
                 min-height: 100px;
                 border: 2px solid transparent;
+                flex-grow: 2; /* Initial flex-grow for 2/5 height */
+                flex-shrink: 0;
             }
             .output-card.editing {
                 border: 2px solid #ff9500;
@@ -141,6 +143,10 @@
                 background: var(--primary);
                 animation: blink 1s infinite;
                 vertical-align: bottom;
+            }
+
+            .practice-char .caret {
+                margin-left: 0;
             }
 
             #output-area.locked::after {
@@ -175,7 +181,8 @@
                 padding: 20px;
                 border-radius: 20px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                flex: 1;
+                flex: 3; /* Initial flex-grow for 3/5 height */
+                flex-shrink: 0;
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
@@ -286,18 +293,17 @@
                 display: none;
             }
             .history-panel {
-                position: fixed;
-                bottom: 60px;
-                right: 20px;
-                width: 300px;
-                max-height: 400px;
-                background: white;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                flex: 0 0 260px; /* Maintain initial width, allow it to be a flex item */
+                height: 100%; /* Take full height of content-area */
+                background: #fff;
+                border-radius: 16px;
+                padding: 15px;
+                display: flex; /* Changed from 'none' to 'flex' for flex layout */
+                flex-direction: column;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
                 z-index: 1000;
                 overflow: hidden;
-                display: none; /* Hidden by default */
+                margin-right: 15px; /* Add some spacing to the right */
             }
             .history-header {
                 padding: 12px 16px;
@@ -346,9 +352,23 @@
                 overflow: hidden;
                 white-space: nowrap;
             }
+            .history-delete-btn {
+                background: none;
+                border: none;
+                color: #cc0000;
+                font-size: 18px;
+                cursor: pointer;
+                padding: 0 5px;
+                margin-left: 10px;
+                opacity: 0.6;
+                transition: opacity 0.2s;
+            }
+            .history-delete-btn:hover {
+                opacity: 1;
+            }
             .input-method-toast {
                 position: fixed;
-                top: 20px;
+                bottom: 20px;
                 right: 20px;
                 background: #333;
                 color: white;
@@ -360,8 +380,10 @@
                 align-items: center;
                 gap: 10px;
                 opacity: 0;
-                transform: translateY(-20px);
-                transition: opacity 0.3s, transform 0.3s;
+                transform: translateY(20px);
+                transition:
+                    opacity 0.3s,
+                    transform 0.3s;
                 max-width: 300px;
                 font-size: 14px;
             }
@@ -369,14 +391,42 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-            .toast-success { background: #4CAF50; border-left: 4px solid #2E7D32; }
-            .toast-error { background: #F44336; border-left: 4px solid #C62828; }
-            .toast-warning { background: #FF9800; border-left: 4px solid #EF6C00; }
-            .toast-info { background: #2196F3; border-left: 4px solid #1565C0; }
-            .toast-icon { font-weight: bold; font-size: 16px; }
-            .toast-content { flex: 1; }
-            .toast-close { background: transparent; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0 5px; opacity: 0.7; transition: opacity 0.2s; }
-            .toast-close:hover { opacity: 1; }
+            .toast-success {
+                background: #4caf50;
+                border-left: 4px solid #2e7d32;
+            }
+            .toast-error {
+                background: #f44336;
+                border-left: 4px solid #c62828;
+            }
+            .toast-warning {
+                background: #ff9800;
+                border-left: 4px solid #ef6c00;
+            }
+            .toast-info {
+                background: #2196f3;
+                border-left: 4px solid #1565c0;
+            }
+            .toast-icon {
+                font-weight: bold;
+                font-size: 16px;
+            }
+            .toast-content {
+                flex: 1;
+            }
+            .toast-close {
+                background: transparent;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                padding: 0 5px;
+                opacity: 0.7;
+                transition: opacity 0.2s;
+            }
+            .toast-close:hover {
+                opacity: 1;
+            }
             #loading-overlay {
                 position: fixed;
                 top: 0;
@@ -403,8 +453,105 @@
                 margin-bottom: 20px;
             }
             @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            /* New Modal Styles */
+            .modal-overlay {
+                position: fixed;
+                top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.4);
+                backdrop-filter: blur(4px);
+                z-index: 1000;
+                display: flex; align-items: center; justify-content: center;
+            }
+            .modal-content {
+                background: white;
+                width: 90%; max-width: 500px;
+                max-height: 80vh;
+                border-radius: 16px;
+                padding: 20px;
+                overflow-y: auto;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            }
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #eee;
+            }
+            .modal-header h3 {
+                margin: 0;
+                font-size: 20px;
+                color: #333;
+            }
+            .modal-header button {
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #999;
+            }
+            .import-section {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid #eee;
+            }
+            .dict-sections h4 {
+                margin-top: 20px;
+                margin-bottom: 10px;
+                color: #555;
+            }
+            .dict-list {
+                min-height: 50px;
+                border: 1px dashed #ccc;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                padding: 10px;
+                background: #f9f9f9;
+            }
+            .dict-card {
+                background: #f5f5f7;
+                padding: 10px;
+                margin: 5px 0;
+                border-radius: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+            .dict-card.disabled {
+                opacity: 0.6;
+                background: #e0e0e0;
+            }
+            .dict-card-name {
+                flex-grow: 1;
+                font-weight: 500;
+                color: #333;
+            }
+            .dict-card-actions {
+                display: flex; /* Make buttons arrange horizontally */
+                gap: 8px; /* Add some space between buttons */
+                align-items: center; /* Vertically align buttons */
+            }
+            .dict-card-actions button {
+                background: none;
+                border: none;
+                font-size: 16px;
+                cursor: pointer;
+                color: var(--primary);
+            }
+            .dict-card-actions button.toggle-off {
+                color: #ccc;
+            }
+            .dict-card-actions button.delete {
+                color: #cc0000;
             }
         </style>
     </head>
@@ -426,41 +573,7 @@
                         margin: 0 5px;
                     "
                 ></div>
-                <button
-                    class="btn btn-action"
-                    onclick="document.getElementById('file-uploader').click()"
-                >
-                    导入词库
-                </button>
-
-
-                <button
-                    id="practice-btn"
-                    class="btn btn-toggle"
-                    onclick="togglePracticeMode()"
-                >
-                    练习模式
-                </button>
-
-                <div
-                    style="
-                        width: 1px;
-                        height: 20px;
-                        background: #ddd;
-                        margin: 0 5px;
-                    "
-                ></div>
-
-                <input
-                    type="file"
-                    id="file-uploader"
-                    accept=".json"
-                    onchange="handleImportDict(this)"
-                />
-
-                <a
-                    href="hanzi_explorer.html"
-                    class="btn btn-toggle"
+                <a href="hanzi_explorer.html" class="btn btn-toggle"
                     >汉字浏览器</a
                 >
                 <a
@@ -469,19 +582,26 @@
                     class="btn btn-github"
                     >GitHub Star</a
                 >
-                <a
-                    href="settings.html"
-                    target="_blank"
-                    class="btn btn-toggle"
-                    >词典设置</a
-                >
+                <button class="btn btn-toggle" onclick="openDictModal()">
+                    词典设置
+                </button>
             </div>
             <div class="content-area">
                 <div class="history-panel" id="historyPanel">
                     <div class="history-header">
                         <span>输入历史</span>
-                        <button onclick="toggleHistoryPanel()" 
-                                style="background:none; border:none; cursor:pointer; font-size:16px;">×</button>
+                        <button
+                            onclick="clearHistory()"
+                            class="btn btn-toggle"
+                            style="
+                                margin-left: auto;
+                                margin-right: 5px;
+                                font-size: 10px;
+                                padding: 4px 8px;
+                            "
+                        >
+                            清空
+                        </button>
                     </div>
                     <ul id="historyList" class="history-list"></ul>
                 </div>
@@ -551,78 +671,197 @@
         </div>
         <div id="toast"></div>
 
-        <script>
+        <div id="dict-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>词典管理</h3>
+                    <button onclick="closeDictModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="import-section">
+                        <input type="file" id="dict-file-input" style="display:none" onchange="handleImport(this)">
+                        <button class="btn" onclick="document.getElementById('dict-file-input').click()">导入新词典 (.json)</button>
+                    </div>
+                    
+                    <div class="dict-sections">
+                        <h4>已启用 (拖拽排序)</h4>
+                        <div id="modal-active-list" class="dict-list"></div>
+                        
+                        <h4>未启用</h4>
+                        <div id="modal-inactive-list" class="dict-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            // --- Missing functions (from gemini.md) ---
+        <script>
+            // Dictionary Modal Functions
+            function openDictModal() {
+                document.getElementById('dict-modal').style.display = 'flex';
+                renderModalDicts(); // Render dictionaries when modal opens
+            }
+
+            function closeDictModal() {
+                document.getElementById('dict-modal').style.display = 'none';
+            }
+
+            function renderModalDicts() {
+                const activeList = document.getElementById('modal-active-list');
+                const inactiveList = document.getElementById('modal-inactive-list');
+                activeList.innerHTML = '';
+                inactiveList.innerHTML = '';
+
+                allDicts.forEach((dict, index) => {
+                    const dictCard = document.createElement('div');
+                    dictCard.className = `dict-card ${!dict.enabled ? 'disabled' : ''}`;
+                    dictCard.setAttribute('data-index', index);
+
+                    dictCard.innerHTML = `
+                        <span class="dict-card-name">${dict.name} (${dict.wordCount || 0} 词)</span>
+                        <div class="dict-card-actions">
+                            <button class="btn btn-sm move-up-btn" onclick="moveDictUp(${index})" ${index === 0 ? 'disabled' : ''}>↑</button>
+                            <button class="btn btn-sm move-down-btn" onclick="moveDictDown(${index})" ${index === allDicts.length - 1 ? 'disabled' : ''}>↓</button>
+                            <button class="btn btn-sm toggle-btn ${dict.enabled ? 'toggle-on' : 'toggle-off'}" onclick="toggleDictStatus(${index})">
+                                ${dict.enabled ? '禁用' : '启用'}
+                            </button>
+                            ${dict.type !== 'built-in' ? `<button class="btn btn-sm delete-btn" onclick="deleteDict(${index})">删除</button>` : ''}
+                        </div>
+                    `;
+
+                    if (dict.enabled) {
+                        activeList.appendChild(dictCard);
+                    } else {
+                        inactiveList.appendChild(dictCard);
+                    }
+                });
+            }
+
+            // Helper functions for dict management within modal
+            async function toggleDictStatus(index) {
+                if (allDicts[index]) {
+                    allDicts[index].enabled = !allDicts[index].enabled;
+                    saveDictConfig(); // Save changes to localStorage
+                    await loadAllDicts(); // Reload Trie to reflect changes
+                    renderModalDicts(); // Re-render modal to show updated status
+                }
+            }
+
+            async function moveDictUp(index) {
+                if (index > 0) {
+                    const [movedDict] = allDicts.splice(index, 1); // Remove from current position
+                    allDicts.splice(index - 1, 0, movedDict); // Insert at new position
+                    saveDictConfig(); // Save changes
+                    await loadAllDicts(); // Reload Trie
+                    renderModalDicts(); // Re-render modal
+                }
+            }
+
+            async function moveDictDown(index) {
+                if (index < allDicts.length - 1) {
+                    const [movedDict] = allDicts.splice(index, 1); // Remove from current position
+                    allDicts.splice(index + 1, 0, movedDict); // Insert at new position
+                    saveDictConfig(); // Save changes
+                    await loadAllDicts(); // Reload Trie
+                    renderModalDicts(); // Re-render modal
+                }
+            }
+
+            async function deleteDict(index) {
+                if (allDicts[index].type === 'built-in') {
+                    showToast('无法删除内置词典', 'warning');
+                    return;
+                }
+                if (allDicts[index] && confirm(`确定要删除词典 "${allDicts[index].name}" 吗？`)) {
+                    allDicts.splice(index, 1); // Remove from array
+                    saveDictConfig(); // Save changes
+                    await loadAllDicts(); // Reload Trie
+                    renderModalDicts(); // Re-render modal
+                }
+            }
+
+            // Function for handling dictionary import from the modal
             /**
              * 更新历史记录UI显示
              * @param {Array} historyItems - 历史记录条目数组
              */
             function updateHistoryUI(historyItems) {
                 try {
-                    const historyList = document.getElementById('historyList');
+                    const historyList = document.getElementById("historyList");
                     if (!historyList) {
-                        console.warn('历史记录容器元素未找到');
+                        console.warn("历史记录容器元素未找到");
                         return;
                     }
-                    
+
                     // 清空现有内容
-                    historyList.innerHTML = '';
-                    
+                    historyList.innerHTML = "";
+
                     // 如果没有历史记录，显示提示
                     if (!historyItems || historyItems.length === 0) {
-                        const emptyItem = document.createElement('li');
-                        emptyItem.className = 'history-item empty';
-                        emptyItem.textContent = '暂无输入历史';
+                        const emptyItem = document.createElement("li");
+                        emptyItem.className = "history-item empty";
+                        emptyItem.textContent = "暂无输入历史";
                         historyList.appendChild(emptyItem);
                         return;
                     }
-                    
+
                     // 显示最近的历史记录（最多20条）
                     const recentItems = historyItems.slice(0, 20);
-                    
-                    recentItems.forEach(item => {
-                        const listItem = document.createElement('li');
-                        listItem.className = 'history-item';
-                        
-                        const timeSpan = document.createElement('span');
-                        timeSpan.className = 'history-time';
-                        
+
+                    recentItems.forEach((item, index) => {
+                        const listItem = document.createElement("li");
+                        listItem.className = "history-item";
+
+                        const timeSpan = document.createElement("span");
+                        timeSpan.className = "history-time";
+
                         if (item.timestamp) {
                             const date = new Date(item.timestamp);
-                            timeSpan.textContent = date.toLocaleTimeString([], { 
-                                hour: '2-digit', 
-                                minute: '2-digit' 
+                            timeSpan.textContent = date.toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
                             });
                         } else {
-                            timeSpan.textContent = '刚刚';
+                            timeSpan.textContent = "刚刚";
                         }
-                        
-                        const textSpan = document.createElement('span');
-                        textSpan.className = 'history-text';
+
+                        const textSpan = document.createElement("span");
+                        textSpan.className = "history-text";
                         textSpan.textContent = item.text || item;
-                        
+
+                        // Delete button
+                        const deleteButton = document.createElement("button");
+                        deleteButton.textContent = "×";
+                        deleteButton.className = "history-delete-btn";
+                        deleteButton.onclick = (event) => {
+                            event.stopPropagation(); // Prevent listItem click event
+                            deleteHistoryItem(index);
+                        };
+
                         listItem.appendChild(timeSpan);
                         listItem.appendChild(textSpan);
-                        
-                        // 点击历史项回填到输入框
-                        listItem.addEventListener('click', () => {
-                            const inputElement = document.getElementById('hidden-input'); // Use hidden-input
-                            if (inputElement && inputElement.value !== undefined) {
+                        listItem.appendChild(deleteButton);
+
+                        // Clicking history item to fill input
+                        listItem.addEventListener("click", () => {
+                            const inputElement =
+                                document.getElementById("hidden-input");
+                            if (
+                                inputElement &&
+                                inputElement.value !== undefined
+                            ) {
                                 inputElement.value = item.text || item;
-                                // 触发输入事件以更新候选词
-                                const inputEvent = new Event('input', { bubbles: true });
+                                const inputEvent = new Event("input", {
+                                    bubbles: true,
+                                });
                                 inputElement.dispatchEvent(inputEvent);
-                                
-                                // 显示成功提示
-                                showToast('已回填到输入框', 'success');
+
                             }
                         });
-                        
+
                         historyList.appendChild(listItem);
                     });
                 } catch (error) {
-                    console.error('更新历史记录UI失败:', error);
+                    console.error("更新历史记录UI失败:", error);
                 }
             }
 
@@ -632,61 +871,62 @@
              * @param {string} type - 消息类型：'success' | 'error' | 'info' | 'warning'
              * @param {number} duration - 显示持续时间（毫秒），默认3000ms
              */
-            function showToast(message, type = 'info', duration = 3000) {
+            function showToast(message, type = "info", duration = 3000) {
                 try {
                     // 移除现有的Toast
-                    const existingToast = document.getElementById('inputMethodToast');
+                    const existingToast =
+                        document.getElementById("inputMethodToast");
                     if (existingToast) {
                         existingToast.remove();
                     }
-                    
+
                     // 创建Toast元素
-                    const toast = document.createElement('div');
-                    toast.id = 'inputMethodToast';
+                    const toast = document.createElement("div");
+                    toast.id = "inputMethodToast";
                     toast.className = `input-method-toast toast-${type}`;
-                    
+
                     // 设置Toast内容
-                    const toastContent = document.createElement('div');
-                    toastContent.className = 'toast-content';
+                    const toastContent = document.createElement("div");
+                    toastContent.className = "toast-content";
                     toastContent.textContent = message;
-                    
+
                     // 添加图标（可选）
-                    const toastIcon = document.createElement('span');
-                    toastIcon.className = 'toast-icon';
-                    
+                    const toastIcon = document.createElement("span");
+                    toastIcon.className = "toast-icon";
+
                     // 根据类型设置不同的图标
                     const iconMap = {
-                        'success': '✓',
-                        'error': '✗',
-                        'warning': '⚠',
-                        'info': 'ℹ'
+                        success: "✓",
+                        error: "✗",
+                        warning: "⚠",
+                        info: "ℹ",
                     };
                     toastIcon.textContent = iconMap[type] || iconMap.info;
-                    
+
                     // 组装Toast
                     toast.appendChild(toastIcon);
                     toast.appendChild(toastContent);
-                    
+
                     // 添加关闭按钮
-                    const closeBtn = document.createElement('button');
-                    closeBtn.className = 'toast-close';
-                    closeBtn.innerHTML = '&times;';
+                    const closeBtn = document.createElement("button");
+                    closeBtn.className = "toast-close";
+                    closeBtn.innerHTML = "&times;";
                     closeBtn.onclick = () => toast.remove();
                     toast.appendChild(closeBtn);
-                    
+
                     // 添加到页面
                     document.body.appendChild(toast);
-                    
+
                     // 添加显示动画
                     setTimeout(() => {
-                        toast.classList.add('show');
+                        toast.classList.add("show");
                     }, 10);
-                    
+
                     // 自动消失
                     if (duration > 0) {
                         setTimeout(() => {
                             if (toast.parentNode) {
-                                toast.classList.remove('show');
+                                toast.classList.remove("show");
                                 setTimeout(() => {
                                     if (toast.parentNode) {
                                         toast.remove();
@@ -696,7 +936,7 @@
                         }, duration);
                     }
                 } catch (error) {
-                    console.error('显示Toast失败:', error);
+                    console.error("显示Toast失败:", error);
                     // 降级方案：使用alert
                     alert(`${type.toUpperCase()}: ${message}`);
                 }
@@ -708,19 +948,23 @@
              * @param {Error} error - 错误对象（可选）
              */
             function showErrorMessage(message, error = null) {
-                console.error('输入法错误:', message, error);
-                
+                console.error("输入法错误:", message, error);
+
                 // 使用showToast显示错误消息
-                showToast(`${message}${error ? ': ' + error.message : ''}`, 'error', 5000);
-                
+                showToast(
+                    `${message}${error ? ": " + error.message : ""}`,
+                    "error",
+                    5000,
+                );
+
                 // 同时在输出区域显示错误
-                const outputArea = document.getElementById('output-area'); // Correct ID
+                const outputArea = document.getElementById("output-area"); // Correct ID
                 if (outputArea) {
-                    const errorDiv = document.createElement('div');
-                    errorDiv.className = 'error-message';
+                    const errorDiv = document.createElement("div");
+                    errorDiv.className = "error-message";
                     errorDiv.innerHTML = `
                         <strong>错误:</strong> ${message}
-                        ${error ? '<br><small>' + error.message + '</small>' : ''}
+                        ${error ? "<br><small>" + error.message + "</small>" : ""}
                     `;
                     outputArea.appendChild(errorDiv);
                 }
@@ -732,16 +976,17 @@
              */
             function showLoadingMessage(message) {
                 try {
-                    const loadingOverlay = document.getElementById('loading-overlay');
-                    const messageElement = loadingOverlay.querySelector('p');
-                    
+                    const loadingOverlay =
+                        document.getElementById("loading-overlay");
+                    const messageElement = loadingOverlay.querySelector("p");
+
                     if (message) {
                         messageElement.textContent = message;
                     }
-                    
-                    loadingOverlay.style.display = 'flex';
+
+                    loadingOverlay.style.display = "flex";
                 } catch (error) {
-                    console.error('显示加载消息失败:', error);
+                    console.error("显示加载消息失败:", error);
                 }
             }
 
@@ -750,10 +995,11 @@
              */
             function hideLoadingMessage() {
                 try {
-                    const loadingOverlay = document.getElementById('loading-overlay');
-                    loadingOverlay.style.display = 'none';
+                    const loadingOverlay =
+                        document.getElementById("loading-overlay");
+                    loadingOverlay.style.display = "none";
                 } catch (error) {
-                    console.error('隐藏加载消息失败:', error);
+                    console.error("隐藏加载消息失败:", error);
                 }
             }
 
@@ -762,12 +1008,12 @@
              */
             function focusHiddenInput() {
                 try {
-                    const hInput = document.getElementById('hidden-input');
+                    const hInput = document.getElementById("hidden-input");
                     if (hInput) {
                         hInput.focus();
                     }
                 } catch (error) {
-                    console.error('聚焦隐藏输入框失败:', error);
+                    console.error("聚焦隐藏输入框失败:", error);
                 }
             }
 
@@ -777,10 +1023,37 @@
              */
             function setBuffer(value) {
                 buffer = value;
-                const hInput = document.getElementById('hidden-input');
+                const hInput = document.getElementById("hidden-input");
                 if (hInput) {
                     hInput.value = value;
                 }
+            }
+
+            /**
+             * 将拼音字符串转换为汉字。
+             * 目前只取每个拼音的第一个候选词。
+             * @param {string} pinyinString - 以空格分隔的拼音字符串 (e.g., "ni hao")
+             * @returns {string} 转换后的汉字字符串
+             */
+            function convertPinyinToHanzi(pinyinString) {
+                const pinyinSegments = pinyinString.trim().split(/\s+/);
+                let hanziResult = [];
+
+                for (const segment of pinyinSegments) {
+                    if (!segment) continue;
+
+                    const node = DB.getNode(segment.toLowerCase());
+                    let foundHanzi = null;
+
+                    if (node && node.values.length > 0) {
+                        // Assuming the first value is the most relevant or a good default
+                        // In a more advanced IME, this would involve ranking or user selection
+                        foundHanzi = node.values[0].char || node.values[0];
+                    }
+
+                    hanziResult.push(foundHanzi || segment); // Fallback to pinyin if no Hanzi found
+                }
+                return hanziResult.join("");
             }
 
             /**
@@ -789,7 +1062,7 @@
             function enterCorrectionMode() {
                 setState(InputState.CORRECTION);
                 correctionWrapper.style.display = 'block';
-                correctionInput.value = '';
+                correctionInput.value = buffer; // Sync In: Fill with current buffer
                 correctionInput.focus();
             }
 
@@ -798,18 +1071,23 @@
              * @param {string} action - 退出动作类型
              */
             function exitCorrectionMode(action) {
-                if (action === 'convert_sentence') {
-                    const pinyinArray = correctionInput.value.trim().split(/\s+/);
-                    if (pinyinArray.length > 0 && pinyinArray[0] !== '') {
-                        // 这里需要实现拼音到汉字的转换逻辑
-                        // 暂时简单处理：直接使用输入的拼音
-                        committed += pinyinArray.join(' ');
-                        showToast('已应用修正', 'success');
+                if (action === "convert_sentence") {
+                    const pinyinPhrase = correctionInput.value.trim();
+                    if (pinyinPhrase) {
+                        const convertedHanzi =
+                            convertPinyinToHanzi(pinyinPhrase);
+                        committed += convertedHanzi;
+
                     }
+                } else if (action === 'sync_out_buffer') { // New logic for sync-out
+                    const correctedText = correctionInput.value.trim();
+                    setBuffer(correctedText); // Update global buffer and hInput.value
+                    pageIndex = 0; // Reset page index
+
                 }
                 
                 setState(InputState.NORMAL);
-                correctionWrapper.style.display = 'none';
+                correctionWrapper.style.display = "none";
                 update();
             }
 
@@ -819,107 +1097,132 @@
             function toggleEditMode() {
                 const isEditing = currentState === InputState.EDIT;
                 setState(isEditing ? InputState.NORMAL : InputState.EDIT);
-                
-                const outputCard = document.getElementById('output-card');
-                const editBtn = document.getElementById('edit-mode-btn');
-                
+
+                const outputCard = document.getElementById("output-card");
+                const editBtn = document.getElementById("edit-mode-btn");
+
                 if (isEditing) {
-                    outputCard.classList.remove('editing');
-                    outputArea.classList.add('locked');
-                    editBtn.textContent = '锁定模式';
+                    outputCard.classList.remove("editing");
+                    outputArea.classList.add("locked");
+                    editBtn.textContent = "锁定模式";
                 } else {
-                    outputCard.classList.add('editing');
-                    outputArea.classList.remove('locked');
-                    editBtn.textContent = '编辑模式';
+                    outputCard.classList.add("editing");
+                    outputArea.classList.remove("locked");
+                    editBtn.textContent = "编辑模式";
                 }
             }
 
-            /**
-             * 归档并复制文本
-             */
-            function archiveAndCopy() {
-                try {
-                    if (committed.trim()) {
-                        // 添加到历史记录
-                        const historyItem = {
-                            text: committed,
-                            timestamp: Date.now()
-                        };
-                        HISTORY.unshift(historyItem);
-                        localStorage.setItem("ime_history_v18", JSON.stringify(HISTORY));
-                        
-                        // 复制到剪贴板
-                        navigator.clipboard.writeText(committed).then(() => {
-                            showToast('已复制到剪贴板', 'success');
-                            committed = "";
-                            update();
-                        }).catch(err => {
-                            console.error('复制失败:', err);
-                            showToast('复制失败', 'error');
-                        });
-                    } else {
-                        showToast('没有内容可复制', 'warning');
-                    }
-                } catch (error) {
-                    console.error('归档复制失败:', error);
-                    showToast('操作失败', 'error');
-                }
-            }
+                        /**
+
+                         * 归档并复制文本
+
+                         */
+
+                        function archiveAndCopy() {
+
+                            try {
+
+                                if (committed.trim()) {
+
+                                    // History is now managed by resetInput()
+
+                                    // No need to add to history here explicitly for committed text
+
+                                    // Just copy to clipboard and clear committed.
+
+            
+
+                                    // 复制到剪贴板
+
+                                    navigator.clipboard
+
+                                        .writeText(committed)
+
+                                        .then(() => {
+
+                                            committed = "";
+
+                                            update();
+
+                                        })
+
+                                        .catch((err) => {
+
+                                            console.error("复制失败:", err);
+
+                                            showToast("复制失败", "error");
+
+                                        });
+
+                                } else {
+
+                                    showToast("没有内容可复制", "warning");
+
+                                }
+
+                            } catch (error) {
+
+                                console.error("归档复制失败:", error);
+
+                                showToast("操作失败", "error");
+
+                            }
+
+                        }
 
             /**
              * 从编辑器同步内容
              */
             function syncFromEditor() {
                 if (currentState === InputState.EDIT) {
-                    committed = outputArea.textContent || '';
+                    committed = outputArea.textContent || "";
                 }
-            }
-
-            /**
-             * 切换练习模式
-             */
-            function togglePracticeMode() {
-                const isPractice = currentState === InputState.PRACTICE;
-                setState(isPractice ? InputState.NORMAL : InputState.PRACTICE);
-                
-                const practiceBtn = document.getElementById('practice-btn');
-                
-                if (isPractice) {
-                    practiceBtn.classList.remove('active');
-                    practiceTargetText = "";
-                } else {
-                    practiceBtn.classList.add('active');
-                    generatePracticeText();
-                }
-                update();
-            }
-
-            /**
-             * 生成练习文本
-             */
-            function generatePracticeText() {
-                // 简单的练习文本生成逻辑
-                const practiceWords = [
-                    "你好，世界。",
-                    "这是一个测试。",
-                    "欢迎使用输入法。",
-                    "练习模式已启动。"
-                ];
-                practiceTargetText = practiceWords[Math.floor(Math.random() * practiceWords.length)];
-                committed = "";
-                update();
             }
 
             /**
              * 切换历史记录面板
              */
             function toggleHistoryPanel() {
-                const historyPanel = document.getElementById('historyPanel');
-                const isVisible = historyPanel.style.display === 'block';
-                historyPanel.style.display = isVisible ? 'none' : 'block';
-                
-                const histBtn = document.getElementById('l-hist-btn');
-                histBtn.classList.toggle('active', !isVisible);
+                const historyPanel = document.getElementById("historyPanel");
+                const isVisible = historyPanel.style.display === "flex"; // Check for 'flex' now
+                historyPanel.style.display = isVisible ? "none" : "flex";
+
+                const histBtn = document.getElementById("l-hist-btn");
+                histBtn.classList.toggle("active", !isVisible);
+            }
+
+            /**
+             * 清空所有历史记录
+             */
+            function clearHistory() {
+                if (confirm("确定要清空所有输入历史吗？")) {
+                    HISTORY = []; // Clear the in-memory array
+                    saveHistory(); // Save empty array and update UI
+
+                }
+            }
+
+            /**
+             * 删除单个历史记录项
+             * @param {number} index - 要删除项的索引
+             */
+            function deleteHistoryItem(index) {
+                if (index >= 0 && index < HISTORY.length) {
+                    HISTORY.splice(index, 1); // Remove item from array
+                    saveHistory(); // Update localStorage and Refresh UI
+
+                }
+            }
+
+            // New function for saving history
+            function saveHistory() {
+                // Limit history to a certain number of items, e.g., 50
+                const maxHistoryItems = 50; 
+                if (HISTORY.length > maxHistoryItems) {
+                    HISTORY = HISTORY.slice(0, maxHistoryItems);
+                }
+                localStorage.setItem("ime_history_v18", JSON.stringify(HISTORY));
+                updateHistoryUI(HISTORY);
             }
 
             /**
@@ -927,46 +1230,41 @@
              */
             function saveSettings() {
                 localStorage.setItem("ime_settings", JSON.stringify(settings));
+                console.log("Settings saved:", settings); // Debugging line
             }
 
-            /**
-             * 处理词典导入
-             */
-            function handleImportDict(fileInput) {
-                if (!fileInput.files.length) return;
+            // Function for handling dictionary import from the modal
+            async function handleImport(input) {
+                const file = input.files[0];
+                if (!file) return;
                 
-                const file = fileInput.files[0];
                 const reader = new FileReader();
-                
-                reader.onload = function(e) {
+                reader.onload = async (e) => {
                     try {
-                        const dictData = JSON.parse(e.target.result);
-                        const dictName = file.name.replace('.json', '');
-                        
+                        const content = JSON.parse(e.target.result);
                         const newDict = {
-                            name: dictName,
-                            type: "user",
-                            content: JSON.stringify(dictData),
+                            name: file.name.replace('.json', ''),
                             enabled: true,
-                            wordCount: calculateWordCount(dictData)
+                            type: 'user',
+                            // Assuming the dictionary content itself is stored for later Trie rebuild
+                            // Use 'content' property as previously defined in allDicts structure
+                            content: JSON.stringify(content) 
                         };
-                        
                         allDicts.push(newDict);
-                        saveDictConfig();
-                        loadAllDicts().then(() => {
-                            showToast(`已导入词典: ${dictName}`, 'success');
-                            update();
-                        });
+                        saveDictConfig(); // Uses saveDictConfig which handles localStorage and saveSettings
                         
+                        await loadAllDicts(); // Rebuild Trie with new dict
+                        renderModalDicts(); // Re-render modal to show new dict
+                        showToast(`已导入词典: ${newDict.name}`, 'info'); // Use info toast for feedback
                     } catch (error) {
                         console.error('导入词典失败:', error);
                         showToast('导入失败，请检查文件格式', 'error');
                     }
                 };
-                
                 reader.readAsText(file);
-                fileInput.value = ''; // 重置文件输入
+                input.value = ''; // Reset file input
             }
+
             // --- End Missing function definitions ---
 
             // --- Init functions ---
@@ -975,7 +1273,10 @@
                 // Keep this minimal, actual logic handled by keydown/input listeners
                 hInput.addEventListener("keydown", handleKeyDown);
                 hInput.addEventListener("input", handleInput);
-                correctionInput.addEventListener("keydown", handleCorrectionKeyDown);
+                correctionInput.addEventListener(
+                    "keydown",
+                    handleCorrectionKeyDown,
+                );
             }
 
             function initUI() {
@@ -988,22 +1289,32 @@
                 // Global event listeners
                 document.addEventListener("keydown", handleGlobalKeyDown);
                 document.addEventListener("click", handleGlobalClick);
-                document.addEventListener("visibilitychange", handleVisibilityChange);
+                document.addEventListener(
+                    "visibilitychange",
+                    handleVisibilityChange,
+                );
             }
             // --- End Init functions ---
 
-
             const InputState = {
-                NORMAL: 'normal',
-                PRACTICE: 'practice',
-                EDIT: 'edit',
-                CORRECTION: 'correction',
-                TAB: 'tab'
+                NORMAL: "normal",
+                PRACTICE: "practice",
+                EDIT: "edit",
+                CORRECTION: "correction",
+                TAB: "tab",
             };
 
             let currentState = InputState.NORMAL;
             function setState(newState) {
                 currentState = newState;
+                // Manage 'locked' class on outputArea
+                if (outputArea) {
+                    if (currentState === InputState.NORMAL) {
+                        outputArea.classList.add("locked");
+                    } else {
+                        outputArea.classList.remove("locked");
+                    }
+                }
                 updateFocus();
             }
 
@@ -1016,7 +1327,7 @@
                     hInput.focus();
                 }
             }
-            
+
             const PUNCS = {
                 ",": "，",
                 ".": "。",
@@ -1067,17 +1378,18 @@
             let settings = JSON.parse(
                 localStorage.getItem("ime_settings") || "{}",
             );
-            if (!settings.outputHeight) settings.outputHeight = 300;
+            console.log("Settings loaded:", settings); // Debugging line
+            if (typeof settings.outputFlexGrow === "undefined")
+                settings.outputFlexGrow = 2;
+            if (typeof settings.inputFlexGrow === "undefined")
+                settings.inputFlexGrow = 3;
             if (typeof settings.history === "undefined")
                 settings.history = true;
-            if (!settings.practice_dicts) settings.practice_dicts = {};
 
-
-            let activeLanguage = 'chinese';
+            let activeLanguage = "chinese";
             let buffer = "",
                 committed = "",
                 enFilter = "";
-            let practiceTargetText = ""; // Moved practiceTargetText outside InputState logic
 
             let combinedCandidates = [],
                 pageIndex = 0;
@@ -1093,56 +1405,67 @@
             const correctionInput = document.getElementById("correction-input");
             const mainCandidates = document.getElementById("main-candidates"); // Define mainCandidates
 
-
             async function init() {
                 try {
-                    console.log('开始初始化输入法...');
-                    showLoadingMessage('正在初始化输入法...');
-                    
+                    console.log("开始初始化输入法...");
+                    showLoadingMessage("正在初始化输入法...");
+
                     // Core components setup
                     await Promise.all([
                         initInputHandler(),
                         initUI(),
-                        initEventListeners()
+                        initEventListeners(),
                     ]);
-                    
+
                     // Load settings and dictionaries
                     loadDictConfig(); // Load allDicts from localStorage or built-in
                     await loadAllDicts(); // Populate the Trie with enabled dicts
+                    applySettings(); // Apply saved layout settings
 
                     // Validate initialization
                     const isValid = validateInitialization();
                     if (!isValid) {
-                        throw new Error('初始化验证失败');
+                        throw new Error("初始化验证失败");
                     }
-                    
+
                     // Start input method
                     startInputMethod();
-                    
-                    console.log('输入法初始化完成');
+
+                    console.log("输入法初始化完成");
                     hideLoadingMessage();
-                    
                 } catch (error) {
-                    console.error('输入法初始化失败:', error);
-                    showErrorMessage('输入法初始化失败，请刷新页面重试');
+                    console.error("输入法初始化失败:", error);
+                    showErrorMessage("输入法初始化失败，请刷新页面重试");
                     hideLoadingMessage();
                 }
             }
 
             function validateInitialization() {
                 const checks = [
-                    {name: '隐藏输入框', check: () => !!document.getElementById('hidden-input')},
-                    {name: '候选词区域', check: () => !!document.getElementById('main-candidates')},
-                    {name: 'Trie树有数据', check: () => DB.root.children && Object.keys(DB.root.children).length > 0}
+                    {
+                        name: "隐藏输入框",
+                        check: () => !!document.getElementById("hidden-input"),
+                    },
+                    {
+                        name: "候选词区域",
+                        check: () =>
+                            !!document.getElementById("main-candidates"),
+                    },
+                    {
+                        name: "Trie树有数据",
+                        check: () =>
+                            DB.root.children &&
+                            Object.keys(DB.root.children).length > 0,
+                    },
                 ];
-                
+
                 for (const check of checks) {
                     if (!check.check()) {
                         console.error(`初始化检查失败: ${check.name}`);
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 
@@ -1152,12 +1475,13 @@
              */
             function startInputMethod() {
                 try {
-                    console.log('启动输入法核心功能...');
-                    
+                    console.log("启动输入法核心功能...");
+
                     // 初始化历史记录
-                    const savedHistory = localStorage.getItem('ime_input_history');
+                    const savedHistory =
+                        localStorage.getItem("ime_history_v18");
                     let historyItems = [];
-                    
+
                     if (savedHistory) {
                         try {
                             historyItems = JSON.parse(savedHistory);
@@ -1165,38 +1489,40 @@
                                 historyItems = [];
                             }
                         } catch (e) {
-                            console.warn('历史记录解析失败，重置为空数组');
+                            console.warn("历史记录解析失败，重置为空数组");
                             historyItems = [];
                         }
                     }
-                    
+
                     // 更新历史记录UI
                     updateHistoryUI(historyItems);
-                    
+
                     // 绑定历史记录保存
                     // This part needs to be integrated with existing commit logic
                     // For now, let's just make sure the updateHistoryUI is called
                     // on commit in the general update loop or dedicated commit function.
-                    
+
                     // Set initial state and update UI
                     setState(InputState.NORMAL);
                     update();
-                    
+
                     // 显示启动成功消息
-                    showToast('输入法启动成功', 'success', 2000);
-                    console.log('输入法启动完成');
-                    
+
+                    console.log("输入法启动完成");
                 } catch (error) {
-                    console.error('启动输入法失败:', error);
-                    showErrorMessage('启动输入法失败', error);
+                    console.error("启动输入法失败:", error);
+                    showErrorMessage("启动输入法失败", error);
                 }
             }
             // --- End Missing function definitions ---
 
-
             function showErrorMessage(message, error = null) {
-                console.error('输入法错误:', message, error);
-                showToast(`${message}${error ? ': ' + error.message : ''}`, 'error', 5000);
+                console.error("输入法错误:", message, error);
+                showToast(
+                    `${message}${error ? ": " + error.message : ""}`,
+                    "error",
+                    5000,
+                );
             }
 
             // This function now only retrieves allDicts from localStorage and ensures it's initialized
@@ -1204,12 +1530,17 @@
                 const storedDicts = JSON.parse(
                     localStorage.getItem("ime_dicts_config"),
                 );
-                if (storedDicts && storedDicts.length > 0) { // Check if storedDicts is not empty
+                if (storedDicts && storedDicts.length > 0) {
+                    // Check if storedDicts is not empty
                     allDicts = storedDicts;
                     // Add any new built-in dicts that aren't already in stored config
                     BUILT_IN_DICTS.forEach((builtInDict) => {
                         if (
-                            !allDicts.find((d) => d.path === builtInDict.path && d.type === builtInDict.type)
+                            !allDicts.find(
+                                (d) =>
+                                    d.path === builtInDict.path &&
+                                    d.type === builtInDict.type,
+                            )
                         ) {
                             allDicts.push(builtInDict);
                         }
@@ -1217,7 +1548,7 @@
                 } else {
                     allDicts = [...BUILT_IN_DICTS];
                 }
-                
+
                 // Initialize practice dicts settings for newly added dicts if not present
                 allDicts.forEach((dict, index) => {
                     if (settings.practice_dicts[index] === undefined) {
@@ -1235,7 +1566,6 @@
                 saveSettings(); // Ensure global settings are saved too
             }
 
-
             function calculateWordCount(dictContent) {
                 let count = 0;
                 for (const k in dictContent) {
@@ -1249,21 +1579,26 @@
             async function loadAllDicts() {
                 DB = new Trie(); // Reset Trie before loading
                 console.log("加载词典中...");
-                
+
                 const loadPromises = allDicts
                     .filter((d) => d.enabled) // Only load enabled dictionaries
                     .map((dict) => {
                         return new Promise(async (resolve) => {
                             try {
-                                console.log(`尝试加载词典: ${dict.name} (enabled: ${dict.enabled})`);
+                                console.log(
+                                    `尝试加载词典: ${dict.name} (enabled: ${dict.enabled})`,
+                                );
                                 let dictData;
                                 if (dict.type === "built-in") {
                                     const response = await fetch(dict.path);
                                     if (!response.ok) {
-                                        console.error(`无法加载内置词典 ${dict.name}: ${response.status}`);
+                                        console.error(
+                                            `无法加载内置词典 ${dict.name}: ${response.status}`,
+                                        );
                                         return resolve(); // Resolve even on error to allow other dicts to load
                                     }
                                     dictData = await response.json();
+                                    dict.fetchedContent = dictData; // Store fetched content
                                 } else if (
                                     dict.type === "user" &&
                                     dict.content
@@ -1275,7 +1610,9 @@
                                     let currentWordCount = 0;
                                     for (const k in dictData) {
                                         const key = k.toLowerCase();
-                                        const items = Array.isArray(dictData[k]) ? dictData[k] : [dictData[k]];
+                                        const items = Array.isArray(dictData[k])
+                                            ? dictData[k]
+                                            : [dictData[k]];
                                         DB.insert(key, items);
                                         currentWordCount += items.length;
                                     }
@@ -1296,73 +1633,33 @@
             }
 
             function applySettings() {
-                document.getElementById("output-card").style.height =
-                    settings.outputHeight + "px";
+                const outputCard = document.getElementById("output-card");
+                const inputCard = document.getElementById("input-container");
+
+                if (outputCard) {
+                    outputCard.style.flexGrow = settings.outputFlexGrow;
+                }
+                if (inputCard) {
+                    inputCard.style.flexGrow = settings.inputFlexGrow;
+                }
+
                 document.getElementById("historyPanel").style.display = // Corrected ID
-                    settings.history ? "block" : "none"; // Changed to block/none for the panel
+                    settings.history ? "flex" : "none"; // Changed to flex/none for the panel
                 document
                     .getElementById("l-hist-btn")
                     .classList.toggle("active", settings.history);
+                console.log(
+                    "Applying settings - outputFlexGrow:",
+                    settings.outputFlexGrow,
+                    "inputFlexGrow:",
+                    settings.inputFlexGrow,
+                ); // Debugging line
             }
-
 
             function update() {
                 if (currentState === InputState.EDIT) return;
 
-                if (currentState === InputState.PRACTICE && practiceTargetText) {
-                    // New practice mode UI
-                    const words = practiceTargetText.split('，').map(w => w.replace('。', ''));
-                    let completedHTML = '';
-                    let remainingHTML = '';
-                    let currentWordIndex = -1;
-
-                    let tempCommitted = committed;
-                    for(let i=0; i<words.length; i++) {
-                        if (tempCommitted.startsWith(words[i])) {
-                            completedHTML += `<div class="practice-word completed">${escapeHtml(words[i])}</div>`;
-                            tempCommitted = tempCommitted.substring(words[i].length);
-                             if (tempCommitted.startsWith('，')) { // Handle separator
-                                tempCommitted = tempCommitted.substring(1);
-                            }
-                        } else {
-                            currentWordIndex = i;
-                            break;
-                        }
-                    }
-
-                    if (currentWordIndex !== -1) {
-                         const currentWord = words[currentWordIndex];
-                         let hasError = false;
-                         if (!currentWord.startsWith(tempCommitted)) {
-                            hasError = true;
-                         }
-
-                         const typedPart = tempCommitted;
-                         const remainingPart = currentWord.substring(typedPart.length);
-
-                         completedHTML += `<div class="practice-word ${hasError ? 'incorrect' : 'current'}">
-                            ${escapeHtml(typedPart)}<span class="caret"></span><span class="practice-hint">${escapeHtml(remainingPart)}</span>
-                        </div>`;
-                         
-                         for(let i=currentWordIndex+1; i<words.length; i++) {
-                            remainingHTML += `<div class="practice-word upcoming">${escapeHtml(words[i])}</div>`;
-                         }
-                    } else { // All words committed successfully
-                        if (committed.length >= practiceTargetText.length -1) { // -1 to account for final 。
-                            setTimeout(() => {
-                                committed = "";
-                                generatePracticeText();
-                                showToast("不错！下一组", 'success');
-                            }, 200);
-                        }
-                    }
-
-
-                    outputArea.innerHTML = `<div class="practice-words-container">${completedHTML}${remainingHTML}</div>`;
-
-                } else {
-                    outputArea.innerText = committed;
-                }
+                outputArea.innerText = committed;
                 outputArea.scrollTop = outputArea.scrollHeight;
 
                 if (buffer) {
@@ -1374,16 +1671,20 @@
                             bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
                         }
                     }
-                    document.getElementById("buffer-display").innerHTML = bufferHTML;
-                    
+                    document.getElementById("buffer-display").innerHTML =
+                        bufferHTML;
+
                     let list = [];
                     const isAllVowels = (str) => /^[aeiou]+$/.test(str);
 
                     let useExactMatch = false;
-                    if (b.length <= 2 || ((b.length === 3 || b.length === 4) && isAllVowels(b))) {
+                    if (
+                        b.length <= 2 ||
+                        ((b.length === 3 || b.length === 4) && isAllVowels(b))
+                    ) {
                         useExactMatch = true;
                     }
-                    
+
                     const prefixNode = DB.getNode(b);
 
                     if (prefixNode) {
@@ -1395,11 +1696,13 @@
                                 let weight = 1000;
                                 if (path === b) weight += 10000; // Exact match bonus
                                 weight -= (path.length - b.length) * 100;
-                                
+
                                 node.values.forEach((i) =>
                                     list.push({
                                         text: i.char || i,
-                                        desc: i.en || (typeof i === "object" ? i.en : ""),
+                                        desc:
+                                            i.en ||
+                                            (typeof i === "object" ? i.en : ""),
                                         w: weight,
                                     }),
                                 );
@@ -1485,6 +1788,18 @@
             }
 
             function resetInput() {
+                // Before clearing buffer, check if committed has new content to save to history
+                // Only save if committed has content AND it's different from the last history item
+                // (to avoid duplicate entries if resetInput is called multiple times without new committed content)
+                if (committed.trim() && (HISTORY.length === 0 || HISTORY[0].text !== committed.trim())) {
+                    const historyItem = {
+                        text: committed.trim(),
+                        timestamp: Date.now()
+                    };
+                    HISTORY.unshift(historyItem); // Add to the beginning
+                    saveHistory(); // Save the updated history
+                }
+
                 setBuffer(""); // Consolidates buffer = "" and hInput.value = ""
                 enFilter = "";
                 setState(InputState.NORMAL); // Reset tab state
@@ -1492,15 +1807,23 @@
             }
 
             function handleKeyDown(e) {
-                if (currentState === InputState.EDIT || currentState === InputState.CORRECTION) return;
+                if (
+                    currentState === InputState.EDIT ||
+                    currentState === InputState.CORRECTION
+                )
+                    return;
                 const key = e.key;
 
+                // Handle correction mode shortcut (Ctrl+I) globally
                 if (e.ctrlKey && key.toLowerCase() === "i") {
                     e.preventDefault();
                     enterCorrectionMode();
                     return;
                 }
 
+                // --- Normal Mode Logic Below ---
+
+                // Punctuation handling for normal mode
                 if (PUNCS[key]) {
                     e.preventDefault();
                     if (buffer && combinedCandidates.length > 0)
@@ -1511,6 +1834,7 @@
                     return;
                 }
 
+                // Paging candidates with '=' or '-'
                 if (buffer && currentState !== InputState.TAB) {
                     if (key === "=") {
                         e.preventDefault();
@@ -1533,16 +1857,22 @@
                     }
                 }
 
+                // TAB key handling
                 if (key === "Tab") {
                     e.preventDefault();
                     if (buffer) {
-                        setState(currentState === InputState.TAB ? InputState.NORMAL : InputState.TAB);
+                        setState(
+                            currentState === InputState.TAB
+                                ? InputState.NORMAL
+                                : InputState.TAB,
+                        );
                         enFilter = "";
                         update();
                     }
                     return;
                 }
 
+                // TAB mode specific char/backspace
                 if (currentState === InputState.TAB && buffer) {
                     if (/^[a-zA-Z]$/.test(key)) {
                         e.preventDefault();
@@ -1564,6 +1894,7 @@
                     }
                 }
 
+                // Numeric selection '0'-'9' for normal mode
                 if (/^[0-9]$/.test(key)) {
                     e.preventDefault();
                     if (buffer && combinedCandidates.length > 0) {
@@ -1588,6 +1919,7 @@
                         update();
                     }
                 } else if (key === "Enter") {
+                    // Enter key for normal mode
                     e.preventDefault();
                     if (buffer) {
                         committed += buffer;
@@ -1596,7 +1928,8 @@
                         committed += "\n";
                     }
                     update();
-                } else if (key === "Backspace") { // Handle backspace for both buffer and committed
+                } else if (key === "Backspace") {
+                    // Backspace for normal mode
                     e.preventDefault();
                     if (buffer) {
                         buffer = buffer.slice(0, -1);
@@ -1607,6 +1940,7 @@
                         update();
                     }
                 } else if (key === " ") {
+                    // Space for normal mode
                     e.preventDefault();
                     if (buffer) {
                         const list =
@@ -1632,7 +1966,10 @@
             }
 
             function handleInput() {
-                if (currentState !== InputState.TAB && currentState !== InputState.EDIT) {
+                if (
+                    currentState !== InputState.TAB &&
+                    currentState !== InputState.EDIT
+                ) {
                     setBuffer(hInput.value.replace(/[^a-zA-Z]/g, ""));
                     pageIndex = 0;
                     update();
@@ -1647,17 +1984,21 @@
                     return;
                 }
                 if (e.ctrlKey && key === "c") {
-                    if (currentState !== InputState.EDIT && currentState !== InputState.CORRECTION) {
+                    if (
+                        currentState !== InputState.EDIT &&
+                        currentState !== InputState.CORRECTION
+                    ) {
                         e.preventDefault();
                         archiveAndCopy();
                     }
                     return;
                 }
                 if (e.key === "escape") {
-                    if (currentState === InputState.EDIT) setState(InputState.NORMAL);
+                    if (currentState === InputState.EDIT)
+                        setState(InputState.NORMAL);
                     if (currentState === InputState.CORRECTION) {
                         e.preventDefault();
-                        exitCorrectionMode('update_buffer');
+                        exitCorrectionMode("update_buffer");
                     }
                 }
             }
@@ -1665,22 +2006,29 @@
             function handleCorrectionKeyDown(e) {
                 if (e.key === "Enter") {
                     e.preventDefault();
-                    exitCorrectionMode('convert_sentence');
+                    exitCorrectionMode("convert_sentence");
                 } else if (e.key === "Escape") {
                     e.preventDefault();
-                    exitCorrectionMode('update_buffer');
+                    exitCorrectionMode('sync_out_buffer'); // Sync Out: Escape key
                 } else if (e.ctrlKey && e.key.toLowerCase() === "i") {
                     e.preventDefault();
-                    exitCorrectionMode('convert_sentence');
+                    exitCorrectionMode("convert_sentence");
                 }
             }
 
             function handleGlobalClick(e) {
-                if (currentState === InputState.EDIT && outputArea.contains(e.target)) return;
-                if (currentState === InputState.CORRECTION && correctionWrapper.contains(e.target))
+                if (
+                    currentState === InputState.EDIT &&
+                    outputArea.contains(e.target)
+                )
+                    return;
+                if (
+                    currentState === InputState.CORRECTION &&
+                    correctionWrapper.contains(e.target)
+                )
                     return;
                 // Clicking on import button is now handled by settings.html, remove from index.html
-                // if (e.target.id === "file-uploader") return; 
+                // if (e.target.id === "file-uploader") return;
                 updateFocus(); // Keep focus where it should be based on state
             }
 
@@ -1688,28 +2036,82 @@
                 if (!document.hidden) updateFocus(); // Restore focus on tab switch
             }
 
-            function makeResizableV(id, targetId) {
-                const h = document.getElementById(id),
-                    t = document.getElementById(targetId);
-                h.addEventListener("mousedown", (e) => {
-                    const startY = e.clientY,
-                        startH = t.offsetHeight;
-                    const drag = (ev) => {
-                        const newH = startH + (ev.clientY - startY);
-                        t.style.height = newH + "px";
-                        settings.outputHeight = newH;
+            function makeResizableV(resizerId, topPanelId, bottomPanelId) {
+                const resizer = document.getElementById(resizerId);
+                const topPanel = document.getElementById(topPanelId);
+                const bottomPanel = document.getElementById(bottomPanelId);
+                const parentPanel = topPanel.parentElement; // Should be center-container
+
+                let startY, startTopFlexGrow, startBottomFlexGrow, totalHeight, parentRect;
+
+                resizer.addEventListener("mousedown", (e) => {
+                    e.preventDefault();
+                    
+                    // Get current computed flex-grow values
+                    startTopFlexGrow = parseFloat(window.getComputedStyle(topPanel).flexGrow);
+                    startBottomFlexGrow = parseFloat(window.getComputedStyle(bottomPanel).flexGrow);
+
+                    // If not set, use default or initial values
+                    if (isNaN(startTopFlexGrow) || startTopFlexGrow === 0) startTopFlexGrow = 2;
+                    if (isNaN(startBottomFlexGrow) || startBottomFlexGrow === 0) startBottomFlexGrow = 3;
+
+                    totalHeight = parentPanel.offsetHeight; // Total height of the flex container
+                    parentRect = parentPanel.getBoundingClientRect(); // Get bounding rect once
+
+                    const doDrag = (ev) => {
+                        // Calculate mouse position relative to the parentPanel
+                        const mouseY = ev.clientY - parentRect.top;
+                        
+                        // Calculate new top panel height based on mouse position
+                        let newTopHeight = mouseY;
+                        let newBottomHeight = parentRect.height - mouseY;
+
+                        // Ensure minimum heights
+                        const minHeight = 100; // Define a reasonable minimum height
+                        if (newTopHeight < minHeight) {
+                            newTopHeight = minHeight;
+                        }
+                        if (newBottomHeight < minHeight) {
+                            newBottomHeight = minHeight;
+                        }
+
+                        // Calculate new flex-grow ratios based on the adjusted split point
+                        const sumFlexGrow = startTopFlexGrow + startBottomFlexGrow;
+                        
+                        let newTopFlexGrow = (newTopHeight / parentRect.height) * sumFlexGrow;
+                        let newBottomFlexGrow = sumFlexGrow - newTopFlexGrow;
+
+                        requestAnimationFrame(() => {
+                            topPanel.style.flexGrow = newTopFlexGrow;
+                            bottomPanel.style.flexGrow = newBottomFlexGrow;
+                        });
                     };
-                    const stop = () => {
-                        document.removeEventListener("mousemove", drag);
+
+                    const stopDrag = () => {
+                        document.removeEventListener("mousemove", doDrag);
+                        document.removeEventListener("mouseup", stopDrag);
+
+                        // Save the final flex-grow values
+                        settings.outputFlexGrow = parseFloat(
+                            topPanel.style.flexGrow,
+                        );
+                        settings.inputFlexGrow = parseFloat(
+                            bottomPanel.style.flexGrow,
+                        );
                         saveSettings();
                     };
-                    document.addEventListener("mousemove", drag);
-                    document.addEventListener("mouseup", stop);
+
+                    document.addEventListener("mousemove", doDrag);
+                    document.addEventListener("mouseup", stopDrag);
                 });
             }
 
             document.addEventListener("DOMContentLoaded", () => {
-                makeResizableV("center-v-resizer", "output-card");
+                makeResizableV(
+                    "center-v-resizer",
+                    "output-card",
+                    "input-container",
+                );
                 init();
             });
         </script>
