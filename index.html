@@ -1276,18 +1276,17 @@
                                                                     }
                                                                     // Clear the main buffer after committing from correction mode
                                                                     setBuffer(""); 
-                                                                                } else if (action === 'sync_out_buffer') { // New logic for sync-out
-                                                                                    const correctedText = correctionInput.value.trim();
-                                                                                    setBuffer(correctedText); // Update global buffer and hInput.value
-                                                                                    pageIndex = 0; // Reset page index
-                                                                                    setTimeout(() => update(), 0); // Add a small delay for UI refresh
-                                                                                    return; // Exit early to prevent double update call
-                                                                                }
-                                                                                
-                                                                                setState(InputState.NORMAL);
-                                                                                correctionWrapper.style.display = "none";
-                                                                                update();
-            }
+                                                                                                } else if (action === 'sync_out_buffer') { // New logic for sync-out
+                                                                                                    const correctedText = correctionInput.value.trim();
+                                                                                                    setBuffer(correctedText); // Update global buffer and hInput.value
+                                                                                                    pageIndex = 0; // Reset page index
+                                                                                                    setTimeout(() => update(), 0); // Add a small delay for UI refresh
+                                                                                                    // Removed 'return;' here to allow subsequent state changes
+                                                                                                }
+                                                                                                
+                                                                                                setState(InputState.NORMAL);
+                                                                                                correctionWrapper.style.display = "none";
+                                                                                                update();            }
 
             /**
              * 切换编辑模式
