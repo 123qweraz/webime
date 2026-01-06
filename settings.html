@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>词典设置</title>
+    <script src="dicts_config.js"></script>
+    <style>
+        :root {
+            --primary: #007aff;
+            --bg: #f2f2f7;
+            --panel-bg: #ffffff;
+            --item-bg: #f9f9f9;
+            --item-border: #eee;
+            --drag-handle: #ccc;
+        }
+        body {
+            font-family: system-ui, sans-serif;
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: var(--panel-bg);
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .sidebar h1 {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar-nav-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 16px;
+            color: #333;
+        }
+        .sidebar-nav-item:hover, .sidebar-nav-item.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        .content-area {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .settings-section {
+            display: none;
+            background: var(--panel-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .settings-section.active {
+            display: block;
+        }
+        .settings-section h2 {
+            border-bottom: 1px solid var(--item-border);
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .dict-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .dict-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid var(--item-border);
+            background-color: #fff;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: grab;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .dict-item:last-child {
+            margin-bottom: 0;
+        }
+        .dict-item.dragging {
+            opacity: 0.5;
+            border: 2px dashed var(--primary);
+        }
+        .dict-item.practice-selected {
+            background-color: #e0f7ff;
+            border-color: var(--primary);
+            box-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
+        }
+        .dict-item:hover {
+            background-color: #f0f0f0;
+        }
+        .dict-info {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .drag-handle {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            cursor: grab;
+        }
+        .drag-handle span {
+            display: block;
+            width: 16px;
+            height: 2px;
+            background: var(--drag-handle);
+        }
+        .dict-name {
+            font-size: 16px;
+            flex-grow: 1;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+            margin-left: 10px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        input:checked + .slider:before {
+            transform: translateX(14px);
+        }
+        .import-section {
+            padding-top: 20px;
+            border-top: 1px solid var(--item-border);
+            margin-top: 20px;
+        }
+        .import-section input[type="file"] {
+            display: none;
+        }
+        .import-section button {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 999;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>设置</h1>
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item active" data-section="typing-dict">打字词典设置</li>
+            <li class="sidebar-nav-item" data-section="practice-dict">练习词典选择</li>
+            <li class="sidebar-nav-item" data-section="appearance">外观设置</li>
+            <li class="sidebar-nav-item" data-section="input-method">输入法设置</li>
+        </ul>
+    </div>
+
+    <div class="content-area">
+        <div id="typing-dict-settings" class="settings-section active">
+            <h2>打字词典</h2>
+            <div class="dict-section">
+                <h3>已启用词典</h3>
+                <ul id="enabled-dict-list" class="dict-list"></ul>
+            </div>
+
+            <div class="dict-section">
+                <h3>未启用词典</h3>
+                <ul id="disabled-dict-list" class="dict-list"></ul>
+            </div>
+            
+            <div class="import-section">
+                <input type="file" id="file-uploader" accept=".json" onchange="handleImportDict(this)">
+                <button onclick="document.getElementById('file-uploader').click()">导入词库</button>
+            </div>
+        </div>
+
+        <div id="practice-dict-settings" class="settings-section">
+            <h2>练习词典</h2>
+            <div id="practice-dict-selection-list"></div>
+        </div>
+
+        <div id="appearance-settings" class="settings-section">
+            <h2>外观设置</h2>
+            <p>（功能待开发）</p>
+        </div>
+
+        <div id="input-method-settings" class="settings-section">
+            <h2>输入法设置</h2>
+            <p>（功能待开发）</p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let allDicts = [];
+        let settings = JSON.parse(localStorage.getItem("ime_settings") || "{}");
+        if (!settings.practice_dicts) settings.practice_dicts = {};
+        if (!settings.active_settings_section) settings.active_settings_section = 'typing-dict';
+
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.opacity = 1;
+            setTimeout(() => {
+                toast.style.opacity = 0;
+            }, 3000);
+        }
+
+        function getDictLevel(dict) {
+            return typeof dict.level === "number" ? dict.level : 100; // Default level for user imported/unknown
+        }
+
+        function loadDictConfig() {
+            const storedDicts = JSON.parse(localStorage.getItem("ime_dicts_config"));
+            if (storedDicts) {
+                allDicts = storedDicts;
+                // Add any new built-in dicts that aren't already in stored config
+                BUILT_IN_DICTS.forEach((builtInDict) => {
+                    if (!allDicts.find((d) => d.path === builtInDict.path && d.type === builtInDict.type)) {
+                        allDicts.push(builtInDict);
+                    }
+                });
+            } else {
+                allDicts = [...BUILT_IN_DICTS];
+            }
+
+            // Ensure practice_dicts settings are initialized for new dicts
+            allDicts.forEach((dict, index) => {
+                if (settings.practice_dicts[index] === undefined) {
+                    settings.practice_dicts[index] = false; // Default to not selected for practice
+                }
+            });
+            saveDictConfig();
+        }
+
+        function saveDictConfig() {
+            localStorage.setItem("ime_dicts_config", JSON.stringify(allDicts));
+            localStorage.setItem("ime_settings", JSON.stringify(settings));
+            renderDicts();
+        }
+
+        function renderDicts() {
+            const enabledList = document.getElementById('enabled-dict-list');
+            const disabledList = document.getElementById('disabled-dict-list');
+            const practiceSelectionList = document.getElementById('practice-dict-selection-list');
+
+            enabledList.innerHTML = '';
+            disabledList.innerHTML = '';
+            practiceSelectionList.innerHTML = '';
+
+            allDicts.forEach((dict, index) => {
+                // Render for Typing Dictionary Settings
+                const typingDictItem = createDictItem(dict, index, 'typing');
+                if (dict.enabled) {
+                    enabledList.appendChild(typingDictItem);
+                } else {
+                    disabledList.appendChild(typingDictItem);
+                }
+
+                // Render for Practice Dictionary Selection
+                const practiceDictItem = createDictItem(dict, index, 'practice');
+                practiceSelectionList.appendChild(practiceDictItem);
+            });
+            addDragAndDropListeners(enabledList);
+            addDragAndDropListeners(disabledList);
+        }
+
+        function createDictItem(dict, index, type) {
+            const item = document.createElement('li');
+            item.className = 'dict-item';
+            item.draggable = true;
+            item.dataset.index = index;
+
+            const dragHandle = document.createElement('div');
+            dragHandle.className = 'drag-handle';
+            dragHandle.innerHTML = '<span></span><span></span><span></span>';
+            item.appendChild(dragHandle);
+
+            const info = document.createElement('div');
+            info.className = 'dict-info';
+            info.innerHTML = `
+                <span class="dict-name" title="${dict.name}">
+                    ${dict.name} ${dict.wordCount ? `(${dict.wordCount}词)` : ''}
+                </span>
+            `;
+            item.appendChild(info);
+
+            const controls = document.createElement('div');
+            controls.className = 'dict-controls';
+
+            const toggleLabel = document.createElement('label');
+            toggleLabel.className = 'switch';
+            const toggleInput = document.createElement('input');
+            toggleInput.type = 'checkbox';
+            
+            if (type === 'typing') {
+                toggleInput.checked = dict.enabled;
+                toggleInput.onchange = () => {
+                    dict.enabled = !dict.enabled;
+                    saveDictConfig();
+                };
+            } else if (type === 'practice') {
+                toggleInput.checked = settings.practice_dicts[index];
+                toggleInput.onchange = () => {
+                    // Only one practice dict can be selected
+                    settings.practice_dicts = {};
+                    settings.practice_dicts[index] = toggleInput.checked;
+                    saveDictConfig();
+                };
+            }
+            
+            toggleLabel.appendChild(toggleInput);
+            toggleLabel.appendChild(document.createElement('span')).className = 'slider';
+            controls.appendChild(toggleLabel);
+
+            item.appendChild(controls);
+
+            if (type === 'practice' && settings.practice_dicts[index]) {
+                item.classList.add('practice-selected');
+            }
+            return item;
+        }
+
+        function addDragAndDropListeners(listElement) {
+            let dragSrcEl = null;
+
+            function handleDragStart(e) {
+                e.target.classList.add('dragging');
+                dragSrcEl = e.target;
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', e.target.dataset.index); // Use index for data transfer
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                return false;
+            }
+
+            function handleDragEnter(e) {
+                e.target.classList.add('over');
+            }
+
+            function handleDragLeave(e) {
+                e.target.classList.remove('over');
+            }
+
+            function handleDrop(e) {
+                e.stopPropagation();
+                if (dragSrcEl !== e.target && e.target.classList.contains('dict-item')) {
+                    const dragIndex = parseInt(dragSrcEl.dataset.index);
+                    const dropIndex = parseInt(e.target.dataset.index);
+
+                    const draggedDict = allDicts[dragIndex];
+                    const droppedDict = allDicts[dropIndex];
+
+                    // Find actual positions in the rendered list
+                    const draggedNodeIndex = Array.from(listElement.children).indexOf(dragSrcEl);
+                    const droppedNodeIndex = Array.from(listElement.children).indexOf(e.target);
+
+                    if (draggedNodeIndex > -1 && droppedNodeIndex > -1) {
+                        const tempArray = Array.from(listElement.children).map(node => allDicts[parseInt(node.dataset.index)]);
+                        
+                        // Reorder the tempArray
+                        const [removed] = tempArray.splice(draggedNodeIndex, 1);
+                        tempArray.splice(droppedNodeIndex, 0, removed);
+
+                        // Update allDicts based on the reordered tempArray, maintaining enabled/disabled state
+                        const enabledState = listElement.id === 'enabled-dict-list';
+                        let newAllDicts = allDicts.filter(dict => dict.enabled !== enabledState);
+                        const newOrderPart = tempArray.map(dict => dict);
+                        
+                        if (enabledState) {
+                             allDicts = [...newOrderPart, ...newAllDicts];
+                        } else {
+                             allDicts = [...newAllDicts, ...newOrderPart];
+                        }
+                        
+                        // Need to re-index allDicts after reordering, and re-initialize practice settings
+                        allDicts.forEach((dict, i) => {
+                            dict.originalIndex = i; // Store original index if needed elsewhere
+                            // Ensure practice_dicts settings are aligned with new indices
+                            if (settings.practice_dicts[i] === undefined) {
+                                settings.practice_dicts[i] = false;
+                            }
+                        });
+
+
+                        saveDictConfig();
+                    }
+                }
+                return false;
+            }
+
+            function handleDragEnd(e) {
+                e.target.classList.remove('dragging');
+                document.querySelectorAll('.dict-item').forEach(item => item.classList.remove('over'));
+            }
+
+            listElement.addEventListener('dragstart', handleDragStart, false);
+            listElement.addEventListener('dragenter', handleDragEnter, false);
+            listElement.addEventListener('dragover', handleDragOver, false);
+            listElement.addEventListener('dragleave', handleDragLeave, false);
+            listElement.addEventListener('drop', handleDrop, false);
+            listElement.addEventListener('dragend', handleDragEnd, false);
+        }
+
+
+        function handleImportDict(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function (e) {
+                try {
+                    const content = e.target.result;
+                    const newDict = {
+                        name: file.name,
+                        enabled: false, // User imported dicts are disabled by default
+                        type: 'user',
+                        content: content,
+                        level: 100 // User imported
+                    };
+
+                    allDicts.push(newDict);
+                    saveDictConfig();
+                    
+                    input.value = "";
+                } catch (err) {
+                    alert("词库文件格式错误，请确保是标准的 JSON 格式。");
+                    console.error(err);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

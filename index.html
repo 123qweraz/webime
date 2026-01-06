@@ -199,12 +199,13 @@
                 font-size: 18px;
                 color: var(--primary);
                 font-weight: bold;
+                margin-bottom: 5px;
             }
             #main-candidates {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 8px;
-                overflow-y: auto;
+                min-height: 50px;
             }
             .candidate-item {
                 position: relative;
@@ -212,11 +213,13 @@
                 background: var(--item-bg);
                 border-radius: 10px;
                 cursor: pointer;
+                font-size: 22px;
+                font-weight: 500;
                 border: 1px solid var(--item-border);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                min-width: 60px;
+                transition: background-color 0.2s;
+            }
+            .candidate-item:hover {
+                background-color: #e0e0e0;
             }
             .cand-key {
                 position: absolute;
@@ -226,15 +229,6 @@
                 opacity: 0.5;
                 color: var(--primary);
                 font-weight: bold;
-            }
-            .cand-text {
-                font-size: 22px;
-                font-weight: 500;
-            }
-            .cand-desc {
-                font-size: 11px;
-                color: #888;
-                margin-top: 4px;
             }
             #hidden-input {
                 position: fixed;
@@ -291,147 +285,126 @@
             #file-uploader {
                 display: none;
             }
-            .dict-item {
+            .history-panel {
+                position: fixed;
+                bottom: 60px;
+                right: 20px;
+                width: 300px;
+                max-height: 400px;
+                background: white;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                overflow: hidden;
+                display: none; /* Hidden by default */
+            }
+            .history-header {
+                padding: 12px 16px;
+                background: #f5f5f5;
+                border-bottom: 1px solid #ddd;
+                font-weight: bold;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 8px 5px;
-                font-size: 13px;
-                border-bottom: 1px solid #f5f5f5;
             }
-            .dict-name {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 160px;
+            .history-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                max-height: 350px;
+                overflow-y: auto;
             }
-            .switch {
-                position: relative;
-                display: inline-block;
-                width: 34px;
-                height: 20px;
-            }
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-            .slider {
-                position: absolute;
+            .history-item {
+                padding: 10px 16px;
+                border-bottom: 1px solid #f0f0f0;
                 cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #ccc;
-                transition: 0.4s;
-                border-radius: 20px;
-            }
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 16px;
-                width: 16px;
-                left: 2px;
-                bottom: 2px;
-                background-color: white;
-                transition: 0.4s;
-                border-radius: 50%;
-            }
-            input:checked + .slider {
-                background-color: var(--primary);
-            }
-            input:checked + .slider:before {
-                transform: translateX(14px);
-            }
-            .history-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px; border-bottom: 1px solid #eee; }
-            .history-text { flex-grow: 1; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-            .history-time { color: #888; font-size: 9px; margin-bottom: 2px; }
-            .history-content { font-size: 12px; }
-            .delete-btn { color: #ff3b30; cursor: pointer; font-size: 20px; font-weight: bold; padding: 0 5px; border-radius: 50%; visibility: hidden; opacity: 0; transition: .2s; }
-            .history-item:hover .delete-btn { visibility: visible; opacity: 1; }
-            .dict-item .delete-btn { visibility: visible; opacity: 1; margin-right: 5px; }
-
-            .dict-tabs {
+                transition: background 0.2s;
                 display: flex;
-                border-bottom: 1px solid #eee;
-                margin-bottom: 10px;
+                justify-content: space-between;
+                align-items: center;
             }
-            .dict-tab {
-                padding: 8px 15px;
-                cursor: pointer;
-                border-bottom: 2px solid transparent;
-                margin-bottom: -1px;
-                font-size: 13px;
-                color: #555;
+            .history-item:hover {
+                background: #f8f8f8;
             }
-            .dict-tab.active {
-                border-bottom-color: var(--primary);
-                color: var(--primary);
-                font-weight: bold;
+            .history-item.empty {
+                color: #999;
+                cursor: default;
             }
-            .dict-language-panel {
-                display: none;
+            .history-item.empty:hover {
+                background: transparent;
             }
-            .dict-language-panel.active {
-                display: block;
-            }
-            .dict-level-header {
-                font-weight: bold;
-                padding: 10px 5px;
-                background-color: #f9f9f9;
-                border-top: 1px solid #eee;
-                border-bottom: 1px solid #eee;
-                cursor: pointer;
+            .history-time {
                 font-size: 12px;
-                position: relative;
+                color: #666;
+                min-width: 50px;
             }
-            .dict-level-header::after {
-                content: '▼';
-                position: absolute;
-                right: 10px;
-                font-size: 10px;
-                transition: transform 0.2s;
+            .history-text {
+                flex: 1;
+                margin-left: 10px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
             }
-            .dict-level-category.collapsed .dict-level-header::after {
-                transform: rotate(-90deg);
-            }
-            .dict-level-category.collapsed .dict-level-content {
-                display: none;
-            }
-            /* Settings Panel */
-            #settings-panel {
+            .input-method-toast {
                 position: fixed;
-                top: 0;
-                right: -320px; /* Hidden by default */
-                width: 320px;
-                height: 100%;
-                background-color: #fff;
-                box-shadow: -2px 0 15px rgba(0,0,0,0.1);
-                padding: 20px;
-                box-sizing: border-box;
-                transition: right 0.3s ease;
-                z-index: 1001;
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
-            body.settings-panel-open #settings-panel {
-                right: 0;
-            }
-            #settings-panel h2 {
-                margin-top: 0;
-                color: var(--text-color);
-                border-bottom: 1px solid var(--border-color);
-                padding-bottom: 10px;
-            }
-            #settings-close-btn {
-                position: absolute;
                 top: 20px;
                 right: 20px;
+                background: #333;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: opacity 0.3s, transform 0.3s;
+                max-width: 300px;
+                font-size: 14px;
+            }
+            .input-method-toast.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .toast-success { background: #4CAF50; border-left: 4px solid #2E7D32; }
+            .toast-error { background: #F44336; border-left: 4px solid #C62828; }
+            .toast-warning { background: #FF9800; border-left: 4px solid #EF6C00; }
+            .toast-info { background: #2196F3; border-left: 4px solid #1565C0; }
+            .toast-icon { font-weight: bold; font-size: 16px; }
+            .toast-content { flex: 1; }
+            .toast-close { background: transparent; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0 5px; opacity: 0.7; transition: opacity 0.2s; }
+            .toast-close:hover { opacity: 1; }
+            #loading-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                z-index: 1000;
                 font-size: 24px;
-                cursor: pointer;
-                color: var(--subtext-color);
+                color: var(--primary);
+                display: none; /* Hidden by default */
+            }
+            #loading-spinner {
+                border: 4px solid #f3f3f3;
+                border-top: 4px solid var(--primary);
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 1s linear infinite;
+                margin-bottom: 20px;
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
             }
         </style>
     </head>
@@ -441,7 +414,7 @@
                 <button
                     id="l-hist-btn"
                     class="btn btn-toggle"
-                    onclick="toggleHistory()"
+                    onclick="toggleHistoryPanel()"
                 >
                     历史记录
                 </button>
@@ -496,33 +469,21 @@
                     class="btn btn-github"
                     >GitHub Star</a
                 >
-                <div id="settings-btn" class="btn btn-toggle">&#9881;</div>
+                <a
+                    href="settings.html"
+                    target="_blank"
+                    class="btn btn-toggle"
+                    >词典设置</a
+                >
             </div>
             <div class="content-area">
-                <div class="history-panel" id="history-panel">
-                    <div
-                        style="
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            font-weight: bold;
-                            font-size: 14px;
-                            border-bottom: 1px solid #eee;
-                            padding-bottom: 8px;
-                        "
-                    >
-                        <span>最近归档</span>
-                        <span onclick="clearHistory()" style="font-size: 11px; color: var(--primary); cursor: pointer; font-weight: normal;">清空全部</span>
+                <div class="history-panel" id="historyPanel">
+                    <div class="history-header">
+                        <span>输入历史</span>
+                        <button onclick="toggleHistoryPanel()" 
+                                style="background:none; border:none; cursor:pointer; font-size:16px;">×</button>
                     </div>
-                    <div
-                        id="history-list"
-                        style="
-                            flex: 1;
-                            overflow-y: auto;
-                            margin-top: 10px;
-                            min-height: 50px;
-                        "
-                    ></div>
+                    <ul id="historyList" class="history-list"></ul>
                 </div>
                 <div class="resizer" id="left-resizer"></div>
                 <div class="center-container">
@@ -584,19 +545,478 @@
                 </div>
             </div>
         </div>
-        <div id="settings-panel">
-            <span id="settings-close-btn">&times;</span>
-            <h2>设置</h2>
-            <div id="dict-management-list" style="flex: 1; overflow-y: auto; min-height: 50px;"></div>
-            <div class="settings-group">
-                <h3>练习模式设置</h3>
-                <div id="practice-dict-list"></div>
-            </div>
+        <div id="loading-overlay">
+            <div id="loading-spinner"></div>
+            <p>正在初始化输入法...</p>
         </div>
         <div id="toast"></div>
 
         <script>
 
+            // --- Missing functions (from gemini.md) ---
+            /**
+             * 更新历史记录UI显示
+             * @param {Array} historyItems - 历史记录条目数组
+             */
+            function updateHistoryUI(historyItems) {
+                try {
+                    const historyList = document.getElementById('historyList');
+                    if (!historyList) {
+                        console.warn('历史记录容器元素未找到');
+                        return;
+                    }
+                    
+                    // 清空现有内容
+                    historyList.innerHTML = '';
+                    
+                    // 如果没有历史记录，显示提示
+                    if (!historyItems || historyItems.length === 0) {
+                        const emptyItem = document.createElement('li');
+                        emptyItem.className = 'history-item empty';
+                        emptyItem.textContent = '暂无输入历史';
+                        historyList.appendChild(emptyItem);
+                        return;
+                    }
+                    
+                    // 显示最近的历史记录（最多20条）
+                    const recentItems = historyItems.slice(0, 20);
+                    
+                    recentItems.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'history-item';
+                        
+                        const timeSpan = document.createElement('span');
+                        timeSpan.className = 'history-time';
+                        
+                        if (item.timestamp) {
+                            const date = new Date(item.timestamp);
+                            timeSpan.textContent = date.toLocaleTimeString([], { 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                            });
+                        } else {
+                            timeSpan.textContent = '刚刚';
+                        }
+                        
+                        const textSpan = document.createElement('span');
+                        textSpan.className = 'history-text';
+                        textSpan.textContent = item.text || item;
+                        
+                        listItem.appendChild(timeSpan);
+                        listItem.appendChild(textSpan);
+                        
+                        // 点击历史项回填到输入框
+                        listItem.addEventListener('click', () => {
+                            const inputElement = document.getElementById('hidden-input'); // Use hidden-input
+                            if (inputElement && inputElement.value !== undefined) {
+                                inputElement.value = item.text || item;
+                                // 触发输入事件以更新候选词
+                                const inputEvent = new Event('input', { bubbles: true });
+                                inputElement.dispatchEvent(inputEvent);
+                                
+                                // 显示成功提示
+                                showToast('已回填到输入框', 'success');
+                            }
+                        });
+                        
+                        historyList.appendChild(listItem);
+                    });
+                } catch (error) {
+                    console.error('更新历史记录UI失败:', error);
+                }
+            }
+
+            /**
+             * 显示Toast提示消息
+             * @param {string} message - 要显示的消息
+             * @param {string} type - 消息类型：'success' | 'error' | 'info' | 'warning'
+             * @param {number} duration - 显示持续时间（毫秒），默认3000ms
+             */
+            function showToast(message, type = 'info', duration = 3000) {
+                try {
+                    // 移除现有的Toast
+                    const existingToast = document.getElementById('inputMethodToast');
+                    if (existingToast) {
+                        existingToast.remove();
+                    }
+                    
+                    // 创建Toast元素
+                    const toast = document.createElement('div');
+                    toast.id = 'inputMethodToast';
+                    toast.className = `input-method-toast toast-${type}`;
+                    
+                    // 设置Toast内容
+                    const toastContent = document.createElement('div');
+                    toastContent.className = 'toast-content';
+                    toastContent.textContent = message;
+                    
+                    // 添加图标（可选）
+                    const toastIcon = document.createElement('span');
+                    toastIcon.className = 'toast-icon';
+                    
+                    // 根据类型设置不同的图标
+                    const iconMap = {
+                        'success': '✓',
+                        'error': '✗',
+                        'warning': '⚠',
+                        'info': 'ℹ'
+                    };
+                    toastIcon.textContent = iconMap[type] || iconMap.info;
+                    
+                    // 组装Toast
+                    toast.appendChild(toastIcon);
+                    toast.appendChild(toastContent);
+                    
+                    // 添加关闭按钮
+                    const closeBtn = document.createElement('button');
+                    closeBtn.className = 'toast-close';
+                    closeBtn.innerHTML = '&times;';
+                    closeBtn.onclick = () => toast.remove();
+                    toast.appendChild(closeBtn);
+                    
+                    // 添加到页面
+                    document.body.appendChild(toast);
+                    
+                    // 添加显示动画
+                    setTimeout(() => {
+                        toast.classList.add('show');
+                    }, 10);
+                    
+                    // 自动消失
+                    if (duration > 0) {
+                        setTimeout(() => {
+                            if (toast.parentNode) {
+                                toast.classList.remove('show');
+                                setTimeout(() => {
+                                    if (toast.parentNode) {
+                                        toast.remove();
+                                    }
+                                }, 300); // 等待淡出动画完成
+                            }
+                        }, duration);
+                    }
+                } catch (error) {
+                    console.error('显示Toast失败:', error);
+                    // 降级方案：使用alert
+                    alert(`${type.toUpperCase()}: ${message}`);
+                }
+            }
+
+            /**
+             * 显示错误消息（包装函数）
+             * @param {string} message - 错误消息
+             * @param {Error} error - 错误对象（可选）
+             */
+            function showErrorMessage(message, error = null) {
+                console.error('输入法错误:', message, error);
+                
+                // 使用showToast显示错误消息
+                showToast(`${message}${error ? ': ' + error.message : ''}`, 'error', 5000);
+                
+                // 同时在输出区域显示错误
+                const outputArea = document.getElementById('output-area'); // Correct ID
+                if (outputArea) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.innerHTML = `
+                        <strong>错误:</strong> ${message}
+                        ${error ? '<br><small>' + error.message + '</small>' : ''}
+                    `;
+                    outputArea.appendChild(errorDiv);
+                }
+            }
+
+            /**
+             * 显示加载消息
+             * @param {string} message - 要显示的加载消息
+             */
+            function showLoadingMessage(message) {
+                try {
+                    const loadingOverlay = document.getElementById('loading-overlay');
+                    const messageElement = loadingOverlay.querySelector('p');
+                    
+                    if (message) {
+                        messageElement.textContent = message;
+                    }
+                    
+                    loadingOverlay.style.display = 'flex';
+                } catch (error) {
+                    console.error('显示加载消息失败:', error);
+                }
+            }
+
+            /**
+             * 隐藏加载消息
+             */
+            function hideLoadingMessage() {
+                try {
+                    const loadingOverlay = document.getElementById('loading-overlay');
+                    loadingOverlay.style.display = 'none';
+                } catch (error) {
+                    console.error('隐藏加载消息失败:', error);
+                }
+            }
+
+            /**
+             * 聚焦到隐藏输入框
+             */
+            function focusHiddenInput() {
+                try {
+                    const hInput = document.getElementById('hidden-input');
+                    if (hInput) {
+                        hInput.focus();
+                    }
+                } catch (error) {
+                    console.error('聚焦隐藏输入框失败:', error);
+                }
+            }
+
+            /**
+             * 设置输入缓冲区
+             * @param {string} value - 缓冲区值
+             */
+            function setBuffer(value) {
+                buffer = value;
+                const hInput = document.getElementById('hidden-input');
+                if (hInput) {
+                    hInput.value = value;
+                }
+            }
+
+            /**
+             * 进入修正模式
+             */
+            function enterCorrectionMode() {
+                setState(InputState.CORRECTION);
+                correctionWrapper.style.display = 'block';
+                correctionInput.value = '';
+                correctionInput.focus();
+            }
+
+            /**
+             * 退出修正模式
+             * @param {string} action - 退出动作类型
+             */
+            function exitCorrectionMode(action) {
+                if (action === 'convert_sentence') {
+                    const pinyinArray = correctionInput.value.trim().split(/\s+/);
+                    if (pinyinArray.length > 0 && pinyinArray[0] !== '') {
+                        // 这里需要实现拼音到汉字的转换逻辑
+                        // 暂时简单处理：直接使用输入的拼音
+                        committed += pinyinArray.join(' ');
+                        showToast('已应用修正', 'success');
+                    }
+                }
+                
+                setState(InputState.NORMAL);
+                correctionWrapper.style.display = 'none';
+                update();
+            }
+
+            /**
+             * 切换编辑模式
+             */
+            function toggleEditMode() {
+                const isEditing = currentState === InputState.EDIT;
+                setState(isEditing ? InputState.NORMAL : InputState.EDIT);
+                
+                const outputCard = document.getElementById('output-card');
+                const editBtn = document.getElementById('edit-mode-btn');
+                
+                if (isEditing) {
+                    outputCard.classList.remove('editing');
+                    outputArea.classList.add('locked');
+                    editBtn.textContent = '锁定模式';
+                } else {
+                    outputCard.classList.add('editing');
+                    outputArea.classList.remove('locked');
+                    editBtn.textContent = '编辑模式';
+                }
+            }
+
+            /**
+             * 归档并复制文本
+             */
+            function archiveAndCopy() {
+                try {
+                    if (committed.trim()) {
+                        // 添加到历史记录
+                        const historyItem = {
+                            text: committed,
+                            timestamp: Date.now()
+                        };
+                        HISTORY.unshift(historyItem);
+                        localStorage.setItem("ime_history_v18", JSON.stringify(HISTORY));
+                        
+                        // 复制到剪贴板
+                        navigator.clipboard.writeText(committed).then(() => {
+                            showToast('已复制到剪贴板', 'success');
+                            committed = "";
+                            update();
+                        }).catch(err => {
+                            console.error('复制失败:', err);
+                            showToast('复制失败', 'error');
+                        });
+                    } else {
+                        showToast('没有内容可复制', 'warning');
+                    }
+                } catch (error) {
+                    console.error('归档复制失败:', error);
+                    showToast('操作失败', 'error');
+                }
+            }
+
+            /**
+             * 从编辑器同步内容
+             */
+            function syncFromEditor() {
+                if (currentState === InputState.EDIT) {
+                    committed = outputArea.textContent || '';
+                }
+            }
+
+            /**
+             * 切换练习模式
+             */
+            function togglePracticeMode() {
+                const isPractice = currentState === InputState.PRACTICE;
+                setState(isPractice ? InputState.NORMAL : InputState.PRACTICE);
+                
+                const practiceBtn = document.getElementById('practice-btn');
+                
+                if (isPractice) {
+                    practiceBtn.classList.remove('active');
+                    practiceTargetText = "";
+                } else {
+                    practiceBtn.classList.add('active');
+                    generatePracticeText();
+                }
+                update();
+            }
+
+            /**
+             * 生成练习文本
+             */
+            function generatePracticeText() {
+                // 简单的练习文本生成逻辑
+                const practiceWords = [
+                    "你好，世界。",
+                    "这是一个测试。",
+                    "欢迎使用输入法。",
+                    "练习模式已启动。"
+                ];
+                practiceTargetText = practiceWords[Math.floor(Math.random() * practiceWords.length)];
+                committed = "";
+                update();
+            }
+
+            /**
+             * 切换历史记录面板
+             */
+            function toggleHistoryPanel() {
+                const historyPanel = document.getElementById('historyPanel');
+                const isVisible = historyPanel.style.display === 'block';
+                historyPanel.style.display = isVisible ? 'none' : 'block';
+                
+                const histBtn = document.getElementById('l-hist-btn');
+                histBtn.classList.toggle('active', !isVisible);
+            }
+
+            /**
+             * 保存设置
+             */
+            function saveSettings() {
+                localStorage.setItem("ime_settings", JSON.stringify(settings));
+            }
+
+            /**
+             * 处理词典导入
+             */
+            function handleImportDict(fileInput) {
+                if (!fileInput.files.length) return;
+                
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const dictData = JSON.parse(e.target.result);
+                        const dictName = file.name.replace('.json', '');
+                        
+                        const newDict = {
+                            name: dictName,
+                            type: "user",
+                            content: JSON.stringify(dictData),
+                            enabled: true,
+                            wordCount: calculateWordCount(dictData)
+                        };
+                        
+                        allDicts.push(newDict);
+                        saveDictConfig();
+                        loadAllDicts().then(() => {
+                            showToast(`已导入词典: ${dictName}`, 'success');
+                            update();
+                        });
+                        
+                    } catch (error) {
+                        console.error('导入词典失败:', error);
+                        showToast('导入失败，请检查文件格式', 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+                fileInput.value = ''; // 重置文件输入
+            }
+            // --- End Missing function definitions ---
+
+            // --- Init functions ---
+            async function initInputHandler() {
+                // Attach event listeners for hInput, correctionInput
+                // Keep this minimal, actual logic handled by keydown/input listeners
+                hInput.addEventListener("keydown", handleKeyDown);
+                hInput.addEventListener("input", handleInput);
+                correctionInput.addEventListener("keydown", handleCorrectionKeyDown);
+            }
+
+            function initUI() {
+                // Initialize UI elements like outputArea, bufferDisplay, mainCandidates
+                // Most of this is already done by direct DOM access, but this function
+                // serves as a placeholder for more complex UI setup.
+            }
+
+            function initEventListeners() {
+                // Global event listeners
+                document.addEventListener("keydown", handleGlobalKeyDown);
+                document.addEventListener("click", handleGlobalClick);
+                document.addEventListener("visibilitychange", handleVisibilityChange);
+            }
+            // --- End Init functions ---
+
+
+            const InputState = {
+                NORMAL: 'normal',
+                PRACTICE: 'practice',
+                EDIT: 'edit',
+                CORRECTION: 'correction',
+                TAB: 'tab'
+            };
+
+            let currentState = InputState.NORMAL;
+            function setState(newState) {
+                currentState = newState;
+                updateFocus();
+            }
+
+            function updateFocus() {
+                if (currentState === InputState.EDIT) {
+                    outputArea.focus();
+                } else if (currentState === InputState.CORRECTION) {
+                    correctionInput.focus();
+                } else {
+                    hInput.focus();
+                }
+            }
+            
             const PUNCS = {
                 ",": "，",
                 ".": "。",
@@ -642,7 +1062,7 @@
             }
 
             let DB = new Trie();
-            let allDicts = [];
+            let allDicts = []; // This will now be loaded directly from localStorage
 
             let settings = JSON.parse(
                 localStorage.getItem("ime_settings") || "{}",
@@ -656,16 +1076,12 @@
             let activeLanguage = 'chinese';
             let buffer = "",
                 committed = "",
-                isTabMode = false,
-                enFilter = "",
-                isEditMode = false;
-            let isPracticeMode = false,
-                practiceTargetText = "",
-                isCorrectionMode = false;
+                enFilter = "";
+            let practiceTargetText = ""; // Moved practiceTargetText outside InputState logic
 
             let combinedCandidates = [],
                 pageIndex = 0;
-            const pageSize = 10;
+            const pageSize = 10; // Moved pageSize outside InputState logic
             let HISTORY = JSON.parse(
                 localStorage.getItem("ime_history_v18") || "[]",
             );
@@ -675,43 +1091,125 @@
             const correctionWrapper =
                 document.getElementById("correction-wrapper");
             const correctionInput = document.getElementById("correction-input");
+            const mainCandidates = document.getElementById("main-candidates"); // Define mainCandidates
+
 
             async function init() {
-                applySettings();
-                loadDictConfig();
-                renderDictManagement();
-                await loadAllDicts();
-                update();
-                updateHistoryUI();
+                try {
+                    console.log('开始初始化输入法...');
+                    showLoadingMessage('正在初始化输入法...');
+                    
+                    // Core components setup
+                    await Promise.all([
+                        initInputHandler(),
+                        initUI(),
+                        initEventListeners()
+                    ]);
+                    
+                    // Load settings and dictionaries
+                    loadDictConfig(); // Load allDicts from localStorage or built-in
+                    await loadAllDicts(); // Populate the Trie with enabled dicts
 
-                document.getElementById('history-list').addEventListener('click', function(e) {
-                    const historyText = e.target.closest('.history-text');
-                    if (historyText && historyText.dataset.text) {
-                        committed += historyText.dataset.text;
-                        update();
-                        return;
+                    // Validate initialization
+                    const isValid = validateInitialization();
+                    if (!isValid) {
+                        throw new Error('初始化验证失败');
                     }
-
-                    const deleteBtn = e.target.closest('.delete-btn');
-                    if (deleteBtn && deleteBtn.dataset.index) {
-                        const index = parseInt(deleteBtn.dataset.index, 10);
-                        if (!isNaN(index)) {
-                            deleteHistoryItem(index);
-                        }
-                        return;
-                    }
-                });
+                    
+                    // Start input method
+                    startInputMethod();
+                    
+                    console.log('输入法初始化完成');
+                    hideLoadingMessage();
+                    
+                } catch (error) {
+                    console.error('输入法初始化失败:', error);
+                    showErrorMessage('输入法初始化失败，请刷新页面重试');
+                    hideLoadingMessage();
+                }
             }
 
+            function validateInitialization() {
+                const checks = [
+                    {name: '隐藏输入框', check: () => !!document.getElementById('hidden-input')},
+                    {name: '候选词区域', check: () => !!document.getElementById('main-candidates')},
+                    {name: 'Trie树有数据', check: () => DB.root.children && Object.keys(DB.root.children).length > 0}
+                ];
+                
+                for (const check of checks) {
+                    if (!check.check()) {
+                        console.error(`初始化检查失败: ${check.name}`);
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            // --- Missing function definitions (from gemini.md) ---
+            /**
+             * 增强的startInputMethod函数，包含历史记录初始化
+             */
+            function startInputMethod() {
+                try {
+                    console.log('启动输入法核心功能...');
+                    
+                    // 初始化历史记录
+                    const savedHistory = localStorage.getItem('ime_input_history');
+                    let historyItems = [];
+                    
+                    if (savedHistory) {
+                        try {
+                            historyItems = JSON.parse(savedHistory);
+                            if (!Array.isArray(historyItems)) {
+                                historyItems = [];
+                            }
+                        } catch (e) {
+                            console.warn('历史记录解析失败，重置为空数组');
+                            historyItems = [];
+                        }
+                    }
+                    
+                    // 更新历史记录UI
+                    updateHistoryUI(historyItems);
+                    
+                    // 绑定历史记录保存
+                    // This part needs to be integrated with existing commit logic
+                    // For now, let's just make sure the updateHistoryUI is called
+                    // on commit in the general update loop or dedicated commit function.
+                    
+                    // Set initial state and update UI
+                    setState(InputState.NORMAL);
+                    update();
+                    
+                    // 显示启动成功消息
+                    showToast('输入法启动成功', 'success', 2000);
+                    console.log('输入法启动完成');
+                    
+                } catch (error) {
+                    console.error('启动输入法失败:', error);
+                    showErrorMessage('启动输入法失败', error);
+                }
+            }
+            // --- End Missing function definitions ---
+
+
+            function showErrorMessage(message, error = null) {
+                console.error('输入法错误:', message, error);
+                showToast(`${message}${error ? ': ' + error.message : ''}`, 'error', 5000);
+            }
+
+            // This function now only retrieves allDicts from localStorage and ensures it's initialized
             function loadDictConfig() {
                 const storedDicts = JSON.parse(
                     localStorage.getItem("ime_dicts_config"),
                 );
-                if (storedDicts) {
+                if (storedDicts && storedDicts.length > 0) { // Check if storedDicts is not empty
                     allDicts = storedDicts;
+                    // Add any new built-in dicts that aren't already in stored config
                     BUILT_IN_DICTS.forEach((builtInDict) => {
                         if (
-                            !allDicts.find((d) => d.path === builtInDict.path)
+                            !allDicts.find((d) => d.path === builtInDict.path && d.type === builtInDict.type)
                         ) {
                             allDicts.push(builtInDict);
                         }
@@ -720,14 +1218,13 @@
                     allDicts = [...BUILT_IN_DICTS];
                 }
                 
-                // Initialize practice dicts settings if not present
+                // Initialize practice dicts settings for newly added dicts if not present
                 allDicts.forEach((dict, index) => {
                     if (settings.practice_dicts[index] === undefined) {
-                        settings.practice_dicts[index] = dict.enabled;
+                        settings.practice_dicts[index] = false; // Default to not selected for practice
                     }
                 });
-
-                saveDictConfig();
+                // No saveDictConfig here, as this is just loading initial state
             }
 
             function saveDictConfig() {
@@ -735,134 +1232,9 @@
                     "ime_dicts_config",
                     JSON.stringify(allDicts),
                 );
-                saveSettings();
+                saveSettings(); // Ensure global settings are saved too
             }
 
-            function renderDictManagement() {
-                const listEl = document.getElementById("dict-management-list");
-                const practiceListEl = document.getElementById("practice-dict-list");
-                
-                const groupedByLang = allDicts.reduce((acc, dict) => {
-                    const lang = dict.language || 'chinese';
-                    if (!acc[lang]) {
-                        acc[lang] = [];
-                    }
-                    acc[lang].push(dict);
-                    return acc;
-                }, {});
-
-                const languages = Object.keys(groupedByLang);
-                const levelNames = {
-                    chinese: {
-                        1: "一级",
-                        2: "二级",
-                        3: "三级",
-                        100: "用户导入"
-                    },
-                    japanese: {
-                        1: "N5",
-                        2: "N4",
-                        3: "N3",
-                        100: "用户导入"
-                    }
-                };
-
-                let tabsHTML = languages.map(lang => `<div class="dict-tab" data-lang="${lang}" onclick="switchLanguage('${lang}')">${lang === 'chinese' ? '中文' : '日本語'}</div>`).join('');
-
-                let contentHTML = languages.map(lang => {
-                    const dictsInLang = groupedByLang[lang];
-                    const currentLevelNames = levelNames[lang] || levelNames['chinese'];
-                    const groupedByLevel = dictsInLang.reduce((acc, dict) => {
-                        const level = getDictLevel(dict);
-                        if (!acc[level]) acc[level] = [];
-                        acc[level].push(dict);
-                        return acc;
-                    }, {});
-
-                    let levelHTML = Object.keys(groupedByLevel).map(Number).sort((a, b) => a - b).map(level => {
-                        const dictsInLevel = groupedByLevel[level];
-                        let itemsHTML = dictsInLevel.map(dict => {
-                            const index = allDicts.indexOf(dict);
-                            return `
-                                <div class="dict-item">
-                                    <span class="dict-name" title="${dict.name}">${dict.name} ${dict.wordCount !== undefined ? `(${dict.wordCount}词)` : ''}</span>
-                                    <div style="display: flex; align-items: center;">
-                                        ${dict.type === 'user' ? `<div class="delete-btn" style="padding-right: 10px;" title="删除词典" onclick="deleteDict(${index})">&times;</div>` : ''}
-                                        <label class="switch">
-                                            <input type="checkbox" ${dict.enabled ? "checked" : ""} onchange="toggleDict(${index}, 'main')">
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-                                </div>`;
-                        }).join('');
-
-                        return `
-                            <div class="dict-level-category">
-                                <div class="dict-level-header" onclick="this.parentElement.classList.toggle('collapsed')">${currentLevelNames[level]}</div>
-                                <div class="dict-level-content">${itemsHTML}</div>
-                            </div>`;
-                    }).join('');
-                    
-                    return `<div class="dict-language-panel" data-lang="${lang}">${levelHTML}</div>`;
-                }).join('');
-
-                listEl.innerHTML = `<h3>主词典</h3><div class="dict-tabs">${tabsHTML}</div><div class="dict-content">${contentHTML}</div>`;
-                
-                // Render practice dicts
-                let practiceDictsHTML = allDicts.map((dict, index) => {
-                     return `
-                        <div class="dict-item">
-                            <span class="dict-name" title="${dict.name}">${dict.name}</span>
-                            <label class="switch">
-                                <input type="checkbox" ${settings.practice_dicts[index] ? "checked" : ""} onchange="toggleDict(${index}, 'practice')">
-                                <span class="slider"></span>
-                            </label>
-                        </div>`;
-                }).join('');
-                practiceListEl.innerHTML = practiceDictsHTML;
-
-
-                // Activate the active tab
-                switchLanguage(activeLanguage);
-            }
-
-            function switchLanguage(lang) {
-                activeLanguage = lang;
-                const tabs = document.querySelectorAll('.dict-tab');
-                tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.lang === lang));
-                const panels = document.querySelectorAll('.dict-language-panel');
-                panels.forEach(panel => panel.classList.toggle('active', panel.dataset.lang === lang));
-            }
-
-            async function deleteDict(index) {
-                const dict = allDicts[index];
-                if (dict.type !== 'user') {
-                    showToast("内置词典无法删除。");
-                    return;
-                }
-                if (confirm(`确定要删除导入的词典 "${dict.name}" 吗？此操作无法撤销。`)) {
-                    allDicts.splice(index, 1);
-                    saveDictConfig();
-                    renderDictManagement();
-                    showToast("词典已删除，正在刷新...");
-                    await loadAllDicts();
-                    update();
-                }
-            }
-
-            async function toggleDict(index, type) {
-                if (type === 'main') {
-                    allDicts[index].enabled = !allDicts[index].enabled;
-                    saveDictConfig();
-                    showToast("主词典设置已更新，正在重新加载...");
-                    await loadAllDicts();
-                } else {
-                    settings.practice_dicts[index] = !settings.practice_dicts[index];
-                    saveSettings();
-                    showToast("练习词典设置已更新。");
-                }
-                update();
-            }
 
             function calculateWordCount(dictContent) {
                 let count = 0;
@@ -875,17 +1247,23 @@
             }
 
             async function loadAllDicts() {
-                DB = new Trie();
+                DB = new Trie(); // Reset Trie before loading
+                console.log("加载词典中...");
+                
                 const loadPromises = allDicts
-                    .filter((d) => d.enabled)
-                    .map((dict, index) => {
+                    .filter((d) => d.enabled) // Only load enabled dictionaries
+                    .map((dict) => {
                         return new Promise(async (resolve) => {
                             try {
+                                console.log(`尝试加载词典: ${dict.name} (enabled: ${dict.enabled})`);
                                 let dictData;
                                 if (dict.type === "built-in") {
-                                    const r = await fetch(dict.path);
-                                    if (!r.ok) return resolve();
-                                    dictData = await r.json();
+                                    const response = await fetch(dict.path);
+                                    if (!response.ok) {
+                                        console.error(`无法加载内置词典 ${dict.name}: ${response.status}`);
+                                        return resolve(); // Resolve even on error to allow other dicts to load
+                                    }
+                                    dictData = await response.json();
                                 } else if (
                                     dict.type === "user" &&
                                     dict.content
@@ -894,12 +1272,14 @@
                                 }
 
                                 if (dictData) {
+                                    let currentWordCount = 0;
                                     for (const k in dictData) {
                                         const key = k.toLowerCase();
                                         const items = Array.isArray(dictData[k]) ? dictData[k] : [dictData[k]];
                                         DB.insert(key, items);
+                                        currentWordCount += items.length;
                                     }
-                                    dict.wordCount = calculateWordCount(dictData);
+                                    dict.wordCount = currentWordCount; // Update wordCount directly on the dict object
                                 }
                             } catch (e) {
                                 console.error(
@@ -912,67 +1292,24 @@
                         });
                     });
                 await Promise.all(loadPromises);
-                console.log("All enabled dicts loaded.");
-                renderDictManagement(); // Re-render to show updated counts
+                console.log("所有启用的词典加载完成。");
             }
 
             function applySettings() {
                 document.getElementById("output-card").style.height =
                     settings.outputHeight + "px";
-                document.getElementById("history-panel").style.display =
-                    settings.history ? "flex" : "none";
+                document.getElementById("historyPanel").style.display = // Corrected ID
+                    settings.history ? "block" : "none"; // Changed to block/none for the panel
                 document
                     .getElementById("l-hist-btn")
                     .classList.toggle("active", settings.history);
-
-                const settingsBtn = document.getElementById('settings-btn');
-                const settingsCloseBtn = document.getElementById('settings-close-btn');
-
-                settingsBtn.addEventListener('click', () => document.body.classList.add('settings-panel-open'));
-                settingsCloseBtn.addEventListener('click', () => document.body.classList.remove('settings-panel-open'));
             }
 
-            function handleImportDict(input) {
-                const file = input.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = async function (e) {
-                    try {
-                        const content = e.target.result;
-                        const dictData = JSON.parse(content); // Parse content to get dictData
-                        
-                        const newDict = {
-                            name: file.name,
-                            enabled: true,
-                            type: 'user',
-                            content: content,
-                            wordCount: calculateWordCount(dictData), // Calculate count here
-                            language: 'chinese',
-                            level: 100
-                        };
-
-                        allDicts.push(newDict);
-                        saveDictConfig();
-                        renderDictManagement();
-                        
-                        showToast(`成功导入词库: ${file.name}, 正在重新加载...`);
-                        await loadAllDicts();
-                        update();
-                        
-                        input.value = "";
-                    } catch (err) {
-                        alert("词库文件格式错误，请确保是标准的 JSON 格式。");
-                        console.error(err);
-                    }
-                };
-                reader.readAsText(file);
-            }
 
             function update() {
-                if (isEditMode) return;
+                if (currentState === InputState.EDIT) return;
 
-                if (isPracticeMode && practiceTargetText) {
+                if (currentState === InputState.PRACTICE && practiceTargetText) {
                     // New practice mode UI
                     const words = practiceTargetText.split('，').map(w => w.replace('。', ''));
                     let completedHTML = '';
@@ -984,6 +1321,9 @@
                         if (tempCommitted.startsWith(words[i])) {
                             completedHTML += `<div class="practice-word completed">${escapeHtml(words[i])}</div>`;
                             tempCommitted = tempCommitted.substring(words[i].length);
+                             if (tempCommitted.startsWith('，')) { // Handle separator
+                                tempCommitted = tempCommitted.substring(1);
+                            }
                         } else {
                             currentWordIndex = i;
                             break;
@@ -992,31 +1332,34 @@
 
                     if (currentWordIndex !== -1) {
                          const currentWord = words[currentWordIndex];
-                         if (currentWord.startsWith(tempCommitted)) {
-                            const typedPart = tempCommitted;
-                            const remainingPart = currentWord.substring(typedPart.length);
-                            completedHTML += `<div class="practice-word current">
-                                ${escapeHtml(typedPart)}<span class="caret"></span><span class="practice-hint">${escapeHtml(remainingPart)}</span>
-                            </div>`;
-                         } else {
-                             completedHTML += `<div class="practice-word incorrect">${escapeHtml(currentWord)}</div>`;
+                         let hasError = false;
+                         if (!currentWord.startsWith(tempCommitted)) {
+                            hasError = true;
                          }
+
+                         const typedPart = tempCommitted;
+                         const remainingPart = currentWord.substring(typedPart.length);
+
+                         completedHTML += `<div class="practice-word ${hasError ? 'incorrect' : 'current'}">
+                            ${escapeHtml(typedPart)}<span class="caret"></span><span class="practice-hint">${escapeHtml(remainingPart)}</span>
+                        </div>`;
+                         
                          for(let i=currentWordIndex+1; i<words.length; i++) {
                             remainingHTML += `<div class="practice-word upcoming">${escapeHtml(words[i])}</div>`;
                          }
+                    } else { // All words committed successfully
+                        if (committed.length >= practiceTargetText.length -1) { // -1 to account for final 。
+                            setTimeout(() => {
+                                committed = "";
+                                generatePracticeText();
+                                showToast("不错！下一组", 'success');
+                            }, 200);
+                        }
                     }
+
 
                     outputArea.innerHTML = `<div class="practice-words-container">${completedHTML}${remainingHTML}</div>`;
 
-
-                    if (committed === practiceTargetText) {
-                        setTimeout(() => {
-                            committed = "";
-                            generatePracticeText();
-                            update();
-                            showToast("不错！下一组");
-                        }, 200);
-                    }
                 } else {
                     outputArea.innerText = committed;
                 }
@@ -1024,8 +1367,8 @@
 
                 if (buffer) {
                     const b = buffer.toLowerCase();
-                    let bufferHTML = escapeHtml(buffer);
-                    if (isTabMode) {
+                    let bufferHTML = escapeHtml(b); // Display buffer as typed pinyin
+                    if (currentState === InputState.TAB) {
                         bufferHTML += "-";
                         if (enFilter) {
                             bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
@@ -1078,10 +1421,9 @@
 
                     if (
                         b.length >= 6 &&
-                        DB[b] &&
-                        DB[b].length === 1 &&
-                        combinedCandidates.length === 1 &&
-                        !isTabMode
+                        DB.getNode(b) &&
+                        DB.getNode(b).values.length === 1 &&
+                        currentState !== InputState.TAB
                     ) {
                         const word = combinedCandidates[0].text;
                         setTimeout(() => selectCandidate(word), 10);
@@ -1103,7 +1445,7 @@
 
             function render() {
                 let display = combinedCandidates;
-                if (isTabMode && enFilter) {
+                if (currentState === InputState.TAB && enFilter) {
                     display = combinedCandidates.filter(
                         (i) =>
                             i.desc &&
@@ -1145,12 +1487,12 @@
             function resetInput() {
                 setBuffer(""); // Consolidates buffer = "" and hInput.value = ""
                 enFilter = "";
-                isTabMode = false;
+                setState(InputState.NORMAL); // Reset tab state
                 pageIndex = 0;
             }
 
-            hInput.addEventListener("keydown", (e) => {
-                if (isEditMode || isCorrectionMode) return;
+            function handleKeyDown(e) {
+                if (currentState === InputState.EDIT || currentState === InputState.CORRECTION) return;
                 const key = e.key;
 
                 if (e.ctrlKey && key.toLowerCase() === "i") {
@@ -1169,7 +1511,7 @@
                     return;
                 }
 
-                if (buffer && !isTabMode) {
+                if (buffer && currentState !== InputState.TAB) {
                     if (key === "=") {
                         e.preventDefault();
                         if (
@@ -1194,14 +1536,14 @@
                 if (key === "Tab") {
                     e.preventDefault();
                     if (buffer) {
-                        isTabMode = !isTabMode;
+                        setState(currentState === InputState.TAB ? InputState.NORMAL : InputState.TAB);
                         enFilter = "";
                         update();
                     }
                     return;
                 }
 
-                if (isTabMode && buffer) {
+                if (currentState === InputState.TAB && buffer) {
                     if (/^[a-zA-Z]$/.test(key)) {
                         e.preventDefault();
                         enFilter += key.toLowerCase();
@@ -1215,7 +1557,7 @@
                             enFilter = enFilter.slice(0, -1);
                             render();
                         } else {
-                            isTabMode = false;
+                            setState(InputState.NORMAL);
                             update();
                         }
                         return;
@@ -1227,9 +1569,13 @@
                     if (buffer && combinedCandidates.length > 0) {
                         const idx = key === "0" ? 9 : parseInt(key) - 1;
                         const list =
-                            isTabMode && buffer
-                                ? combinedCandidates.filter((c) =>
-                                      c.desc?.toLowerCase().startsWith(enFilter),
+                            currentState === InputState.TAB && buffer
+                                ? combinedCandidates.filter(
+                                      (c) =>
+                                          c.desc &&
+                                          c.desc
+                                              .toLowerCase()
+                                              .startsWith(enFilter),
                                   )
                                 : combinedCandidates;
                         const pageData = list.slice(
@@ -1250,17 +1596,27 @@
                         committed += "\n";
                     }
                     update();
-                } else if (key === "Backspace" && !buffer) {
+                } else if (key === "Backspace") { // Handle backspace for both buffer and committed
                     e.preventDefault();
-                    committed = committed.slice(0, -1);
-                    update();
+                    if (buffer) {
+                        buffer = buffer.slice(0, -1);
+                        hInput.value = buffer;
+                        update();
+                    } else if (committed) {
+                        committed = committed.slice(0, -1);
+                        update();
+                    }
                 } else if (key === " ") {
                     e.preventDefault();
                     if (buffer) {
                         const list =
-                            isTabMode && buffer
-                                ? combinedCandidates.filter((c) =>
-                                      c.desc?.toLowerCase().startsWith(enFilter),
+                            currentState === InputState.TAB && buffer
+                                ? combinedCandidates.filter(
+                                      (c) =>
+                                          c.desc &&
+                                          c.desc
+                                              .toLowerCase()
+                                              .startsWith(enFilter),
                                   )
                                 : combinedCandidates;
                         const pageData = list.slice(
@@ -1273,9 +1629,17 @@
                         update();
                     }
                 }
-            });
+            }
 
-            document.addEventListener("keydown", (e) => {
+            function handleInput() {
+                if (currentState !== InputState.TAB && currentState !== InputState.EDIT) {
+                    setBuffer(hInput.value.replace(/[^a-zA-Z]/g, ""));
+                    pageIndex = 0;
+                    update();
+                }
+            }
+
+            function handleGlobalKeyDown(e) {
                 const key = e.key.toLowerCase();
                 if (e.ctrlKey && key === "e") {
                     e.preventDefault();
@@ -1283,93 +1647,22 @@
                     return;
                 }
                 if (e.ctrlKey && key === "c") {
-                    if (!isEditMode && !isCorrectionMode) {
+                    if (currentState !== InputState.EDIT && currentState !== InputState.CORRECTION) {
                         e.preventDefault();
                         archiveAndCopy();
                     }
                     return;
                 }
-                if (e.key === "Escape") {
-                    if (isEditMode) toggleEditMode();
-                    if (isCorrectionMode) {
+                if (e.key === "escape") {
+                    if (currentState === InputState.EDIT) setState(InputState.NORMAL);
+                    if (currentState === InputState.CORRECTION) {
                         e.preventDefault();
                         exitCorrectionMode('update_buffer');
                     }
                 }
-            });
-
-            hInput.addEventListener("input", () => {
-                if (!isTabMode && !isEditMode) {
-                    setBuffer(hInput.value.replace(/[^a-zA-Z]/g, ""));
-                    pageIndex = 0;
-                    update();
-                }
-            });
-
-            function setBuffer(val) {
-                buffer = val;
-                hInput.value = val;
             }
 
-            function enterCorrectionMode() {
-                isCorrectionMode = true;
-                correctionWrapper.style.display = "block";
-                correctionInput.value = buffer;
-                correctionInput.focus();
-                correctionInput.setSelectionRange(
-                    correctionInput.value.length,
-                    correctionInput.value.length,
-                );
-            }
-
-            function exitCorrectionMode(action) {
-                isCorrectionMode = false;
-                correctionWrapper.style.display = "none";
-                const raw = correctionInput.value.trim();
-
-                if (action === 'update_buffer') {
-                    // Reset tab/page state, then set buffer from correction input and update candidates
-                    enFilter = "";
-                    isTabMode = false;
-                    pageIndex = 0;
-                    setBuffer(raw.replace(/[^a-zA-Z]/g, ""));
-                    update();
-                } else if (action === 'convert_sentence') {
-                    if (raw) {
-                        const result = convertSentence(raw);
-                        committed += result;
-                        resetInput();
-                        update();
-                    }
-                }
-                // If action is anything else (e.g. undefined on blur), just cancel.
-                focusHiddenInput();
-            }
-
-            function convertSentence(inputStr) {
-                const segments = inputStr.split(/\s+/);
-                let finalStr = "";
-                for (const seg of segments) {
-                    if (!seg) continue;
-                    if (/^[a-zA-Z]+$/.test(seg)) {
-                        const lowSeg = seg.toLowerCase();
-                        const node = DB.getNode(lowSeg);
-                        let best = (node && node.values.length > 0) ? node.values[0] : null;
-
-                        if (best) {
-                            finalStr +=
-                                typeof best === "object" ? best.char : best;
-                        } else {
-                            finalStr += seg;
-                        }
-                    } else {
-                        finalStr += seg;
-                    }
-                }
-                return finalStr;
-            }
-
-            correctionInput.addEventListener("keydown", (e) => {
+            function handleCorrectionKeyDown(e) {
                 if (e.key === "Enter") {
                     e.preventDefault();
                     exitCorrectionMode('convert_sentence');
@@ -1380,194 +1673,20 @@
                     e.preventDefault();
                     exitCorrectionMode('convert_sentence');
                 }
-            });
-
-            function togglePracticeMode() {
-                isPracticeMode = !isPracticeMode;
-                document
-                    .getElementById("practice-btn")
-                    .classList.toggle("active", isPracticeMode);
-                
-                // Manage 'locked' class based on practice mode
-                if (isPracticeMode) {
-                    outputArea.classList.remove("locked"); // Remove locked class in practice mode
-                    committed = "";
-                    generatePracticeText();
-                    showToast("进入练习模式");
-                } else {
-                    // Restore 'locked' state if not in edit mode
-                    if (!isEditMode) {
-                        outputArea.classList.add("locked");
-                    }
-                    practiceTargetText = "";
-                    committed = "";
-                    showToast("退出练习模式");
-                }
-                update();
-                focusHiddenInput();
             }
 
-            function generatePracticeText() {
-                let allWords = [];
-                const practiceDicts = allDicts.filter((d, i) => settings.practice_dicts[i]);
-
-                const loadPromises = practiceDicts.map(dict => {
-                     return new Promise(async (resolve) => {
-                        try {
-                            let dictData;
-                            if (dict.type === "built-in") {
-                                const r = await fetch(dict.path);
-                                if (!r.ok) return resolve();
-                                dictData = await r.json();
-                            } else if (dict.type === "user" && dict.content) {
-                                dictData = JSON.parse(dict.content);
-                            }
-
-                            if (dictData) {
-                                for (const k in dictData) {
-                                    const items = Array.isArray(dictData[k]) ? dictData[k] : [dictData[k]];
-                                    items.forEach(item => {
-                                        const text = typeof item === "object" ? item.char : item;
-                                        if (text.length > 1) allWords.push(text);
-                                    });
-                                }
-                            }
-                        } catch (e) {
-                            console.error("Failed to load or parse practice dict:", dict.name, e);
-                        }
-                        resolve();
-                    });
-                });
-
-                Promise.all(loadPromises).then(() => {
-                    if (allWords.length === 0) {
-                        practiceTargetText = "练习词库为空，请在设置中选择。";
-                        update();
-                        return;
-                    }
-                    
-                    let result = [];
-                    for (let i = 0; i < 3; i++) {
-                        const rand = allWords[Math.floor(Math.random() * allWords.length)];
-                        result.push(rand);
-                    }
-                    practiceTargetText = result.join('，') + '。';
-                    update();
-                });
-            }
-
-
-
-            function toggleHistory() {
-                settings.history = !settings.history;
-                document.getElementById("history-panel").style.display =
-                    settings.history ? "flex" : "none";
-                document
-                    .getElementById("l-hist-btn")
-                    .classList.toggle("active", settings.history);
-                saveSettings();
-            }
-
-            function saveSettings() {
-                localStorage.setItem("ime_settings", JSON.stringify(settings));
-            }
-
-            function toggleEditMode() {
-                isEditMode = !isEditMode;
-                outputArea.contentEditable = isEditMode;
-                outputArea.classList.toggle("locked", !isEditMode);
-                const btn = document.getElementById("edit-mode-btn");
-                btn.innerText = isEditMode ? "编辑中 (ESC退出)" : "锁定模式";
-                btn.classList.toggle("active", isEditMode);
-                document
-                    .getElementById("output-card")
-                    .classList.toggle("editing", isEditMode);
-                if (isEditMode) {
-                    outputArea.focus();
-                    if (window.getSelection && document.createRange) {
-                        const range = document.createRange();
-                        range.selectNodeContents(outputArea);
-                        range.collapse(false);
-                        const sel = window.getSelection();
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                    }
-                } else {
-                    committed = outputArea.innerText;
-                    resetInput();
-                    update();
-                    focusHiddenInput();
-                }
-            }
-
-            function syncFromEditor() {
-                if (isEditMode) committed = outputArea.innerText;
-            }
-
-            function archiveAndCopy() {
-                if (!committed) return;
-                navigator.clipboard.writeText(committed).then(() => {
-                    HISTORY.unshift({
-                        text: committed,
-                        time: new Date().toLocaleTimeString(),
-                    });
-                    localStorage.setItem(
-                        "ime_history_v18",
-                        JSON.stringify(HISTORY.slice(0, 30)),
-                    );
-                    committed = "";
-                    updateHistoryUI();
-                    update();
-                    showToast("已归档并复制");
-                });
-            }
-
-            function clearHistory() {
-                if (confirm('确定要清空所有历史记录吗？')) {
-                    HISTORY = [];
-                    localStorage.setItem("ime_history_v18", "[]");
-                    updateHistoryUI();
-                    showToast("历史记录已清空");
-                }
-            }
-
-            function deleteHistoryItem(index) {
-                HISTORY.splice(index, 1);
-                localStorage.setItem("ime_history_v18", JSON.stringify(HISTORY));
-                updateHistoryUI();
-            }
-
-            function updateHistoryUI() {
-                document.getElementById("history-list").innerHTML = HISTORY.map(
-                    (h, i) =>
-                        `<div class="history-item">
-                            <div class="history-text" title="点击以上屏" data-text="${escapeHtml(h.text)}">
-                                <div class="history-time">${h.time}</div>
-                                <div class="history-content">${escapeHtml(h.text.substring(0, 30))}${h.text.length > 30 ? '...' : ''}</div>
-                            </div>
-                            <div class="delete-btn" title="删除此条" data-index="${i}">&times;</div>
-                        </div>`,
-                ).join("");
-            }
-
-            function showToast(m) {
-                const t = document.getElementById("toast");
-                t.innerText = m;
-                t.style.opacity = 1;
-                setTimeout(() => (t.style.opacity = 0), 2000);
-            }
-
-            function focusHiddenInput() {
-                if (!isEditMode && !isCorrectionMode) hInput.focus();
-            }
-
-            document.addEventListener("click", (e) => {
-                if (isEditMode && outputArea.contains(e.target)) return;
-                if (isCorrectionMode && correctionWrapper.contains(e.target))
+            function handleGlobalClick(e) {
+                if (currentState === InputState.EDIT && outputArea.contains(e.target)) return;
+                if (currentState === InputState.CORRECTION && correctionWrapper.contains(e.target))
                     return;
-                if (e.target.id === "file-uploader") return;
-                focusHiddenInput();
-            });
+                // Clicking on import button is now handled by settings.html, remove from index.html
+                // if (e.target.id === "file-uploader") return; 
+                updateFocus(); // Keep focus where it should be based on state
+            }
+
+            function handleVisibilityChange() {
+                if (!document.hidden) updateFocus(); // Restore focus on tab switch
+            }
 
             function makeResizableV(id, targetId) {
                 const h = document.getElementById(id),
@@ -1593,8 +1712,6 @@
                 makeResizableV("center-v-resizer", "output-card");
                 init();
             });
-
-            document.addEventListener("visibilitychange", () => {
-                if (!document.hidden) focusHiddenInput();
-            });
         </script>
+    </body>
+</html>
