@@ -1280,8 +1280,6 @@
                                                                                                     const correctedText = correctionInput.value.trim();
                                                                                                     setBuffer(correctedText); // Update global buffer and hInput.value
                                                                                                     pageIndex = 0; // Reset page index
-                                                                                                    setTimeout(() => update(), 0); // Add a small delay for UI refresh
-                                                                                                    // Removed 'return;' here to allow subsequent state changes
                                                                                                 }
                                                                                                 
                                                                                                 setState(InputState.NORMAL);
@@ -1933,7 +1931,7 @@
                         currentState !== InputState.TAB
                     ) {
                         const word = combinedCandidates[0].text;
-                        setTimeout(() => selectCandidate(word), 10);
+                        selectCandidate(word); // Call directly without setTimeout
                         return;
                     }
                 } else {
