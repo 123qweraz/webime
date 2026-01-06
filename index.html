@@ -1276,14 +1276,17 @@
                                                                     }
                                                                     // Clear the main buffer after committing from correction mode
                                                                     setBuffer(""); 
-                                                                } else if (action === 'sync_out_buffer') { // New logic for sync-out                                                    const correctedText = correctionInput.value.trim();
-                                                    setBuffer(correctedText); // Update global buffer and hInput.value
-                                                    pageIndex = 0; // Reset page index
-                                                }
-                
-                setState(InputState.NORMAL);
-                correctionWrapper.style.display = "none";
-                update();
+                                                                                } else if (action === 'sync_out_buffer') { // New logic for sync-out
+                                                                                    const correctedText = correctionInput.value.trim();
+                                                                                    setBuffer(correctedText); // Update global buffer and hInput.value
+                                                                                    pageIndex = 0; // Reset page index
+                                                                                    setTimeout(() => update(), 0); // Add a small delay for UI refresh
+                                                                                    return; // Exit early to prevent double update call
+                                                                                }
+                                                                                
+                                                                                setState(InputState.NORMAL);
+                                                                                correctionWrapper.style.display = "none";
+                                                                                update();
             }
 
             /**
@@ -1540,8 +1543,7 @@
 
             const NON_PINYIN_COMMITTING_CHARS = new Set([
                 '+', '-', '\'', '"', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '=',
-                '~', '`', '{', '}', '[', ']', '|', '\\', ':', ';', '<', '>', '?', '/', '.',
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+                '~', '`', '{', '}', '[', ']', '|', '\\', ':', ';', '<', '>', '?', '/'
             ]);
 
             function getDictLevel(dict) {
