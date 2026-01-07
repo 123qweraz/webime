@@ -30,3 +30,4 @@ The user should be in control. While we are building a UI, it should be responsi
 This is the idea of "input -> process -> output". Each function should take some data, transform it, and return the result, minimizing side effects. This makes code easier to test and reason about.
 ru guo wo shuru ge zi henshao, zhiyou yihang lianghang, yinggai xian gen wo mingque xuqiu
 ni ziji bu yao git commit, tixing wo git jiuhao, meici xiugai qian, quebao git shi clean, bu clean jiu tixing wo, gai commit le
+gongzuo yao liuhen, he yonghu de duihua yinggai baocun dao dangqian mulu de history dialog md wenjian ba guanjian caozuo, dade gaidong jilu xialai

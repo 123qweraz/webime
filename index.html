@@ -771,6 +771,17 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 width: 90%; /* Ensure it doesn't overflow its container */
+                letter-spacing: 2px; /* Add some space between pinyin characters */
+            }
+            .pinyin-display .char-placeholder {
+                color: #e0e0e0;
+            }
+            .pinyin-display .char-correct {
+                color: #333;
+            }
+            .pinyin-display .char-incorrect {
+                color: #ff4d4f;
+                text-decoration: line-through;
             }
 
             .hanzi-display {
@@ -994,8 +1005,6 @@
                             <div id="page-counter"></div>
                         </div>
                         <div id="main-candidates"></div>
-
-                        <div id="practice-input-display"></div>
                         <!-- New element for visual buffer -->
 
                         <div id="correction-wrapper">
@@ -1244,6 +1253,11 @@
                     const word = practiceWords[currentPracticeWordIndex];
                     cardCenter.querySelector(".hanzi-display").textContent =
                         getHanziChar(word.hanzi);
+                    
+                    // Initialize pinyin display with placeholders
+                    const pinyinPlaceholders = word.pinyin.split('').map(() => '_').join('');
+                    cardCenter.querySelector(".pinyin-display").innerHTML = `<span class="char-placeholder">${pinyinPlaceholders}</span>`;
+
                     cardCenter.classList.add("visible", "current");
                 } else {
                     // No words left, exit practice
@@ -1292,8 +1306,10 @@
                 if (wordOnCenter) {
                     cardCenter.querySelector(".hanzi-display").textContent =
                         getHanziChar(wordOnCenter.hanzi);
-                    cardCenter.querySelector(".pinyin-display").textContent =
-                        ""; // No pinyin for current card
+                    // Initialize pinyin display with placeholders
+                    const pinyinPlaceholders = wordOnCenter.pinyin.split('').map(() => '_').join('');
+                    cardCenter.querySelector(".pinyin-display").innerHTML = `<span class="char-placeholder">${pinyinPlaceholders}</span>`;
+                    
                     cardCenter.classList.add("visible", "current");
                     cardCenter.classList.remove("incorrect");
                 } else {
@@ -1453,7 +1469,7 @@
                 if (!desiredOrder) return;
 
                 const dictsForLanguage = allDicts.filter(d => d.tag === languageTag);
-                const areAllEnabled = dictsForLanguage.length > 0 && dictsForLanguage.every(d => d.enabled);
+                const areAllEnabled = dictsForLanguage.length > 0 && dictsForLanguage.some(d => d.enabled);
 
                 const newEnabledState = !areAllEnabled;
 
