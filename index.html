@@ -3,7 +3,23 @@
     <head>
         <meta charset="UTF-8" />
         <title>Web IME Pro | 导入与长句修正版</title>
-        <script src="dicts_config.js"></script>
+        <script>
+    const dicts_config = {
+        'level-2': 'charenpinyin/level-2.json',
+        'level-2_en': 'charenpinyin/level-2_en.json',
+        'level-3': 'charenpinyin/level-3.json',
+        'level-3_en': 'charenpinyin/level-3_char_en.json',
+        'dict_new': 'dicts/dict_new.json',
+        'first_dict': 'dicts/first_dict/dict.json',
+        'cizu_dict': 'dicts/first_dict/dict_cizu.json',
+        'en_char': 'dicts/first_dict/dict_en_char.json',
+        'second_dict': 'dicts/second_dict/level-2_char_en.json',
+        'third_dict': 'dicts/third_dict/level-3_char_en.json',
+        'n5': 'dicts/japanese/n5.json',
+        'n4': 'dicts/japanese/n4.json',
+        'n3': 'dicts/japanese/n3.json'
+    };
+</script>
         <style>
             :root {
                 --primary: #007aff;
@@ -192,6 +208,21 @@
             .input-card.tab-mode {
                 border-color: var(--primary);
                 background: #f0f7ff;
+            }
+            #practice-input-display {
+                min-height: 40px;
+                font-size: 24px;
+                line-height: 1.6;
+                padding: 10px 0;
+                color: #d1d1d6; /* Initial gray color */
+                white-space: pre-wrap;
+                word-break: break-all;
+            }
+            #practice-input-display .correct-char {
+                color: #333; /* Black for correct characters */
+            }
+            #practice-input-display .incorrect-char {
+                color: red; /* Red for incorrect characters */
             }
             .input-status-bar {
                 display: flex;
@@ -587,46 +618,77 @@
 
             /* Practice Mode Styles */
             #practice-container {
-                /* This container takes the place of output-card */
-                /* display is controlled by JS */
-                display: none;
+                display: none; /* Controlled by JS */
                 flex-grow: 2;
                 flex-shrink: 0;
-                flex-direction: column;
+                flex-direction: row; /* Changed to row for horizontal cards */
+                align-items: center; /* Vertically align cards */
+                justify-content: center; /* Center cards horizontally */
                 position: relative;
-                justify-content: center;
                 border-radius: 20px;
-                background: white;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                overflow: hidden;
+                /* background: white; Removed as slots will have background */
+                /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); Removed */
+                overflow: hidden; /* Ensure cards stay within boundary */
+                gap: 20px; /* Space between cards */
+                padding: 20px; /* Padding inside the container */
             }
 
-            #practice-card-container {
-                 flex-grow: 1;
-                 display: flex;
-                 align-items: center;
-                 justify-content: center;
-                 width: 100%;
-            }
-            
-            #practice-card {
+            .practice-card-slot {
                 width: 320px;
                 height: 180px;
                 background: var(--panel-bg);
                 border-radius: 20px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 display: flex;
+                flex-direction: column; /* Stack pinyin and hanzi */
                 align-items: center;
                 justify-content: center;
+                font-family: 'KaiTi', 'STKaiti', serif;
+                border: 2px solid var(--item-border);
+                transition: all 0.5s ease-in-out; /* Smooth transition for movement */
+                position: relative; /* For pinyin display positioning */
+                opacity: 0; /* Hidden by default */
+                transform: scale(0.8); /* Slightly smaller by default */
+            }
+
+            .practice-card-slot.visible {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .practice-card-slot.current {
+                border-color: var(--primary); /* Highlight current card */
+            }
+
+            .practice-card-slot.incorrect {
+                animation: shake 0.4s;
+            }
+
+            .practice-card-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+            }
+
+            .pinyin-display {
+                font-size: 28px; /* Slightly smaller for pinyin */
+                color: #888;
+                margin-bottom: 5px;
+                text-align: center;
+                padding: 0 10px;
+            }
+
+            .hanzi-display {
                 font-size: 60px;
                 font-weight: bold;
                 color: #333;
-                font-family: 'KaiTi', 'STKaiti', serif;
-                border: 2px solid var(--item-border);
-                /* Position is relative to practice-card-container now */
-                transform: translateY(-200%); 
+                text-align: center;
+                padding: 0 10px;
             }
-
+            
             #progress-container {
                 position: absolute;
                 bottom: 20px;
@@ -759,8 +821,23 @@
                         </div>
                     </div>
                     <div id="practice-container">
-                        <div id="practice-card-container">
-                            <div id="practice-card"></div>
+                        <div id="card-left" class="practice-card-slot">
+                            <div class="practice-card-content">
+                                <div class="pinyin-display"></div>
+                                <div class="hanzi-display"></div>
+                            </div>
+                        </div>
+                        <div id="card-center" class="practice-card-slot">
+                            <div class="practice-card-content">
+                                <div class="pinyin-display"></div>
+                                <div class="hanzi-display"></div>
+                            </div>
+                        </div>
+                        <div id="card-right" class="practice-card-slot">
+                            <div class="practice-card-content">
+                                <div class="pinyin-display"></div>
+                                <div class="hanzi-display"></div>
+                            </div>
                         </div>
                         <div id="progress-container">
                             <div id="progress-bar"></div>
@@ -777,6 +854,8 @@
                             <div id="page-counter"></div>
                         </div>
                         <div id="main-candidates"></div>
+
+                        <div id="practice-input-display"></div> <!-- New element for visual buffer -->
 
                         <div id="correction-wrapper">
                             <input
@@ -874,56 +953,104 @@
                 return true;
             }
 
-                        async function startPracticeMode() {
-                            if (practiceWords.length === 0) {
-                                showLoadingMessage('准备练习...');
-                                const success = await initPracticeModeData();
-                                hideLoadingMessage();
-                                if (!success) return;
-                            }
-                            
-                            setState(InputState.PRACTICE);
-                            
-                            // Load progress from localStorage or start from 0
-                            const savedIndex = localStorage.getItem(PRACTICE_PROGRESS_KEY);
-                            currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
-                            
-                            // Update progress bar to reflect loaded progress
-                            const progressBar = document.getElementById('progress-bar');
-                            const progress = practiceWords.length > 0 ? (currentPracticeWordIndex / practiceWords.length) * 100 : 0;
-                            progressBar.style.width = `${progress}%`;
-                            
-                            console.log('Starting practice mode UI...');
-                            document.getElementById('output-card').style.display = 'none';
-                            document.getElementById('practice-container').style.display = 'flex';
-                            
-                            // Toggle visibility of buttons in toolbar
-                            document.getElementById('practice-mode-btn').style.display = 'none';
-                            document.getElementById('exit-practice-mode-btn').style.display = 'flex';
+            async function startPracticeMode() {
+                if (practiceWords.length === 0) {
+                    showLoadingMessage('准备练习...');
+                    const success = await initPracticeModeData();
+                    hideLoadingMessage();
+                    if (!success) return;
+                }
+                
+                setState(InputState.PRACTICE);
+                
+                // Load progress from localStorage or start from 0
+                const savedIndex = localStorage.getItem(PRACTICE_PROGRESS_KEY);
+                currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
+                
+                // Update progress bar to reflect loaded progress
+                const progressBar = document.getElementById('progress-bar');
+                const progress = practiceWords.length > 0 ? (currentPracticeWordIndex / practiceWords.length) * 100 : 0;
+                progressBar.style.width = `${progress}%`;
+                
+                console.log('Starting practice mode UI...');
+                document.getElementById('output-card').style.display = 'none';
+                document.getElementById('practice-container').style.display = 'flex'; // Show practice container
+                
+                // Initialize card elements
+                cardLeft = document.getElementById('card-left');
+                cardCenter = document.getElementById('card-center');
+                cardRight = document.getElementById('card-right');
+                practiceCards = [cardLeft, cardCenter, cardRight];
+
+                currentInputDisplay = document.getElementById(PRACTICE_MODE_INPUT_ID);
+                currentInputDisplay.innerHTML = ''; // Clear visual buffer
+
+                // Toggle visibility of buttons in toolbar
+                document.getElementById('practice-mode-btn').style.display = 'none';
+                document.getElementById('exit-practice-mode-btn').style.display = 'flex';
+
+                // Initial setup of cards
+                loadCards(); // New function to load initial cards
+                focusHiddenInput();
+            }
             
-                            showNextPracticeWord();
-                        }
-            
-                        function exitPracticeMode() {
-                            console.log('Exiting practice mode...');
+            function exitPracticeMode() {
+                console.log('Exiting practice mode...');
                 isPracticeAnimating = false; // Reset animation flag
-                            setState(InputState.NORMAL);
+                setState(InputState.NORMAL);
+
+                document.getElementById('output-card').style.display = 'flex';
+                document.getElementById('practice-container').style.display = 'none'; // Hide practice container
+
+                // Clear and reset all practice cards
+                practiceCards.forEach(card => {
+                    card.classList.remove('visible', 'current', 'incorrect');
+                    card.querySelector('.pinyin-display').textContent = '';
+                    card.querySelector('.hanzi-display').textContent = '';
+                });
+                completedRightCardWord = null; // Clear completed word
+
+                // Clear input display
+                if (currentInputDisplay) {
+                    currentInputDisplay.innerHTML = '';
+                }
+
+                // Toggle visibility of buttons in toolbar
+                document.getElementById('practice-mode-btn').style.display = 'flex';
+                document.getElementById('exit-practice-mode-btn').style.display = 'none';
+
+                // Also reset progress bar to 0 when exiting
+                document.getElementById('progress-bar').style.width = '0%';
+            }
+            // New function to load initial cards
+            function loadCards() {
+                // Clear any existing content and classes
+                practiceCards.forEach(card => {
+                    card.classList.remove('visible', 'current', 'incorrect');
+                    card.querySelector('.pinyin-display').textContent = '';
+                    card.querySelector('.hanzi-display').textContent = '';
+                });
+
+                // Load the first word into the center card
+                if (currentPracticeWordIndex < practiceWords.length) {
+                    const word = practiceWords[currentPracticeWordIndex];
+                    cardCenter.querySelector('.hanzi-display').textContent = word.hanzi;
+                    cardCenter.classList.add('visible', 'current');
+                } else {
+                    // No words left, exit practice
+                    exitPracticeMode();
+                    return;
+                }
+
+                // If there's a next word, load it into the left card (upcoming)
+                if (currentPracticeWordIndex + 1 < practiceWords.length) {
+                    const nextWord = practiceWords[currentPracticeWordIndex + 1];
+                    cardLeft.querySelector('.hanzi-display').textContent = nextWord.hanzi;
+                    cardLeft.classList.add('visible');
+                }
+                // Right card is initially empty
+            }
             
-                            document.getElementById('output-card').style.display = 'flex';
-                            document.getElementById('practice-container').style.display = 'none';
-            
-                            // Toggle visibility of buttons in toolbar
-                            document.getElementById('practice-mode-btn').style.display = 'flex';
-                            document.getElementById('exit-practice-mode-btn').style.display = 'none';
-            
-                            const card = document.getElementById('practice-card');
-                            card.className = 'practice-card';
-                            // Reset card position for next time
-                            card.style.transform = 'translateY(-200%)';
-            
-                            // Also reset progress bar to 0 when exiting
-                            document.getElementById('progress-bar').style.width = '0%';
-                        }
             function showNextPracticeWord() {
                 if (currentPracticeWordIndex >= practiceWords.length) {
                     alert("练习完成! 🎉");
@@ -932,17 +1059,49 @@
                     return;
                 }
                 
-                const word = practiceWords[currentPracticeWordIndex];
-                const card = document.getElementById('practice-card');
-                card.innerText = word.hanzi;
+                // Content for the three cards
+                const wordOnCenter = practiceWords[currentPracticeWordIndex];
+                const wordOnLeft = practiceWords[currentPracticeWordIndex + 1];
+                const wordOnRight = practiceWords[currentPracticeWordIndex - 1]; // This was the previously completed word
 
-                card.className = 'practice-card';
-                void card.offsetWidth; // Trigger reflow to restart animation
-                card.classList.add('practice-card-fall');
+                // Update cardRight (previously completed word)
+                if (wordOnRight) {
+                    cardRight.querySelector('.hanzi-display').textContent = wordOnRight.hanzi;
+                    cardRight.querySelector('.pinyin-display').textContent = wordOnRight.pinyin.split('').join(' ');
+                    cardRight.classList.add('visible');
+                } else {
+                    cardRight.classList.remove('visible');
+                    cardRight.querySelector('.hanzi-display').textContent = '';
+                    cardRight.querySelector('.pinyin-display').textContent = '';
+                }
+
+                // Update cardCenter (current word to practice)
+                if (wordOnCenter) {
+                    cardCenter.querySelector('.hanzi-display').textContent = wordOnCenter.hanzi;
+                    cardCenter.querySelector('.pinyin-display').textContent = ''; // No pinyin for current card
+                    cardCenter.classList.add('visible', 'current');
+                    cardCenter.classList.remove('incorrect');
+                } else {
+                    cardCenter.classList.remove('visible', 'current', 'incorrect');
+                    cardCenter.querySelector('.hanzi-display').textContent = '';
+                    cardCenter.querySelector('.pinyin-display').textContent = '';
+                }
+
+                // Update cardLeft (next upcoming word)
+                if (wordOnLeft) {
+                    cardLeft.querySelector('.hanzi-display').textContent = wordOnLeft.hanzi;
+                    cardLeft.querySelector('.pinyin-display').textContent = '';
+                    cardLeft.classList.add('visible');
+                } else {
+                    cardLeft.classList.remove('visible');
+                    cardLeft.querySelector('.hanzi-display').textContent = '';
+                    cardLeft.querySelector('.pinyin-display').textContent = '';
+                }
                 
-                // Clear the input buffer for the next word
+                // Clear input
                 setBuffer('');
                 update();
+                currentInputDisplay.innerHTML = '';
                 focusHiddenInput();
             }
 
@@ -950,13 +1109,15 @@
                 if (currentState !== InputState.PRACTICE || isPracticeAnimating) return;
 
                 const currentWord = practiceWords[currentPracticeWordIndex];
-                const card = document.getElementById('practice-card');
+                const targetPinyin = currentWord.pinyin.toLowerCase();
+                const typedPinyin = buffer.toLowerCase();
 
-                if (buffer.toLowerCase() === currentWord.pinyin.toLowerCase()) {
+                if (typedPinyin === targetPinyin) {
                     // Correct answer
                     isPracticeAnimating = true;
-                    card.classList.remove('practice-card-fall');
-                    card.classList.add('practice-card-fly-away');
+                    cardCenter.classList.remove('current', 'incorrect'); // Remove current highlight and incorrect shake
+                    // No explicit fly-away animation for center card, it moves as part of the shift
+                    
                     currentPracticeWordIndex++;
                     localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
                     
@@ -965,24 +1126,21 @@
                     const progress = (currentPracticeWordIndex / practiceWords.length) * 100;
                     progressBar.style.width = `${progress}%`;
                     
-                    // Use 'animationend' event to show the next word after animation finishes
-                    card.addEventListener('animationend', () => {
-                        isPracticeAnimating = false;
-                        showNextPracticeWord();
-                    }, { once: true });
-
+                    // Trigger card shift and load next word
+                    showNextPracticeWord(); // This function now handles animations and card content updates
+                    isPracticeAnimating = false; // Reset immediately as showNextPracticeWord does its own animation handling
                 } else {
                     // Incorrect answer
                     isPracticeAnimating = true;
-                    card.classList.add('practice-card-shake');
-                    card.addEventListener('animationend', () => {
+                    cardCenter.classList.add('incorrect');
+                    cardCenter.addEventListener('animationend', () => {
                         isPracticeAnimating = false;
-                        card.classList.remove('practice-card-shake');
+                        cardCenter.classList.remove('incorrect');
                     }, { once: true });
                     
                     // Clear buffer so user can retry
                     setBuffer('');
-                    update();
+                    updatePracticeInputDisplay(); // Update visual buffer to reflect cleared input
                 }
             }
 
@@ -1873,6 +2031,14 @@
                 document.getElementById("correction-wrapper");
             const correctionInput = document.getElementById("correction-input");
             const mainCandidates = document.getElementById("main-candidates"); // Define mainCandidates
+            
+            // New practice mode variables
+            let cardLeft, cardCenter, cardRight;
+            let currentInputDisplay; // For the visual buffer
+            let practiceCards = []; // Array to hold the three active card elements
+            let completedRightCardWord = null; // Stores the word for the card on the far right
+
+            const PRACTICE_MODE_INPUT_ID = "practice-input-display";
 
             async function init() {
                 try {
@@ -2454,13 +2620,43 @@
                 }
             }
 
-            function handleInput() {
+            // New function to update the visual practice input display
+            function updatePracticeInputDisplay() {
+                if (currentState !== InputState.PRACTICE || !currentInputDisplay) return;
+
+                const currentWord = practiceWords[currentPracticeWordIndex];
+                const targetPinyin = currentWord.pinyin.toLowerCase();
+                const typedPinyin = buffer.toLowerCase();
+
+                let displayHTML = '';
+                for (let i = 0; i < targetPinyin.length; i++) {
+                    const char = targetPinyin[i];
+                    if (i < typedPinyin.length) {
+                        if (typedPinyin[i] === char) {
+                            displayHTML += `<span class="correct-char">${char}</span>`;
+                        } else {
+                            displayHTML += `<span class="incorrect-char">${char}</span>`;
+                        }
+                    } else {
+                        displayHTML += `<span>${char}</span>`;
+                    }
+                }
+                currentInputDisplay.innerHTML = displayHTML;
+            }
+
+            function handleInput(event) {
+                if (currentState === InputState.PRACTICE) {
+                    setBuffer(event.target.value); // Update global buffer
+                    updatePracticeInputDisplay(); // Update visual display
+                    // No candidate generation in practice mode
+                    return;
+                }
                 if (
                     currentState !== InputState.TAB &&
                     currentState !== InputState.EDIT
                 ) {
                     setBuffer(hInput.value.replace(/[^a-zA-Z]/g, ""));
-                    pageIndex = 0;
+                    pageIndex = 0; // Reset page index on new input
                     update();
                 }
             }
