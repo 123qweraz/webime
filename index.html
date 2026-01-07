@@ -841,7 +841,7 @@
                     class="btn btn-toggle"
                     onclick="toggleHistoryPanel()"
                 >
-                    历史记录
+                    剪切板
                 </button>
                 <div
                     style="
@@ -889,7 +889,7 @@
             <div class="content-area">
                 <div class="history-panel" id="historyPanel">
                     <div class="history-header">
-                        <span>输入历史</span>
+                        <span>剪切板</span>
                         <button
                             onclick="clearHistory()"
                             class="btn btn-toggle"
@@ -1573,21 +1573,21 @@
 
             // Function for handling dictionary import from the modal
             /**
-             * 更新历史记录UI显示
-             * @param {Array} historyItems - 历史记录条目数组
+             * 更新剪切板UI显示
+             * @param {Array} historyItems - 剪切板条目数组
              */
             function updateHistoryUI(historyItems) {
                 try {
                     const historyList = document.getElementById("historyList");
                     if (!historyList) {
-                        console.warn("历史记录容器元素未找到");
+                        console.warn("剪切板容器元素未找到");
                         return;
                     }
 
                     // 清空现有内容
                     historyList.innerHTML = "";
 
-                    // 如果没有历史记录，显示提示
+                    // 如果没有剪切板内容，显示提示
                     if (!historyItems || historyItems.length === 0) {
                         const emptyItem = document.createElement("li");
                         emptyItem.className = "history-item empty";
@@ -1596,7 +1596,7 @@
                         return;
                     }
 
-                    // 显示最近的历史记录（最多20条）
+                    // 显示最近的剪切板内容（最多20条）
                     const recentItems = historyItems.slice(0, 20);
 
                     recentItems.forEach((item, index) => {
@@ -1633,26 +1633,17 @@
                         listItem.appendChild(textSpan);
                         listItem.appendChild(deleteButton);
 
-                        // Clicking history item to fill input
+                        // Clicking history item to re-insert into output area
                         listItem.addEventListener("click", () => {
-                            const inputElement =
-                                document.getElementById("hidden-input");
-                            if (
-                                inputElement &&
-                                inputElement.value !== undefined
-                            ) {
-                                inputElement.value = item.text || item;
-                                const inputEvent = new Event("input", {
-                                    bubbles: true,
-                                });
-                                inputElement.dispatchEvent(inputEvent);
-                            }
+                            const textToInsert = item.text || item;
+                            committed += textToInsert; // Append to the committed text
+                            update(); // Update the display
                         });
 
                         historyList.appendChild(listItem);
                     });
                 } catch (error) {
-                    console.error("更新历史记录UI失败:", error);
+                    console.error("更新剪切板UI失败:", error);
                 }
             }
 
@@ -1919,6 +1910,13 @@
 
                         // 复制到剪贴板
 
+                        // Add to history and copy to clipboard
+                        HISTORY.unshift({
+                            text: committed,
+                            timestamp: Date.now(),
+                        }); // Add to the beginning of the history
+                        saveHistory(); // Persist history to localStorage
+
                         navigator.clipboard
 
                             .writeText(committed)
@@ -1954,7 +1952,7 @@
             }
 
             /**
-             * 切换历史记录面板
+             * 切换剪切板面板
              */
             function toggleHistoryPanel() {
                 const historyPanel = document.getElementById("historyPanel");
@@ -1972,7 +1970,7 @@
             }
 
             /**
-             * 清空所有历史记录
+             * 清空所有剪切板内容
              */
             function clearHistory() {
                 if (confirm("确定要清空所有输入历史吗？")) {
@@ -1982,7 +1980,7 @@
             }
 
             /**
-             * 删除单个历史记录项
+             * 删除单个剪切板项
              * @param {number} index - 要删除项的索引
              */
             function deleteHistoryItem(index) {
@@ -2299,13 +2297,13 @@
 
             // --- Missing function definitions (from gemini.md) ---
             /**
-             * 增强的startInputMethod函数，包含历史记录初始化
+             * 增强的startInputMethod函数，包含剪切板初始化
              */
             function startInputMethod() {
                 try {
                     console.log("启动输入法核心功能...");
 
-                    // 初始化历史记录
+                    // 初始化剪切板
                     const savedHistory =
                         localStorage.getItem("ime_history_v18");
                     let historyItems = [];
@@ -2317,15 +2315,15 @@
                                 historyItems = [];
                             }
                         } catch (e) {
-                            console.warn("历史记录解析失败，重置为空数组");
+                            console.warn("剪切板解析失败，重置为空数组");
                             historyItems = [];
                         }
                     }
 
-                    // 更新历史记录UI
+                    // 更新剪切板UI
                     updateHistoryUI(historyItems);
 
-                    // 绑定历史记录保存
+                    // 绑定剪切板保存
                     // This part needs to be integrated with existing commit logic
                     // For now, let's just make sure the updateHistoryUI is called
                     // on commit in the general update loop or dedicated commit function.
@@ -2619,21 +2617,7 @@
             }
 
             function resetInput() {
-                // Before clearing buffer, check if committed has new content to save to history
-                // Only save if committed has content AND it's different from the last history item
-                // (to avoid duplicate entries if resetInput is called multiple times without new committed content)
-                if (
-                    committed.trim() &&
-                    (HISTORY.length === 0 ||
-                        HISTORY[0].text !== committed.trim())
-                ) {
-                    const historyItem = {
-                        text: committed.trim(),
-                        timestamp: Date.now(),
-                    };
-                    HISTORY.unshift(historyItem); // Add to the beginning
-                    saveHistory(); // Save the updated history
-                }
+
 
                 setBuffer(""); // Consolidates buffer = "" and hInput.value = ""
                 enFilter = "";
