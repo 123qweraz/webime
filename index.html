@@ -10,78 +10,91 @@
                     path: "dicts/chinese/first_dict/dict.json",
                     enabled: true,
                     type: "built-in",
+                    tag: "chinese",
                 },
                 {
                     name: "词组词典",
                     path: "dicts/chinese/first_dict/dict_cizu.json",
                     enabled: true,
                     type: "built-in",
+                    tag: "chinese",
                 },
                 {
                     name: "二级字",
                     path: "dicts/chinese/second_dict/level-2_char_en.json",
                     enabled: true,
                     type: "built-in",
+                    tag: "chinese",
                 },
                 {
                     name: "三级字",
                     path: "dicts/chinese/third_dict/level-3_char_en.json",
                     enabled: true,
                     type: "built-in",
+                    tag: "chinese",
                 },
                 {
                     name: "三字词语",
                     path: "dicts/chinese/second_dict/three_character_word.json",
                     enabled: true,
                     type: "built-in",
+                    tag: "chinese",
                 },
                 {
                     name: "四字词语",
                     path: "dicts/chinese/second_dict/four_character_word.json",
                     enabled: true,
                     type: "built-in",
+                    tag: "chinese",
                 },
                 {
                     name: "标点符号",
                     path: "dicts/chinese/punctuation.json",
                     enabled: true,
                     type: "built-in",
+                    tag: "chinese", // Assuming punctuation is primarily for Chinese context
                 },
                 {
                     name: "N5",
                     path: "dicts/japanese/N5.json",
                     enabled: false,
                     type: "built-in",
+                    tag: "japanese",
                 },
                 {
                     name: "N4",
                     path: "dicts/japanese/N4.json",
                     enabled: false,
                     type: "built-in",
+                    tag: "japanese",
                 },
                 {
                     name: "N3",
                     path: "dicts/japanese/N3.json",
                     enabled: false,
                     type: "built-in",
+                    tag: "japanese",
                 },
                 {
                     name: "N2",
                     path: "dicts/japanese/N2.json",
                     enabled: false,
                     type: "built-in",
+                    tag: "japanese",
                 },
                 {
                     name: "N1",
                     path: "dicts/japanese/N1.json",
                     enabled: false,
                     type: "built-in",
+                    tag: "japanese",
                 },
                 {
                     name: "kana",
                     path: "dicts/japanese/kana.json",
                     enabled: false,
                     type: "built-in",
+                    tag: "japanese",
                 },
             ];
         </script>
@@ -867,6 +880,7 @@
                     target="_blank"
                     >汉字浏览器</a
                 >
+                <select id="practice-dict-select" class="btn" style="padding: 6px;"></select>
                 <button
                     id="practice-mode-btn"
                     class="btn btn-toggle"
@@ -1035,10 +1049,18 @@
 
                     <div class="modal-controls">
                         <button
-                            class="btn btn-toggle"
-                            onclick="sortDictsByDefaultOrder()"
+                            id="toggle-chinese-dicts-btn"
+                            class="btn btn-toggle active"
+                            onclick="toggleLanguageDicts('chinese')"
                         >
                             中文
+                        </button>
+                        <button
+                            id="toggle-japanese-dicts-btn"
+                            class="btn btn-toggle"
+                            onclick="toggleLanguageDicts('japanese')"
+                        >
+                            日语
                         </button>
                     </div>
 
@@ -1057,12 +1079,18 @@
             // --- Practice Mode Functions ---
 
             async function initPracticeModeData() {
+                const dictPath = settings.practice_dict_path;
+                if (!dictPath) {
+                    showErrorMessage("未选择练习词典!");
+                    return false;
+                }
+
                 const practiceDict = allDicts.find(
-                    (d) => d.name === PRACTICE_DICT_NAME,
+                    (d) => d.path === dictPath,
                 );
                 if (!practiceDict) {
                     showErrorMessage(
-                        `练习词典 "${PRACTICE_DICT_NAME}" 未找到!`,
+                        `练习词典未找到!`,
                     );
                     return false;
                 }
@@ -1401,48 +1429,65 @@
                         inactiveList.appendChild(dictCard);
                     }
                 });
+                updatePracticeDictSelector(); // Update dropdown when modal is rendered
             }
 
-            async function sortDictsByDefaultOrder() {
-                const desiredOrder = [
-                    "一级字",
-                    "词组词典",
-                    "二级字",
-                    "三级字",
-                    "四字词",
-                ];
+            async function toggleLanguageDicts(languageTag) {
+                const languageOrders = {
+                    chinese: ["一级字", "词组词典", "二级字", "三级字", "三字词语", "四字词语", "标点符号"],
+                    japanese: ["kana", "N5", "N4", "N3", "N2", "N1"],
+                };
 
-                // First, enable all dictionaries that are part of the desired order
-                allDicts.forEach((dict) => {
-                    if (desiredOrder.includes(dict.name)) {
-                        dict.enabled = true;
+                const desiredOrder = languageOrders[languageTag];
+                if (!desiredOrder) return;
+
+                const dictsForLanguage = allDicts.filter(d => d.tag === languageTag);
+                const areAllEnabled = dictsForLanguage.length > 0 && dictsForLanguage.every(d => d.enabled);
+
+                // If all are enabled, disable them. Otherwise, enable them.
+                const newEnabledState = !areAllEnabled;
+
+                allDicts.forEach(dict => {
+                    if (dict.tag === languageTag) {
+                        dict.enabled = newEnabledState;
                     }
                 });
 
-                allDicts.sort((a, b) => {
-                    const indexA = desiredOrder.indexOf(a.name);
-                    const indexB = desiredOrder.indexOf(b.name);
+                // If we just enabled them, sort them
+                if (newEnabledState) {
+                    allDicts.sort((a, b) => {
+                        const isAInLang = a.tag === languageTag;
+                        const isBInLang = b.tag === languageTag;
 
-                    // If both are in desiredOrder, sort by their index
-                    if (indexA !== -1 && indexB !== -1) {
-                        return indexA - indexB;
-                    }
-                    // If only 'a' is in desiredOrder, 'a' comes first
-                    if (indexA !== -1) {
-                        return -1;
-                    }
-                    // If only 'b' is in desiredOrder, 'b' comes first
-                    if (indexB !== -1) {
-                        return 1;
-                    }
-                    // If neither is in desiredOrder, maintain current relative order (or sort by name as a fallback)
-                    return a.name.localeCompare(b.name);
-                });
+                        if (isAInLang && !isBInLang) return -1;
+                        if (!isAInLang && isBInLang) return 1;
+
+                        if (isAInLang && isBInLang) {
+                            const indexA = desiredOrder.indexOf(a.name);
+                            const indexB = desiredOrder.indexOf(b.name);
+                            if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+                            if (indexA !== -1) return -1;
+                            if (indexB !== -1) return 1;
+                        }
+                        
+                        return 0; 
+                    });
+                }
+                
+                // Update button UI
+                const chineseBtn = document.getElementById('toggle-chinese-dicts-btn');
+                const japaneseBtn = document.getElementById('toggle-japanese-dicts-btn');
+
+                const areChineseEnabled = allDicts.some(d => d.tag === 'chinese' && d.enabled);
+                const areJapaneseEnabled = allDicts.some(d => d.tag === 'japanese' && d.enabled);
+
+                if(chineseBtn) chineseBtn.classList.toggle('active', areChineseEnabled);
+                if(japaneseBtn) japaneseBtn.classList.toggle('active', areJapaneseEnabled);
 
                 saveDictConfig();
                 await loadAllDicts();
                 renderModalDicts();
-                showToast("中文词典已启用并排序", "info");
+                showToast(`${languageTag === 'chinese' ? '中文' : '日文'}词典已${newEnabledState ? '启用并排序' : '禁用'}`, "info");
             }
 
             let draggedDictIndex = null; // Global variable to store the index of the dictionary being dragged
@@ -2054,6 +2099,61 @@
                 input.value = ""; // Reset file input
             }
 
+            function updatePracticeDictSelector() {
+                const selectEl = document.getElementById('practice-dict-select');
+                if (!selectEl) return;
+
+                // Save current selection if it exists
+                const currentSelection = selectEl.value;
+
+                selectEl.innerHTML = ''; // Clear existing options
+
+                const enabledDicts = allDicts.filter(d => d.enabled && d.wordCount > 0);
+
+                if (enabledDicts.length === 0) {
+                    const option = document.createElement('option');
+                    option.value = "";
+                    option.textContent = "无可用词典";
+                    selectEl.appendChild(option);
+                    return;
+                }
+
+                enabledDicts.forEach(dict => {
+                    const option = document.createElement('option');
+                    option.value = dict.path; // Use path as a unique identifier
+                    option.textContent = `练习: ${dict.name}`;
+                    selectEl.appendChild(option);
+                });
+
+                // Restore previous selection if possible, or select the first one
+                if (enabledDicts.some(d => d.path === currentSelection)) {
+                    selectEl.value = currentSelection;
+                } else if (enabledDicts.length > 0) {
+                    selectEl.value = enabledDicts[0].path;
+                }
+                
+                // Add event listener to save selection
+                selectEl.onchange = () => {
+                    settings.practice_dict_path = selectEl.value;
+                    saveSettings();
+                    showToast(`练习词典已切换为: ${selectEl.options[selectEl.selectedIndex].text.replace('练习: ','')}`, 'info');
+                };
+                
+                // Initial save
+                if (!settings.practice_dict_path) {
+                    settings.practice_dict_path = selectEl.value;
+                    saveSettings();
+                } else {
+                    // Ensure the saved setting is valid
+                    if (enabledDicts.some(d => d.path === settings.practice_dict_path)) {
+                        selectEl.value = settings.practice_dict_path;
+                    } else {
+                         settings.practice_dict_path = selectEl.value;
+                         saveSettings();
+                    }
+                }
+            }
+
             // --- End Missing function definitions ---
 
             // --- Init functions ---
@@ -2219,6 +2319,7 @@
                     loadDictConfig(); // Load allDicts from localStorage or built-in
                     await loadAllDicts(); // Populate the Trie with enabled dicts
                     applySettings(); // Apply saved layout settings
+                    updatePracticeDictSelector(); // Populate practice dict dropdown
 
                     // Validate initialization
                     const isValid = validateInitialization();
@@ -2691,14 +2792,14 @@
                         e.preventDefault();
                         enFilter += key;
                         pageIndex = 0;
-                        render();
+                        update(); // Changed from render() to update()
                         return;
                     }
                     if (key === "Backspace") {
                         e.preventDefault();
                         if (enFilter) {
                             enFilter = enFilter.slice(0, -1);
-                            render();
+                            update(); // Changed from render() to update()
                         } else {
                             setState(InputState.NORMAL);
                             update();
