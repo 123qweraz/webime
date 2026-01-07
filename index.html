@@ -1193,7 +1193,9 @@
                 currentInputDisplay = document.getElementById(
                     PRACTICE_MODE_INPUT_ID,
                 );
-                currentInputDisplay.innerHTML = ""; // Clear visual buffer
+                if (currentInputDisplay) {
+                    currentInputDisplay.innerHTML = ""; // Clear visual buffer
+                }
 
                 // Toggle visibility of buttons in toolbar
                 document.getElementById("practice-mode-btn").style.display =
@@ -1254,9 +1256,9 @@
                     cardCenter.querySelector(".hanzi-display").textContent =
                         getHanziChar(word.hanzi);
                     
-                    // Initialize pinyin display with placeholders
-                    const pinyinPlaceholders = word.pinyin.split('').map(() => '_').join('');
-                    cardCenter.querySelector(".pinyin-display").innerHTML = `<span class="char-placeholder">${pinyinPlaceholders}</span>`;
+                    // Initialize pinyin display with placeholders (actual letters in light gray)
+                    const pinyinContent = word.pinyin.split('').map(char => `<span class="char-placeholder">${char}</span>`).join('');
+                    cardCenter.querySelector(".pinyin-display").innerHTML = pinyinContent;
 
                     cardCenter.classList.add("visible", "current");
                 } else {
@@ -1306,9 +1308,9 @@
                 if (wordOnCenter) {
                     cardCenter.querySelector(".hanzi-display").textContent =
                         getHanziChar(wordOnCenter.hanzi);
-                    // Initialize pinyin display with placeholders
-                    const pinyinPlaceholders = wordOnCenter.pinyin.split('').map(() => '_').join('');
-                    cardCenter.querySelector(".pinyin-display").innerHTML = `<span class="char-placeholder">${pinyinPlaceholders}</span>`;
+                    // Initialize pinyin display with placeholders (actual letters in light gray)
+                    const pinyinContent = wordOnCenter.pinyin.split('').map(char => `<span class="char-placeholder">${char}</span>`).join('');
+                    cardCenter.querySelector(".pinyin-display").innerHTML = pinyinContent;
                     
                     cardCenter.classList.add("visible", "current");
                     cardCenter.classList.remove("incorrect");
@@ -1338,7 +1340,9 @@
                 // Clear input
                 setBuffer("");
                 update();
-                currentInputDisplay.innerHTML = "";
+                if (currentInputDisplay) {
+                    currentInputDisplay.innerHTML = "";
+                }
                 focusHiddenInput();
             }
 
@@ -1469,13 +1473,25 @@
                 if (!desiredOrder) return;
 
                 const dictsForLanguage = allDicts.filter(d => d.tag === languageTag);
-                const areAllEnabled = dictsForLanguage.length > 0 && dictsForLanguage.some(d => d.enabled);
-
-                const newEnabledState = !areAllEnabled;
+                // Switch logic: If we are clicking 'chinese', we want to enable chinese and disable japanese.
+                // But we also want to allow toggling off if it's already active? 
+                // Let's stick to "Enable this language, disable others" as a primary action for the buttons.
+                // If it's already fully enabled, maybe we do nothing or reload?
+                // Let's implementing: "Ensure this language is enabled".
+                
+                // However, to support "Toggle", we check: Are they all enabled?
+                const areAllEnabled = dictsForLanguage.every(d => d.enabled);
+                const newEnabledState = !areAllEnabled; // If not all enabled, enable all. If all enabled, disable all.
+                
+                // If we are enabling a language, we should disable the other language to create a "switch" effect.
+                const otherTag = languageTag === 'chinese' ? 'japanese' : 'chinese';
 
                 allDicts.forEach(dict => {
                     if (dict.tag === languageTag) {
                         dict.enabled = newEnabledState;
+                    } else if (dict.tag === otherTag && newEnabledState) {
+                         // Only disable the other language if we are enabling the current one
+                        dict.enabled = false;
                     }
                 });
 
@@ -2586,107 +2602,127 @@
                 ); // Debugging line
             }
 
-            function update() {
-                const isAllVowels = (str) => /^[aeiou]+$/.test(str); // Define helper function here
+            function getActiveSegment(buffer) {
+                if (!buffer) return { activeSegment: "", precedingBuffer: "" };
 
-                if (currentState === InputState.EDIT) return;
-
-                outputArea.innerText = committed;
-                outputArea.scrollTop = outputArea.scrollHeight;
-                
-                // Update global segmentation variables before processing
                 let activeSegment = "";
                 let precedingBuffer = buffer;
-
-                if (buffer) {
-                    let lastPinyinCharIndex = -1;
-                    for (let i = buffer.length - 1; i >= 0; i--) {
-                        if (/[a-zA-Z']/.test(buffer[i])) {
-                            lastPinyinCharIndex = i;
-                        } else {
-                            break; // Stop at the first non-pinyin char from the end
-                        }
-                    }
-
-                    if (lastPinyinCharIndex !== -1) {
-                         // Find start of the last pinyin segment
-                        let firstPinyinCharIndex = lastPinyinCharIndex;
-                        for (let i = lastPinyinCharIndex - 1; i >= 0; i--) {
-                            if (/[a-zA-Z']/.test(buffer[i])) {
-                                firstPinyinCharIndex = i;
-                            } else {
-                                break;
-                            }
-                        }
-                        activeSegment = buffer.substring(firstPinyinCharIndex);
-                        precedingBuffer = buffer.substring(0, firstPinyinCharIndex);
-                    } else if (buffer.length > 0) { // No pinyin at the end, check for punctuation
-                        const lastChar = buffer.slice(-1);
-                        if(PUNCTUATION_KEYS.has(lastChar)) {
-                            activeSegment = lastChar;
-                            precedingBuffer = buffer.slice(0, -1);
-                        }
+                
+                let lastPinyinCharIndex = -1;
+                for (let i = buffer.length - 1; i >= 0; i--) {
+                    if (/[a-zA-Z']/.test(buffer[i])) {
+                        lastPinyinCharIndex = i;
+                    } else {
+                        break; 
                     }
                 }
+
+                if (lastPinyinCharIndex !== -1) {
+                    let firstPinyinCharIndex = lastPinyinCharIndex;
+                    for (let i = lastPinyinCharIndex - 1; i >= 0; i--) {
+                        if (/[a-zA-Z']/.test(buffer[i])) {
+                            firstPinyinCharIndex = i;
+                        } else {
+                            break;
+                        }
+                    }
+                    activeSegment = buffer.substring(firstPinyinCharIndex);
+                    precedingBuffer = buffer.substring(0, firstPinyinCharIndex);
+                } else if (buffer.length > 0) { 
+                    const lastChar = buffer.slice(-1);
+                    if(typeof PUNCTUATION_KEYS !== 'undefined' && PUNCTUATION_KEYS.has(lastChar)) {
+                        activeSegment = lastChar;
+                        precedingBuffer = buffer.slice(0, -1);
+                    }
+                }
+                return { activeSegment, precedingBuffer };
+            }
+
+            function updateBufferDisplay(buffer, activeSegment, precedingBuffer) {
+                const bufferDisplay = document.getElementById("buffer-display");
+                if (!bufferDisplay) return;
+
+                let bufferHTML;
+                if (currentState === InputState.TAB) {
+                    bufferHTML = escapeHtml(buffer) + "-";
+                    if (enFilter) {
+                        bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
+                    }
+                } else if (buffer) {
+                    bufferHTML = escapeHtml(precedingBuffer) + `<span class="active-buffer-segment">${escapeHtml(activeSegment)}</span>`;
+                } else {
+                    bufferHTML = "";
+                }
+                bufferDisplay.innerHTML = bufferHTML;
+            }
+
+            function lookupCandidates(activeSegment) {
+                if (!activeSegment) return [];
                 
+                const b_segment_for_lookup = activeSegment.toLowerCase();
+                const isAllVowels = /^[aeiou]+$/.test(b_segment_for_lookup);
+                
+                let useExactMatch = false;
+                if (
+                    b_segment_for_lookup.length <= 2 ||
+                    ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels)
+                ) {
+                    useExactMatch = true;
+                }
+
+                const prefixNode = DB.getNode(b_segment_for_lookup);
+                let list = [];
+
+                if (prefixNode) {
+                    const collect = (node, path) => {
+                        if (useExactMatch && path !== b_segment_for_lookup) {
+                            return;
+                        }
+                        
+                        if (node.values.length > 0) {
+                            let weight = 1000;
+                            if (path === b_segment_for_lookup) weight += 10000; 
+                            weight -= (path.length - b_segment_for_lookup.length) * 100;
+                            
+                            node.values.forEach((i) =>
+                                list.push({
+                                    text: i.char || i,
+                                    desc: i.en || (typeof i === "object" ? i.en : ""),
+                                    w: weight,
+                                }),
+                            );
+                        }
+
+                        if (!useExactMatch) {
+                             for (const char in node.children) {
+                                collect(node.children[char], path + char);
+                            }
+                        }
+                    };
+                    collect(prefixNode, b_segment_for_lookup);
+                }
+                return list;
+            }
+
+            function update() {
+                if (currentState === InputState.EDIT) return;
+
+                if (outputArea) {
+                    outputArea.innerText = committed;
+                    outputArea.scrollTop = outputArea.scrollHeight;
+                }
+                
+                // Skip further processing in Practice Mode
+                if (currentState === InputState.PRACTICE) return;
+
+                const { activeSegment, precedingBuffer } = getActiveSegment(buffer);
                 currentProcessedSegment = activeSegment;
                 currentPrecedingBuffer = precedingBuffer;
 
+                updateBufferDisplay(buffer, activeSegment, precedingBuffer);
+
                 if (buffer) {
-                    let bufferHTML;
-                    if (currentState === InputState.TAB) {
-                        bufferHTML = escapeHtml(buffer) + "-";
-                        if (enFilter) {
-                            bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
-                        }
-                    } else {
-                        bufferHTML = escapeHtml(precedingBuffer) + `<span class="active-buffer-segment">${escapeHtml(activeSegment)}</span>`;
-                    }
-                    document.getElementById("buffer-display").innerHTML = bufferHTML;
-
-                    let list = [];
-                    if (activeSegment) {
-                        const b_segment_for_lookup = activeSegment.toLowerCase();
-                        
-                        let useExactMatch = false;
-                        if (
-                            b_segment_for_lookup.length <= 2 ||
-                            ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels(b_segment_for_lookup))
-                        ) {
-                            useExactMatch = true;
-                        }
-
-                        const prefixNode = DB.getNode(b_segment_for_lookup);
-
-                        if (prefixNode) {
-                            const collect = (node, path) => {
-                                if (useExactMatch && path !== b_segment_for_lookup) {
-                                    return;
-                                }
-                                
-                                if (node.values.length > 0) {
-                                    let weight = 1000;
-                                    if (path === b_segment_for_lookup) weight += 10000; // Exact match bonus
-                                    weight -= (path.length - b_segment_for_lookup.length) * 100;
-                                    
-                                    node.values.forEach((i) =>
-                                        list.push({
-                                            text: i.char || i,
-                                            desc: i.en || (typeof i === "object" ? i.en : ""),
-                                            w: weight,
-                                        }),
-                                    );
-                                }
-
-                                if (!useExactMatch) {
-                                     for (const char in node.children) {
-                                        collect(node.children[char], path + char);
-                                    }
-                                }
-                            };
-                            collect(prefixNode, b_segment_for_lookup);
-                        }
-                    }
+                    let list = lookupCandidates(activeSegment);
 
                     const seen = new Set();
                     combinedCandidates = list
@@ -2694,7 +2730,7 @@
                         .filter((x) => !seen.has(x.text) && seen.add(x.text));
 
                 } else {
-                    document.getElementById("buffer-display").innerText = "";
+                    // Clear candidates if no buffer
                     combinedCandidates = [];
                 }
                 render();
@@ -2930,30 +2966,52 @@
 
             // New function to update the visual practice input display
             function updatePracticeInputDisplay() {
-                if (
-                    currentState !== InputState.PRACTICE ||
-                    !currentInputDisplay
-                )
-                    return;
+                if (currentState !== InputState.PRACTICE) return;
 
                 const currentWord = practiceWords[currentPracticeWordIndex];
+                if (!currentWord) return;
+
                 const targetPinyin = currentWord.pinyin.toLowerCase();
                 const typedPinyin = buffer.toLowerCase();
 
-                let displayHTML = "";
-                for (let i = 0; i < targetPinyin.length; i++) {
-                    const char = targetPinyin[i];
-                    if (i < typedPinyin.length) {
-                        if (typedPinyin[i] === char) {
-                            displayHTML += `<span class="correct-char">${char}</span>`;
-                        } else {
-                            displayHTML += `<span class="incorrect-char">${char}</span>`;
+                // Update the pinyin display on the card
+                if (cardCenter) {
+                    const cardPinyinDisplay = cardCenter.querySelector(".pinyin-display");
+                    if (cardPinyinDisplay) {
+                        let cardHTML = "";
+                        for (let i = 0; i < targetPinyin.length; i++) {
+                            const char = targetPinyin[i];
+                            if (i < typedPinyin.length) {
+                                if (typedPinyin[i] === char) {
+                                    cardHTML += `<span class="char-correct">${char}</span>`;
+                                } else {
+                                    cardHTML += `<span class="char-incorrect">${char}</span>`;
+                                }
+                            } else {
+                                cardHTML += `<span class="char-placeholder">${char}</span>`;
+                            }
                         }
-                    } else {
-                        displayHTML += `<span>${char}</span>`;
+                        cardPinyinDisplay.innerHTML = cardHTML;
                     }
                 }
-                currentInputDisplay.innerHTML = displayHTML;
+
+                // Update the legacy practice input display if it exists
+                if (currentInputDisplay) {
+                    let displayHTML = "";
+                    for (let i = 0; i < targetPinyin.length; i++) {
+                        const char = targetPinyin[i];
+                        if (i < typedPinyin.length) {
+                            if (typedPinyin[i] === char) {
+                                displayHTML += `<span class="correct-char">${char}</span>`;
+                            } else {
+                                displayHTML += `<span class="incorrect-char">${char}</span>`;
+                            }
+                        } else {
+                            displayHTML += `<span>${char}</span>`;
+                        }
+                    }
+                    currentInputDisplay.innerHTML = displayHTML;
+                }
             }
 
             function handleInput(event) {
@@ -2966,8 +3024,17 @@
                     const currentWord = practiceWords[currentPracticeWordIndex];
                     if (!currentWord) return;
 
-                    const targetPinyin = currentWord.pinyin;
-                    const typedPinyin = buffer; // Keep original case
+                    const targetPinyin = currentWord.pinyin.toLowerCase();
+                    const typedPinyin = buffer.toLowerCase();
+
+                    // Error feedback: Shake card if input doesn't match prefix
+                    if (typedPinyin && !targetPinyin.startsWith(typedPinyin)) {
+                        cardCenter.classList.remove("incorrect");
+                        void cardCenter.offsetWidth; // Trigger reflow to restart animation
+                        cardCenter.classList.add("incorrect");
+                    } else {
+                        cardCenter.classList.remove("incorrect");
+                    }
 
                     if (typedPinyin === targetPinyin) {
                         currentPracticeWordIndex++;
