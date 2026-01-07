@@ -7,37 +7,37 @@
             const BUILT_IN_DICTS = [
                 {
                     name: "一级字",
-                    path: "dicts/first_dict/dict.json",
+                    path: "dicts/chinese/first_dict/dict.json",
                     enabled: true,
                     type: "built-in",
                 },
                 {
                     name: "词组词典",
-                    path: "dicts/first_dict/dict_cizu.json",
+                    path: "dicts/chinese/first_dict/dict_cizu.json",
                     enabled: true,
                     type: "built-in",
                 },
                 {
                     name: "二级字",
-                    path: "dicts/second_dict/level-2_char_en.json",
+                    path: "dicts/chinese/second_dict/level-2_char_en.json",
                     enabled: true,
                     type: "built-in",
                 },
                 {
                     name: "三级字",
-                    path: "dicts/third_dict/level-3_char_en.json",
+                    path: "dicts/chinese/third_dict/level-3_char_en.json",
                     enabled: true,
                     type: "built-in",
                 },
                 {
                     name: "三字词语",
-                    path: "dicts/third_dict/three_character_word.json",
+                    path: "dicts/chinese/second_dict/three_character_word.json",
                     enabled: true,
                     type: "built-in",
                 },
                 {
                     name: "四字词语",
-                    path: "dicts/third_dict/four_character_word.json",
+                    path: "dicts/chinese/second_dict/four_character_word.json",
                     enabled: true,
                     type: "built-in",
                 },
@@ -1824,7 +1824,7 @@
                 for (const segment of pinyinSegments) {
                     if (!segment) continue;
 
-                    const node = DB.getNode(segment.toLowerCase());
+                    const node = DB.getNode(segment);
                     let foundHanzi = null;
 
                     if (node && node.values.length > 0) {
@@ -2617,8 +2617,6 @@
             }
 
             function resetInput() {
-
-
                 setBuffer(""); // Consolidates buffer = "" and hInput.value = ""
                 enFilter = "";
                 setState(InputState.NORMAL); // Reset tab state
@@ -2703,7 +2701,7 @@
                 if (currentState === InputState.TAB && buffer) {
                     if (/^[a-zA-Z]$/.test(key)) {
                         e.preventDefault();
-                        enFilter += key.toLowerCase();
+                        enFilter += key;
                         pageIndex = 0;
                         render();
                         return;
@@ -2730,10 +2728,7 @@
                             currentState === InputState.TAB && buffer
                                 ? combinedCandidates.filter(
                                       (c) =>
-                                          c.desc &&
-                                          c.desc
-                                              .toLowerCase()
-                                              .startsWith(enFilter),
+                                          c.desc && c.desc.startsWith(enFilter),
                                   )
                                 : combinedCandidates;
                         const pageData = list.slice(
@@ -2778,10 +2773,7 @@
                             currentState === InputState.TAB && buffer
                                 ? combinedCandidates.filter(
                                       (c) =>
-                                          c.desc &&
-                                          c.desc
-                                              .toLowerCase()
-                                              .startsWith(enFilter),
+                                          c.desc && c.desc.startsWith(enFilter),
                                   )
                                 : combinedCandidates;
                         const pageData = list.slice(
@@ -2827,7 +2819,7 @@
             function handleInput(event) {
                 if (currentState === InputState.PRACTICE) {
                     setBuffer(
-                        event.target.value.toLowerCase().replace(/[^a-z]/g, ""),
+                        event.target.value.replace(/[^a-zA-Z]/g, ""), // Allow capital letters
                     );
                     updatePracticeInputDisplay();
 
@@ -2835,7 +2827,7 @@
                     if (!currentWord) return;
 
                     const targetPinyin = currentWord.pinyin.toLowerCase();
-                    const typedPinyin = buffer;
+                    const typedPinyin = buffer.toLowerCase(); // Convert to lowercase for comparison
 
                     if (typedPinyin === targetPinyin) {
                         currentPracticeWordIndex++;
@@ -2861,7 +2853,7 @@
                     currentState !== InputState.TAB &&
                     currentState !== InputState.EDIT
                 ) {
-                    setBuffer(hInput.value.replace(/[^a-zA-Z]/g, ""));
+                    setBuffer(hInput.value);
                     pageIndex = 0; // Reset page index on new input
                     update();
                 }
