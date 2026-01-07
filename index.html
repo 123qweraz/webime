@@ -4,17 +4,57 @@
         <meta charset="UTF-8" />
         <title>Web IME Pro | 导入与长句修正版</title>
         <script>
-    const BUILT_IN_DICTS = [
-    { name: "基础词典", path: "dicts/first_dict/dict.json", enabled: true, type: 'built-in' },
-    { name: "词组词典", path: "dicts/first_dict/dict_cizu.json", enabled: true, type: 'built-in' },
-    { name: "英文反查", path: "dicts/first_dict/dict_en_char.json", enabled: true, type: 'built-in' },
-    { name: "二级字", path: "charenpinyin/level-2.json", enabled: true, type: 'built-in' },
-    { name: "三级字", path: "charenpinyin/level-3.json", enabled: true, type: 'built-in' },
-    { name: 'n5', path: 'dicts/japanese/n5.json', enabled: false, type: 'built-in' },
-    { name: 'n4', path: 'dicts/japanese/n4.json', enabled: false, type: 'built-in' },
-    { name: 'n3', path: 'dicts/japanese/n3.json', enabled: false, type: 'built-in' }
-];
-</script>
+            const BUILT_IN_DICTS = [
+                {
+                    name: "基础词典",
+                    path: "dicts/first_dict/dict.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "词组词典",
+                    path: "dicts/first_dict/dict_cizu.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "英文反查",
+                    path: "dicts/first_dict/dict_en_char.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "二级字",
+                    path: "charenpinyin/level-2.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "三级字",
+                    path: "charenpinyin/level-3.json",
+                    enabled: true,
+                    type: "built-in",
+                },
+                {
+                    name: "n5",
+                    path: "dicts/japanese/n5.json",
+                    enabled: false,
+                    type: "built-in",
+                },
+                {
+                    name: "n4",
+                    path: "dicts/japanese/n4.json",
+                    enabled: false,
+                    type: "built-in",
+                },
+                {
+                    name: "n3",
+                    path: "dicts/japanese/n3.json",
+                    enabled: false,
+                    type: "built-in",
+                },
+            ];
+        </script>
         <style>
             :root {
                 --primary: #007aff;
@@ -513,20 +553,26 @@
             /* New Modal Styles */
             .modal-overlay {
                 position: fixed;
-                top: 0; left: 0; width: 100%; height: 100%;
-                background: rgba(0,0,0,0.4);
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.4);
                 backdrop-filter: blur(4px);
                 z-index: 1000;
-                display: flex; align-items: center; justify-content: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             .modal-content {
                 background: white;
-                width: 90%; max-width: 500px;
+                width: 90%;
+                max-width: 500px;
                 max-height: 80vh;
                 border-radius: 16px;
                 padding: 20px;
                 overflow-y: auto;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             }
             .modal-header {
                 display: flex;
@@ -581,7 +627,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             }
             .dict-card.disabled {
                 opacity: 0.6;
@@ -633,12 +679,12 @@
                 height: 180px;
                 background: var(--panel-bg);
                 border-radius: 20px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
                 display: flex;
                 flex-direction: column; /* Stack pinyin and hanzi */
                 align-items: center;
                 justify-content: center;
-                font-family: 'KaiTi', 'STKaiti', serif;
+                font-family: "KaiTi", "STKaiti", serif;
                 border: 2px solid var(--item-border);
                 transition: all 0.5s ease-in-out; /* Smooth transition for movement */
                 position: relative; /* For pinyin display positioning */
@@ -683,7 +729,7 @@
                 text-align: center;
                 padding: 0 10px;
             }
-            
+
             #progress-container {
                 position: absolute;
                 bottom: 20px;
@@ -695,7 +741,7 @@
                 background: #e0e0e0;
                 border-radius: 8px;
                 overflow: hidden;
-                box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
             }
 
             #progress-bar {
@@ -708,7 +754,8 @@
 
             /* Animations are kept the same */
             .practice-card-fall {
-                animation: fall 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+                animation: fall 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)
+                    forwards;
             }
 
             .practice-card-fly-away {
@@ -720,20 +767,45 @@
             }
 
             @keyframes fall {
-                from { transform: translateY(-300%) rotate(-15deg); opacity: 0; }
-                to { transform: translateY(0) rotate(0); opacity: 1; }
+                from {
+                    transform: translateY(-300%) rotate(-15deg);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0) rotate(0);
+                    opacity: 1;
+                }
             }
 
             @keyframes fly-away {
-                from { transform: translateX(0) rotate(0deg); opacity: 1; }
-                to { transform: translateX(150vw) rotate(60deg); opacity: 0; }
+                from {
+                    transform: translateX(0) rotate(0deg);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(150vw) rotate(60deg);
+                    opacity: 0;
+                }
             }
 
             @keyframes shake {
-                10%, 90% { transform: translateX(-2px); }
-                20%, 80% { transform: translateX(4px); }
-                30%, 50%, 70% { transform: translateX(-8px); }
-                40%, 60% { transform: translateX(8px); }
+                10%,
+                90% {
+                    transform: translateX(-2px);
+                }
+                20%,
+                80% {
+                    transform: translateX(4px);
+                }
+                30%,
+                50%,
+                70% {
+                    transform: translateX(-8px);
+                }
+                40%,
+                60% {
+                    transform: translateX(8px);
+                }
             }
         </style>
     </head>
@@ -755,11 +827,31 @@
                         margin: 0 5px;
                     "
                 ></div>
-                <a href="hanzi_explorer.html" class="btn btn-toggle"
+                <a
+                    href="hanzi_explorer.html"
+                    class="btn btn-toggle"
+                    target="_blank"
                     >汉字浏览器</a
                 >
-                <button id="practice-mode-btn" class="btn btn-toggle" onclick="startPracticeMode()">练习模式</button>
-                <button id="exit-practice-mode-btn" class="btn btn-toggle" onclick="exitPracticeMode()" style="display: none; background-color: #ff4d4f; color: white;">退出练习</button>
+                <button
+                    id="practice-mode-btn"
+                    class="btn btn-toggle"
+                    onclick="startPracticeMode()"
+                >
+                    练习模式
+                </button>
+                <button
+                    id="exit-practice-mode-btn"
+                    class="btn btn-toggle"
+                    onclick="exitPracticeMode()"
+                    style="
+                        display: none;
+                        background-color: #ff4d4f;
+                        color: white;
+                    "
+                >
+                    退出练习
+                </button>
                 <a
                     href="https://github.com/123qweraz/webime"
                     target="_blank"
@@ -850,7 +942,8 @@
                         </div>
                         <div id="main-candidates"></div>
 
-                        <div id="practice-input-display"></div> <!-- New element for visual buffer -->
+                        <div id="practice-input-display"></div>
+                        <!-- New element for visual buffer -->
 
                         <div id="correction-wrapper">
                             <input
@@ -880,7 +973,7 @@
         </div>
         <div id="toast"></div>
 
-        <div id="dict-modal" class="modal-overlay" style="display: none;">
+        <div id="dict-modal" class="modal-overlay" style="display: none">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>词典管理</h3>
@@ -888,18 +981,37 @@
                 </div>
                 <div class="modal-body">
                     <div class="import-section">
-                        <input type="file" id="dict-file-input" style="display:none" onchange="handleImport(this)">
-                        <button class="btn" onclick="document.getElementById('dict-file-input').click()">导入新词典 (.json)</button>
+                        <input
+                            type="file"
+                            id="dict-file-input"
+                            style="display: none"
+                            onchange="handleImport(this)"
+                        />
+                        <button
+                            class="btn"
+                            onclick="
+                                document
+                                    .getElementById('dict-file-input')
+                                    .click()
+                            "
+                        >
+                            导入新词典 (.json)
+                        </button>
                     </div>
 
                     <div class="modal-controls">
-                        <button class="btn btn-toggle" onclick="sortDictsByDefaultOrder()">中文</button>
+                        <button
+                            class="btn btn-toggle"
+                            onclick="sortDictsByDefaultOrder()"
+                        >
+                            中文
+                        </button>
                     </div>
-                    
+
                     <div class="dict-sections">
                         <h4>已启用 (拖拽排序)</h4>
                         <div id="modal-active-list" class="dict-list"></div>
-                        
+
                         <h4>未启用</h4>
                         <div id="modal-inactive-list" class="dict-list"></div>
                     </div>
@@ -911,9 +1023,13 @@
             // --- Practice Mode Functions ---
 
             async function initPracticeModeData() {
-                const practiceDict = allDicts.find(d => d.name === PRACTICE_DICT_NAME);
+                const practiceDict = allDicts.find(
+                    (d) => d.name === PRACTICE_DICT_NAME,
+                );
                 if (!practiceDict) {
-                    showErrorMessage(`练习词典 "${PRACTICE_DICT_NAME}" 未找到!`);
+                    showErrorMessage(
+                        `练习词典 "${PRACTICE_DICT_NAME}" 未找到!`,
+                    );
                     return false;
                 }
 
@@ -922,18 +1038,21 @@
                 if (!practiceDict.fetchedContent) {
                     try {
                         const response = await fetch(practiceDict.path);
-                        if (!response.ok) throw new Error(`Network response was not ok for ${practiceDict.path}`);
+                        if (!response.ok)
+                            throw new Error(
+                                `Network response was not ok for ${practiceDict.path}`,
+                            );
                         practiceDict.fetchedContent = await response.json();
                     } catch (error) {
                         showErrorMessage(`加载练习词典失败: ${error.message}`);
                         return false;
                     }
                 }
-                
+
                 const dictData = practiceDict.fetchedContent;
                 practiceWords = [];
                 for (const pinyin in dictData) {
-                    dictData[pinyin].forEach(hanzi => {
+                    dictData[pinyin].forEach((hanzi) => {
                         practiceWords.push({ pinyin, hanzi });
                     });
                 }
@@ -941,96 +1060,118 @@
                 // Shuffle the words
                 for (let i = practiceWords.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
-                    [practiceWords[i], practiceWords[j]] = [practiceWords[j], practiceWords[i]];
+                    [practiceWords[i], practiceWords[j]] = [
+                        practiceWords[j],
+                        practiceWords[i],
+                    ];
                 }
 
-                console.log(`Practice mode ready with ${practiceWords.length} words.`);
+                console.log(
+                    `Practice mode ready with ${practiceWords.length} words.`,
+                );
                 return true;
             }
 
             async function startPracticeMode() {
                 if (practiceWords.length === 0) {
-                    showLoadingMessage('准备练习...');
+                    showLoadingMessage("准备练习...");
                     const success = await initPracticeModeData();
                     hideLoadingMessage();
                     if (!success) return;
                 }
-                
+
                 setState(InputState.PRACTICE);
-                
+
                 // Load progress from localStorage or start from 0
                 const savedIndex = localStorage.getItem(PRACTICE_PROGRESS_KEY);
-                currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
-                
+                currentPracticeWordIndex = savedIndex
+                    ? parseInt(savedIndex, 10)
+                    : 0;
+
                 // Update progress bar to reflect loaded progress
-                const progressBar = document.getElementById('progress-bar');
-                const progress = practiceWords.length > 0 ? (currentPracticeWordIndex / practiceWords.length) * 100 : 0;
+                const progressBar = document.getElementById("progress-bar");
+                const progress =
+                    practiceWords.length > 0
+                        ? (currentPracticeWordIndex / practiceWords.length) *
+                          100
+                        : 0;
                 progressBar.style.width = `${progress}%`;
-                
-                console.log('Starting practice mode UI...');
-                document.getElementById('output-card').style.display = 'none';
-                document.getElementById('practice-container').style.display = 'flex'; // Show practice container
-                
+
+                console.log("Starting practice mode UI...");
+                document.getElementById("output-card").style.display = "none";
+                document.getElementById("practice-container").style.display =
+                    "flex"; // Show practice container
+
                 // Initialize card elements
-                cardLeft = document.getElementById('card-left');
-                cardCenter = document.getElementById('card-center');
-                cardRight = document.getElementById('card-right');
+                cardLeft = document.getElementById("card-left");
+                cardCenter = document.getElementById("card-center");
+                cardRight = document.getElementById("card-right");
                 practiceCards = [cardLeft, cardCenter, cardRight];
 
-                currentInputDisplay = document.getElementById(PRACTICE_MODE_INPUT_ID);
-                currentInputDisplay.innerHTML = ''; // Clear visual buffer
+                currentInputDisplay = document.getElementById(
+                    PRACTICE_MODE_INPUT_ID,
+                );
+                currentInputDisplay.innerHTML = ""; // Clear visual buffer
 
                 // Toggle visibility of buttons in toolbar
-                document.getElementById('practice-mode-btn').style.display = 'none';
-                document.getElementById('exit-practice-mode-btn').style.display = 'flex';
+                document.getElementById("practice-mode-btn").style.display =
+                    "none";
+                document.getElementById(
+                    "exit-practice-mode-btn",
+                ).style.display = "flex";
 
                 // Initial setup of cards
                 loadCards(); // New function to load initial cards
                 focusHiddenInput();
             }
-            
+
             function exitPracticeMode() {
-                console.log('Exiting practice mode...');
+                console.log("Exiting practice mode...");
                 isPracticeAnimating = false; // Reset animation flag
                 setState(InputState.NORMAL);
 
-                document.getElementById('output-card').style.display = 'flex';
-                document.getElementById('practice-container').style.display = 'none'; // Hide practice container
+                document.getElementById("output-card").style.display = "flex";
+                document.getElementById("practice-container").style.display =
+                    "none"; // Hide practice container
 
                 // Clear and reset all practice cards
-                practiceCards.forEach(card => {
-                    card.classList.remove('visible', 'current', 'incorrect');
-                    card.querySelector('.pinyin-display').textContent = '';
-                    card.querySelector('.hanzi-display').textContent = '';
+                practiceCards.forEach((card) => {
+                    card.classList.remove("visible", "current", "incorrect");
+                    card.querySelector(".pinyin-display").textContent = "";
+                    card.querySelector(".hanzi-display").textContent = "";
                 });
                 completedRightCardWord = null; // Clear completed word
 
                 // Clear input display
                 if (currentInputDisplay) {
-                    currentInputDisplay.innerHTML = '';
+                    currentInputDisplay.innerHTML = "";
                 }
 
                 // Toggle visibility of buttons in toolbar
-                document.getElementById('practice-mode-btn').style.display = 'flex';
-                document.getElementById('exit-practice-mode-btn').style.display = 'none';
+                document.getElementById("practice-mode-btn").style.display =
+                    "flex";
+                document.getElementById(
+                    "exit-practice-mode-btn",
+                ).style.display = "none";
 
                 // Also reset progress bar to 0 when exiting
-                document.getElementById('progress-bar').style.width = '0%';
+                document.getElementById("progress-bar").style.width = "0%";
             }
             // New function to load initial cards
             function loadCards() {
                 // Clear any existing content and classes
-                practiceCards.forEach(card => {
-                    card.classList.remove('visible', 'current', 'incorrect');
-                    card.querySelector('.pinyin-display').textContent = '';
-                    card.querySelector('.hanzi-display').textContent = '';
+                practiceCards.forEach((card) => {
+                    card.classList.remove("visible", "current", "incorrect");
+                    card.querySelector(".pinyin-display").textContent = "";
+                    card.querySelector(".hanzi-display").textContent = "";
                 });
 
                 // Load the first word into the center card
                 if (currentPracticeWordIndex < practiceWords.length) {
                     const word = practiceWords[currentPracticeWordIndex];
-                    cardCenter.querySelector('.hanzi-display').textContent = word.hanzi;
-                    cardCenter.classList.add('visible', 'current');
+                    cardCenter.querySelector(".hanzi-display").textContent =
+                        word.hanzi;
+                    cardCenter.classList.add("visible", "current");
                 } else {
                     // No words left, exit practice
                     exitPracticeMode();
@@ -1039,13 +1180,15 @@
 
                 // If there's a next word, load it into the left card (upcoming)
                 if (currentPracticeWordIndex + 1 < practiceWords.length) {
-                    const nextWord = practiceWords[currentPracticeWordIndex + 1];
-                    cardLeft.querySelector('.hanzi-display').textContent = nextWord.hanzi;
-                    cardLeft.classList.add('visible');
+                    const nextWord =
+                        practiceWords[currentPracticeWordIndex + 1];
+                    cardLeft.querySelector(".hanzi-display").textContent =
+                        nextWord.hanzi;
+                    cardLeft.classList.add("visible");
                 }
                 // Right card is initially empty
             }
-            
+
             function showNextPracticeWord() {
                 if (currentPracticeWordIndex >= practiceWords.length) {
                     alert("练习完成! 🎉");
@@ -1053,7 +1196,7 @@
                     exitPracticeMode();
                     return;
                 }
-                
+
                 // Content for the three cards
                 const wordOnCenter = practiceWords[currentPracticeWordIndex];
                 const wordOnLeft = practiceWords[currentPracticeWordIndex + 1];
@@ -1061,129 +1204,160 @@
 
                 // Update cardRight (previously completed word)
                 if (wordOnRight) {
-                    cardRight.querySelector('.hanzi-display').textContent = wordOnRight.hanzi;
-                    cardRight.querySelector('.pinyin-display').textContent = wordOnRight.pinyin.split('').join(' ');
-                    cardRight.classList.add('visible');
+                    cardRight.querySelector(".hanzi-display").textContent =
+                        wordOnRight.hanzi;
+                    cardRight.querySelector(".pinyin-display").textContent =
+                        wordOnRight.pinyin.split("").join(" ");
+                    cardRight.classList.add("visible");
                 } else {
-                    cardRight.classList.remove('visible');
-                    cardRight.querySelector('.hanzi-display').textContent = '';
-                    cardRight.querySelector('.pinyin-display').textContent = '';
+                    cardRight.classList.remove("visible");
+                    cardRight.querySelector(".hanzi-display").textContent = "";
+                    cardRight.querySelector(".pinyin-display").textContent = "";
                 }
 
                 // Update cardCenter (current word to practice)
                 if (wordOnCenter) {
-                    cardCenter.querySelector('.hanzi-display').textContent = wordOnCenter.hanzi;
-                    cardCenter.querySelector('.pinyin-display').textContent = ''; // No pinyin for current card
-                    cardCenter.classList.add('visible', 'current');
-                    cardCenter.classList.remove('incorrect');
+                    cardCenter.querySelector(".hanzi-display").textContent =
+                        wordOnCenter.hanzi;
+                    cardCenter.querySelector(".pinyin-display").textContent =
+                        ""; // No pinyin for current card
+                    cardCenter.classList.add("visible", "current");
+                    cardCenter.classList.remove("incorrect");
                 } else {
-                    cardCenter.classList.remove('visible', 'current', 'incorrect');
-                    cardCenter.querySelector('.hanzi-display').textContent = '';
-                    cardCenter.querySelector('.pinyin-display').textContent = '';
+                    cardCenter.classList.remove(
+                        "visible",
+                        "current",
+                        "incorrect",
+                    );
+                    cardCenter.querySelector(".hanzi-display").textContent = "";
+                    cardCenter.querySelector(".pinyin-display").textContent =
+                        "";
                 }
 
                 // Update cardLeft (next upcoming word)
                 if (wordOnLeft) {
-                    cardLeft.querySelector('.hanzi-display').textContent = wordOnLeft.hanzi;
-                    cardLeft.querySelector('.pinyin-display').textContent = '';
-                    cardLeft.classList.add('visible');
+                    cardLeft.querySelector(".hanzi-display").textContent =
+                        wordOnLeft.hanzi;
+                    cardLeft.querySelector(".pinyin-display").textContent = "";
+                    cardLeft.classList.add("visible");
                 } else {
-                    cardLeft.classList.remove('visible');
-                    cardLeft.querySelector('.hanzi-display').textContent = '';
-                    cardLeft.querySelector('.pinyin-display').textContent = '';
+                    cardLeft.classList.remove("visible");
+                    cardLeft.querySelector(".hanzi-display").textContent = "";
+                    cardLeft.querySelector(".pinyin-display").textContent = "";
                 }
-                
+
                 // Clear input
-                setBuffer('');
+                setBuffer("");
                 update();
-                currentInputDisplay.innerHTML = '';
+                currentInputDisplay.innerHTML = "";
                 focusHiddenInput();
             }
 
-
-
             // Dictionary Modal Functions
             function openDictModal() {
-                document.getElementById('dict-modal').style.display = 'flex';
+                document.getElementById("dict-modal").style.display = "flex";
                 renderModalDicts(); // Render dictionaries when modal opens
             }
 
             function closeDictModal() {
-                document.getElementById('dict-modal').style.display = 'none';
+                document.getElementById("dict-modal").style.display = "none";
             }
 
             function renderModalDicts() {
-                const activeList = document.getElementById('modal-active-list');
-                const inactiveList = document.getElementById('modal-inactive-list');
-                activeList.innerHTML = '';
-                inactiveList.innerHTML = '';
+                const activeList = document.getElementById("modal-active-list");
+                const inactiveList = document.getElementById(
+                    "modal-inactive-list",
+                );
+                activeList.innerHTML = "";
+                inactiveList.innerHTML = "";
 
                 allDicts.forEach((dict, index) => {
-                    const dictCard = document.createElement('div');
-                    dictCard.className = `dict-card ${!dict.enabled ? 'disabled' : ''}`;
-                    dictCard.setAttribute('data-index', index);
-                    dictCard.setAttribute('draggable', 'true'); // Make draggable
-                    dictCard.setAttribute('tabindex', '0'); // Make focusable for keyboard navigation
+                    const dictCard = document.createElement("div");
+                    dictCard.className = `dict-card ${!dict.enabled ? "disabled" : ""}`;
+                    dictCard.setAttribute("data-index", index);
+                    dictCard.setAttribute("draggable", "true"); // Make draggable
+                    dictCard.setAttribute("tabindex", "0"); // Make focusable for keyboard navigation
 
-                    dictCard.addEventListener('dragstart', (e) => {
+                    dictCard.addEventListener("dragstart", (e) => {
                         draggedDictIndex = index;
-                        e.dataTransfer.effectAllowed = 'move';
-                        e.dataTransfer.setData('text/plain', index); // Set data for Firefox
-                        setTimeout(() => dictCard.style.opacity = '0.5', 0); // Hide dragged item
+                        e.dataTransfer.effectAllowed = "move";
+                        e.dataTransfer.setData("text/plain", index); // Set data for Firefox
+                        setTimeout(() => (dictCard.style.opacity = "0.5"), 0); // Hide dragged item
                     });
 
-                    dictCard.addEventListener('dragover', (e) => {
+                    dictCard.addEventListener("dragover", (e) => {
                         e.preventDefault(); // Allow drop
                         const targetCard = e.currentTarget;
-                        if (draggedDictIndex !== null && draggedDictIndex !== index) {
+                        if (
+                            draggedDictIndex !== null &&
+                            draggedDictIndex !== index
+                        ) {
                             const bounding = targetCard.getBoundingClientRect();
-                            const offset = bounding.y + (bounding.height / 2);
+                            const offset = bounding.y + bounding.height / 2;
                             if (e.clientY < offset) {
-                                targetCard.style.borderTop = '2px solid var(--primary)';
-                                targetCard.style.borderBottom = '';
+                                targetCard.style.borderTop =
+                                    "2px solid var(--primary)";
+                                targetCard.style.borderBottom = "";
                             } else {
-                                targetCard.style.borderBottom = '2px solid var(--primary)';
-                                targetCard.style.borderTop = '';
+                                targetCard.style.borderBottom =
+                                    "2px solid var(--primary)";
+                                targetCard.style.borderTop = "";
                             }
                         }
                     });
 
-                    dictCard.addEventListener('dragleave', (e) => {
-                        e.currentTarget.style.borderTop = '';
-                        e.currentTarget.style.borderBottom = '';
+                    dictCard.addEventListener("dragleave", (e) => {
+                        e.currentTarget.style.borderTop = "";
+                        e.currentTarget.style.borderBottom = "";
                     });
 
-                    dictCard.addEventListener('drop', (e) => {
+                    dictCard.addEventListener("drop", (e) => {
                         e.preventDefault();
-                        e.currentTarget.style.borderTop = '';
-                        e.currentTarget.style.borderBottom = '';
-                        if (draggedDictIndex !== null && draggedDictIndex !== index) {
+                        e.currentTarget.style.borderTop = "";
+                        e.currentTarget.style.borderBottom = "";
+                        if (
+                            draggedDictIndex !== null &&
+                            draggedDictIndex !== index
+                        ) {
                             const droppedOnIndex = index;
-                            const isBefore = e.clientY < e.currentTarget.getBoundingClientRect().y + (e.currentTarget.getBoundingClientRect().height / 2);
-                            handleDictDrop(draggedDictIndex, droppedOnIndex, isBefore);
+                            const isBefore =
+                                e.clientY <
+                                e.currentTarget.getBoundingClientRect().y +
+                                    e.currentTarget.getBoundingClientRect()
+                                        .height /
+                                        2;
+                            handleDictDrop(
+                                draggedDictIndex,
+                                droppedOnIndex,
+                                isBefore,
+                            );
                         }
                     });
 
-                    dictCard.addEventListener('dragend', (e) => {
-                        e.target.style.opacity = '1'; // Restore opacity
+                    dictCard.addEventListener("dragend", (e) => {
+                        e.target.style.opacity = "1"; // Restore opacity
                         draggedDictIndex = null;
-                        document.querySelectorAll('.dict-card').forEach(card => {
-                            card.style.borderTop = '';
-                            card.style.borderBottom = '';
-                        });
+                        document
+                            .querySelectorAll(".dict-card")
+                            .forEach((card) => {
+                                card.style.borderTop = "";
+                                card.style.borderBottom = "";
+                            });
                     });
 
-                    dictCard.addEventListener('keydown', (e) => handleDictCardKeyDown(index, e));
+                    dictCard.addEventListener("keydown", (e) =>
+                        handleDictCardKeyDown(index, e),
+                    );
 
                     dictCard.innerHTML = `
                         <span class="dict-card-name">${dict.name} (${dict.wordCount || 0} 词)</span>
                         <div class="dict-card-actions">
-                            <button class="btn btn-sm move-up-btn" onclick="moveDictUp(${index})" ${index === 0 ? 'disabled' : ''}>↑</button>
-                            <button class="btn btn-sm move-down-btn" onclick="moveDictDown(${index})" ${index === allDicts.length - 1 ? 'disabled' : ''}>↓</button>
-                            <button class="btn btn-sm toggle-btn ${dict.enabled ? 'toggle-on' : 'toggle-off'}" onclick="toggleDictStatus(${index})">
-                                ${dict.enabled ? '禁用' : '启用'}
+                            <button class="btn btn-sm move-up-btn" onclick="moveDictUp(${index})" ${index === 0 ? "disabled" : ""}>↑</button>
+                            <button class="btn btn-sm move-down-btn" onclick="moveDictDown(${index})" ${index === allDicts.length - 1 ? "disabled" : ""}>↓</button>
+                            <button class="btn btn-sm toggle-btn ${dict.enabled ? "toggle-on" : "toggle-off"}" onclick="toggleDictStatus(${index})">
+                                ${dict.enabled ? "禁用" : "启用"}
                             </button>
-                            ${dict.type !== 'built-in' ? `<button class="btn btn-sm delete-btn" onclick="deleteDict(${index})">删除</button>` : ''}
+                            ${dict.type !== "built-in" ? `<button class="btn btn-sm delete-btn" onclick="deleteDict(${index})">删除</button>` : ""}
                         </div>
                     `;
 
@@ -1196,10 +1370,16 @@
             }
 
             async function sortDictsByDefaultOrder() {
-                const desiredOrder = ["基础词典", "词组词典", "二级字", "三级字", "四字词"];
-                
+                const desiredOrder = [
+                    "基础词典",
+                    "词组词典",
+                    "二级字",
+                    "三级字",
+                    "四字词",
+                ];
+
                 // First, enable all dictionaries that are part of the desired order
-                allDicts.forEach(dict => {
+                allDicts.forEach((dict) => {
                     if (desiredOrder.includes(dict.name)) {
                         dict.enabled = true;
                     }
@@ -1224,18 +1404,28 @@
                     // If neither is in desiredOrder, maintain current relative order (or sort by name as a fallback)
                     return a.name.localeCompare(b.name);
                 });
-                
+
                 saveDictConfig();
                 await loadAllDicts();
                 renderModalDicts();
-                showToast('中文词典已启用并排序', 'info');
+                showToast("中文词典已启用并排序", "info");
             }
 
             let draggedDictIndex = null; // Global variable to store the index of the dictionary being dragged
 
-            async function handleDictDrop(draggedIndex, droppedOnIndex, isBefore) {
+            async function handleDictDrop(
+                draggedIndex,
+                droppedOnIndex,
+                isBefore,
+            ) {
                 // If dragged and dropped on the same item, or if the indices are invalid, do nothing
-                if (draggedIndex === droppedOnIndex || draggedIndex < 0 || droppedOnIndex < 0 || draggedIndex >= allDicts.length || droppedOnIndex >= allDicts.length) {
+                if (
+                    draggedIndex === droppedOnIndex ||
+                    draggedIndex < 0 ||
+                    droppedOnIndex < 0 ||
+                    draggedIndex >= allDicts.length ||
+                    droppedOnIndex >= allDicts.length
+                ) {
                     return;
                 }
 
@@ -1261,19 +1451,22 @@
                         targetIndex = droppedOnIndex + 1;
                     }
                 }
-                
+
                 // Ensure targetIndex is within valid bounds
-                targetIndex = Math.max(0, Math.min(targetIndex, allDicts.length));
+                targetIndex = Math.max(
+                    0,
+                    Math.min(targetIndex, allDicts.length),
+                );
 
                 allDicts.splice(targetIndex, 0, movedDict);
                 saveDictConfig();
                 await loadAllDicts();
                 renderModalDicts();
-                showToast(`词典 "${movedDict.name}" 已移动`, 'info');
+                showToast(`词典 "${movedDict.name}" 已移动`, "info");
             }
 
             async function handleDictCardKeyDown(index, event) {
-                if (event.key === 'ArrowUp') {
+                if (event.key === "ArrowUp") {
                     event.preventDefault();
                     if (index > 0) {
                         const [movedDict] = allDicts.splice(index, 1);
@@ -1283,12 +1476,14 @@
                         renderModalDicts();
                         // Refocus the moved element
                         requestAnimationFrame(() => {
-                            const newCard = document.querySelector(`.dict-card[data-index="${index - 1}"]`);
+                            const newCard = document.querySelector(
+                                `.dict-card[data-index="${index - 1}"]`,
+                            );
                             if (newCard) newCard.focus();
                         });
-                        showToast(`词典 "${movedDict.name}" 上移`, 'info');
+                        showToast(`词典 "${movedDict.name}" 上移`, "info");
                     }
-                } else if (event.key === 'ArrowDown') {
+                } else if (event.key === "ArrowDown") {
                     event.preventDefault();
                     if (index < allDicts.length - 1) {
                         const [movedDict] = allDicts.splice(index, 1);
@@ -1298,10 +1493,12 @@
                         renderModalDicts();
                         // Refocus the moved element
                         requestAnimationFrame(() => {
-                            const newCard = document.querySelector(`.dict-card[data-index="${index + 1}"]`);
+                            const newCard = document.querySelector(
+                                `.dict-card[data-index="${index + 1}"]`,
+                            );
                             if (newCard) newCard.focus();
                         });
-                        showToast(`词典 "${movedDict.name}" 下移`, 'info');
+                        showToast(`词典 "${movedDict.name}" 下移`, "info");
                     }
                 }
             }
@@ -1335,11 +1532,14 @@
             }
 
             async function deleteDict(index) {
-                if (allDicts[index].type === 'built-in') {
-                    showToast('无法删除内置词典', 'warning');
+                if (allDicts[index].type === "built-in") {
+                    showToast("无法删除内置词典", "warning");
                     return;
                 }
-                if (allDicts[index] && confirm(`确定要删除词典 "${allDicts[index].name}" 吗？`)) {
+                if (
+                    allDicts[index] &&
+                    confirm(`确定要删除词典 "${allDicts[index].name}" 吗？`)
+                ) {
                     allDicts.splice(index, 1); // Remove from array
                     saveDictConfig(); // Save changes
                     await loadAllDicts(); // Reload Trie
@@ -1422,7 +1622,6 @@
                                     bubbles: true,
                                 });
                                 inputElement.dispatchEvent(inputEvent);
-
                             }
                         });
 
@@ -1629,7 +1828,7 @@
              */
             function enterCorrectionMode() {
                 setState(InputState.CORRECTION);
-                correctionWrapper.style.display = 'block';
+                correctionWrapper.style.display = "block";
                 correctionInput.value = buffer; // Sync In: Fill with current buffer
                 correctionInput.focus();
             }
@@ -1639,26 +1838,28 @@
              * @param {string} action - 退出动作类型
              */
             function exitCorrectionMode(action) {
-                                                                if (action === "convert_sentence") {
-                                                                    const pinyinPhrase = correctionInput.value.trim();
-                                                                    if (pinyinPhrase) {
-                                                                        const convertedHanzi =
-                                                                            convertPinyinToHanzi(pinyinPhrase);
-                                                                        committed += convertedHanzi;
-                                                                    }
-                                                                    // Clear the main buffer after committing from correction mode
-                                                                    setBuffer(""); 
-                                                                                                } else if (action === 'sync_out_buffer') { // New logic for sync-out
-                                                                                                    const correctedText = correctionInput.value.trim();
-                                                                                                    setBuffer(correctedText); // Update global buffer and hInput.value
-                                                                                                    pageIndex = 0; // Reset page index
-                                                                                                    setTimeout(() => update(), 0); // Add a small delay for UI refresh
-                                                                                                    // Removed 'return;' here to allow subsequent state changes
-                                                                                                }
-                                                                                                
-                                                                                                setState(InputState.NORMAL);
-                                                                                                correctionWrapper.style.display = "none";
-                                                                                                update();            }
+                if (action === "convert_sentence") {
+                    const pinyinPhrase = correctionInput.value.trim();
+                    if (pinyinPhrase) {
+                        const convertedHanzi =
+                            convertPinyinToHanzi(pinyinPhrase);
+                        committed += convertedHanzi;
+                    }
+                    // Clear the main buffer after committing from correction mode
+                    setBuffer("");
+                } else if (action === "sync_out_buffer") {
+                    // New logic for sync-out
+                    const correctedText = correctionInput.value.trim();
+                    setBuffer(correctedText); // Update global buffer and hInput.value
+                    pageIndex = 0; // Reset page index
+                    setTimeout(() => update(), 0); // Add a small delay for UI refresh
+                    // Removed 'return;' here to allow subsequent state changes
+                }
+
+                setState(InputState.NORMAL);
+                correctionWrapper.style.display = "none";
+                update();
+            }
 
             /**
              * 切换编辑模式
@@ -1683,63 +1884,47 @@
                 }
             }
 
-                        /**
+            /**
 
                          * 归档并复制文本
 
                          */
 
-                        function archiveAndCopy() {
+            function archiveAndCopy() {
+                try {
+                    if (committed.trim()) {
+                        // History is now managed by resetInput()
 
-                            try {
+                        // No need to add to history here explicitly for committed text
 
-                                if (committed.trim()) {
+                        // Just copy to clipboard and clear committed.
 
-                                    // History is now managed by resetInput()
+                        // 复制到剪贴板
 
-                                    // No need to add to history here explicitly for committed text
+                        navigator.clipboard
 
-                                    // Just copy to clipboard and clear committed.
+                            .writeText(committed)
 
-            
+                            .then(() => {
+                                committed = "";
 
-                                    // 复制到剪贴板
+                                update();
+                            })
 
-                                    navigator.clipboard
+                            .catch((err) => {
+                                console.error("复制失败:", err);
 
-                                        .writeText(committed)
+                                showToast("复制失败", "error");
+                            });
+                    } else {
+                        showToast("没有内容可复制", "warning");
+                    }
+                } catch (error) {
+                    console.error("归档复制失败:", error);
 
-                                        .then(() => {
-
-                                            committed = "";
-
-                                            update();
-
-                                        })
-
-                                        .catch((err) => {
-
-                                            console.error("复制失败:", err);
-
-                                            showToast("复制失败", "error");
-
-                                        });
-
-                                } else {
-
-                                    showToast("没有内容可复制", "warning");
-
-                                }
-
-                            } catch (error) {
-
-                                console.error("归档复制失败:", error);
-
-                                showToast("操作失败", "error");
-
-                            }
-
-                        }
+                    showToast("操作失败", "error");
+                }
+            }
 
             /**
              * 从编辑器同步内容
@@ -1755,7 +1940,8 @@
              */
             function toggleHistoryPanel() {
                 const historyPanel = document.getElementById("historyPanel");
-                const isVisible = window.getComputedStyle(historyPanel).display === "flex";
+                const isVisible =
+                    window.getComputedStyle(historyPanel).display === "flex";
                 const newVisibility = !isVisible;
                 historyPanel.style.display = newVisibility ? "flex" : "none";
 
@@ -1774,7 +1960,6 @@
                 if (confirm("确定要清空所有输入历史吗？")) {
                     HISTORY = []; // Clear the in-memory array
                     saveHistory(); // Save empty array and update UI
-
                 }
             }
 
@@ -1786,18 +1971,20 @@
                 if (index >= 0 && index < HISTORY.length) {
                     HISTORY.splice(index, 1); // Remove item from array
                     saveHistory(); // Update localStorage and Refresh UI
-
                 }
             }
 
             // New function for saving history
             function saveHistory() {
                 // Limit history to a certain number of items, e.g., 50
-                const maxHistoryItems = 50; 
+                const maxHistoryItems = 50;
                 if (HISTORY.length > maxHistoryItems) {
                     HISTORY = HISTORY.slice(0, maxHistoryItems);
                 }
-                localStorage.setItem("ime_history_v18", JSON.stringify(HISTORY));
+                localStorage.setItem(
+                    "ime_history_v18",
+                    JSON.stringify(HISTORY),
+                );
                 updateHistoryUI(HISTORY);
             }
 
@@ -1813,32 +2000,32 @@
             async function handleImport(input) {
                 const file = input.files[0];
                 if (!file) return;
-                
+
                 const reader = new FileReader();
                 reader.onload = async (e) => {
                     try {
                         const content = JSON.parse(e.target.result);
                         const newDict = {
-                            name: file.name.replace('.json', ''),
+                            name: file.name.replace(".json", ""),
                             enabled: true,
-                            type: 'user',
+                            type: "user",
                             // Assuming the dictionary content itself is stored for later Trie rebuild
                             // Use 'content' property as previously defined in allDicts structure
-                            content: JSON.stringify(content) 
+                            content: JSON.stringify(content),
                         };
                         allDicts.push(newDict);
                         saveDictConfig(); // Uses saveDictConfig which handles localStorage and saveSettings
-                        
+
                         await loadAllDicts(); // Rebuild Trie with new dict
                         renderModalDicts(); // Re-render modal to show new dict
-                        showToast(`已导入词典: ${newDict.name}`, 'info'); // Use info toast for feedback
+                        showToast(`已导入词典: ${newDict.name}`, "info"); // Use info toast for feedback
                     } catch (error) {
-                        console.error('导入词典失败:', error);
-                        showToast('导入失败，请检查文件格式', 'error');
+                        console.error("导入词典失败:", error);
+                        showToast("导入失败，请检查文件格式", "error");
                     }
                 };
                 reader.readAsText(file);
-                input.value = ''; // Reset file input
+                input.value = ""; // Reset file input
             }
 
             // --- End Missing function definitions ---
@@ -1918,8 +2105,36 @@
             };
 
             const NON_PINYIN_COMMITTING_CHARS = new Set([
-                '+', '-', '\'', '"', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '=',
-                '~', '`', '{', '}', '[', ']', '|', '\\', ':', ';', '<', '>', '?', '/'
+                "+",
+                "-",
+                "'",
+                '"',
+                "!",
+                "@",
+                "#",
+                "$",
+                "%",
+                "^",
+                "&",
+                "*",
+                "(",
+                ")",
+                "_",
+                "=",
+                "~",
+                "`",
+                "{",
+                "}",
+                "[",
+                "]",
+                "|",
+                "\\",
+                ":",
+                ";",
+                "<",
+                ">",
+                "?",
+                "/",
             ]);
 
             function getDictLevel(dict) {
@@ -1975,7 +2190,7 @@
             let practiceWords = [];
             let currentPracticeWordIndex = 0;
             const PRACTICE_DICT_NAME = "词组词典";
-            const PRACTICE_PROGRESS_KEY = 'webime_practice_progress';
+            const PRACTICE_PROGRESS_KEY = "webime_practice_progress";
             let isPracticeAnimating = false;
 
             let combinedCandidates = [],
@@ -1991,7 +2206,7 @@
                 document.getElementById("correction-wrapper");
             const correctionInput = document.getElementById("correction-input");
             const mainCandidates = document.getElementById("main-candidates"); // Define mainCandidates
-            
+
             // New practice mode variables
             let cardLeft, cardCenter, cardRight;
             let currentInputDisplay; // For the visual buffer
@@ -2389,10 +2604,14 @@
                 // Before clearing buffer, check if committed has new content to save to history
                 // Only save if committed has content AND it's different from the last history item
                 // (to avoid duplicate entries if resetInput is called multiple times without new committed content)
-                if (committed.trim() && (HISTORY.length === 0 || HISTORY[0].text !== committed.trim())) {
+                if (
+                    committed.trim() &&
+                    (HISTORY.length === 0 ||
+                        HISTORY[0].text !== committed.trim())
+                ) {
                     const historyItem = {
                         text: committed.trim(),
-                        timestamp: Date.now()
+                        timestamp: Date.now(),
                     };
                     HISTORY.unshift(historyItem); // Add to the beginning
                     saveHistory(); // Save the updated history
@@ -2405,10 +2624,7 @@
             }
 
             function handleKeyDown(e) {
-                if (
-                    currentState === InputState.CORRECTION
-                )
-                    return;
+                if (currentState === InputState.CORRECTION) return;
                 const key = e.key;
 
                 // Handle correction mode shortcut (Ctrl+I) globally
@@ -2580,13 +2796,17 @@
 
             // New function to update the visual practice input display
             function updatePracticeInputDisplay() {
-                if (currentState !== InputState.PRACTICE || !currentInputDisplay) return;
+                if (
+                    currentState !== InputState.PRACTICE ||
+                    !currentInputDisplay
+                )
+                    return;
 
                 const currentWord = practiceWords[currentPracticeWordIndex];
                 const targetPinyin = currentWord.pinyin.toLowerCase();
                 const typedPinyin = buffer.toLowerCase();
 
-                let displayHTML = '';
+                let displayHTML = "";
                 for (let i = 0; i < targetPinyin.length; i++) {
                     const char = targetPinyin[i];
                     if (i < typedPinyin.length) {
@@ -2604,7 +2824,9 @@
 
             function handleInput(event) {
                 if (currentState === InputState.PRACTICE) {
-                    setBuffer(event.target.value.toLowerCase().replace(/[^a-z]/g, ''));
+                    setBuffer(
+                        event.target.value.toLowerCase().replace(/[^a-z]/g, ""),
+                    );
                     updatePracticeInputDisplay();
 
                     const currentWord = practiceWords[currentPracticeWordIndex];
@@ -2615,15 +2837,21 @@
 
                     if (typedPinyin === targetPinyin) {
                         currentPracticeWordIndex++;
-                        localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
-                        
-                        const progressBar = document.getElementById('progress-bar');
-                        const progress = (currentPracticeWordIndex / practiceWords.length) * 100;
+                        localStorage.setItem(
+                            PRACTICE_PROGRESS_KEY,
+                            currentPracticeWordIndex,
+                        );
+
+                        const progressBar =
+                            document.getElementById("progress-bar");
+                        const progress =
+                            (currentPracticeWordIndex / practiceWords.length) *
+                            100;
                         progressBar.style.width = `${progress}%`;
 
                         setTimeout(() => {
                             showNextPracticeWord();
-                        }, 100); 
+                        }, 100);
                     }
                     return;
                 }
@@ -2670,7 +2898,7 @@
                     exitCorrectionMode("convert_sentence");
                 } else if (e.key === "Escape") {
                     e.preventDefault();
-                    exitCorrectionMode('sync_out_buffer'); // Sync Out: Escape key
+                    exitCorrectionMode("sync_out_buffer"); // Sync Out: Escape key
                 } else if (e.ctrlKey && e.key.toLowerCase() === "i") {
                     e.preventDefault();
                     exitCorrectionMode("convert_sentence");
@@ -2703,18 +2931,28 @@
                 const bottomPanel = document.getElementById(bottomPanelId);
                 const parentPanel = topPanel.parentElement; // Should be center-container
 
-                let startY, startTopFlexGrow, startBottomFlexGrow, totalHeight, parentRect;
+                let startY,
+                    startTopFlexGrow,
+                    startBottomFlexGrow,
+                    totalHeight,
+                    parentRect;
 
                 resizer.addEventListener("mousedown", (e) => {
                     e.preventDefault();
-                    
+
                     // Get current computed flex-grow values
-                    startTopFlexGrow = parseFloat(window.getComputedStyle(topPanel).flexGrow);
-                    startBottomFlexGrow = parseFloat(window.getComputedStyle(bottomPanel).flexGrow);
+                    startTopFlexGrow = parseFloat(
+                        window.getComputedStyle(topPanel).flexGrow,
+                    );
+                    startBottomFlexGrow = parseFloat(
+                        window.getComputedStyle(bottomPanel).flexGrow,
+                    );
 
                     // If not set, use default or initial values
-                    if (isNaN(startTopFlexGrow) || startTopFlexGrow === 0) startTopFlexGrow = 2;
-                    if (isNaN(startBottomFlexGrow) || startBottomFlexGrow === 0) startBottomFlexGrow = 3;
+                    if (isNaN(startTopFlexGrow) || startTopFlexGrow === 0)
+                        startTopFlexGrow = 2;
+                    if (isNaN(startBottomFlexGrow) || startBottomFlexGrow === 0)
+                        startBottomFlexGrow = 3;
 
                     totalHeight = parentPanel.offsetHeight; // Total height of the flex container
                     parentRect = parentPanel.getBoundingClientRect(); // Get bounding rect once
@@ -2722,7 +2960,7 @@
                     const doDrag = (ev) => {
                         // Calculate mouse position relative to the parentPanel
                         const mouseY = ev.clientY - parentRect.top;
-                        
+
                         // Calculate new top panel height based on mouse position
                         let newTopHeight = mouseY;
                         let newBottomHeight = parentRect.height - mouseY;
@@ -2737,9 +2975,11 @@
                         }
 
                         // Calculate new flex-grow ratios based on the adjusted split point
-                        const sumFlexGrow = startTopFlexGrow + startBottomFlexGrow;
-                        
-                        let newTopFlexGrow = (newTopHeight / parentRect.height) * sumFlexGrow;
+                        const sumFlexGrow =
+                            startTopFlexGrow + startBottomFlexGrow;
+
+                        let newTopFlexGrow =
+                            (newTopHeight / parentRect.height) * sumFlexGrow;
                         let newBottomFlexGrow = sumFlexGrow - newTopFlexGrow;
 
                         requestAnimationFrame(() => {
