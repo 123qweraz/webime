@@ -304,6 +304,10 @@
                 font-weight: bold;
                 margin-bottom: 5px;
             }
+            .active-buffer-segment {
+                text-decoration: underline;
+                text-decoration-thickness: 2px;
+            }
             #main-candidates {
                 display: flex;
                 flex-wrap: wrap;
@@ -2461,79 +2465,80 @@
             }
 
             function update() {
+                const isAllVowels = (str) => /^[aeiou]+$/.test(str); // Define helper function here
+
                 if (currentState === InputState.EDIT) return;
 
                 outputArea.innerText = committed;
                 outputArea.scrollTop = outputArea.scrollHeight;
+                
+                // Update global segmentation variables before processing
+                let activeSegment = "";
+                let precedingBuffer = buffer;
 
                 if (buffer) {
-                    let currentSegment = "";
-                    let precedingBuffer = "";
-                    let foundSegment = false;
-                    
-                    // Iterate backwards from the end of the buffer to find the longest Pinyin or punctuation segment
-                    for (let i = buffer.length; i > 0; i--) {
-                        const potentialSegment = buffer.slice(i - 1, buffer.length); // Suffix of length 1, then 2, etc.
-                        const potentialSegmentLower = potentialSegment.toLowerCase();
-
-                        // Check if it's a punctuation key (case-sensitive)
-                        if (PUNCTUATION_KEYS.has(potentialSegment)) { 
-                            currentSegment = potentialSegment;
-                            precedingBuffer = buffer.slice(0, i - 1);
-                            foundSegment = true;
-                            break;
-                        }
-                        // Check if it's a pinyin prefix in the Trie (case-insensitive for lookup)
-                        if (/^[a-zA-Z]+$/.test(potentialSegment) && DB.getNode(potentialSegmentLower)) {
-                            currentSegment = potentialSegment;
-                            precedingBuffer = buffer.slice(0, i - 1);
-                            foundSegment = true;
-                            break;
+                    let lastPinyinCharIndex = -1;
+                    for (let i = buffer.length - 1; i >= 0; i--) {
+                        if (/[a-zA-Z']/.test(buffer[i])) {
+                            lastPinyinCharIndex = i;
+                        } else {
+                            break; // Stop at the first non-pinyin char from the end
                         }
                     }
 
-                    if (!foundSegment && buffer.length > 0) {
-                        // If no segment found (e.g., non-alphabetic, non-punctuation chars like digits, or a new char)
-                        // Treat the very last character as the current segment for display but no candidates
-                        currentSegment = buffer.slice(-1);
-                        precedingBuffer = buffer.slice(0, -1);
-                    } else if (!foundSegment && buffer.length === 0) {
-                        // Should not happen if buffer is checked (handled by if(buffer) condition)
-                    }
-
-                    // --- Display buffer ---
-                    let bufferHTML = escapeHtml(precedingBuffer);
-                    if (currentSegment) {
-                        bufferHTML += `<span class="active-buffer-segment">${escapeHtml(currentSegment)}</span>`;
-                    }
-                    if (currentState === InputState.TAB) {
-                        bufferHTML += "-";
-                        if (enFilter) {
-                            bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
+                    if (lastPinyinCharIndex !== -1) {
+                         // Find start of the last pinyin segment
+                        let firstPinyinCharIndex = lastPinyinCharIndex;
+                        for (let i = lastPinyinCharIndex - 1; i >= 0; i--) {
+                            if (/[a-zA-Z']/.test(buffer[i])) {
+                                firstPinyinCharIndex = i;
+                            } else {
+                                break;
+                            }
+                        }
+                        activeSegment = buffer.substring(firstPinyinCharIndex);
+                        precedingBuffer = buffer.substring(0, firstPinyinCharIndex);
+                    } else if (buffer.length > 0) { // No pinyin at the end, check for punctuation
+                        const lastChar = buffer.slice(-1);
+                        if(PUNCTUATION_KEYS.has(lastChar)) {
+                            activeSegment = lastChar;
+                            precedingBuffer = buffer.slice(0, -1);
                         }
                     }
+                }
+                
+                currentProcessedSegment = activeSegment;
+                currentPrecedingBuffer = precedingBuffer;
+
+                if (buffer) {
+                    let bufferHTML = escapeHtml(precedingBuffer) + `<span class="active-buffer-segment">${escapeHtml(activeSegment)}</span>`;
                     document.getElementById("buffer-display").innerHTML = bufferHTML;
 
-                    // --- Candidate Generation for currentSegment ---
                     let list = [];
-                    // Only process segment if it's pinyin or punctuation
-                    if (currentSegment && (PUNCTUATION_KEYS.has(currentSegment) || /^[a-zA-Z]+$/.test(currentSegment))) {
-                        const b_segment_for_lookup = PUNCTUATION_KEYS.has(currentSegment) ? currentSegment : currentSegment.toLowerCase();
+                    if (activeSegment) {
+                        const b_segment_for_lookup = activeSegment.toLowerCase();
                         
+                        let useExactMatch = false;
+                        if (
+                            b_segment_for_lookup.length <= 2 ||
+                            ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels(b_segment_for_lookup))
+                        ) {
+                            useExactMatch = true;
+                        }
+
                         const prefixNode = DB.getNode(b_segment_for_lookup);
 
                         if (prefixNode) {
                             const collect = (node, path) => {
-                                // For punctuation, only exact match is relevant usually
-                                if (PUNCTUATION_KEYS.has(b_segment_for_lookup) && path !== b_segment_for_lookup) {
+                                if (useExactMatch && path !== b_segment_for_lookup) {
                                     return;
                                 }
                                 
                                 if (node.values.length > 0) {
                                     let weight = 1000;
                                     if (path === b_segment_for_lookup) weight += 10000; // Exact match bonus
-                                    if (PUNCTUATION_KEYS.has(b_segment_for_lookup)) weight += 5000; // Punctuation bonus
-
+                                    weight -= (path.length - b_segment_for_lookup.length) * 100;
+                                    
                                     node.values.forEach((i) =>
                                         list.push({
                                             text: i.char || i,
@@ -2543,7 +2548,7 @@
                                     );
                                 }
 
-                                if (!PUNCTUATION_KEYS.has(b_segment_for_lookup)) { // Only expand for Pinyin
+                                if (!useExactMatch) {
                                      for (const char in node.children) {
                                         collect(node.children[char], path + char);
                                     }
@@ -2558,19 +2563,6 @@
                         .sort((a, b) => b.w - a.w)
                         .filter((x) => !seen.has(x.text) && seen.add(x.text));
 
-                    // Auto-commit logic for Pinyin (not punctuation or mixed content)
-                    if (
-                        !PUNCTUATION_KEYS.has(currentSegment) && // Not punctuation
-                        /^[a-zA-Z]+$/.test(currentSegment) && // Is purely alphabetic Pinyin
-                        currentSegment.length >= 6 && // Default pinyin auto-commit length
-                        DB.getNode(currentSegment.toLowerCase()) &&
-                        DB.getNode(currentSegment.toLowerCase()).values.length === 1 &&
-                        currentState !== InputState.TAB
-                    ) {
-                        const word = combinedCandidates[0].text;
-                        setTimeout(() => selectCandidate(word), 10);
-                        return;
-                    }
                 } else {
                     document.getElementById("buffer-display").innerText = "";
                     combinedCandidates = [];
@@ -2621,18 +2613,16 @@
             }
 
             function selectCandidate(selectedText) {
-                committed += selectedText; // Append only the selected Hanzi/Punctuation for current segment
-                // Update buffer by removing the currentProcessedSegment and keeping the currentPrecedingBuffer
-                setBuffer(currentPrecedingBuffer);
-
-                pageIndex = 0; // Reset page index
-                enFilter = ""; // Clear enFilter as well
-                setState(InputState.NORMAL); // Reset tab state if it was active
+                const newBuffer = currentPrecedingBuffer + selectedText;
+                committed += newBuffer; // Commit the entire preceding buffer plus the selected text
+                resetInput(); // Clear everything
                 update();
             }
 
             function resetInput() {
                 setBuffer(""); // Consolidates buffer = "" and hInput.value = ""
+                currentPrecedingBuffer = ""; // Reset segment globals
+                currentProcessedSegment = ""; // Reset segment globals
                 enFilter = "";
                 setState(InputState.NORMAL); // Reset tab state
                 pageIndex = 0;
@@ -2678,19 +2668,7 @@
 
 
 
-                // Punctuation handling (dictionary-driven)
-                if (PUNCTUATION_KEYS.has(key)) {
-                    e.preventDefault();
-                    if (buffer && combinedCandidates.length > 0) {
-                        // Commit the first candidate of the current Pinyin buffer
-                        committed += combinedCandidates[0].text;
-                    }
-                    // Then, set the buffer to the pressed punctuation key
-                    setBuffer(key);
-                    pageIndex = 0; // Reset page index for new buffer
-                    update();
-                    return;
-                }
+
 
                 // TAB key handling
                 if (key === "Tab") {
