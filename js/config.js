@@ -21,9 +21,9 @@ const BUILT_IN_DICTS = [
         tag: "chinese",
     },
     {
-        name: "三级字",
+        name: "生僻字",
         path: "dicts/chinese/third_dict/level-3_char_en.json",
-        enabled: true,
+        enabled: false,
         type: "built-in",
         tag: "chinese",
     },

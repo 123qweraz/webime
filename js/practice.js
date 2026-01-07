@@ -4,6 +4,7 @@ let isPracticeAnimating = false;
 let cardLeft, cardCenter, cardRight;
 let currentInputDisplay;
 let practiceCards = [];
+let showPinyinHint = false;
 
 function getHanziChar(hanziObject) {
     if (typeof hanziObject === 'object' && hanziObject !== null && hanziObject.char) {
@@ -58,7 +59,6 @@ async function initPracticeModeData() {
 }
 
 async function startPracticeMode() {
-    // Reset data to ensure it picks up current dict
     practiceWords = []; 
     showLoadingMessage("准备练习...");
     const success = await initPracticeModeData();
@@ -71,12 +71,11 @@ async function startPracticeMode() {
     currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
     if (currentPracticeWordIndex >= practiceWords.length) currentPracticeWordIndex = 0;
 
-    const progressBar = document.getElementById("progress-bar");
-    const progress = practiceWords.length > 0 ? (currentPracticeWordIndex / practiceWords.length) * 100 : 0;
-    progressBar.style.width = `${progress}%`;
+    updatePracticeProgress();
 
     document.getElementById("output-card").style.display = "none";
     document.getElementById("practice-container").style.display = "flex";
+    document.getElementById("practice-toolbar").style.display = "flex";
 
     cardLeft = document.getElementById("card-left");
     cardCenter = document.getElementById("card-center");
@@ -84,13 +83,22 @@ async function startPracticeMode() {
     practiceCards = [cardLeft, cardCenter, cardRight];
 
     currentInputDisplay = document.getElementById("practice-input-display");
-    if (currentInputDisplay) currentInputDisplay.innerHTML = "";
-
+    
     document.getElementById("practice-mode-btn").style.display = "none";
     document.getElementById("exit-practice-mode-btn").style.display = "flex";
 
     loadCards();
     focusHiddenInput();
+}
+
+function updatePracticeProgress() {
+    const progressBar = document.getElementById("progress-bar");
+    const progressText = document.getElementById("practice-progress-text");
+    if (practiceWords.length > 0) {
+        const percent = (currentPracticeWordIndex / practiceWords.length) * 100;
+        if (progressBar) progressBar.style.width = `${percent}%`;
+        if (progressText) progressText.textContent = `${currentPracticeWordIndex + 1} / ${practiceWords.length}`;
+    }
 }
 
 function exitPracticeMode() {
@@ -99,6 +107,7 @@ function exitPracticeMode() {
 
     document.getElementById("output-card").style.display = "flex";
     document.getElementById("practice-container").style.display = "none";
+    document.getElementById("practice-toolbar").style.display = "none";
 
     practiceCards.forEach((card) => {
         card.classList.remove("visible", "current", "incorrect");
@@ -112,6 +121,13 @@ function exitPracticeMode() {
     document.getElementById("exit-practice-mode-btn").style.display = "none";
 }
 
+function togglePinyinHint() {
+    showPinyinHint = !showPinyinHint;
+    const btn = document.getElementById("toggle-pinyin-btn");
+    if (btn) btn.classList.toggle("active", showPinyinHint);
+    updatePracticeInputDisplay();
+}
+
 function loadCards() {
     practiceCards.forEach((card) => {
         card.classList.remove("visible", "current", "incorrect");
@@ -122,9 +138,7 @@ function loadCards() {
     if (currentPracticeWordIndex < practiceWords.length) {
         const word = practiceWords[currentPracticeWordIndex];
         cardCenter.querySelector(".hanzi-display").textContent = getHanziChar(word.hanzi);
-        // Hint mode: Use underscores for hidden pinyin
-        const pinyinContent = word.pinyin.split('').map(() => `<span class="char-placeholder">_</span>`).join('');
-        cardCenter.querySelector(".pinyin-display").innerHTML = pinyinContent;
+        updatePracticeInputDisplay(); 
         cardCenter.classList.add("visible", "current");
     } else {
         exitPracticeMode();
@@ -145,6 +159,7 @@ function showNextPracticeWord() {
         exitPracticeMode();
         return;
     }
+    updatePracticeProgress();
     loadCards();
     setBuffer("");
     update();
@@ -174,7 +189,8 @@ function updatePracticeInputDisplay() {
                         cardHTML += `<span class="char-incorrect">${typedPinyin[i]}</span>`;
                     }
                 } else {
-                    cardHTML += `<span class="char-placeholder">_</span>`;
+                    const placeholder = showPinyinHint ? char : "_";
+                    cardHTML += `<span class="char-placeholder">${placeholder}</span>`;
                 }
             }
             cardPinyinDisplay.innerHTML = cardHTML;
@@ -192,7 +208,7 @@ function updatePracticeInputDisplay() {
                     displayHTML += `<span class="incorrect-char">${typedPinyin[i]}</span>`;
                 }
             } else {
-                displayHTML += `<span style="opacity: 0.3;">${char}</span>`;
+                displayHTML += `<span style="opacity: 0.2;">${char}</span>`;
             }
         }
         currentInputDisplay.innerHTML = displayHTML;

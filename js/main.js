@@ -72,7 +72,6 @@ function handleKeyDown(e) {
             e.preventDefault();
         }
         if (key === "Backspace") {
-            // Let the input event handle it or handle it here
             setTimeout(() => {
                 setBuffer(hInput.value);
                 updatePracticeInputDisplay();
@@ -147,7 +146,7 @@ function handleInput(event) {
 
         if (typedPinyin && !targetPinyin.startsWith(typedPinyin)) {
             cardCenter.classList.remove("incorrect"); 
-            void cardCenter.offsetWidth; 
+            void cardCenter.offsetWidth;
             cardCenter.classList.add("incorrect");
         } else { 
             cardCenter.classList.remove("incorrect"); 
@@ -156,8 +155,7 @@ function handleInput(event) {
         if (typedPinyin === targetPinyin) {
             currentPracticeWordIndex++;
             localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
-            const progressBar = document.getElementById("progress-bar");
-            if (progressBar) progressBar.style.width = `${(currentPracticeWordIndex / practiceWords.length) * 100}%`;
+            updatePracticeProgress();
             setTimeout(() => { showNextPracticeWord(); }, 150);
         }
         return;
@@ -171,6 +169,13 @@ function handleInput(event) {
 
 function handleGlobalKeyDown(e) {
     const key = e.key.toLowerCase();
+    if (e.key === "F2") {
+        if (currentState === InputState.PRACTICE) {
+            e.preventDefault();
+            togglePinyinHint();
+        }
+        return;
+    }
     if (e.ctrlKey && key === "e") { e.preventDefault(); toggleEditMode(); return; }
     if (e.ctrlKey && key === "c") {
         if (currentState !== InputState.EDIT && currentState !== InputState.CORRECTION) { e.preventDefault(); archiveAndCopy(); }

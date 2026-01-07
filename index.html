@@ -8,25 +8,19 @@
     <body>
         <div class="main-layout">
             <div class="toolbar">
-                <button
-                    id="l-hist-btn"
-                    class="btn btn-toggle"
-                    onclick="toggleHistoryPanel()"
-                >
-                    剪切板
-                </button>
+                <button id="l-hist-btn" class="btn btn-toggle" onclick="toggleHistoryPanel()">剪切板</button>
                 <div style="width: 1px; height: 20px; background: #ddd; margin: 0 5px;"></div>
                 <a href="hanzi_explorer.html" class="btn btn-toggle" target="_blank">汉字浏览器</a>
-                <select id="practice-dict-select" class="btn" style="padding: 6px;"></select>
+                
+                <div id="practice-toolbar" style="display: none; align-items: center; gap: 10px; margin-left: 10px;">
+                    <select id="practice-dict-select" class="btn" style="padding: 6px;"></select>
+                    <span id="practice-progress-text" style="font-size: 14px; color: #666; font-weight: 600; min-width: 60px;">0 / 0</span>
+                    <button id="toggle-pinyin-btn" class="btn btn-toggle" onclick="togglePinyinHint()">显示拼音 (F2)</button>
+                </div>
+
                 <button id="practice-mode-btn" class="btn btn-toggle" onclick="startPracticeMode()">练习模式</button>
-                <button
-                    id="exit-practice-mode-btn"
-                    class="btn btn-toggle"
-                    onclick="exitPracticeMode()"
-                    style="display: none; background-color: #ff4d4f; color: white;"
-                >
-                    退出练习
-                </button>
+                <button id="exit-practice-mode-btn" class="btn btn-toggle" onclick="exitPracticeMode()" style="display: none; background-color: #ff4d4f; color: white;">退出练习</button>
+                
                 <a href="https://github.com/123qweraz/webime" target="_blank" class="btn btn-github">GitHub Star</a>
                 <button class="btn btn-toggle" onclick="openDictModal()">词典设置</button>
             </div>

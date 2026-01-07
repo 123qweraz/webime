@@ -1,17 +1,22 @@
 let allDicts = [];
-let draggedDictIndex = null;
 
 function loadDictConfig() {
     const storedDicts = JSON.parse(localStorage.getItem(DICTS_CONFIG_KEY));
     if (storedDicts && storedDicts.length > 0) {
         allDicts = storedDicts;
         BUILT_IN_DICTS.forEach((builtInDict) => {
-            if (!allDicts.find((d) => d.path === builtInDict.path && d.type === builtInDict.type)) {
+            const existing = allDicts.find((d) => d.path === builtInDict.path && d.type === builtInDict.type);
+            if (!existing) {
                 allDicts.push(builtInDict);
+            } else {
+                existing.tag = builtInDict.tag;
+                if (builtInDict.name === "三级字" || builtInDict.name === "生僻字") {
+                    existing.name = "生僻字";
+                }
             }
         });
     } else {
-        allDicts = [...BUILT_IN_DICTS];
+        allDicts = JSON.parse(JSON.stringify(BUILT_IN_DICTS));
     }
 }
 
@@ -22,7 +27,7 @@ function saveDictConfig() {
 
 function openDictModal() {
     document.getElementById("dict-modal").style.display = "flex";
-    switchDictTab('chinese'); // Default to Chinese tab
+    switchDictTab('chinese');
 }
 
 function closeDictModal() {
@@ -30,7 +35,6 @@ function closeDictModal() {
 }
 
 async function switchDictTab(tabName) {
-    // Update tab UI
     document.querySelectorAll('.modal-tab').forEach(tab => {
         tab.classList.toggle('active', tab.dataset.tab === tabName);
     });
@@ -47,53 +51,74 @@ async function switchDictTab(tabName) {
 
 function renderLanguageTab(lang) {
     const container = document.getElementById(`tab-${lang}`);
-    const enabledCount = allDicts.filter(d => d.tag === lang && d.enabled).length;
-    const totalCount = allDicts.filter(d => d.tag === lang).length;
-    
-    container.innerHTML = `
-        <div class="language-toggle-card">
+    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字");
+    const isEnabled = mainDicts.some(d => d.enabled);
+
+    let html = `
+        <div class="language-toggle-card ${isEnabled ? 'enabled' : 'disabled'}">
             <div style="flex: 1;">
                 <h4>${lang === 'chinese' ? '中文输入方案' : '日文输入方案'}</h4>
                 <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">
                     ${lang === 'chinese' ? '包含一级字、二级字、词组、三四字词语及标点。' : '包含 N1-N5 词汇及假名。'}
                 </p>
-                <p style="font-size: 11px; color: var(--primary); margin-top: 5px;">
-                    状态: ${enabledCount === totalCount ? '已全部开启' : enabledCount > 0 ? `已开启 ${enabledCount}/${totalCount}` : '已全部禁用'}
-                </p>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <button class="btn btn-action" onclick="setLanguageGroupState('${lang}', true)">一键启用</button>
-                <button class="btn" onclick="setLanguageGroupState('${lang}', false)">全部禁用</button>
-            </div>
+            <button class="btn ${isEnabled ? '' : 'btn-action'}" onclick="toggleLanguageGroup('${lang}')">
+                ${isEnabled ? '禁用方案' : '启用方案'}
+            </button>
         </div>
-        <p style="font-size: 12px; color: #999; text-align: center; margin-top: 20px;">
-            内置词典已根据语义优先级自动排序
-        </p>
     `;
-}
 
-async function setLanguageGroupState(lang, isEnabled) {
-    if (isEnabled) {
-        const otherLang = lang === 'chinese' ? 'japanese' : 'chinese';
-        allDicts.forEach(dict => {
-            if (dict.tag === otherLang) dict.enabled = false;
-        });
+    if (lang === 'chinese') {
+        const rareDict = allDicts.find(d => d.name === "生僻字");
+        const isRareEnabled = rareDict ? rareDict.enabled : false;
+        html += `
+            <div class="language-toggle-card ${isRareEnabled ? 'enabled' : 'disabled'}" style="margin-top: 10px;">
+                <div style="flex: 1;">
+                    <h4>生僻字 (三级字库)</h4>
+                    <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">包含更多低频汉字，开启后可能影响候选词排序。</p>
+                </div>
+                <button class="btn ${isRareEnabled ? '' : 'btn-action'}" onclick="toggleRareDict()">
+                    ${isRareEnabled ? '禁用' : '启用'}
+                </button>
+            </div>
+        `;
     }
 
+    html += `<p style="font-size: 12px; color: #999; text-align: center; margin-top: 20px;">内置词典已根据语义优先级自动排序</p>`;
+    container.innerHTML = html;
+}
+
+async function toggleLanguageGroup(lang) {
+    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字");
+    const currentlyEnabled = mainDicts.some(d => d.enabled);
+    const targetState = !currentlyEnabled;
+
+    // Allowed simultaneous activation by removing mutex logic
     allDicts.forEach(dict => {
-        if (dict.tag === lang) {
-            dict.enabled = isEnabled;
+        if (dict.tag === lang && dict.name !== "生僻字") {
+            dict.enabled = targetState;
         }
     });
 
     saveDictConfig();
-    showLoadingMessage(`正在${isEnabled ? '加载' : '卸载'}${lang === 'chinese' ? '中文' : '日文'}词典...`);
+    showLoadingMessage(`正在${targetState ? '开启' : '关闭'}${lang === 'chinese' ? '中文' : '日文'}方案...`);
     await loadAllDicts();
     hideLoadingMessage();
     
-    switchDictTab(lang);
+    renderLanguageTab(lang);
     updatePracticeDictSelector();
-    showToast(`${lang === 'chinese' ? '中文' : '日文'}方案已${isEnabled ? '全部启用' : '全部禁用'}`, "info");
+}
+
+async function toggleRareDict() {
+    const rareDict = allDicts.find(d => d.name === "生僻字");
+    if (rareDict) {
+        rareDict.enabled = !rareDict.enabled;
+        saveDictConfig();
+        showLoadingMessage(`正在${rareDict.enabled ? '开启' : '关闭'}生僻字库...`);
+        await loadAllDicts();
+        hideLoadingMessage();
+        renderLanguageTab('chinese');
+    }
 }
 
 function renderUserTab() {
@@ -115,10 +140,10 @@ function renderUserTab() {
     if (userDicts.length === 0) {
         html += `<p style="color: #999; text-align: center; padding: 20px;">暂无用户词典</p>`;
     } else {
-        userDicts.forEach((dict, index) => {
+        userDicts.forEach((dict) => {
             const actualIndex = allDicts.indexOf(dict);
             html += `
-                <div class="dict-card">
+                <div class="dict-card ${dict.enabled ? 'enabled' : 'disabled'}">
                     <span class="dict-card-name">${dict.name} (${dict.wordCount || 0} 词)</span>
                     <div class="dict-card-actions">
                         <button class="btn btn-sm" onclick="toggleDictStatus(${actualIndex})">
