@@ -1100,44 +1100,7 @@
                 focusHiddenInput();
             }
 
-            function checkPracticeAnswer() {
-                if (currentState !== InputState.PRACTICE || isPracticeAnimating) return;
 
-                const currentWord = practiceWords[currentPracticeWordIndex];
-                const targetPinyin = currentWord.pinyin.toLowerCase();
-                const typedPinyin = buffer.toLowerCase();
-
-                if (typedPinyin === targetPinyin) {
-                    // Correct answer
-                    isPracticeAnimating = true;
-                    cardCenter.classList.remove('current', 'incorrect'); // Remove current highlight and incorrect shake
-                    // No explicit fly-away animation for center card, it moves as part of the shift
-                    
-                    currentPracticeWordIndex++;
-                    localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
-                    
-                    // Update progress bar
-                    const progressBar = document.getElementById('progress-bar');
-                    const progress = (currentPracticeWordIndex / practiceWords.length) * 100;
-                    progressBar.style.width = `${progress}%`;
-                    
-                    // Trigger card shift and load next word
-                    showNextPracticeWord(); // This function now handles animations and card content updates
-                    isPracticeAnimating = false; // Reset immediately as showNextPracticeWord does its own animation handling
-                } else {
-                    // Incorrect answer
-                    isPracticeAnimating = true;
-                    cardCenter.classList.add('incorrect');
-                    cardCenter.addEventListener('animationend', () => {
-                        isPracticeAnimating = false;
-                        cardCenter.classList.remove('incorrect');
-                    }, { once: true });
-                    
-                    // Clear buffer so user can retry
-                    setBuffer('');
-                    updatePracticeInputDisplay(); // Update visual buffer to reflect cleared input
-                }
-            }
 
             // Dictionary Modal Functions
             function openDictModal() {
@@ -2564,12 +2527,7 @@
                     }
                 } else if (key === "Enter") {
                     if (currentState === InputState.PRACTICE) {
-                        if (isPracticeAnimating) {
-                            e.preventDefault();
-                            return;
-                        }
                         e.preventDefault();
-                        checkPracticeAnswer();
                         return;
                     }
                     // Enter key for normal mode
@@ -2644,9 +2602,27 @@
 
             function handleInput(event) {
                 if (currentState === InputState.PRACTICE) {
-                    setBuffer(event.target.value); // Update global buffer
-                    updatePracticeInputDisplay(); // Update visual display
-                    // No candidate generation in practice mode
+                    setBuffer(event.target.value.toLowerCase().replace(/[^a-z]/g, ''));
+                    updatePracticeInputDisplay();
+
+                    const currentWord = practiceWords[currentPracticeWordIndex];
+                    if (!currentWord) return;
+
+                    const targetPinyin = currentWord.pinyin.toLowerCase();
+                    const typedPinyin = buffer;
+
+                    if (typedPinyin === targetPinyin) {
+                        currentPracticeWordIndex++;
+                        localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
+                        
+                        const progressBar = document.getElementById('progress-bar');
+                        const progress = (currentPracticeWordIndex / practiceWords.length) * 100;
+                        progressBar.style.width = `${progress}%`;
+
+                        setTimeout(() => {
+                            showNextPracticeWord();
+                        }, 100); 
+                    }
                     return;
                 }
                 if (
