@@ -71,6 +71,12 @@
                     enabled: false,
                     type: "built-in",
                 },
+                {
+                    name: "kana",
+                    path: "dicts/japanese/kana.json",
+                    enabled: false,
+                    type: "built-in",
+                },
             ];
         </script>
         <style>
@@ -2648,29 +2654,6 @@
 
                 // --- Normal Mode Logic Below ---
 
-                // Handle specific non-IME characters: +, -, ', etc.
-                if (NON_PINYIN_COMMITTING_CHARS.has(key)) {
-                    e.preventDefault();
-                    if (buffer && combinedCandidates.length > 0) {
-                        committed += combinedCandidates[0].text;
-                    }
-                    committed += key;
-                    resetInput();
-                    update();
-                    return;
-                }
-
-                // Punctuation handling for normal mode
-                if (PUNCS[key]) {
-                    e.preventDefault();
-                    if (buffer && combinedCandidates.length > 0)
-                        committed += combinedCandidates[0].text;
-                    committed += PUNCS[key];
-                    resetInput();
-                    update();
-                    return;
-                }
-
                 // Paging candidates with '=' or '-'
                 if (buffer && currentState !== InputState.TAB) {
                     if (key === "=") {
@@ -2692,6 +2675,29 @@
                         }
                         return;
                     }
+                }
+
+                // Handle specific non-IME characters: +, -, ', etc.
+                if (NON_PINYIN_COMMITTING_CHARS.has(key)) {
+                    e.preventDefault();
+                    if (buffer && combinedCandidates.length > 0) {
+                        committed += combinedCandidates[0].text;
+                    }
+                    committed += key;
+                    resetInput();
+                    update();
+                    return;
+                }
+
+                // Punctuation handling for normal mode
+                if (PUNCS[key]) {
+                    e.preventDefault();
+                    if (buffer && combinedCandidates.length > 0)
+                        committed += combinedCandidates[0].text;
+                    committed += PUNCS[key];
+                    resetInput();
+                    update();
+                    return;
                 }
 
                 // TAB key handling
