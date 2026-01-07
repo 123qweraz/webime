@@ -6,7 +6,7 @@
         <script>
             const BUILT_IN_DICTS = [
                 {
-                    name: "基础词典",
+                    name: "一级字",
                     path: "dicts/first_dict/dict.json",
                     enabled: true,
                     type: "built-in",
@@ -18,20 +18,14 @@
                     type: "built-in",
                 },
                 {
-                    name: "英文反查",
-                    path: "dicts/first_dict/dict_en_char.json",
-                    enabled: true,
-                    type: "built-in",
-                },
-                {
                     name: "二级字",
-                    path: "charenpinyin/level-2.json",
+                    path: "dicts/second_dict/level-2_char_en.json",
                     enabled: true,
                     type: "built-in",
                 },
                 {
                     name: "三级字",
-                    path: "charenpinyin/level-3.json",
+                    path: "dicts/third_dict//level-3_char_en.json",
                     enabled: true,
                     type: "built-in",
                 },
@@ -1371,7 +1365,7 @@
 
             async function sortDictsByDefaultOrder() {
                 const desiredOrder = [
-                    "基础词典",
+                    "一级字",
                     "词组词典",
                     "二级字",
                     "三级字",
@@ -1883,12 +1877,6 @@
                     editBtn.textContent = "编辑模式";
                 }
             }
-
-            /**
-
-                         * 归档并复制文本
-
-                         */
 
             function archiveAndCopy() {
                 try {
