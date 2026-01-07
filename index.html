@@ -2731,7 +2731,7 @@
 
                 // Numeric selection '0'-'9' for normal mode
                 if (/^[0-9]$/.test(key)) {
-                    e.preventDefault();
+                    let handledAsSelection = false; // Flag to track if selection happened
                     if (buffer && combinedCandidates.length > 0) {
                         const idx = key === "0" ? 9 : parseInt(key) - 1;
                         const list =
@@ -2745,11 +2745,16 @@
                             pageIndex * pageSize,
                             (pageIndex + 1) * pageSize,
                         );
-                        if (pageData[idx]) selectCandidate(pageData[idx].text);
-                    } else if (!buffer) {
-                        committed += key;
-                        update();
+                        if (pageData[idx]) {
+                            selectCandidate(pageData[idx].text);
+                            handledAsSelection = true; // Mark as handled
+                        }
                     }
+                    if (handledAsSelection) {
+                        e.preventDefault(); // Only prevent default if selection happened
+                        return; // Consume the key if handled as selection
+                    }
+                    // If not handled as selection, let it fall through to generic handler
                 } else if (key === "Enter") {
                     if (currentState === InputState.PRACTICE) {
                         e.preventDefault();
@@ -2804,6 +2809,7 @@
                         committed += " ";
                         update();
                     }
+                    return; // Consume the key
                 } // Closing brace of the "else if (key === ' ')" block.
                 if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) { // Generic character input
                     e.preventDefault();
