@@ -4,21 +4,16 @@
         <meta charset="UTF-8" />
         <title>Web IME Pro | 导入与长句修正版</title>
         <script>
-    const dicts_config = {
-        'level-2': 'charenpinyin/level-2.json',
-        'level-2_en': 'charenpinyin/level-2_en.json',
-        'level-3': 'charenpinyin/level-3.json',
-        'level-3_en': 'charenpinyin/level-3_char_en.json',
-        'dict_new': 'dicts/dict_new.json',
-        'first_dict': 'dicts/first_dict/dict.json',
-        'cizu_dict': 'dicts/first_dict/dict_cizu.json',
-        'en_char': 'dicts/first_dict/dict_en_char.json',
-        'second_dict': 'dicts/second_dict/level-2_char_en.json',
-        'third_dict': 'dicts/third_dict/level-3_char_en.json',
-        'n5': 'dicts/japanese/n5.json',
-        'n4': 'dicts/japanese/n4.json',
-        'n3': 'dicts/japanese/n3.json'
-    };
+    const BUILT_IN_DICTS = [
+    { name: "基础词典", path: "dicts/first_dict/dict.json", enabled: true, type: 'built-in' },
+    { name: "词组词典", path: "dicts/first_dict/dict_cizu.json", enabled: true, type: 'built-in' },
+    { name: "英文反查", path: "dicts/first_dict/dict_en_char.json", enabled: true, type: 'built-in' },
+    { name: "二级字", path: "charenpinyin/level-2.json", enabled: true, type: 'built-in' },
+    { name: "三级字", path: "charenpinyin/level-3.json", enabled: true, type: 'built-in' },
+    { name: 'n5', path: 'dicts/japanese/n5.json', enabled: false, type: 'built-in' },
+    { name: 'n4', path: 'dicts/japanese/n4.json', enabled: false, type: 'built-in' },
+    { name: 'n3', path: 'dicts/japanese/n3.json', enabled: false, type: 'built-in' }
+];
 </script>
         <style>
             :root {
@@ -2185,6 +2180,9 @@
                 }
 
                 // Initialize practice dicts settings for newly added dicts if not present
+                if (!settings.practice_dicts) {
+                    settings.practice_dicts = {};
+                }
                 allDicts.forEach((dict, index) => {
                     if (settings.practice_dicts[index] === undefined) {
                         settings.practice_dicts[index] = false; // Default to not selected for practice
