@@ -683,10 +683,6 @@
                 text-align: center;
                 padding: 0 10px;
             }
-
-            .hanzi-display.long-word {
-                font-size: 45px;
-            }
             
             #progress-container {
                 position: absolute;
@@ -764,7 +760,6 @@
                 >
                 <button id="practice-mode-btn" class="btn btn-toggle" onclick="startPracticeMode()">练习模式</button>
                 <button id="exit-practice-mode-btn" class="btn btn-toggle" onclick="exitPracticeMode()" style="display: none; background-color: #ff4d4f; color: white;">退出练习</button>
-                <button id="toggle-pinyin-btn" class="btn btn-toggle" onclick="togglePinyinHint()" style="display: none;">隐藏拼音</button>
                 <a
                     href="https://github.com/123qweraz/webime"
                     target="_blank"
@@ -988,9 +983,6 @@
                 // Toggle visibility of buttons in toolbar
                 document.getElementById('practice-mode-btn').style.display = 'none';
                 document.getElementById('exit-practice-mode-btn').style.display = 'flex';
-                const togglePinyinBtn = document.getElementById('toggle-pinyin-btn');
-                togglePinyinBtn.style.display = 'flex';
-                togglePinyinBtn.textContent = settings.showPinyinHint ? '隐藏拼音' : '显示拼音';
 
                 // Initial setup of cards
                 loadCards(); // New function to load initial cards
@@ -1021,7 +1013,6 @@
                 // Toggle visibility of buttons in toolbar
                 document.getElementById('practice-mode-btn').style.display = 'flex';
                 document.getElementById('exit-practice-mode-btn').style.display = 'none';
-                document.getElementById('toggle-pinyin-btn').style.display = 'none';
 
                 // Also reset progress bar to 0 when exiting
                 document.getElementById('progress-bar').style.width = '0%';
@@ -1031,7 +1022,6 @@
                 // Clear any existing content and classes
                 practiceCards.forEach(card => {
                     card.classList.remove('visible', 'current', 'incorrect');
-                    card.querySelector('.hanzi-display').classList.remove('long-word');
                     card.querySelector('.pinyin-display').textContent = '';
                     card.querySelector('.hanzi-display').textContent = '';
                 });
@@ -1039,11 +1029,7 @@
                 // Load the first word into the center card
                 if (currentPracticeWordIndex < practiceWords.length) {
                     const word = practiceWords[currentPracticeWordIndex];
-                    const hanziDisplay = cardCenter.querySelector('.hanzi-display');
-                    hanziDisplay.textContent = word.hanzi;
-                    if (word.hanzi.length >= 4) {
-                        hanziDisplay.classList.add('long-word');
-                    }
+                    cardCenter.querySelector('.hanzi-display').textContent = word.hanzi;
                     cardCenter.classList.add('visible', 'current');
                 } else {
                     // No words left, exit practice
@@ -1054,11 +1040,7 @@
                 // If there's a next word, load it into the left card (upcoming)
                 if (currentPracticeWordIndex + 1 < practiceWords.length) {
                     const nextWord = practiceWords[currentPracticeWordIndex + 1];
-                    const hanziDisplay = cardLeft.querySelector('.hanzi-display');
-                    hanziDisplay.textContent = nextWord.hanzi;
-                    if (nextWord.hanzi.length >= 4) {
-                        hanziDisplay.classList.add('long-word');
-                    }
+                    cardLeft.querySelector('.hanzi-display').textContent = nextWord.hanzi;
                     cardLeft.classList.add('visible');
                 }
                 // Right card is initially empty
@@ -1078,83 +1060,47 @@
                 const wordOnRight = practiceWords[currentPracticeWordIndex - 1]; // This was the previously completed word
 
                 // Update cardRight (previously completed word)
-                const hanziDisplayRight = cardRight.querySelector('.hanzi-display');
-                hanziDisplayRight.classList.remove('long-word');
                 if (wordOnRight) {
-                    hanziDisplayRight.textContent = wordOnRight.hanzi;
-                    if (wordOnRight.hanzi.length >= 4) {
-                        hanziDisplayRight.classList.add('long-word');
-                    }
-                    if (settings.showPinyinHint) {
-                        cardRight.querySelector('.pinyin-display').textContent = wordOnRight.pinyin.split('').join(' ');
-                    } else {
-                        cardRight.querySelector('.pinyin-display').textContent = '';
-                    }
+                    cardRight.querySelector('.hanzi-display').textContent = wordOnRight.hanzi;
+                    cardRight.querySelector('.pinyin-display').textContent = wordOnRight.pinyin.split('').join(' ');
                     cardRight.classList.add('visible');
                 } else {
                     cardRight.classList.remove('visible');
-                    hanziDisplayRight.textContent = '';
+                    cardRight.querySelector('.hanzi-display').textContent = '';
                     cardRight.querySelector('.pinyin-display').textContent = '';
                 }
 
                 // Update cardCenter (current word to practice)
-                const hanziDisplayCenter = cardCenter.querySelector('.hanzi-display');
-                hanziDisplayCenter.classList.remove('long-word');
                 if (wordOnCenter) {
-                    hanziDisplayCenter.textContent = wordOnCenter.hanzi;
-                    if (wordOnCenter.hanzi.length >= 4) {
-                        hanziDisplayCenter.classList.add('long-word');
-                    }
+                    cardCenter.querySelector('.hanzi-display').textContent = wordOnCenter.hanzi;
                     cardCenter.querySelector('.pinyin-display').textContent = ''; // No pinyin for current card
                     cardCenter.classList.add('visible', 'current');
                     cardCenter.classList.remove('incorrect');
                 } else {
                     cardCenter.classList.remove('visible', 'current', 'incorrect');
-                    hanziDisplayCenter.textContent = '';
+                    cardCenter.querySelector('.hanzi-display').textContent = '';
                     cardCenter.querySelector('.pinyin-display').textContent = '';
                 }
 
                 // Update cardLeft (next upcoming word)
-                const hanziDisplayLeft = cardLeft.querySelector('.hanzi-display');
-                hanziDisplayLeft.classList.remove('long-word');
                 if (wordOnLeft) {
-                    hanziDisplayLeft.textContent = wordOnLeft.hanzi;
-                    if (wordOnLeft.hanzi.length >= 4) {
-                        hanziDisplayLeft.classList.add('long-word');
-                    }
+                    cardLeft.querySelector('.hanzi-display').textContent = wordOnLeft.hanzi;
                     cardLeft.querySelector('.pinyin-display').textContent = '';
                     cardLeft.classList.add('visible');
                 } else {
                     cardLeft.classList.remove('visible');
-                    hanziDisplayLeft.textContent = '';
+                    cardLeft.querySelector('.hanzi-display').textContent = '';
                     cardLeft.querySelector('.pinyin-display').textContent = '';
                 }
                 
                 // Clear input
                 setBuffer('');
-                updatePracticeInputDisplay();
+                update();
+                currentInputDisplay.innerHTML = '';
                 focusHiddenInput();
             }
 
 
-
-            function togglePinyinHint() {
-                settings.showPinyinHint = !settings.showPinyinHint;
-                saveSettings();
-                const btn = document.getElementById('toggle-pinyin-btn');
-                btn.textContent = settings.showPinyinHint ? '隐藏拼音' : '显示拼音';
-                
-                // Re-render the right card to apply the change immediately
-                const wordOnRight = practiceWords[currentPracticeWordIndex - 1];
-                if (wordOnRight) {
-                    const pinyinDisplay = cardRight.querySelector('.pinyin-display');
-                    if (settings.showPinyinHint) {
-                        pinyinDisplay.textContent = wordOnRight.pinyin.split('').join(' ');
-                    } else {
-                        pinyinDisplay.textContent = '';
-                    }
-                }
-            }
 
             // Dictionary Modal Functions
             function openDictModal() {
@@ -2018,8 +1964,6 @@
                 settings.inputFlexGrow = 3;
             if (typeof settings.history === "undefined")
                 settings.history = true;
-            if (typeof settings.showPinyinHint === "undefined")
-                settings.showPinyinHint = true;
 
             let activeLanguage = "chinese";
             let buffer = "",
@@ -2658,46 +2602,26 @@
 
             function handleInput(event) {
                 if (currentState === InputState.PRACTICE) {
-                    const typedValue = event.target.value.toLowerCase().replace(/[^a-z]/g, '');
-                    
+                    setBuffer(event.target.value.toLowerCase().replace(/[^a-z]/g, ''));
+                    updatePracticeInputDisplay();
+
                     const currentWord = practiceWords[currentPracticeWordIndex];
                     if (!currentWord) return;
 
                     const targetPinyin = currentWord.pinyin.toLowerCase();
+                    const typedPinyin = buffer;
 
-                    if (targetPinyin.startsWith(typedValue)) {
-                        // Correct prefix
-                        setBuffer(typedValue);
-                        updatePracticeInputDisplay();
-
-                        if (typedValue === targetPinyin) {
-                            // Full match
-                            currentPracticeWordIndex++;
-                            localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
-                            
-                            const progressBar = document.getElementById('progress-bar');
-                            const progress = (currentPracticeWordIndex / practiceWords.length) * 100;
-                            progressBar.style.width = `${progress}%`;
-
-                            setTimeout(() => {
-                                showNextPracticeWord();
-                            }, 100);
-                        }
-                    } else {
-                        // Incorrect character typed
-                        setBuffer('');
+                    if (typedPinyin === targetPinyin) {
+                        currentPracticeWordIndex++;
+                        localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
                         
-                        // Shake the card for feedback
-                        if (!isPracticeAnimating) {
-                            isPracticeAnimating = true;
-                            cardCenter.classList.add('incorrect');
-                            cardCenter.addEventListener('animationend', () => {
-                                isPracticeAnimating = false;
-                                cardCenter.classList.remove('incorrect');
-                            }, { once: true });
-                        }
+                        const progressBar = document.getElementById('progress-bar');
+                        const progress = (currentPracticeWordIndex / practiceWords.length) * 100;
+                        progressBar.style.width = `${progress}%`;
 
-                        updatePracticeInputDisplay();
+                        setTimeout(() => {
+                            showNextPracticeWord();
+                        }, 100); 
                     }
                     return;
                 }
