@@ -47,24 +47,53 @@ async function switchDictTab(tabName) {
 
 function renderLanguageTab(lang) {
     const container = document.getElementById(`tab-${lang}`);
-    const isEnabled = allDicts.some(d => d.tag === lang && d.enabled);
+    const enabledCount = allDicts.filter(d => d.tag === lang && d.enabled).length;
+    const totalCount = allDicts.filter(d => d.tag === lang).length;
     
     container.innerHTML = `
         <div class="language-toggle-card">
-            <div>
+            <div style="flex: 1;">
                 <h4>${lang === 'chinese' ? '中文输入方案' : '日文输入方案'}</h4>
                 <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">
                     ${lang === 'chinese' ? '包含一级字、二级字、词组、三四字词语及标点。' : '包含 N1-N5 词汇及假名。'}
                 </p>
+                <p style="font-size: 11px; color: var(--primary); margin-top: 5px;">
+                    状态: ${enabledCount === totalCount ? '已全部开启' : enabledCount > 0 ? `已开启 ${enabledCount}/${totalCount}` : '已全部禁用'}
+                </p>
             </div>
-            <button class="btn ${isEnabled ? 'active' : ''}" onclick="toggleLanguageGroup('${lang}')">
-                ${isEnabled ? '已启用' : '点击启用'}
-            </button>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn btn-action" onclick="setLanguageGroupState('${lang}', true)">一键启用</button>
+                <button class="btn" onclick="setLanguageGroupState('${lang}', false)">全部禁用</button>
+            </div>
         </div>
         <p style="font-size: 12px; color: #999; text-align: center; margin-top: 20px;">
             内置词典已根据语义优先级自动排序
         </p>
     `;
+}
+
+async function setLanguageGroupState(lang, isEnabled) {
+    if (isEnabled) {
+        const otherLang = lang === 'chinese' ? 'japanese' : 'chinese';
+        allDicts.forEach(dict => {
+            if (dict.tag === otherLang) dict.enabled = false;
+        });
+    }
+
+    allDicts.forEach(dict => {
+        if (dict.tag === lang) {
+            dict.enabled = isEnabled;
+        }
+    });
+
+    saveDictConfig();
+    showLoadingMessage(`正在${isEnabled ? '加载' : '卸载'}${lang === 'chinese' ? '中文' : '日文'}词典...`);
+    await loadAllDicts();
+    hideLoadingMessage();
+    
+    switchDictTab(lang);
+    updatePracticeDictSelector();
+    showToast(`${lang === 'chinese' ? '中文' : '日文'}方案已${isEnabled ? '全部启用' : '全部禁用'}`, "info");
 }
 
 function renderUserTab() {
@@ -104,25 +133,6 @@ function renderUserTab() {
 
     html += `</div></div>`;
     container.innerHTML = html;
-}
-
-async function toggleLanguageGroup(lang) {
-    const otherLang = lang === 'chinese' ? 'japanese' : 'chinese';
-    const isEnabling = !allDicts.some(d => d.tag === lang && d.enabled);
-
-    allDicts.forEach(dict => {
-        if (dict.tag === lang) {
-            dict.enabled = isEnabling;
-        } else if (dict.tag === otherLang && isEnabling) {
-            dict.enabled = false; // Disable other language when enabling this one
-        }
-    });
-
-    saveDictConfig();
-    await loadAllDicts();
-    renderLanguageTab(lang);
-    updatePracticeDictSelector();
-    showToast(`${lang === 'chinese' ? '中文' : '日文'}词典已${isEnabling ? '启用' : '禁用'}`, "info");
 }
 
 async function toggleDictStatus(index) {

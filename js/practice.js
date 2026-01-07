@@ -19,7 +19,7 @@ async function initPracticeModeData() {
         return false;
     }
 
-    const practiceDict = allDicts.find((d) => d.path === dictPath);
+    const practiceDict = allDicts.find((d) => (d.path || d.name) === dictPath);
     if (!practiceDict) {
         showErrorMessage(`练习词典未找到!`);
         return false;
@@ -27,9 +27,13 @@ async function initPracticeModeData() {
 
     if (!practiceDict.fetchedContent) {
         try {
-            const response = await fetch(practiceDict.path);
-            if (!response.ok) throw new Error(`Network response was not ok for ${practiceDict.path}`);
-            practiceDict.fetchedContent = await response.json();
+            if (practiceDict.type === 'built-in') {
+                const response = await fetch(practiceDict.path);
+                if (!response.ok) throw new Error(`Network response was not ok for ${practiceDict.path}`);
+                practiceDict.fetchedContent = await response.json();
+            } else {
+                practiceDict.fetchedContent = JSON.parse(practiceDict.content);
+            }
         } catch (error) {
             showErrorMessage(`加载练习词典失败: ${error.message}`);
             return false;
@@ -54,17 +58,18 @@ async function initPracticeModeData() {
 }
 
 async function startPracticeMode() {
-    if (practiceWords.length === 0) {
-        showLoadingMessage("准备练习...");
-        const success = await initPracticeModeData();
-        hideLoadingMessage();
-        if (!success) return;
-    }
+    // Reset data to ensure it picks up current dict
+    practiceWords = []; 
+    showLoadingMessage("准备练习...");
+    const success = await initPracticeModeData();
+    hideLoadingMessage();
+    if (!success) return;
 
     setState(InputState.PRACTICE);
 
     const savedIndex = localStorage.getItem(PRACTICE_PROGRESS_KEY);
     currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
+    if (currentPracticeWordIndex >= practiceWords.length) currentPracticeWordIndex = 0;
 
     const progressBar = document.getElementById("progress-bar");
     const progress = practiceWords.length > 0 ? (currentPracticeWordIndex / practiceWords.length) * 100 : 0;
@@ -105,7 +110,6 @@ function exitPracticeMode() {
 
     document.getElementById("practice-mode-btn").style.display = "flex";
     document.getElementById("exit-practice-mode-btn").style.display = "none";
-    document.getElementById("progress-bar").style.width = "0%";
 }
 
 function loadCards() {
@@ -118,7 +122,8 @@ function loadCards() {
     if (currentPracticeWordIndex < practiceWords.length) {
         const word = practiceWords[currentPracticeWordIndex];
         cardCenter.querySelector(".hanzi-display").textContent = getHanziChar(word.hanzi);
-        const pinyinContent = word.pinyin.split('').map(char => `<span class="char-placeholder">${char}</span>`).join('');
+        // Hint mode: Use underscores for hidden pinyin
+        const pinyinContent = word.pinyin.split('').map(() => `<span class="char-placeholder">_</span>`).join('');
         cardCenter.querySelector(".pinyin-display").innerHTML = pinyinContent;
         cardCenter.classList.add("visible", "current");
     } else {
@@ -166,10 +171,10 @@ function updatePracticeInputDisplay() {
                     if (typedPinyin[i] === char) {
                         cardHTML += `<span class="char-correct">${char}</span>`;
                     } else {
-                        cardHTML += `<span class="char-incorrect">${char}</span>`;
+                        cardHTML += `<span class="char-incorrect">${typedPinyin[i]}</span>`;
                     }
                 } else {
-                    cardHTML += `<span class="char-placeholder">${char}</span>`;
+                    cardHTML += `<span class="char-placeholder">_</span>`;
                 }
             }
             cardPinyinDisplay.innerHTML = cardHTML;
@@ -184,10 +189,10 @@ function updatePracticeInputDisplay() {
                 if (typedPinyin[i] === char) {
                     displayHTML += `<span class="correct-char">${char}</span>`;
                 } else {
-                    displayHTML += `<span class="incorrect-char">${char}</span>`;
+                    displayHTML += `<span class="incorrect-char">${typedPinyin[i]}</span>`;
                 }
             } else {
-                displayHTML += `<span>${char}</span>`;
+                displayHTML += `<span style="opacity: 0.3;">${char}</span>`;
             }
         }
         currentInputDisplay.innerHTML = displayHTML;

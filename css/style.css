@@ -666,21 +666,27 @@ body {
     margin-bottom: 5px;
     text-align: center;
     padding: 0 10px;
-    white-space: nowrap; /* Prevent pinyin from wrapping */
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 90%; /* Ensure it doesn't overflow its container */
-    letter-spacing: 2px; /* Add some space between pinyin characters */
+    width: 90%;
+    letter-spacing: 4px; /* Increased letter spacing for clarity */
 }
 .pinyin-display .char-placeholder {
-    color: #e0e0e0;
+    color: #ccc;
+    border-bottom: 2px solid #ddd;
+    display: inline-block;
+    min-width: 14px;
+    margin: 0 2px;
 }
 .pinyin-display .char-correct {
-    color: #333;
+    color: var(--primary);
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
 }
 .pinyin-display .char-incorrect {
     color: #ff4d4f;
-    text-decoration: line-through;
+    border-bottom: 2px solid #ff4d4f;
 }
 
 .hanzi-display {

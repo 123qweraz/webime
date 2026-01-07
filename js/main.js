@@ -8,7 +8,6 @@ async function init() {
         console.log("开始初始化输入法...");
         showLoadingMessage("正在初始化输入法...");
 
-        // Load settings and dictionaries
         if (typeof settings.outputFlexGrow === "undefined") settings.outputFlexGrow = 2;
         if (typeof settings.inputFlexGrow === "undefined") settings.inputFlexGrow = 3;
         if (typeof settings.history === "undefined") settings.history = true;
@@ -52,6 +51,12 @@ function initEventListeners() {
     makeResizableV("center-v-resizer", "output-card", "input-container");
 }
 
+function focusHiddenInput() {
+    if (hInput) {
+        hInput.focus();
+    }
+}
+
 function handleKeyDown(e) {
     if (currentState === InputState.CORRECTION) return;
     const key = e.key;
@@ -59,6 +64,20 @@ function handleKeyDown(e) {
     if (e.ctrlKey && key.toLowerCase() === "i") {
         e.preventDefault();
         enterCorrectionMode();
+        return;
+    }
+
+    if (currentState === InputState.PRACTICE) {
+        if (key === "Enter" || key === " ") {
+            e.preventDefault();
+        }
+        if (key === "Backspace") {
+            // Let the input event handle it or handle it here
+            setTimeout(() => {
+                setBuffer(hInput.value);
+                updatePracticeInputDisplay();
+            }, 0);
+        }
         return;
     }
 
@@ -90,10 +109,9 @@ function handleKeyDown(e) {
             if (pageData[idx]) { e.preventDefault(); selectCandidate(pageData[idx].text); return; }
         }
     } else if (key === "Enter") {
-        if (currentState === InputState.PRACTICE) { e.preventDefault(); return; }
         e.preventDefault();
         if (buffer) {
-            if (currentProcessedSegment && combinedCandidates.length > 0) { selectCandidate(combinedCandidates[0].text); } 
+            if (currentProcessedSegment && combinedCandidates.length > 0) { selectCandidate(combinedCandidates[0].text); }
             else { committed += buffer; setBuffer(""); pageIndex = 0; enFilter = ""; setState(InputState.NORMAL); }
         } else { committed += "\n"; }
         update();
@@ -118,21 +136,29 @@ function handleKeyDown(e) {
 
 function handleInput(event) {
     if (currentState === InputState.PRACTICE) {
-        setBuffer(event.target.value.replace(/[^a-zA-Z]/g, ""));
+        const val = event.target.value.replace(/[^a-zA-Z]/g, "");
+        setBuffer(val);
         updatePracticeInputDisplay();
+
         const currentWord = practiceWords[currentPracticeWordIndex];
         if (!currentWord) return;
         const targetPinyin = currentWord.pinyin.toLowerCase();
         const typedPinyin = buffer.toLowerCase();
-        if (typedPinyin && !targetPinyin.startsWith(typedPinyin)) { 
-            cardCenter.classList.remove("incorrect"); void cardCenter.offsetWidth; cardCenter.classList.add("incorrect"); 
-        } else { cardCenter.classList.remove("incorrect"); }
+
+        if (typedPinyin && !targetPinyin.startsWith(typedPinyin)) {
+            cardCenter.classList.remove("incorrect"); 
+            void cardCenter.offsetWidth; 
+            cardCenter.classList.add("incorrect");
+        } else { 
+            cardCenter.classList.remove("incorrect"); 
+        }
+
         if (typedPinyin === targetPinyin) {
             currentPracticeWordIndex++;
             localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
             const progressBar = document.getElementById("progress-bar");
-            progressBar.style.width = `${(currentPracticeWordIndex / practiceWords.length) * 100}%`;
-            setTimeout(() => { showNextPracticeWord(); }, 100);
+            if (progressBar) progressBar.style.width = `${(currentPracticeWordIndex / practiceWords.length) * 100}%`;
+            setTimeout(() => { showNextPracticeWord(); }, 150);
         }
         return;
     }
@@ -164,11 +190,12 @@ function handleCorrectionKeyDown(e) {
 function handleGlobalClick(e) {
     if (currentState === InputState.EDIT && outputArea.contains(e.target)) return;
     if (currentState === InputState.CORRECTION && document.getElementById("correction-wrapper").contains(e.target)) return;
-    updateFocus();
+    focusHiddenInput();
 }
 
 function makeResizableV(resizerId, topPanelId, bottomPanelId) {
     const resizer = document.getElementById(resizerId);
+    if (!resizer) return;
     const topPanel = document.getElementById(topPanelId);
     const bottomPanel = document.getElementById(bottomPanelId);
     const parentPanel = topPanel.parentElement;
