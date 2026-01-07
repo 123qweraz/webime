@@ -55,7 +55,7 @@ function renderLanguageTab(lang) {
     const isEnabled = mainDicts.some(d => d.enabled);
 
     let html = `
-        <div class="language-toggle-card ${isEnabled ? 'enabled' : 'disabled'}">
+        <div class="dict-card ${isEnabled ? 'enabled' : 'disabled'}">
             <div style="flex: 1;">
                 <h4>${lang === 'chinese' ? '中文输入方案' : '日文输入方案'}</h4>
                 <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">
@@ -72,7 +72,7 @@ function renderLanguageTab(lang) {
         const rareDict = allDicts.find(d => d.name === "生僻字");
         const isRareEnabled = rareDict ? rareDict.enabled : false;
         html += `
-            <div class="language-toggle-card ${isRareEnabled ? 'enabled' : 'disabled'}" style="margin-top: 10px;">
+            <div class="dict-card ${isRareEnabled ? 'enabled' : 'disabled'}" style="margin-top: 10px;">
                 <div style="flex: 1;">
                     <h4>生僻字 (三级字库)</h4>
                     <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">包含更多低频汉字，开启后可能影响候选词排序。</p>
@@ -93,7 +93,6 @@ async function toggleLanguageGroup(lang) {
     const currentlyEnabled = mainDicts.some(d => d.enabled);
     const targetState = !currentlyEnabled;
 
-    // Allowed simultaneous activation by removing mutex logic
     allDicts.forEach(dict => {
         if (dict.tag === lang && dict.name !== "生僻字") {
             dict.enabled = targetState;
@@ -126,14 +125,14 @@ function renderUserTab() {
     const userDicts = allDicts.filter(d => d.type === 'user');
     
     let html = `
-        <div class="import-section">
+        <div class="import-section" style="margin-bottom: 20px;">
             <input type="file" id="dict-file-input" style="display: none" onchange="handleImport(this)" />
             <button class="btn btn-action" onclick="document.getElementById('dict-file-input').click()" style="width: 100%; justify-content: center;">
                 导入新词典 (.json)
             </button>
         </div>
         <div class="dict-sections">
-            <h4>用户词典</h4>
+            <h4 style="margin-bottom: 10px;">用户词典</h4>
             <div id="user-dict-list" class="dict-list">
     `;
 
@@ -149,7 +148,7 @@ function renderUserTab() {
                         <button class="btn btn-sm" onclick="toggleDictStatus(${actualIndex})">
                             ${dict.enabled ? '禁用' : '启用'}
                         </button>
-                        <button class="btn btn-sm delete" onclick="deleteDict(${actualIndex})">删除</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteDict(${actualIndex})">删除</button>
                     </div>
                 </div>
             `;
