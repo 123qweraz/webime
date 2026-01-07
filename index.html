@@ -762,19 +762,24 @@
             }
 
             .pinyin-display {
-                font-size: 28px; /* Slightly smaller for pinyin */
+                font-size: 28px;
                 color: #888;
                 margin-bottom: 5px;
                 text-align: center;
                 padding: 0 10px;
+                white-space: nowrap; /* Prevent pinyin from wrapping */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 90%; /* Ensure it doesn't overflow its container */
             }
 
             .hanzi-display {
-                font-size: 60px;
+                font-size: clamp(32px, 12vw, 60px); /* Responsive font size */
                 font-weight: bold;
                 color: #333;
                 text-align: center;
                 padding: 0 10px;
+                line-height: 1.1; /* Adjust line height for better centering */
             }
 
             #progress-container {
@@ -1077,6 +1082,12 @@
 
         <script>
             // --- Practice Mode Functions ---
+            function getHanziChar(hanziObject) {
+                if (typeof hanziObject === 'object' && hanziObject !== null && hanziObject.char) {
+                    return hanziObject.char;
+                }
+                return hanziObject;
+            }
 
             async function initPracticeModeData() {
                 const dictPath = settings.practice_dict_path;
@@ -1232,7 +1243,7 @@
                 if (currentPracticeWordIndex < practiceWords.length) {
                     const word = practiceWords[currentPracticeWordIndex];
                     cardCenter.querySelector(".hanzi-display").textContent =
-                        word.hanzi;
+                        getHanziChar(word.hanzi);
                     cardCenter.classList.add("visible", "current");
                 } else {
                     // No words left, exit practice
@@ -1245,7 +1256,7 @@
                     const nextWord =
                         practiceWords[currentPracticeWordIndex + 1];
                     cardLeft.querySelector(".hanzi-display").textContent =
-                        nextWord.hanzi;
+                        getHanziChar(nextWord.hanzi);
                     cardLeft.classList.add("visible");
                 }
                 // Right card is initially empty
@@ -1267,7 +1278,7 @@
                 // Update cardRight (previously completed word)
                 if (wordOnRight) {
                     cardRight.querySelector(".hanzi-display").textContent =
-                        wordOnRight.hanzi;
+                        getHanziChar(wordOnRight.hanzi);
                     cardRight.querySelector(".pinyin-display").textContent =
                         wordOnRight.pinyin.split("").join(" ");
                     cardRight.classList.add("visible");
@@ -1280,7 +1291,7 @@
                 // Update cardCenter (current word to practice)
                 if (wordOnCenter) {
                     cardCenter.querySelector(".hanzi-display").textContent =
-                        wordOnCenter.hanzi;
+                        getHanziChar(wordOnCenter.hanzi);
                     cardCenter.querySelector(".pinyin-display").textContent =
                         ""; // No pinyin for current card
                     cardCenter.classList.add("visible", "current");
@@ -1299,7 +1310,7 @@
                 // Update cardLeft (next upcoming word)
                 if (wordOnLeft) {
                     cardLeft.querySelector(".hanzi-display").textContent =
-                        wordOnLeft.hanzi;
+                        getHanziChar(wordOnLeft.hanzi);
                     cardLeft.querySelector(".pinyin-display").textContent = "";
                     cardLeft.classList.add("visible");
                 } else {
@@ -1444,7 +1455,6 @@
                 const dictsForLanguage = allDicts.filter(d => d.tag === languageTag);
                 const areAllEnabled = dictsForLanguage.length > 0 && dictsForLanguage.every(d => d.enabled);
 
-                // If all are enabled, disable them. Otherwise, enable them.
                 const newEnabledState = !areAllEnabled;
 
                 allDicts.forEach(dict => {
@@ -1453,28 +1463,23 @@
                     }
                 });
 
-                // If we just enabled them, sort them
                 if (newEnabledState) {
-                    allDicts.sort((a, b) => {
-                        const isAInLang = a.tag === languageTag;
-                        const isBInLang = b.tag === languageTag;
-
-                        if (isAInLang && !isBInLang) return -1;
-                        if (!isAInLang && isBInLang) return 1;
-
-                        if (isAInLang && isBInLang) {
+                    const targetLangDicts = allDicts
+                        .filter(d => d.tag === languageTag)
+                        .sort((a, b) => {
                             const indexA = desiredOrder.indexOf(a.name);
                             const indexB = desiredOrder.indexOf(b.name);
                             if (indexA !== -1 && indexB !== -1) return indexA - indexB;
                             if (indexA !== -1) return -1;
                             if (indexB !== -1) return 1;
-                        }
-                        
-                        return 0; 
-                    });
+                            return 0;
+                        });
+                    
+                    const otherDicts = allDicts.filter(d => d.tag !== languageTag);
+                    
+                    allDicts = [...targetLangDicts, ...otherDicts];
                 }
                 
-                // Update button UI
                 const chineseBtn = document.getElementById('toggle-chinese-dicts-btn');
                 const japaneseBtn = document.getElementById('toggle-japanese-dicts-btn');
 
@@ -2612,7 +2617,15 @@
                 currentPrecedingBuffer = precedingBuffer;
 
                 if (buffer) {
-                    let bufferHTML = escapeHtml(precedingBuffer) + `<span class="active-buffer-segment">${escapeHtml(activeSegment)}</span>`;
+                    let bufferHTML;
+                    if (currentState === InputState.TAB) {
+                        bufferHTML = escapeHtml(buffer) + "-";
+                        if (enFilter) {
+                            bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
+                        }
+                    } else {
+                        bufferHTML = escapeHtml(precedingBuffer) + `<span class="active-buffer-segment">${escapeHtml(activeSegment)}</span>`;
+                    }
                     document.getElementById("buffer-display").innerHTML = bufferHTML;
 
                     let list = [];
