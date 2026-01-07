@@ -9,38 +9,51 @@
         <div class="main-layout">
             <div class="toolbar">
                 <button id="l-hist-btn" class="btn btn-toggle" onclick="toggleHistoryPanel()">剪切板</button>
-                <div style="width: 1px; height: 20px; background: #ddd; margin: 0 5px;"></div>
+                <div class="toolbar-divider"></div>
                 <a href="hanzi_explorer.html" class="btn btn-toggle" target="_blank">汉字浏览器</a>
                 
-                <div id="practice-toolbar" style="display: none; align-items: center; gap: 10px; margin-left: 10px;">
-                    <select id="practice-dict-select" class="btn" style="padding: 6px;"></select>
-                    <span id="practice-progress-text" style="font-size: 14px; color: #666; font-weight: 600; min-width: 60px;">0 / 0</span>
-                    <button id="toggle-pinyin-btn" class="btn btn-toggle" onclick="togglePinyinHint()">显示拼音 (F2)</button>
+                <div id="practice-toolbar-left" class="practice-toolbar">
+                    <select id="practice-dict-select" class="btn"></select>
+                    <div class="practice-jump-box">
+                        <span style="font-size: 12px; color: var(--text-sec);">跳转:</span>
+                        <input type="number" id="practice-jump-input" class="practice-jump-input" placeholder="序号" onkeydown="if(event.key==='Enter') jumpToWord(this.value)">
+                    </div>
                 </div>
 
                 <button id="practice-mode-btn" class="btn btn-toggle" onclick="startPracticeMode()">练习模式</button>
-                <button id="exit-practice-mode-btn" class="btn btn-toggle" onclick="exitPracticeMode()" style="display: none; background-color: #ff4d4f; color: white;">退出练习</button>
+                <button id="exit-practice-mode-btn" class="btn btn-danger" onclick="exitPracticeMode()" style="display: none;">退出练习</button>
                 
-                <a href="https://github.com/123qweraz/webime" target="_blank" class="btn btn-github">GitHub Star</a>
-                <button class="btn btn-toggle" onclick="openDictModal()">词典设置</button>
+                <div style="margin-left: auto; display: flex; gap: 10px;">
+                    <button id="toggle-pinyin-btn" class="btn btn-toggle" style="display: none;" onclick="togglePinyinHint()">显示拼音 (F2)</button>
+                    <a href="https://github.com/123qweraz/webime" target="_blank" class="btn btn-github">GitHub Star</a>
+                    <button class="btn btn-toggle" onclick="openDictModal()">词典设置</button>
+                </div>
             </div>
+
             <div class="content-area">
                 <div class="history-panel" id="historyPanel">
                     <div class="history-header">
-                        <span>剪切板</span>
-                        <button onclick="clearHistory()" class="btn btn-toggle" style="margin-left: auto; font-size: 10px; padding: 4px 8px;">清空</button>
+                        <span>剪切板历史</span>
+                        <button onclick="clearHistory()" class="btn btn-toggle btn-sm" style="font-size: 11px;">清空</button>
                     </div>
                     <ul id="historyList" class="history-list"></ul>
                 </div>
-                <div class="resizer" id="left-resizer"></div>
+                
                 <div class="center-container">
                     <div class="output-card" id="output-card">
                         <div id="output-area" class="locked" spellcheck="false"></div>
                         <div class="control-group">
                             <button id="edit-mode-btn" class="btn btn-toggle" onclick="toggleEditMode()">锁定模式</button>
-                            <button class="btn btn-toggle active" style="background: #222" onclick="archiveAndCopy()">归档并复制</button>
+                            <button class="btn btn-toggle active" style="background: #222; color: white;" onclick="archiveAndCopy()">归档并复制</button>
                         </div>
                     </div>
+
+                    <!-- Practice Progress Area -->
+                    <div id="practice-info-bar">
+                        <span id="practice-progress-text">0 / 0</span>
+                        <div id="progress-container"><div id="progress-bar"></div></div>
+                    </div>
+
                     <div id="practice-container">
                         <div id="card-left" class="practice-card-slot">
                             <div class="practice-card-content"><div class="pinyin-display"></div><div class="hanzi-display"></div></div>
@@ -51,43 +64,48 @@
                         <div id="card-right" class="practice-card-slot">
                             <div class="practice-card-content"><div class="pinyin-display"></div><div class="hanzi-display"></div></div>
                         </div>
-                        <div id="progress-container"><div id="progress-bar"></div></div>
                     </div>
+
                     <div class="resizer-v" id="center-v-resizer"></div>
+
                     <div class="input-card" id="input-container">
+                        <!-- Correction Wrapper -->
+                        <div id="correction-wrapper">
+                            <div class="correction-header">修正模式 (Ctrl + I)</div>
+                            <input type="text" id="correction-input" autocomplete="off" placeholder="输入拼音短语，用空格分隔..." />
+                            <div class="correction-footer">
+                                <span>Enter 提交 / Esc 取消</span>
+                                <span>支持多词同步修正</span>
+                            </div>
+                        </div>
+
                         <div class="input-status-bar">
                             <div id="buffer-display"></div>
                             <div id="page-counter"></div>
                         </div>
                         <div id="main-candidates"></div>
-                        <div id="correction-wrapper">
-                            <input type="text" id="correction-input" autocomplete="off" placeholder="输入拼音短语，用空格分隔，如: ni hao" />
-                            <div class="correction-tip">
-                                <span>支持长句输入 (空格分隔)</span>
-                                <span>Enter 上屏 / Esc 取消</span>
-                            </div>
-                        </div>
                         <input type="text" id="hidden-input" autocomplete="off" />
                     </div>
                 </div>
             </div>
         </div>
+
         <div id="loading-overlay">
             <div id="loading-spinner"></div>
-            <p>正在初始化输入法...</p>
+            <p>正在初始化...</p>
         </div>
         <div id="inputMethodToast" class="input-method-toast"></div>
 
         <div id="dict-modal" class="modal-overlay" style="display: none">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h3>词典管理</h3>
-                    <button onclick="closeDictModal()">✕</button>
+                <div class="modal-header" style="margin-bottom: 25px; border-bottom: none; padding: 0;">
+                    <h3 style="font-size: 22px; font-weight: 800;">词典方案设置</h3>
+                    <button onclick="closeDictModal()" style="font-size: 28px; background: none; border: none; color: #ccc; cursor: pointer;">&times;</button>
                 </div>
                 <div class="modal-tabs">
-                    <div class="modal-tab active" data-tab="chinese" onclick="switchDictTab('chinese')">中文词典</div>
-                    <div class="modal-tab" data-tab="japanese" onclick="switchDictTab('japanese')">日语词典</div>
-                    <div class="modal-tab" data-tab="user" onclick="switchDictTab('user')">用户词典</div>
+                    <div class="modal-tab active" data-tab="chinese" onclick="switchDictTab('chinese')">中文</div>
+                    <div class="modal-tab" data-tab="japanese" onclick="switchDictTab('japanese')">日语</div>
+                    <div class="modal-tab" data-tab="user" onclick="switchDictTab('user')">用户</div>
                 </div>
                 <div class="modal-body">
                     <div id="tab-chinese" class="tab-content active"></div>

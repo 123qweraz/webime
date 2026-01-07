@@ -75,15 +75,15 @@ async function startPracticeMode() {
 
     document.getElementById("output-card").style.display = "none";
     document.getElementById("practice-container").style.display = "flex";
-    document.getElementById("practice-toolbar").style.display = "flex";
+    document.getElementById("practice-info-bar").style.display = "flex";
+    document.getElementById("practice-toolbar-left").style.display = "flex";
+    document.getElementById("toggle-pinyin-btn").style.display = "inline-flex";
 
     cardLeft = document.getElementById("card-left");
     cardCenter = document.getElementById("card-center");
     cardRight = document.getElementById("card-right");
     practiceCards = [cardLeft, cardCenter, cardRight];
 
-    currentInputDisplay = document.getElementById("practice-input-display");
-    
     document.getElementById("practice-mode-btn").style.display = "none";
     document.getElementById("exit-practice-mode-btn").style.display = "flex";
 
@@ -95,10 +95,26 @@ function updatePracticeProgress() {
     const progressBar = document.getElementById("progress-bar");
     const progressText = document.getElementById("practice-progress-text");
     if (practiceWords.length > 0) {
-        const percent = (currentPracticeWordIndex / practiceWords.length) * 100;
+        const percent = ((currentPracticeWordIndex + 1) / practiceWords.length) * 100;
         if (progressBar) progressBar.style.width = `${percent}%`;
         if (progressText) progressText.textContent = `${currentPracticeWordIndex + 1} / ${practiceWords.length}`;
     }
+}
+
+function jumpToWord(index) {
+    const idx = parseInt(index) - 1;
+    if (isNaN(idx) || idx < 0 || idx >= practiceWords.length) {
+        showToast("请输入有效的索引序号", "warning");
+        return;
+    }
+    currentPracticeWordIndex = idx;
+    localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
+    loadCards();
+    updatePracticeProgress();
+    setBuffer("");
+    update();
+    focusHiddenInput();
+    document.getElementById("practice-jump-input").value = "";
 }
 
 function exitPracticeMode() {
@@ -107,15 +123,15 @@ function exitPracticeMode() {
 
     document.getElementById("output-card").style.display = "flex";
     document.getElementById("practice-container").style.display = "none";
-    document.getElementById("practice-toolbar").style.display = "none";
+    document.getElementById("practice-info-bar").style.display = "none";
+    document.getElementById("practice-toolbar-left").style.display = "none";
+    document.getElementById("toggle-pinyin-btn").style.display = "none";
 
     practiceCards.forEach((card) => {
         card.classList.remove("visible", "current", "incorrect");
         card.querySelector(".pinyin-display").textContent = "";
         card.querySelector(".hanzi-display").textContent = "";
     });
-
-    if (currentInputDisplay) currentInputDisplay.innerHTML = "";
 
     document.getElementById("practice-mode-btn").style.display = "flex";
     document.getElementById("exit-practice-mode-btn").style.display = "none";
@@ -163,7 +179,6 @@ function showNextPracticeWord() {
     loadCards();
     setBuffer("");
     update();
-    if (currentInputDisplay) currentInputDisplay.innerHTML = "";
     focusHiddenInput();
 }
 
@@ -195,22 +210,5 @@ function updatePracticeInputDisplay() {
             }
             cardPinyinDisplay.innerHTML = cardHTML;
         }
-    }
-
-    if (currentInputDisplay) {
-        let displayHTML = "";
-        for (let i = 0; i < targetPinyin.length; i++) {
-            const char = targetPinyin[i];
-            if (i < typedPinyin.length) {
-                if (typedPinyin[i] === char) {
-                    displayHTML += `<span class="correct-char">${char}</span>`;
-                } else {
-                    displayHTML += `<span class="incorrect-char">${typedPinyin[i]}</span>`;
-                }
-            } else {
-                displayHTML += `<span style="opacity: 0.2;">${char}</span>`;
-            }
-        }
-        currentInputDisplay.innerHTML = displayHTML;
     }
 }
