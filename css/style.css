@@ -11,16 +11,14 @@
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #1c1c1e;
-        --card-bg: #2c2c2e;
-        --text-main: #f2f2f7;
-        --text-sec: #8e8e93;
-        --border: #3a3a3c;
-        --primary-light: rgba(0, 122, 255, 0.2);
-        --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
+body.dark-mode {
+    --bg: #1c1c1e;
+    --card-bg: #2c2c2e;
+    --text-main: #f2f2f7;
+    --text-sec: #8e8e93;
+    --border: #3a3a3c;
+    --primary-light: rgba(0, 122, 255, 0.2);
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -93,10 +91,8 @@ body {
 .btn-danger { background: var(--danger); color: white; }
 .btn-github { background: #24292e; color: white; text-decoration: none; margin-left: auto; }
 
-@media (prefers-color-scheme: dark) {
-    .btn { background: #3a3a3c; color: #f2f2f7; }
-    .btn:hover { background: #48484a; }
-}
+body.dark-mode .btn { background: #3a3a3c; color: #f2f2f7; }
+body.dark-mode .btn:hover { background: #48484a; }
 
 /* Sidebar & Content Area */
 .content-area {
@@ -128,9 +124,7 @@ body {
     align-items: center;
 }
 
-@media (prefers-color-scheme: dark) {
-    .history-header { background: #2c2c2e; }
-}
+body.dark-mode .history-header { background: #2c2c2e; }
 
 .history-list {
     list-style: none;
@@ -599,9 +593,7 @@ body {
     z-index: 3000;
 }
 
-@media (prefers-color-scheme: dark) {
-    #loading-overlay { background: rgba(28,28,30,0.8); }
-}
+body.dark-mode #loading-overlay { background: rgba(28,28,30,0.8); }
 
 #loading-spinner {
     width: 40px; height: 40px; border: 4px solid var(--border);

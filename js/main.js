@@ -38,6 +38,22 @@ function applySettings() {
     if (inputCard) inputCard.style.flexGrow = settings.inputFlexGrow;
     document.getElementById("historyPanel").style.display = settings.history ? "flex" : "none";
     document.getElementById("l-hist-btn").classList.toggle("active", settings.history);
+    
+    // Apply theme
+    const isDark = settings.theme === 'dark';
+    document.body.classList.toggle('dark-mode', isDark);
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn) themeBtn.textContent = isDark ? '浅色模式' : '深色模式';
+}
+
+function toggleTheme() {
+    settings.theme = settings.theme === 'dark' ? 'light' : 'dark';
+    saveSettings();
+    applySettings();
+}
+
+function saveSettings() {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
 }
 
 function initEventListeners() {
