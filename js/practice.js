@@ -459,7 +459,7 @@ function updatePracticeInputDisplay() {
                         cardHTML += `<span class="char-incorrect">${typedPinyin[i]}</span>`;
                     }
                 } else {
-                    const placeholder = showPinyinHint ? char : ""; // Remove the underscore here
+                    const placeholder = showPinyinHint ? char : "_"; 
                     cardHTML += `<span class="char-placeholder">${placeholder}</span>`;
                 }
             }

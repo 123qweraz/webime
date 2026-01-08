@@ -447,10 +447,10 @@
 
         <script>
             const DICTIONARIES = [
-                { name: "基础字词", path: "dicts/first_dict/dict.json" },
-                { name: "词组", path: "dicts/first_dict/dict_cizu.json" },
-                { name: "英文短词", path: "dicts/first_dict/dict_enlt5s.json" },
-                { name: "英文长词", path: "dicts/first_dict/dict_5_10s.json" },
+                { name: "基础字词", path: "dicts/chinese/first_dict/dict.json" },
+                { name: "词组", path: "dicts/chinese/first_dict/dict_cizu.json" },
+                { name: "英文短词", path: "dicts/chinese/first_dict/dict_enlt5s.json" },
+                { name: "英文长词", path: "dicts/chinese/first_dict/dict_5_10s.json" },
             ];
 
             let currentEntries = [];
@@ -499,7 +499,7 @@
             async function fetchCizuDict() {
                 try {
                     const response = await fetch(
-                        "dicts/first_dict/dict_cizu.json",
+                        "dicts/chinese/first_dict/dict_cizu.json",
                     );
                     if (!response.ok)
                         throw new Error("Failed to load cizu dictionary");

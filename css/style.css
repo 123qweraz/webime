@@ -655,6 +655,7 @@ body.dark-mode .history-header { background: #2c2c2e; }
     border-radius: 8px;
     margin-right: 10px;
 }
+.practice-card-slot {
     width: 340px;
     height: 200px;
     background: var(--card-bg);

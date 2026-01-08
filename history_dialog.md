@@ -1,5 +1,14 @@
 # History Dialog
 
+## 2026-01-08 05:30
+- **Task**: UI Restoration and Experience Optimization.
+- **Key Actions**:
+    1. **CSS Restoration**: Fixed a fatal UI defect where the `.practice-card-slot` selector was missing, which caused practice mode cards to be invisible and layout-broken.
+    2. **Pinyin Placeholder Optimization**: Improved practice mode's pinyin feedback by showing underscores (`_`) instead of empty space when the hint is disabled, providing users with word length cues.
+    3. **词典并存策略**：确认并支持中日文词库同时开启，以实现中日混合输入，移除了互斥切换逻辑。
+    4. **纠错模式交互**：确认并保留了纠错模式下 `Esc` 键同步缓冲区并退出的“Vim-style”逻辑。
+
+
 ## 2026-01-08 05:00
 - **Task**: Standardized Testing and Quality Assurance.
 - **Key Actions**:
