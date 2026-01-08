@@ -327,13 +327,14 @@ body.dark-mode .history-header { background: #2c2c2e; }
 
 .candidate-item {
     position: relative;
-    padding: 4px 8px;
+    padding: 4px 10px;
     cursor: pointer;
     transition: all 0.1s;
     display: flex;
     align-items: baseline;
-    gap: 6px;
+    gap: 8px;
     border-radius: 6px;
+    max-width: 280px; /* 限制单个候选词的最大宽度 */
 }
 
 .candidate-item:hover, .candidate-item.active {
@@ -350,6 +351,7 @@ body.dark-mode .history-header { background: #2c2c2e; }
     color: var(--text-sec);
     font-weight: 700;
     font-family: monospace;
+    flex-shrink: 0;
 }
 
 .candidate-item.active .cand-key {
@@ -360,6 +362,7 @@ body.dark-mode .history-header { background: #2c2c2e; }
     font-size: 22px;
     font-weight: 500;
     color: var(--text-main);
+    flex-shrink: 0;
 }
 
 .candidate-item.active .cand-text {
@@ -369,10 +372,10 @@ body.dark-mode .history-header { background: #2c2c2e; }
 .cand-desc {
     font-size: 13px;
     color: var(--text-sec);
-    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    max-width: 140px; /* 普通模式下的截断宽度 */
 }
 
 .candidate-item.active .cand-desc {
@@ -387,6 +390,7 @@ body.dark-mode .history-header { background: #2c2c2e; }
 
 .tab-mode .candidate-item {
     width: 100%;
+    max-width: none; /* Tab模式下允许占据整行 */
     justify-content: flex-start;
     padding: 6px 12px;
     gap: 15px;
@@ -398,10 +402,11 @@ body.dark-mode .history-header { background: #2c2c2e; }
 }
 
 .tab-mode .cand-desc {
-    margin-left: auto; /* 把描述推到右边 */
-    max-width: none;
+    margin-left: auto; 
+    max-width: 65%; /* Tab模式下限制英文描述占宽比 */
     font-style: italic;
     color: var(--text-sec);
+    text-align: right;
 }
 
 .tab-mode .candidate-item.active .cand-desc {
