@@ -42,24 +42,21 @@ function seededShuffle(array, seed) {
 async function initPracticeModeData() {
     let dictPath = settings.practice_dict_path;
     
-    // If no practice dictionary is selected, try to find the first enabled one
-    if (!dictPath) {
-        const firstEnabled = allDicts.find(d => d.enabled && (d.wordCount > 0 || d.type === 'built-in'));
-        if (firstEnabled) {
-            dictPath = firstEnabled.path || firstEnabled.name;
+    // Find the current dictionary, ensuring it exists and is enabled
+    let practiceDict = allDicts.find((d) => (d.path || d.name) === dictPath && d.enabled);
+    
+    // If not found or disabled, fallback to the first enabled dictionary
+    if (!practiceDict) {
+        practiceDict = allDicts.find(d => d.enabled && (d.wordCount > 0 || d.type === 'built-in'));
+        if (practiceDict) {
+            dictPath = practiceDict.path || practiceDict.name;
             settings.practice_dict_path = dictPath;
             saveSettings();
         }
     }
 
-    if (!dictPath) {
-        showErrorMessage("请先在词典设置中启用至少一个词典!");
-        return false;
-    }
-
-    const practiceDict = allDicts.find((d) => (d.path || d.name) === dictPath);
     if (!practiceDict) {
-        showErrorMessage(`练习词典未找到!`);
+        showErrorMessage("请先在词典设置中启用至少一个词典!");
         return false;
     }
 
@@ -116,11 +113,8 @@ async function startPracticeMode() {
         currentPracticeWordIndex = 0;
     }
 
-    updatePracticeProgress();
-
     document.getElementById("output-card").style.display = "none";
     document.getElementById("practice-container").style.display = "flex";
-    document.getElementById("practice-info-bar").style.display = "flex";
     document.getElementById("practice-footer").style.display = "flex";
     document.getElementById("toggle-pinyin-btn").style.display = "inline-flex";
 
@@ -137,23 +131,12 @@ async function startPracticeMode() {
     focusHiddenInput();
 }
 
-function updatePracticeProgress() {
-    const progressBar = document.getElementById("progress-bar");
-    const progressText = document.getElementById("practice-progress-text");
-    if (practiceWords.length > 0) {
-        const percent = ((currentPracticeWordIndex + 1) / practiceWords.length) * 100;
-        if (progressBar) progressBar.style.width = `${percent}%`;
-        if (progressText) progressText.textContent = `${currentPracticeWordIndex + 1} / ${practiceWords.length}`;
-    }
-}
-
 function exitPracticeMode() {
     isPracticeAnimating = false;
     setState(InputState.NORMAL);
 
     document.getElementById("output-card").style.display = "flex";
     document.getElementById("practice-container").style.display = "none";
-    document.getElementById("practice-info-bar").style.display = "none";
     document.getElementById("practice-footer").style.display = "none";
     document.getElementById("toggle-pinyin-btn").style.display = "none";
 
@@ -218,7 +201,6 @@ function showNextPracticeWord() {
         exitPracticeMode();
         return;
     }
-    updatePracticeProgress();
     loadCards();
     focusHiddenInput();
 }
@@ -291,7 +273,6 @@ function handlePracticeInput(event) {
 
         currentPracticeWordIndex++;
         localStorage.setItem(getPracticeProgressKey(), currentPracticeWordIndex);
-        updatePracticeProgress();
         
         setTimeout(() => { 
             showNextPracticeWord(); 

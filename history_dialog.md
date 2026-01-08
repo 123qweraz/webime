@@ -1,5 +1,19 @@
 # History Dialog
 
+## 2026-01-08 01:40
+- **Task**: Remove Practice Info Bar and Progress Text.
+- **Key Actions**:
+    1. **UI Removal**: Removed the `practice-info-bar` and its inner `practice-progress-text` from `index.html`.
+    2. **Logic Cleanup**: Deleted the `updatePracticeProgress` function and all its calls and references in `js/practice.js`.
+    3. **Style Cleanup**: Removed CSS styles for `#practice-info-bar` and `#practice-progress-text` from `css/style.css`.
+
+## 2026-01-08 01:30
+- **Task**: Remove Progress Bar from Practice Mode.
+- **Key Actions**:
+    1. **UI Removal**: Deleted the progress bar element and its container from `index.html`.
+    2. **Logic Cleanup**: Removed progress bar percentage calculation and DOM update logic from `js/practice.js`.
+    3. **Style Cleanup**: Removed related CSS styles for `#progress-container` and `#progress-bar`.
+
 ## 2026-01-08 01:25
 - **Task**: Remove Jump and Dictionary Selection from Practice Mode.
 - **Key Actions**:
