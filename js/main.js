@@ -58,7 +58,6 @@ function initEventListeners() {
     hInput.addEventListener("keydown", handleKeyDown);
     hInput.addEventListener("input", handleInput);
     
-    // Focus tracking for input card
     hInput.addEventListener("focus", () => {
         document.getElementById("input-container").classList.add("focused");
         document.getElementById("output-card").classList.remove("focused");
@@ -69,7 +68,6 @@ function initEventListeners() {
         updateFakeCaret();
     });
 
-    // Add listener to output area for direct editing and range tracking
     outputArea.addEventListener("input", () => {
         committed = outputArea.innerText;
         saveSelection();
@@ -111,19 +109,12 @@ function handleKeyDown(e) {
     }
 
     if (currentState === InputState.PRACTICE) {
-        if (key === "Enter" || key === " ") {
-            e.preventDefault();
-        }
+        if (key === "Enter" || key === " ") e.preventDefault();
         if (key === "Backspace") {
             setTimeout(() => {
                 setBuffer(hInput.value);
                 updatePracticeInputDisplay();
             }, 0);
-        }
-        const dirView = document.getElementById("practice-directory");
-        if (dirView && dirView.style.display !== "none") {
-            if (key === "=") { e.preventDefault(); changeDirectoryPage(1); return; }
-            if (key === "-") { e.preventDefault(); changeDirectoryPage(-1); return; }
         }
         return;
     }
@@ -148,13 +139,8 @@ function handleKeyDown(e) {
         if (/^[a-zA-Z]$/.test(key)) { e.preventDefault(); enFilter += key; pageIndex = 0; update(); return; }
         if (key === "Backspace") { 
             e.preventDefault(); 
-            if (enFilter) { 
-                enFilter = enFilter.slice(0, -1); 
-                update(); 
-            } else { 
-                setState(InputState.NORMAL); 
-                update(); 
-            } 
+            if (enFilter) { enFilter = enFilter.slice(0, -1); update(); } 
+            else { setState(InputState.NORMAL); update(); } 
             return; 
         }
     }
@@ -180,11 +166,16 @@ function handleKeyDown(e) {
             hInput.value = buffer; 
             update(); 
         } else {
-            if (document.activeElement !== outputArea) {
-                e.preventDefault();
-                committed = committed.slice(0, -1);
-                syncOutputArea();
-            }
+            // Buffer 为空时，通过 execCommand 删除
+            e.preventDefault();
+            const existingCaret = outputArea.querySelector(".fake-caret");
+            if (existingCaret) existingCaret.remove();
+            restoreSelection();
+            outputArea.focus();
+            document.execCommand("delete", false, null);
+            saveSelection();
+            committed = outputArea.innerText;
+            setTimeout(() => focusHiddenInput(), 0);
         }
     } else if (key === " ") {
         e.preventDefault();
