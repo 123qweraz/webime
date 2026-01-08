@@ -58,10 +58,15 @@ function initEventListeners() {
     hInput.addEventListener("keydown", handleKeyDown);
     hInput.addEventListener("input", handleInput);
     
+    // Add listener to output area for direct editing and range tracking
     outputArea.addEventListener("input", () => {
         committed = outputArea.innerText;
+        saveSelection();
     });
+    outputArea.addEventListener("mouseup", saveSelection);
+    outputArea.addEventListener("keyup", saveSelection);
     outputArea.addEventListener("click", (e) => {
+        saveSelection();
         e.stopPropagation();
     });
 

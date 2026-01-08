@@ -3,6 +3,7 @@ let buffer = "", committed = "", enFilter = "";
 let combinedCandidates = [], pageIndex = 0;
 let currentProcessedSegment = "";
 let currentPrecedingBuffer = "";
+let savedRange = null;
 
 function setState(newState) {
     currentState = newState;
@@ -10,21 +11,43 @@ function setState(newState) {
 }
 
 function updateFocus() {
+    const hInput = document.getElementById("hidden-input");
     if (buffer) {
-        const hInput = document.getElementById("hidden-input");
         if (hInput) hInput.focus();
     } else {
-        // If no buffer, we are effectively in "edit" mode by default
-        // but hidden-input still captures keys for starting a new buffer
-        const hInput = document.getElementById("hidden-input");
         if (hInput) hInput.focus();
+    }
+}
+
+function saveSelection() {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        if (outputArea.contains(range.commonAncestorContainer)) {
+            savedRange = range.cloneRange();
+        }
+    }
+}
+
+function restoreSelection() {
+    const selection = window.getSelection();
+    if (savedRange) {
+        selection.removeAllRanges();
+        selection.addRange(savedRange);
+    } else {
+        // Fallback: move to end of output area
+        const range = document.createRange();
+        range.selectNodeContents(outputArea);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        savedRange = range.cloneRange();
     }
 }
 
 function getActiveSegment(buffer) {
     if (!buffer) return { activeSegment: "", precedingBuffer: "" };
 
-    // Support multi-segment (correction style) if buffer contains spaces
     if (buffer.includes(" ")) {
         const segments = buffer.split(/\s+/);
         const lastSeg = segments[segments.length - 1];
@@ -81,6 +104,29 @@ function updateBufferDisplay(buffer, activeSegment, precedingBuffer) {
         bufferHTML = `<span style="color: var(--text-sec); font-size: 12px;">直接点击上方文字可编辑 | 输入拼音开始</span>`;
     }
     bufferDisplay.innerHTML = bufferHTML;
+
+    updateFakeCaret();
+}
+
+function updateFakeCaret() {
+    const existingCaret = outputArea.querySelector(".fake-caret");
+    if (existingCaret) existingCaret.remove();
+
+    if (!buffer && document.activeElement === document.getElementById("hidden-input")) {
+        const caret = document.createElement("span");
+        caret.className = "fake-caret";
+        caret.contentEditable = false;
+        
+        restoreSelection();
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            range.insertNode(caret);
+            // Don't modify savedRange here to avoid jumping
+        } else {
+            outputArea.appendChild(caret);
+        }
+    }
 }
 
 function lookupCandidates(activeSegment) {
@@ -190,7 +236,6 @@ function render() {
     );
     
     if (buffer) {
-        // Create a row-based layout even for normal input to save space and match "correction" style
         const row = document.createElement("div");
         row.className = "candidate-row";
         
@@ -233,40 +278,36 @@ function selectCandidate(selectedText) {
 }
 
 function insertAtCursor(text) {
-    const selection = window.getSelection();
-    if (!selection.rangeCount) {
-        committed += text;
-        syncOutputArea();
-        return;
-    }
+    const existingCaret = outputArea.querySelector(".fake-caret");
+    if (existingCaret) existingCaret.remove();
 
-    const range = selection.getRangeAt(0);
-    // Check if focus is in output-area
-    if (outputArea.contains(range.commonAncestorContainer)) {
-        range.deleteContents();
-        const textNode = document.createTextNode(text);
-        range.insertNode(textNode);
-        range.setStartAfter(textNode);
-        range.setEndAfter(textNode);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        committed = outputArea.innerText;
-    } else {
-        committed += text;
-        syncOutputArea();
-    }
-}
+    restoreSelection();
+    outputArea.focus();
 
-function syncOutputArea() {
-    if (outputArea) {
-        outputArea.innerText = committed;
-        outputArea.scrollTop = outputArea.scrollHeight;
+    // 使用 insertText 确保空格和换行正确
+    if (!document.execCommand("insertText", false, text)) {
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            range.deleteContents();
+            const textNode = document.createTextNode(text);
+            range.insertNode(textNode);
+            range.setStartAfter(textNode);
+            range.setEndAfter(textNode);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
     }
+    
+    saveSelection();
+    committed = outputArea.innerText;
 }
 
 function clearOutput() {
     committed = "";
-    if (outputArea) outputArea.innerText = "";
+    if (outputArea) {
+        outputArea.innerHTML = "";
+    }
     resetInput();
     update();
     focusHiddenInput();
@@ -287,18 +328,11 @@ function resetInput() {
     pageIndex = 0;
 }
 
-// Remove the old correction functions as they are now integrated
 function enterCorrectionMode() {
-    // Standard buffer with spaces now behaves like correction mode
     if (buffer) {
         if (!buffer.endsWith(" ")) setBuffer(buffer + " ");
     }
     update();
-}
-
-function toggleEditMode() {
-    // Output area is now always editable
-    focusOutputArea();
 }
 
 function focusOutputArea() {

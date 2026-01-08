@@ -212,10 +212,29 @@ body.dark-mode .history-header { background: #2c2c2e; }
     white-space: pre-wrap;
     color: var(--text-main);
     cursor: text;
+    position: relative;
+}
+
+/* 优雅的虚拟光标 */
+.fake-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background: var(--primary);
+    margin-left: -1px;
+    margin-right: -1px;
+    vertical-align: middle;
+    animation: caret-blink 1s steps(2) infinite;
+    pointer-events: none;
+}
+
+@keyframes caret-blink {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 #output-area:focus {
-    background: rgba(0, 122, 255, 0.02);
+    background: rgba(0, 122, 255, 0.01);
 }
 
 .control-group {
