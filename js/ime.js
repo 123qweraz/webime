@@ -112,7 +112,8 @@ function updateFakeCaret() {
     const existingCaret = outputArea.querySelector(".fake-caret");
     if (existingCaret) existingCaret.remove();
 
-    if (!buffer && document.activeElement === document.getElementById("hidden-input")) {
+    // 只有当 buffer 为空且焦点确实应该在输入法上时才显示
+    if (!buffer && (document.activeElement === document.getElementById("hidden-input") || document.activeElement === document.body)) {
         const caret = document.createElement("span");
         caret.className = "fake-caret";
         caret.contentEditable = false;
@@ -122,10 +123,13 @@ function updateFakeCaret() {
         if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
             range.insertNode(caret);
-            // Don't modify savedRange here to avoid jumping
         } else {
             outputArea.appendChild(caret);
         }
+        
+        // 关键：防止 restoreSelection 导致的焦点偏移
+        const hInput = document.getElementById("hidden-input");
+        if (document.activeElement !== hInput) hInput.focus();
     }
 }
 
