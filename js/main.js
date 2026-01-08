@@ -58,10 +58,28 @@ function initEventListeners() {
     hInput.addEventListener("keydown", handleKeyDown);
     hInput.addEventListener("input", handleInput);
     
+    // Focus tracking for input card
+    hInput.addEventListener("focus", () => {
+        document.getElementById("input-container").classList.add("focused");
+        document.getElementById("output-card").classList.remove("focused");
+        updateFakeCaret();
+    });
+    hInput.addEventListener("blur", () => {
+        document.getElementById("input-container").classList.remove("focused");
+        updateFakeCaret();
+    });
+
     // Add listener to output area for direct editing and range tracking
     outputArea.addEventListener("input", () => {
         committed = outputArea.innerText;
         saveSelection();
+    });
+    outputArea.addEventListener("focus", () => {
+        document.getElementById("output-card").classList.add("focused");
+        document.getElementById("input-container").classList.remove("focused");
+    });
+    outputArea.addEventListener("blur", () => {
+        document.getElementById("output-card").classList.remove("focused");
     });
     outputArea.addEventListener("mouseup", saveSelection);
     outputArea.addEventListener("keyup", saveSelection);

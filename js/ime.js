@@ -301,6 +301,9 @@ function insertAtCursor(text) {
     
     saveSelection();
     committed = outputArea.innerText;
+    
+    // 关键：插入完成后，强制交还焦点给输入法，触发 input-card 蓝色高亮
+    setTimeout(() => focusHiddenInput(), 0);
 }
 
 function clearOutput() {
