@@ -16,7 +16,10 @@ function setState(newState) {
 
 function updateFocus() {
     const hInput = document.getElementById("hidden-input");
-    if (hInput && document.activeElement !== hInput) hInput.focus();
+    // 只有在拼音 buffer 存在时，才强制夺取焦点给 IME
+    if (buffer && hInput && document.activeElement !== hInput) {
+        hInput.focus();
+    }
 }
 
 function saveSelection() {
@@ -86,24 +89,24 @@ function updateBufferDisplay(buffer, activeSegment, precedingBuffer) {
 function updateFakeCaret() {
     const area = getOutputArea();
     if (!area) return;
-    
-    // 移除旧光标
     const oldCaret = area.querySelector(".fake-caret");
     if (oldCaret) oldCaret.remove();
     
-    // 只有在 buffer 为空且焦点在输入法上时才显示
-    if (!buffer && document.activeElement === document.getElementById("hidden-input")) {
+    // 只有当 IME 处于激活态（有buffer或焦点在hInput）且输出区没焦点时，显示虚拟光标
+    const hInput = document.getElementById("hidden-input");
+    if (document.activeElement === hInput && !buffer) {
         const caret = document.createElement("span");
         caret.className = "fake-caret";
         caret.contentEditable = false;
         
         const selection = window.getSelection();
         if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            if (area.contains(range.commonAncestorContainer)) {
-                // 使用 insertNode 但不破坏原始 TextNode
-                range.insertNode(caret);
-            } else { area.appendChild(caret); }
+            try {
+                const range = selection.getRangeAt(0);
+                if (area.contains(range.commonAncestorContainer)) {
+                    range.insertNode(caret);
+                } else { area.appendChild(caret); }
+            } catch(e) { area.appendChild(caret); }
         } else { area.appendChild(caret); }
     }
 }
@@ -194,11 +197,8 @@ function selectCandidate(selectedText) {
 function insertAtCursor(text) {
     const area = getOutputArea();
     if (!area) return;
-    
-    // 关键：在操作前移除虚拟光标，防止其干扰 TextNode 索引
     const existingCaret = area.querySelector(".fake-caret");
     if (existingCaret) existingCaret.remove();
-    
     restoreSelection();
     area.focus();
     document.execCommand("insertText", false, text);

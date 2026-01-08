@@ -51,16 +51,6 @@ function initEventListeners() {
         if (container) container.classList.remove("focused");
     });
 
-    // 关键：输入重定向
-    outputArea.addEventListener("keydown", (e) => {
-        const isIMETrigger = /^[a-z']$/i.test(e.key) && !e.ctrlKey && !e.metaKey;
-        if (isIMETrigger) {
-            saveSelection();
-            focusHiddenInput();
-            // 让事件流自然进入 hInput
-        }
-    });
-
     outputArea.addEventListener("mouseup", saveSelection);
     outputArea.addEventListener("keyup", (e) => {
         saveSelection();
