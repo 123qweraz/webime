@@ -1,5 +1,11 @@
 # History Dialog
 
+## 2026-01-08 07:20
+- **Task**: Implement Cursor Position Memory for Tab Focus Cycling.
+- **Key Actions**:
+    1. **Preserved Caret Position**: Integrated `saveSelection()` and `restoreSelection()` into the bidirectional `Tab` focus cycling logic. The cursor now remains at its previous position when switching back to the `output-area`.
+    2. **Automatic Selection Saving**: Added a `blur` event listener to the `output-area` to automatically capture and save the current text selection whenever it loses focus, ensuring reliable restoration regardless of how focus was shifted.
+
 ## 2026-01-08 07:15
 - **Task**: Fix Dark Mode, Initial Focus, and Tab Focus Cycling.
 - **Key Actions**:

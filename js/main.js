@@ -48,15 +48,16 @@ function initEventListeners() {
         if (card) card.classList.remove("focused");
     });
     
-    outputArea.addEventListener("focus", () => {
-        const card = document.getElementById("output-card");
-        if (card) card.classList.add("focused");
-        const container = document.getElementById("input-container");
-        if (container) container.classList.remove("focused");
-    });
-
-    outputArea.addEventListener("mouseup", saveSelection);
-    outputArea.addEventListener("keyup", (e) => {
+        outputArea.addEventListener("focus", () => {
+            const card = document.getElementById("output-card");
+            if (card) card.classList.add("focused");
+            const container = document.getElementById("input-container");
+            if (container) container.classList.remove("focused");
+        });
+        
+        outputArea.addEventListener("blur", saveSelection);
+    
+        outputArea.addEventListener("mouseup", saveSelection);    outputArea.addEventListener("keyup", (e) => {
         saveSelection();
     });
     outputArea.addEventListener("click", (e) => {
@@ -159,8 +160,10 @@ function handleGlobalKeyDown(e) {
         e.preventDefault();
         e.stopPropagation();
         if (document.activeElement === outputArea) {
+            saveSelection();
             focusHiddenInput();
         } else {
+            restoreSelection();
             outputArea.focus();
         }
         return;
