@@ -98,7 +98,16 @@ async function initPracticeModeData() {
     allWords.sort((a, b) => a.pinyin.localeCompare(b.pinyin));
 
     const chapterSize = 20;
-    const chapterIndex = settings.practice_chapter || 0;
+    const totalChapters = Math.ceil(allWords.length / chapterSize);
+    let chapterIndex = parseInt(settings.practice_chapter, 10);
+    
+    // Validate chapterIndex
+    if (isNaN(chapterIndex) || chapterIndex < 0 || chapterIndex >= totalChapters) {
+        chapterIndex = 0;
+        settings.practice_chapter = 0;
+        saveSettings();
+    }
+
     const startIdx = chapterIndex * chapterSize;
     const endIdx = Math.min(startIdx + chapterSize, allWords.length);
     
@@ -193,12 +202,17 @@ function renderDirectoryContent() {
     const wordCount = allWords.length;
     const chapterSize = 20;
     const totalChapters = Math.ceil(wordCount / chapterSize);
-    const currentChapter = settings.practice_chapter;
+    const currentChapter = parseInt(settings.practice_chapter, 10);
 
     let html = `
-        <div class="directory-header">
-            <div class="directory-title">${practiceDict.name} - 章节目录</div>
-            <button class="btn btn-sm" onclick="openDictModal()">更换词典</button>
+        <div class="directory-header" style="grid-column: 1/-1;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+                <div class="directory-title">${practiceDict.name}</div>
+                <div style="font-size: 13px; color: var(--text-sec); font-weight: 500;">
+                    共 ${totalChapters} 个章节 • ${wordCount} 个词汇
+                </div>
+            </div>
+            <button class="btn btn-action btn-sm" onclick="openDictModal()">更换词典</button>
         </div>
     `;
 
@@ -206,10 +220,22 @@ function renderDirectoryContent() {
         const isActive = i === currentChapter;
         const start = i * chapterSize + 1;
         const end = Math.min((i + 1) * chapterSize, wordCount);
+        
+        // Check if this chapter has saved progress
+        const progressKey = `${PRACTICE_PROGRESS_KEY}_${dictPath.replace(/[^a-zA-Z0-9]/g, '_')}_ch${i}`;
+        const savedProgress = localStorage.getItem(progressKey);
+        const progressPercent = savedProgress ? Math.floor((parseInt(savedProgress, 10) / (end - start + 1)) * 100) : 0;
+
         html += `
             <div class="chapter-card ${isActive ? 'active' : ''}" onclick="selectChapter(${i})">
-                <div class="chapter-title">第 ${i + 1} 章</div>
-                <div class="chapter-info">${start} - ${end} 词</div>
+                <div class="chapter-card-main">
+                    <div class="chapter-title">第 ${i + 1} 章</div>
+                    <div class="chapter-info">${start} - ${end}</div>
+                </div>
+                ${progressPercent > 0 ? `
+                    <div class="chapter-progress-tag" style="width: ${Math.min(progressPercent, 100)}%;"></div>
+                    <div class="chapter-progress-text">${progressPercent}%</div>
+                ` : ''}
             </div>
         `;
     }

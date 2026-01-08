@@ -448,10 +448,10 @@ body.dark-mode .history-header { background: #2c2c2e; }
 .practice-directory-view {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-    padding: 20px;
+    gap: 16px;
+    padding: 24px;
     width: 100%;
-    max-height: 100%;
+    height: 100%;
     overflow-y: auto;
     align-content: start;
 }
@@ -459,59 +459,86 @@ body.dark-mode .history-header { background: #2c2c2e; }
 .chapter-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px 16px;
+    border-radius: 18px;
+    padding: 20px 16px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow);
-    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .chapter-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color: var(--primary);
-    box-shadow: 0 12px 24px rgba(0, 122, 255, 0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .chapter-card.active {
-    background: var(--primary);
+    background: var(--primary-light);
     border-color: var(--primary);
-    color: white;
+    border-width: 2px;
+}
+
+.chapter-card-main {
+    flex: 1;
+    z-index: 2;
 }
 
 .chapter-card .chapter-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    color: var(--text-main);
 }
 
 .chapter-card .chapter-info {
     font-size: 12px;
-    opacity: 0.8;
+    color: var(--text-sec);
     font-weight: 600;
 }
 
-.chapter-card.active .chapter-info {
-    color: rgba(255, 255, 255, 0.9);
+.chapter-progress-tag {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--success);
+    transition: width 0.3s ease;
+    z-index: 1;
+}
+
+.chapter-progress-text {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--success);
+    background: rgba(52, 199, 89, 0.1);
+    padding: 2px 6px;
+    border-radius: 6px;
+    z-index: 2;
 }
 
 .directory-header {
     grid-column: 1 / -1;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 0 10px;
+    align-items: flex-end;
+    margin-bottom: 8px;
+    padding: 0 4px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 16px;
 }
 
 .directory-title {
-    font-size: 20px;
-    font-weight: 800;
+    font-size: 24px;
+    font-weight: 900;
     color: var(--text-main);
+    letter-spacing: -0.5px;
 }
 
 /* Practice Mode */
