@@ -274,43 +274,38 @@ body.dark-mode .history-header { background: #2c2c2e; }
 #main-candidates {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
     flex: 1;
     overflow-y: auto;
 }
 
 .candidate-row {
     display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 4px 0;
+    align-items: center;
+    gap: 10px;
+    padding: 2px 0;
 }
 
 .candidate-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: wrap; /* 允许横向流式排布，如果一行放不下会自动换行，但保持横向感 */
+    gap: 12px;
     flex: 1;
 }
 
 .candidate-item {
     position: relative;
-    padding: 6px 14px;
-    background: var(--bg);
-    border-radius: 10px;
+    padding: 4px 8px;
     cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid var(--border);
+    transition: all 0.1s;
     display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 40px;
+    align-items: baseline;
+    gap: 6px;
+    border-radius: 6px;
 }
 
 .candidate-item:hover, .candidate-item.active {
     background: var(--primary-light);
-    border-color: var(--primary);
-    transform: translateY(-1px);
 }
 
 .candidate-item.active {
@@ -319,9 +314,10 @@ body.dark-mode .history-header { background: #2c2c2e; }
 }
 
 .cand-key {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-sec);
     font-weight: 700;
+    font-family: monospace;
 }
 
 .candidate-item.active .cand-key {
@@ -329,7 +325,7 @@ body.dark-mode .history-header { background: #2c2c2e; }
 }
 
 .cand-text {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 500;
     color: var(--text-main);
 }
@@ -341,31 +337,45 @@ body.dark-mode .history-header { background: #2c2c2e; }
 .cand-desc {
     font-size: 13px;
     color: var(--text-sec);
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .candidate-item.active .cand-desc {
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* Tab Mode Specific Layout */
+/* Tab Mode: Dedicated Left-Right Layout */
 .tab-mode .candidate-list {
     flex-direction: column;
+    gap: 2px;
 }
 
 .tab-mode .candidate-item {
     width: 100%;
-    justify-content: space-between;
-    padding: 8px 16px;
+    justify-content: flex-start;
+    padding: 6px 12px;
+    gap: 15px;
 }
 
 .tab-mode .cand-text {
     font-size: 18px;
+    min-width: 60px;
 }
 
 .tab-mode .cand-desc {
-    margin-left: auto;
+    margin-left: auto; /* 把描述推到右边 */
+    max-width: none;
     font-style: italic;
+    color: var(--text-sec);
 }
+
+.tab-mode .candidate-item.active .cand-desc {
+    color: white;
+}
+
 
 #hidden-input {
     position: fixed;
