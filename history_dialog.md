@@ -1,3 +1,20 @@
+# History Dialog
+
+## 2026-01-08 03:35
+- **Task**: Refine Rolling Window Hiding Logic.
+- **Key Actions**:
+    1. **Delayed Hiding**: Adjusted `startDisplay` calculation to `Math.max(0, activeSegIndex - 4)`. This ensures that segments are only hidden from the front once the user moves past the 5th segment.
+    2. **Improved Context**: The user now sees the first 5 segments in full; hiding only kicks in for very long sentences, maintaining better initial context.
+
+## 2026-01-08 03:15
+- **Task**: Implement Cursor Tracking & Auto-scrolling in Long Sentence Mode.
+- **Key Actions**:
+    1. **Active Segment Highlighting**: Modified `updateCorrectionCandidates` to detect which segment the cursor is currently in and applied the `.active-row` class to the corresponding candidate list row.
+    2. **Automatic Scrolling**: Used `scrollIntoView` to ensure the candidate list automatically scrolls to keep the active segment's candidates visible.
+    3. **Event Integration**: Added `keyup` and `click` listeners to the textarea to trigger candidate updates whenever the cursor moves (not just on text change).
+    4. **Improved Row Styling**: Added background highlights and rounded corners to the active row for better visual focus.
+    5. **Selection Logic Fix**: Improved pinyin-to-Hanzi segment splitting to accurately map cursor positions back to the rendered rows.
+
 ## 2026-01-08 03:05
 - **Task**: Revert Long Sentence Mode Candidate Limit.
 - **Key Actions**:

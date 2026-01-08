@@ -384,8 +384,16 @@ body.dark-mode .history-header { background: #2c2c2e; }
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    padding: 4px 0;
+    padding: 6px 10px;
     border-bottom: 1px dashed var(--border);
+    transition: background 0.2s;
+    border-radius: 8px;
+}
+
+.correction-candidate-row.active-row {
+    background: var(--primary-light);
+    border-bottom-style: solid;
+    border-color: var(--primary);
 }
 
 .correction-seg-label {

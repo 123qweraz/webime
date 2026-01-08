@@ -226,17 +226,57 @@ function updateCorrectionCandidates() {
     if (!input || !candidatesContainer) return;
 
     const text = input.value;
-    const segments = text.trim().split(/\s+/).filter(s => s.length > 0);
+    const selectionStart = input.selectionStart;
     
+    const segments = [];
+    const regex = /\S+/g;
+    let match;
+    let activeSegIndex = -1;
+
+    while ((match = regex.exec(text)) !== null) {
+        const segText = match[0];
+        const start = match.index;
+        const end = start + segText.length;
+        
+        segments.push({
+            text: segText,
+            start: start,
+            end: end
+        });
+
+        if (selectionStart >= start && selectionStart <= end) {
+            activeSegIndex = segments.length - 1;
+        }
+    }
+    
+    if (activeSegIndex === -1 && segments.length > 0 && selectionStart >= segments[segments.length-1].end) {
+        activeSegIndex = segments.length - 1;
+    }
+
     if (segments.length === 0) {
         candidatesContainer.innerHTML = "";
         return;
     }
 
-    candidatesContainer.innerHTML = segments.map((seg, segIndex) => {
+    // Rolling Window: Show 5 segments. 
+    // Only starts hiding the "front" after the active index exceeds 4.
+    const displayCount = 5;
+    const startDisplay = Math.max(0, activeSegIndex - (displayCount - 1));
+    const displaySegments = segments.slice(startDisplay, startDisplay + displayCount);
+
+    let html = "";
+    if (startDisplay > 0) {
+        html += `<div style="font-size: 10px; color: var(--text-sec); padding-left: 10px; margin-bottom: 4px;">... 已隐藏前文</div>`;
+    }
+
+    html += displaySegments.map((segObj, i) => {
+        const segIndex = startDisplay + i;
+        const seg = segObj.text;
+        const isActiveRow = segIndex === activeSegIndex;
+        
         if (!/^[a-zA-Z']+$/.test(seg)) {
             return `
-                <div class="correction-candidate-row">
+                <div class="correction-candidate-row ${isActiveRow ? 'active-row' : ''}" data-seg-index="${segIndex}">
                     <span class="correction-seg-label">已选:</span>
                     <div class="correction-seg-candidates">
                         <span class="correction-cand fixed">${escapeHtml(seg)}</span>
@@ -248,7 +288,7 @@ function updateCorrectionCandidates() {
         const candidates = lookupCandidates(seg).slice(0, 5);
         if (candidates.length === 0) {
              return `
-                <div class="correction-candidate-row">
+                <div class="correction-candidate-row ${isActiveRow ? 'active-row' : ''}" data-seg-index="${segIndex}">
                     <span class="correction-seg-label">${escapeHtml(seg)}:</span>
                     <div class="correction-seg-candidates">
                         <span class="correction-cand" style="color: var(--text-sec); font-style: italic; cursor: default;">无结果</span>
@@ -258,7 +298,7 @@ function updateCorrectionCandidates() {
         }
 
         return `
-            <div class="correction-candidate-row">
+            <div class="correction-candidate-row ${isActiveRow ? 'active-row' : ''}" data-seg-index="${segIndex}">
                 <span class="correction-seg-label">${escapeHtml(seg)}:</span>
                 <div class="correction-seg-candidates">
                     ${candidates.map((c, i) => `
@@ -270,6 +310,12 @@ function updateCorrectionCandidates() {
             </div>
         `;
     }).join("");
+
+    if (startDisplay + displayCount < segments.length) {
+        html += `<div style="font-size: 10px; color: var(--text-sec); padding-left: 10px; margin-top: 4px;">... 后面还有 ${segments.length - (startDisplay + displayCount)} 组</div>`;
+    }
+
+    candidatesContainer.innerHTML = html;
 }
 
 function selectCorrectionCandidate(segIndex, candidateText) {
