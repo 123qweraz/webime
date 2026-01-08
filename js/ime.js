@@ -148,32 +148,113 @@ function update() {
 }
 
 function render() {
+
     const container = document.getElementById("main-candidates");
+
+    const inputCard = document.getElementById("input-container");
+
     if (!container) return;
+
     container.innerHTML = "";
-    if (buffer) {
-        const pageData = combinedCandidates.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
-        const row = document.createElement("div");
-        row.className = "candidate-row";
-        row.innerHTML = `<div class="correction-seg-label">${currentProcessedSegment}:</div>`;
-        const listContainer = document.createElement("div");
-        listContainer.className = "candidate-list";
-        pageData.forEach((item, i) => {
-            const div = document.createElement("div");
-            div.className = "candidate-item" + (i === 0 ? " active" : "");
-            div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.text)}</span>${item.desc ? `<span class="cand-desc">${escapeHtml(item.desc)}</span>` : ""}`;
-            div.onclick = (e) => { e.stopPropagation(); selectCandidate(item.text); };
-            listContainer.appendChild(div);
-        });
-        row.appendChild(listContainer);
-        container.appendChild(row);
-        const totalPages = Math.ceil(combinedCandidates.length / pageSize);
-        const counter = document.getElementById("page-counter");
-        if (counter) counter.innerText = `${pageIndex + 1} / ${totalPages || 1}`;
+
+    
+
+    // 状态样式切换
+
+    if (currentState === InputState.TAB) {
+
+        inputCard.classList.add("tab-mode");
+
     } else {
-        const counter = document.getElementById("page-counter");
-        if (counter) counter.innerText = "";
+
+        inputCard.classList.remove("tab-mode");
+
     }
+
+
+
+    if (buffer) {
+
+        let display = combinedCandidates;
+
+        
+
+        // Tab 模式过滤逻辑
+
+        if (currentState === InputState.TAB && enFilter) {
+
+            display = combinedCandidates.filter((i) => 
+
+                i.desc && i.desc.toLowerCase().startsWith(enFilter.toLowerCase())
+
+            );
+
+            // 自动上屏逻辑
+
+            if (display.length === 1) {
+
+                selectCandidate(display[0].text);
+
+                return;
+
+            }
+
+        }
+
+
+
+        const totalPages = Math.ceil(display.length / pageSize);
+
+        const pageData = display.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+
+        
+
+        const row = document.createElement("div");
+
+        row.className = "candidate-row";
+
+        row.innerHTML = `<div class="correction-seg-label">${currentProcessedSegment}:</div>`;
+
+        
+
+        const listContainer = document.createElement("div");
+
+        listContainer.className = "candidate-list";
+
+        
+
+        pageData.forEach((item, i) => {
+
+            const div = document.createElement("div");
+
+            div.className = "candidate-item" + (i === 0 ? " active" : "");
+
+            div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.text)}</span>${item.desc ? `<span class="cand-desc">${escapeHtml(item.desc)}</span>` : ""}`;
+
+            div.onclick = (e) => { e.stopPropagation(); selectCandidate(item.text); };
+
+            listContainer.appendChild(div);
+
+        });
+
+        row.appendChild(listContainer);
+
+        container.appendChild(row);
+
+        
+
+        const counter = document.getElementById("page-counter");
+
+        if (counter) counter.innerText = `${pageIndex + 1} / ${totalPages || 1}`;
+
+    } else {
+
+        const counter = document.getElementById("page-counter");
+
+        if (counter) counter.innerText = "";
+
+    }
+
 }
 
 function selectCandidate(selectedText) {
