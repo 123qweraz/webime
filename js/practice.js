@@ -193,21 +193,36 @@ function renderDirectoryContent() {
         return;
     }
 
-    // Recalculate word count from fetched content
-    let allWordsCount = 0;
-    for (const p in practiceDict.fetchedContent) {
-        const data = practiceDict.fetchedContent[p];
-        allWordsCount += Array.isArray(data) ? data.length : 1;
+    // IMPORTANT: Sort words exactly like in initPracticeModeData to ensure consistency
+    const dictData = practiceDict.fetchedContent;
+    let allWords = [];
+    for (const pinyin in dictData) {
+        const pinyinData = dictData[pinyin];
+        const hanziArray = Array.isArray(pinyinData) ? pinyinData : [pinyinData];
+        hanziArray.forEach((hanzi) => {
+            allWords.push({ pinyin, hanzi });
+        });
     }
+    allWords.sort((a, b) => a.pinyin.localeCompare(b.pinyin));
 
+    const wordCount = allWords.length;
     const chapterSize = 20;
-    const totalChapters = Math.ceil(allWordsCount / chapterSize);
+    const totalChapters = Math.ceil(wordCount / chapterSize);
     const totalPages = Math.ceil(totalChapters / directoryPageSize);
     
-    // Auto-detect page index if coming from a specific chapter
+    // Fix Bug: Ensure directoryPageIndex is within valid bounds after dictionary switch
+    if (directoryPageIndex >= totalPages) {
+        directoryPageIndex = 0;
+    }
+
     const currentChapter = parseInt(settings.practice_chapter, 10);
-    if (!isNaN(currentChapter) && directoryPageIndex === 0 && currentChapter >= directoryPageSize) {
-        directoryPageIndex = Math.floor(currentChapter / directoryPageSize);
+    // Auto-detect page index if coming from a specific chapter for the first time
+    if (!isNaN(currentChapter) && currentChapter >= 0) {
+        const targetPage = Math.floor(currentChapter / directoryPageSize);
+        // Only jump if we are at page 0 or the current page would be empty
+        if (directoryPageIndex === 0 || directoryPageIndex >= totalPages) {
+            directoryPageIndex = targetPage;
+        }
     }
 
     const startChapter = directoryPageIndex * directoryPageSize;
@@ -232,28 +247,32 @@ function renderDirectoryContent() {
         <div class="directory-header-v2">
             <div class="dict-info-box">
                 <div class="dict-name-main">${practiceDict.name}</div>
-                <div class="dict-stats-sub">共 ${totalChapters} 章节 • ${allWordsCount} 词汇</div>
+                <div class="dict-stats-sub">共 ${totalChapters} 章节 • ${wordCount} 词汇</div>
             </div>
             <button class="btn btn-sm" onclick="openDictModal()">更换词典</button>
         </div>
         <div style="grid-column: 1/-1;">${paginationHtml}</div>
     `;
 
-    // Strict slice of chapters for the current page
     for (let i = startChapter; i < endChapter; i++) {
         const isActive = i === currentChapter;
         const start = i * chapterSize + 1;
-        const end = Math.min((i + 1) * chapterSize, allWordsCount);
+        const end = Math.min((i + 1) * chapterSize, wordCount);
         
         const progressKey = `${PRACTICE_PROGRESS_KEY}_${dictPath.replace(/[^a-zA-Z0-9]/g, '_')}_ch${i}`;
         const savedProgress = localStorage.getItem(progressKey);
         const progressPercent = savedProgress ? Math.floor((parseInt(savedProgress, 10) / (end - start + 1)) * 100) : 0;
 
+        // Optionally show word range hint (pinyin of first and last word)
+        const firstWordPy = allWords[start-1].pinyin;
+        const lastWordPy = allWords[end-1].pinyin;
+
         html += `
             <div class="chapter-card ${isActive ? 'active' : ''}" onclick="selectChapter(${i})">
                 <div class="chapter-card-main">
                     <div class="chapter-title">第 ${i + 1} 章</div>
-                    <div class="chapter-info">${start} - ${end}</div>
+                    <div class="chapter-info">${start} - ${end} 词</div>
+                    <div style="font-size: 10px; color: var(--text-sec); margin-top: 4px;">${firstWordPy}...${lastWordPy}</div>
                 </div>
                 ${progressPercent > 0 ? `
                     <div class="chapter-progress-tag" style="width: ${Math.min(progressPercent, 100)}%;"></div>
