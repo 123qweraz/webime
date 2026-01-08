@@ -130,7 +130,7 @@ function lookupCandidates(activeSegment) {
 function update() {
     if (currentState === InputState.EDIT) return;
 
-    if (outputArea) {
+    if (outputArea && outputArea.innerText !== committed) {
         outputArea.innerText = committed;
         outputArea.scrollTop = outputArea.scrollHeight;
     }
@@ -241,18 +241,21 @@ function exitCorrectionMode(action) {
 }
 
 function convertPinyinToHanzi(pinyinString) {
-    const pinyinSegments = pinyinString.trim().split(/\s+/);
-    let hanziResult = [];
-    for (const segment of pinyinSegments) {
-        if (!segment) continue;
-        const node = DB.getNode(segment.toLowerCase());
-        let foundHanzi = null;
-        if (node && node.values.length > 0) {
-            foundHanzi = node.values[0].char || node.values[0];
+    const lines = pinyinString.split(/\r?\n/);
+    return lines.map(line => {
+        const pinyinSegments = line.trim().split(/\s+/);
+        let hanziResult = [];
+        for (const segment of pinyinSegments) {
+            if (!segment) continue;
+            const node = DB.getNode(segment.toLowerCase());
+            let foundHanzi = null;
+            if (node && node.values.length > 0) {
+                foundHanzi = node.values[0].char || node.values[0];
+            }
+            hanziResult.push(foundHanzi || segment);
         }
-        hanziResult.push(foundHanzi || segment);
-    }
-    return hanziResult.join("");
+        return hanziResult.join("");
+    }).join("\n");
 }
 
 function toggleEditMode() {

@@ -33,8 +33,12 @@ async function init() {
 function applySettings() {
     const outputCard = document.getElementById("output-card");
     const inputCard = document.getElementById("input-container");
-    if (outputCard) outputCard.style.flexGrow = settings.outputFlexGrow;
-    if (inputCard) inputCard.style.flexGrow = settings.inputFlexGrow;
+    
+    // Use height for input card stability
+    if (inputCard && settings.inputHeight) {
+        inputCard.style.height = settings.inputHeight + "px";
+    }
+    
     document.getElementById("historyPanel").style.display = settings.history ? "flex" : "none";
     document.getElementById("l-hist-btn").classList.toggle("active", settings.history);
     
@@ -181,8 +185,16 @@ function handleGlobalKeyDown(e) {
 }
 
 function handleCorrectionKeyDown(e) {
-    if (e.key === "Enter") { e.preventDefault(); exitCorrectionMode("convert_sentence"); }
-    else if (e.key === "Escape") { e.preventDefault(); exitCorrectionMode("sync_out_buffer"); }
+    if (e.key === "Enter") {
+        if (!e.shiftKey) {
+            e.preventDefault();
+            exitCorrectionMode("convert_sentence");
+        }
+        // Shift + Enter is allowed to perform default newline action
+    } else if (e.key === "Escape") {
+        e.preventDefault();
+        exitCorrectionMode("sync_out_buffer");
+    }
 }
 
 function handleGlobalClick(e) {
@@ -194,29 +206,23 @@ function handleGlobalClick(e) {
 function makeResizableV(resizerId, topPanelId, bottomPanelId) {
     const resizer = document.getElementById(resizerId);
     if (!resizer) return;
-    const topPanel = document.getElementById(topPanelId);
     const bottomPanel = document.getElementById(bottomPanelId);
-    const parentPanel = topPanel.parentElement;
+    
     resizer.addEventListener("mousedown", (e) => {
         e.preventDefault();
-        let startTopFlexGrow = parseFloat(window.getComputedStyle(topPanel).flexGrow) || 2;
-        let startBottomFlexGrow = parseFloat(window.getComputedStyle(bottomPanel).flexGrow) || 3;
-        const parentRect = parentPanel.getBoundingClientRect();
+        const startY = e.clientY;
+        const startHeight = bottomPanel.offsetHeight;
+
         const doDrag = (ev) => {
-            const mouseY = ev.clientY - parentRect.top;
-            let newTopHeight = Math.max(100, mouseY);
-            let newBottomHeight = Math.max(100, parentRect.height - mouseY);
-            const sumFlexGrow = startTopFlexGrow + startBottomFlexGrow;
-            let newTopFlexGrow = (newTopHeight / parentRect.height) * sumFlexGrow;
-            let newBottomFlexGrow = sumFlexGrow - newTopFlexGrow;
-            topPanel.style.flexGrow = newTopFlexGrow;
-            bottomPanel.style.flexGrow = newBottomFlexGrow;
+            const deltaY = startY - ev.clientY;
+            const newHeight = Math.max(150, startHeight + deltaY);
+            bottomPanel.style.height = newHeight + "px";
         };
+
         const stopDrag = () => {
             document.removeEventListener("mousemove", doDrag);
             document.removeEventListener("mouseup", stopDrag);
-            settings.outputFlexGrow = parseFloat(topPanel.style.flexGrow);
-            settings.inputFlexGrow = parseFloat(bottomPanel.style.flexGrow);
+            settings.inputHeight = bottomPanel.offsetHeight;
             saveSettings();
         };
         document.addEventListener("mousemove", doDrag);

@@ -33,7 +33,7 @@
 
 #### 2.2 核心输入法逻辑 (Core Input Method Logic)
 
-*   **`InputState` (枚举):** 定义了输入法的几种状态：`NORMAL` (正常输入), `CANDIDATE_SELECT` (候选词选择), `EDIT` (输出区编辑), `CORRECTION` (修正模式), `PRACTICE` (练习模式)。
+*   **`InputState` (枚举):** 定义了输入法的几种状态：`NORMAL` (正常输入), `CANDIDATE_SELECT` (候选词选择), `EDIT` (输出区编辑), `CORRECTION` (长句模式), `PRACTICE` (练习模式)。
 *   **`buffer`:** 全局变量，存储用户当前输入的拼音字符串。
 *   **`committed`:** 全局变量，存储已经上屏的汉字内容。
 *   **`outputArea`:** 显示最终上屏汉字的区域 (内容可编辑的 `div`)。
@@ -42,7 +42,7 @@
 *   **`handleInput(e)`:** 这是核心的键盘事件处理函数，监听 `keydown` 事件：
     *   根据当前 `currentState` 处理不同逻辑。
     *   在 `NORMAL` 状态下，将输入的字母添加到 `buffer`，并调用 `update()` 更新候选词。
-    *   处理 `Backspace`、`Space` (上屏或翻页)、`Enter` (上屏或切换修正模式)、数字键 (选择候选词) 等。
+    *   处理 `Backspace`、`Space` (上屏或翻页)、`Enter` (上屏或切换长句模式)、数字键 (选择候选词) 等。
     *   在 `CANDIDATE_SELECT` 状态下，根据数字键选择候选词，或按 `Backspace` 返回。
     *   在 `CORRECTION` 状态下，处理修正输入框的 `Enter` (转换并上屏) 和 `Esc` (取消) 事件。
 *   **`update()`:** 输入法每次状态或缓冲区改变时都会调用此函数来刷新 UI：

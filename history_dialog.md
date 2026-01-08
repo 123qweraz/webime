@@ -1,5 +1,29 @@
 # History Dialog
 
+## 2026-01-08 02:40
+- **Task**: Upgrade Correction Mode to "Long Sentence Mode" (长句模式).
+- **Key Actions**:
+    1. **Renaming**: Renamed "修正模式" to "长句模式" across UI and documentation to better reflect its purpose for inputting full sentences.
+    2. **Multiline Support**: Changed the single-line input to a `textarea` in `index.html` and adjusted `css/style.css` to support flexible multiline input.
+    3. **Key Bindings**: Updated `handleCorrectionKeyDown` in `js/main.js` to support `Shift + Enter` for manual newlines while keeping `Enter` for final conversion and submission.
+    4. **Newline Preservation**: Modified `convertPinyinToHanzi` in `js/ime.js` to process input line-by-line, preserving user-inserted newlines in the final Hanzi output.
+    5. **Automatic Wrapping**: Relied on `textarea` and `output-area` CSS (`pre-wrap`) to provide automatic visual wrapping for long sentences.
+
+## 2026-01-08 02:30
+- **Task**: Fix Resizer Lagginess and Incomplete Candidate Display.
+- **Key Actions**:
+    1. **Pixel-Based Resizing**: Rewrote `makeResizableV` in `js/main.js` to use direct pixel height for the input card instead of `flex-grow`. This makes resizing much more responsive ("follows the hand").
+    2. **Flexible Candidate Area**: Removed the fixed-height constraint on `#main-candidates` and instead gave the entire `.input-card` a stable base height (`220px`). Candidates now fill all available space in the card and become scrollable if they exceed it.
+    3. **Layout Stability**: Locked the input card to `flex-shrink: 0` and `flex-grow: 0` to prevent it from jumping during typing, while keeping the output card as the flexible element.
+    4. **Persistence**: Updated `applySettings` to correctly restore the user's custom `inputHeight` from `localStorage`.
+
+## 2026-01-08 02:20
+- **Task**: Fix UI Jumping and Stability.
+- **Key Actions**:
+    1. **Fixed Candidate Height**: Set a fixed height (`120px`) for `#main-candidates` in `css/style.css`. This prevents the input card from changing size as the number of candidates fluctuates during typing.
+    2. **Optimized Output Rendering**: Modified `js/ime.js` to only update `outputArea.innerText` when the `committed` string actually changes. This eliminates unnecessary re-renders and scroll-to-bottom jumps while typing pinyin.
+    3. **Layout Reinforcement**: Added `overflow: hidden` to `.center-container` and allowed `.output-card` to flex, ensuring the overall layout remains stable and respects manual resizing.
+
 ## 2026-01-08 02:10
 - **Task**: Fix Candidate Sorting and Redesign Practice Dictionary Selection.
 - **Key Actions**:
