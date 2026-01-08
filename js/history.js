@@ -58,7 +58,7 @@ function updateHistoryUI(historyItems) {
 
             listItem.addEventListener("click", () => {
                 const textToInsert = item.text || item;
-                committed += textToInsert;
+                insertAtCursor(textToInsert);
                 update();
             });
 
@@ -107,8 +107,7 @@ function archiveAndCopy() {
 
             navigator.clipboard.writeText(committed)
                 .then(() => {
-                    committed = "";
-                    update();
+                    clearOutput();
                     showToast("已归档并复制到剪切板", "success");
                 })
                 .catch((err) => {

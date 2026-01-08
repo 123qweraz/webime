@@ -1,12 +1,15 @@
 # History Dialog
 
-## 2026-01-08 05:30
-- **Task**: UI Restoration and Experience Optimization.
+## 2026-01-08 06:00
+- **Task**: Deep Refactoring - Unified "Immersive" Mode & UI Unification.
 - **Key Actions**:
-    1. **CSS Restoration**: Fixed a fatal UI defect where the `.practice-card-slot` selector was missing, which caused practice mode cards to be invisible and layout-broken.
-    2. **Pinyin Placeholder Optimization**: Improved practice mode's pinyin feedback by showing underscores (`_`) instead of empty space when the hint is disabled, providing users with word length cues.
-    3. **词典并存策略**：确认并支持中日文词库同时开启，以实现中日混合输入，移除了互斥切换逻辑。
-    4. **纠错模式交互**：确认并保留了纠错模式下 `Esc` 键同步缓冲区并退出的“Vim-style”逻辑。
+    1. **Mode Fusion**: Merged Standard, Edit, and Correction modes into a unified "Immersive" experience. `outputArea` is now always `contentEditable`, allowing direct mouse-based cursor positioning and text modification without explicit mode switching.
+    2. **Candidate UI Redesign**: Adopted a compact, row-based layout for candidates (inspired by correction mode) to save space. The active pinyin segment is now displayed as a label next to its candidates.
+    3. **Tab Mode Optimization**: Redesigned Tab mode with a horizontal (left-right) layout for Hanzi and English descriptions, improving readability and space efficiency.
+    4. **Cursor-Aware Insertion**: Implemented `insertAtCursor` to ensure candidates and history items are inserted at the current cursor position within the `outputArea`.
+    5. **Correction Integration**: Typing with spaces now naturally triggers a multi-segment "correction-style" view in the main candidate area, removing the need for a separate correction modal.
+    6. **Clean Cleanup**: Removed redundant buttons ("Edit Mode", "Lock Mode") and obsolete code (correction-wrapper, specific correction handlers) for a leaner codebase.
+
 
 
 ## 2026-01-08 05:00

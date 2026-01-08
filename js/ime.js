@@ -6,22 +6,16 @@ let currentPrecedingBuffer = "";
 
 function setState(newState) {
     currentState = newState;
-    if (outputArea) {
-        if (currentState === InputState.NORMAL) {
-            outputArea.classList.add("locked");
-        } else {
-            outputArea.classList.remove("locked");
-        }
-    }
     updateFocus();
 }
 
 function updateFocus() {
-    if (currentState === InputState.EDIT) {
-        outputArea.focus();
-    } else if (currentState === InputState.CORRECTION) {
-        correctionInput.focus();
+    if (buffer) {
+        const hInput = document.getElementById("hidden-input");
+        if (hInput) hInput.focus();
     } else {
+        // If no buffer, we are effectively in "edit" mode by default
+        // but hidden-input still captures keys for starting a new buffer
         const hInput = document.getElementById("hidden-input");
         if (hInput) hInput.focus();
     }
@@ -29,6 +23,14 @@ function updateFocus() {
 
 function getActiveSegment(buffer) {
     if (!buffer) return { activeSegment: "", precedingBuffer: "" };
+
+    // Support multi-segment (correction style) if buffer contains spaces
+    if (buffer.includes(" ")) {
+        const segments = buffer.split(/\s+/);
+        const lastSeg = segments[segments.length - 1];
+        const preceding = buffer.substring(0, buffer.length - lastSeg.length);
+        return { activeSegment: lastSeg, precedingBuffer: preceding };
+    }
 
     let activeSegment = "";
     let precedingBuffer = buffer;
@@ -69,14 +71,14 @@ function updateBufferDisplay(buffer, activeSegment, precedingBuffer) {
 
     let bufferHTML;
     if (currentState === InputState.TAB) {
-        bufferHTML = escapeHtml(buffer) + "-";
+        bufferHTML = `<span style="color: var(--text-sec);">TAB 检索: </span>` + escapeHtml(buffer);
         if (enFilter) {
-            bufferHTML += ` <span style="color: #ff9500;">${escapeHtml(enFilter)}</span>`;
+            bufferHTML += ` <span style="color: #ff9500;">[${escapeHtml(enFilter)}]</span>`;
         }
     } else if (buffer) {
         bufferHTML = escapeHtml(precedingBuffer) + `<span class="active-buffer-segment">${escapeHtml(activeSegment)}</span>`;
     } else {
-        bufferHTML = "";
+        bufferHTML = `<span style="color: var(--text-sec); font-size: 12px;">直接点击上方文字可编辑 | 输入拼音开始</span>`;
     }
     bufferDisplay.innerHTML = bufferHTML;
 }
@@ -88,12 +90,10 @@ function lookupCandidates(activeSegment) {
     const isAllVowels = /^[aeiou]+$/.test(b_segment_for_lookup);
     
     let useExactMatch = false;
-    // 修改：放宽限制，允许 1-2 位的拼音前缀搜索，除非是纯元音的短拼音（通常是独立音节）
     if (
         (b_segment_for_lookup.length <= 1) ||
         ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels)
     ) {
-        // 依然保留极短或特定模式的精确匹配以减少干扰，但 2 位如 'sh' 不再强制精确匹配
         useExactMatch = true;
     }
 
@@ -130,13 +130,6 @@ function lookupCandidates(activeSegment) {
 }
 
 function update() {
-    if (currentState === InputState.EDIT) return;
-
-    if (outputArea && outputArea.innerText !== committed) {
-        outputArea.innerText = committed;
-        outputArea.scrollTop = outputArea.scrollHeight;
-    }
-    
     if (currentState === InputState.PRACTICE) return;
 
     const { activeSegment, precedingBuffer } = getActiveSegment(buffer);
@@ -158,6 +151,16 @@ function update() {
 }
 
 function render() {
+    const container = document.getElementById("main-candidates");
+    const inputCard = document.getElementById("input-container");
+    container.innerHTML = "";
+    
+    if (currentState === InputState.TAB) {
+        inputCard.classList.add("tab-mode");
+    } else {
+        inputCard.classList.remove("tab-mode");
+    }
+
     let display = combinedCandidates;
     if (currentState === InputState.TAB && enFilter) {
         display = combinedCandidates.filter(
@@ -170,13 +173,13 @@ function render() {
             return;
         }
     }
+
     const totalPages = Math.ceil(display.length / pageSize);
     document.getElementById("page-counter").innerText =
         buffer && display.length > 0
             ? `${pageIndex + 1} / ${totalPages || 1}`
             : "";
     
-    // 修复：确保 pageIndex 在结果减少时不会越界
     if (pageIndex >= totalPages && totalPages > 0) {
         pageIndex = totalPages - 1;
     }
@@ -186,28 +189,87 @@ function render() {
         (pageIndex + 1) * pageSize,
     );
     
-    const container = document.getElementById("main-candidates");
-    container.innerHTML = "";
-    
-    pageData.forEach((item, i) => {
-        const div = document.createElement("div");
-        div.className = "candidate-item";
-        // 修改：使用 DOM 绑定避免引号转义问题，同时修复 XSS 风险
-        div.innerHTML = `
-            <span class="cand-key">${(i + 1) % 10}</span>
-            <div class="cand-text">${escapeHtml(item.text)}</div>
-            ${item.desc ? `<div class="cand-desc">${escapeHtml(item.desc)}</div>` : ""}
-        `;
-        div.onclick = () => selectCandidate(item.text);
-        container.appendChild(div);
-    });
+    if (buffer) {
+        // Create a row-based layout even for normal input to save space and match "correction" style
+        const row = document.createElement("div");
+        row.className = "candidate-row";
+        
+        const label = document.createElement("div");
+        label.className = "correction-seg-label";
+        label.textContent = currentProcessedSegment + ":";
+        row.appendChild(label);
+
+        const listContainer = document.createElement("div");
+        listContainer.className = "candidate-list";
+        
+        pageData.forEach((item, i) => {
+            const div = document.createElement("div");
+            div.className = "candidate-item";
+            if (i === 0) div.classList.add("active");
+
+            let innerHTML = `<span class="cand-key">${(i + 1) % 10}</span>`;
+            innerHTML += `<span class="cand-text">${escapeHtml(item.text)}</span>`;
+            if (item.desc) {
+                innerHTML += `<span class="cand-desc">${escapeHtml(item.desc)}</span>`;
+            }
+            
+            div.innerHTML = innerHTML;
+            div.onclick = (e) => {
+                e.stopPropagation();
+                selectCandidate(item.text);
+            };
+            listContainer.appendChild(div);
+        });
+        
+        row.appendChild(listContainer);
+        container.appendChild(row);
+    }
 }
 
 function selectCandidate(selectedText) {
-    const newBuffer = currentPrecedingBuffer + selectedText;
-    committed += newBuffer;
+    insertAtCursor(selectedText);
     resetInput();
     update();
+}
+
+function insertAtCursor(text) {
+    const selection = window.getSelection();
+    if (!selection.rangeCount) {
+        committed += text;
+        syncOutputArea();
+        return;
+    }
+
+    const range = selection.getRangeAt(0);
+    // Check if focus is in output-area
+    if (outputArea.contains(range.commonAncestorContainer)) {
+        range.deleteContents();
+        const textNode = document.createTextNode(text);
+        range.insertNode(textNode);
+        range.setStartAfter(textNode);
+        range.setEndAfter(textNode);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        committed = outputArea.innerText;
+    } else {
+        committed += text;
+        syncOutputArea();
+    }
+}
+
+function syncOutputArea() {
+    if (outputArea) {
+        outputArea.innerText = committed;
+        outputArea.scrollTop = outputArea.scrollHeight;
+    }
+}
+
+function clearOutput() {
+    committed = "";
+    if (outputArea) outputArea.innerText = "";
+    resetInput();
+    update();
+    focusHiddenInput();
 }
 
 function resetInput() {
@@ -219,185 +281,22 @@ function resetInput() {
     pageIndex = 0;
 }
 
-function setBuffer(value) {
-    buffer = value;
-    const hInput = document.getElementById("hidden-input");
-    if (hInput) hInput.value = value;
-}
-
+// Remove the old correction functions as they are now integrated
 function enterCorrectionMode() {
-    setState(InputState.CORRECTION);
-    const wrapper = document.getElementById("correction-wrapper");
-    const input = document.getElementById("correction-input");
-    wrapper.style.display = "block";
-    input.value = buffer;
-    input.focus();
-    updateCorrectionCandidates();
-}
-
-function updateCorrectionCandidates() {
-    const input = document.getElementById("correction-input");
-    const candidatesContainer = document.getElementById("correction-candidates");
-    if (!input || !candidatesContainer) return;
-
-    const text = input.value;
-    const selectionStart = input.selectionStart;
-    
-    const segments = [];
-    const regex = /\S+/g;
-    let match;
-    let activeSegIndex = -1;
-
-    while ((match = regex.exec(text)) !== null) {
-        const segText = match[0];
-        const start = match.index;
-        const end = start + segText.length;
-        
-        segments.push({
-            text: segText,
-            start: start,
-            end: end
-        });
-
-        if (selectionStart >= start && selectionStart <= end) {
-            activeSegIndex = segments.length - 1;
-        }
+    // Standard buffer with spaces now behaves like correction mode
+    if (buffer) {
+        if (!buffer.endsWith(" ")) setBuffer(buffer + " ");
     }
-    
-    if (activeSegIndex === -1 && segments.length > 0 && selectionStart >= segments[segments.length-1].end) {
-        activeSegIndex = segments.length - 1;
-    }
-
-    if (segments.length === 0) {
-        candidatesContainer.innerHTML = "";
-        return;
-    }
-
-    const displayCount = 5;
-    const startDisplay = Math.max(0, activeSegIndex - (displayCount - 1));
-    const displaySegments = segments.slice(startDisplay, startDisplay + displayCount);
-
-    candidatesContainer.innerHTML = "";
-    if (startDisplay > 0) {
-        const msg = document.createElement("div");
-        msg.style = "font-size: 10px; color: var(--text-sec); padding-left: 10px; margin-bottom: 4px;";
-        msg.textContent = "... 已隐藏前文";
-        candidatesContainer.appendChild(msg);
-    }
-
-    displaySegments.forEach((segObj, i) => {
-        const segIndex = startDisplay + i;
-        const seg = segObj.text;
-        const isActiveRow = segIndex === activeSegIndex;
-        
-        const row = document.createElement("div");
-        row.className = `correction-candidate-row ${isActiveRow ? 'active-row' : ''}`;
-        row.dataset.segIndex = segIndex;
-
-        const label = document.createElement("span");
-        label.className = "correction-seg-label";
-        
-        const candWrapper = document.createElement("div");
-        candWrapper.className = "correction-seg-candidates";
-
-        if (!/^[a-zA-Z']+$/.test(seg)) {
-            label.textContent = "已选:";
-            candWrapper.innerHTML = `<span class="correction-cand fixed">${escapeHtml(seg)}</span>`;
-        } else {
-            label.textContent = `${seg}:`;
-            const candidates = lookupCandidates(seg).slice(0, 5);
-            if (candidates.length === 0) {
-                candWrapper.innerHTML = `<span class="correction-cand" style="color: var(--text-sec); font-style: italic; cursor: default;">无结果</span>`;
-            } else {
-                candidates.forEach((c, ci) => {
-                    const span = document.createElement("span");
-                    span.className = `correction-cand ${ci === 0 ? 'active' : ''}`;
-                    span.textContent = c.text;
-                    span.onclick = () => selectCorrectionCandidate(segIndex, c.text);
-                    candWrapper.appendChild(span);
-                });
-            }
-        }
-        
-        row.appendChild(label);
-        row.appendChild(candWrapper);
-        candidatesContainer.appendChild(row);
-    });
-
-    if (startDisplay + displayCount < segments.length) {
-        const msg = document.createElement("div");
-        msg.style = "font-size: 10px; color: var(--text-sec); padding-left: 10px; margin-top: 4px;";
-        msg.textContent = `... 后面还有 ${segments.length - (startDisplay + displayCount)} 组`;
-        candidatesContainer.appendChild(msg);
-    }
-}
-
-function selectCorrectionCandidate(segIndex, candidateText) {
-    const input = document.getElementById("correction-input");
-    if (!input) return;
-    
-    const segments = input.value.trim().split(/\s+/);
-    if (segments[segIndex]) {
-        segments[segIndex] = candidateText;
-        input.value = segments.join(" ");
-        updateCorrectionCandidates();
-        input.focus();
-    }
-}
-
-function exitCorrectionMode(action) {
-    const wrapper = document.getElementById("correction-wrapper");
-    const input = document.getElementById("correction-input");
-    
-    if (action === "convert_sentence") {
-        const pinyinPhrase = input.value.trim();
-        if (pinyinPhrase) {
-            committed += convertPinyinToHanzi(pinyinPhrase);
-        }
-        setBuffer("");
-    } else if (action === "sync_out_buffer") {
-        setBuffer(input.value.trim());
-        pageIndex = 0;
-        setTimeout(() => update(), 0);
-    }
-
-    setState(InputState.NORMAL);
-    wrapper.style.display = "none";
     update();
 }
 
-function convertPinyinToHanzi(pinyinString) {
-    const lines = pinyinString.split(/\r?\n/);
-    return lines.map(line => {
-        const pinyinSegments = line.trim().split(/\s+/);
-        let hanziResult = [];
-        for (const segment of pinyinSegments) {
-            if (!segment) continue;
-            const node = DB.getNode(segment.toLowerCase());
-            let foundHanzi = null;
-            if (node && node.values.length > 0) {
-                foundHanzi = node.values[0].char || node.values[0];
-            }
-            hanziResult.push(foundHanzi || segment);
-        }
-        return hanziResult.join("");
-    }).join("\n");
+function toggleEditMode() {
+    // Output area is now always editable
+    focusOutputArea();
 }
 
-function toggleEditMode() {
-    const isEditing = currentState === InputState.EDIT;
-    setState(isEditing ? InputState.NORMAL : InputState.EDIT);
-    const outputCard = document.getElementById("output-card");
-    const editBtn = document.getElementById("edit-mode-btn");
-    if (isEditing) {
-        outputCard.classList.remove("editing");
-        outputArea.classList.add("locked");
-        outputArea.contentEditable = false;
-        editBtn.textContent = "锁定模式";
-    } else {
-        outputCard.classList.add("editing");
-        outputArea.classList.remove("locked");
-        outputArea.contentEditable = true;
-        editBtn.textContent = "编辑模式";
+function focusOutputArea() {
+    if (outputArea) {
+        outputArea.focus();
     }
 }

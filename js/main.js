@@ -1,7 +1,6 @@
 let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
 const hInput = document.getElementById("hidden-input");
 const outputArea = document.getElementById("output-area");
-const correctionInput = document.getElementById("correction-input");
 
 async function init() {
     try {
@@ -62,10 +61,17 @@ function saveSettings() {
 function initEventListeners() {
     hInput.addEventListener("keydown", handleKeyDown);
     hInput.addEventListener("input", handleInput);
-    correctionInput.addEventListener("keydown", handleCorrectionKeyDown);
-    correctionInput.addEventListener("input", handleCorrectionInput);
-    correctionInput.addEventListener("keyup", handleCorrectionInput);
-    correctionInput.addEventListener("click", handleCorrectionInput);
+    
+    // Add listener to output area for direct editing
+    outputArea.addEventListener("input", () => {
+        committed = outputArea.innerText;
+    });
+    outputArea.addEventListener("click", (e) => {
+        // When clicking output area, we allow the browser to set focus and cursor
+        // but we need to be careful not to trigger focusHiddenInput immediately
+        e.stopPropagation();
+    });
+
     document.addEventListener("keydown", handleGlobalKeyDown);
     document.addEventListener("click", handleGlobalClick);
     window.addEventListener("visibilitychange", () => { if (!document.hidden) updateFocus(); });
@@ -80,7 +86,6 @@ function focusHiddenInput() {
 }
 
 function handleKeyDown(e) {
-    if (currentState === InputState.CORRECTION) return;
     const key = e.key;
 
     if (e.ctrlKey && key.toLowerCase() === "i") {
@@ -99,7 +104,6 @@ function handleKeyDown(e) {
                 updatePracticeInputDisplay();
             }, 0);
         }
-        // Add pagination support for directory view
         const dirView = document.getElementById("practice-directory");
         if (dirView && dirView.style.display !== "none") {
             if (key === "=") { e.preventDefault(); changeDirectoryPage(1); return; }
@@ -118,7 +122,7 @@ function handleKeyDown(e) {
         if (buffer) {
             setState(currentState === InputState.TAB ? InputState.NORMAL : InputState.TAB);
             enFilter = "";
-            pageIndex = 0; // 修复：进入 Tab 模式重置页码
+            pageIndex = 0;
             update();
         }
         return;
@@ -126,7 +130,17 @@ function handleKeyDown(e) {
 
     if (currentState === InputState.TAB && buffer) {
         if (/^[a-zA-Z]$/.test(key)) { e.preventDefault(); enFilter += key; pageIndex = 0; update(); return; }
-        if (key === "Backspace") { e.preventDefault(); if (enFilter) { enFilter = enFilter.slice(0, -1); update(); } else { setState(InputState.NORMAL); update(); } return; }
+        if (key === "Backspace") { 
+            e.preventDefault(); 
+            if (enFilter) { 
+                enFilter = enFilter.slice(0, -1); 
+                update(); 
+            } else { 
+                setState(InputState.NORMAL); 
+                update(); 
+            } 
+            return; 
+        }
     }
 
     if (/^[0-9]$/.test(key)) {
@@ -140,20 +154,33 @@ function handleKeyDown(e) {
         e.preventDefault();
         if (buffer) {
             if (currentProcessedSegment && combinedCandidates.length > 0) { selectCandidate(combinedCandidates[0].text); }
-            else { committed += buffer; setBuffer(""); pageIndex = 0; enFilter = ""; setState(InputState.NORMAL); }
-        } else { committed += "\n"; }
+            else { insertAtCursor(buffer); resetInput(); }
+        } else { insertAtCursor("\n"); }
         update();
     } else if (key === "Backspace") {
-        e.preventDefault();
-        if (buffer) { buffer = buffer.slice(0, -1); hInput.value = buffer; update(); }
-        else if (committed) { committed = committed.slice(0, -1); update(); }
+        if (buffer) { 
+            e.preventDefault();
+            buffer = buffer.slice(0, -1); 
+            hInput.value = buffer; 
+            update(); 
+        } else {
+            // Let the default backspace happen if in outputArea, 
+            // but we need to sync committed.
+            // Actually, if buffer is empty, we let hidden-input handle it?
+            // No, if buffer is empty and user presses backspace, we should delete from outputArea.
+            if (document.activeElement !== outputArea) {
+                e.preventDefault();
+                committed = committed.slice(0, -1);
+                syncOutputArea();
+            }
+        }
     } else if (key === " ") {
         e.preventDefault();
         if (buffer) {
             const list = currentState === InputState.TAB ? combinedCandidates.filter(c => c.desc && c.desc.startsWith(enFilter)) : combinedCandidates;
             const pageData = list.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
             if (pageData[0]) selectCandidate(pageData[0].text);
-        } else { committed += " "; update(); }
+        } else { insertAtCursor(" "); update(); }
     } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
         e.preventDefault();
         setBuffer(buffer + key);
@@ -167,7 +194,7 @@ function handleInput(event) {
         handlePracticeInput(event);
         return;
     }
-    if (currentState !== InputState.TAB && currentState !== InputState.EDIT) {
+    if (currentState !== InputState.TAB) {
         setBuffer(hInput.value);
         pageIndex = 0;
         update();
@@ -183,39 +210,22 @@ function handleGlobalKeyDown(e) {
         }
         return;
     }
-    if (e.ctrlKey && key === "e") { e.preventDefault(); toggleEditMode(); return; }
+    if (e.ctrlKey && key === "e") { e.preventDefault(); focusOutputArea(); return; }
     if (e.ctrlKey && key === "c") {
         if (currentState !== InputState.EDIT && currentState !== InputState.CORRECTION) { e.preventDefault(); archiveAndCopy(); }
         return;
     }
     if (e.key === "Escape") {
-        if (currentState === InputState.EDIT) setState(InputState.NORMAL);
-        if (currentState === InputState.CORRECTION) { e.preventDefault(); exitCorrectionMode("sync_out_buffer"); }
-    }
-}
-
-function handleCorrectionKeyDown(e) {
-    if (e.key === "Enter") {
-        if (!e.shiftKey) {
-            e.preventDefault();
-            exitCorrectionMode("convert_sentence");
+        if (buffer) {
+            resetInput();
+            update();
         }
-        // Shift + Enter is allowed to perform default newline action
-    } else if (e.key === "Escape") {
-        e.preventDefault();
-        exitCorrectionMode("sync_out_buffer");
     }
-}
-
-function handleCorrectionInput() {
-    updateCorrectionCandidates();
 }
 
 function handleGlobalClick(e) {
-    if (currentState === InputState.EDIT && outputArea.contains(e.target)) return;
-    if (currentState === InputState.CORRECTION && document.getElementById("correction-wrapper").contains(e.target)) return;
+    if (outputArea.contains(e.target)) return;
     
-    // 修复：如果点击的是输入框、按钮或其他交互元素，不要强制夺取焦点
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON" || e.target.isContentEditable) return;
     
     focusHiddenInput();
