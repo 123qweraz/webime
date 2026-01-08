@@ -1,0 +1,261 @@
+爱好 hobby
+爸爸 dad
+白天 daytime
+半年 half a year
+半天 half a day
+帮忙 help out
+包子 steamed bun
+杯子 cup / glass
+北边 north side
+北京 Beijing
+本子 notebook
+别的 other
+别人 others
+病人 patient
+不大 not very big
+不对 wrong
+不客气 you're welcome
+不用 no need
+常常 frequently
+唱歌 sing a song
+车票 ticket
+车上 on the vehicle
+车站 station
+吃饭 have a meal
+出来 come out
+出去 go out
+打车 take a taxi
+打电话 make a phone call
+打开 open
+打球 play ball
+大学 university
+大学生 college student
+得到 obtain
+地点 location
+地方 place
+地上 on the ground
+地图 map
+弟弟 younger brother
+电话 telephone
+电脑 computer
+电视 TV
+电视机 television set
+电影 movie
+电影院 cinema
+东边 east side
+东西 thing / stuff
+动作 action
+读书 read / study
+对不起 sorry
+多少 how many
+儿子 son
+饭店 restaurant / hotel
+房间 room
+房子 house
+放假 on holiday
+放学 finish class
+非常 extraordinary / very
+飞机 airplane
+分钟 minute
+干净 clean
+干什么 what to do
+高兴 happy
+告诉 tell
+哥哥 older brother
+工人 worker
+工作 work
+关上 close / turn off
+国家 nation
+国外 abroad
+还是 still / or
+还有 also / there are
+孩子 child
+汉语 Chinese language
+汉字 Chinese character
+好吃 delicious
+好看 good-looking
+好听 pleasant to hear
+好玩儿 fun
+后边 behind
+后天 day after tomorrow
+欢迎 welcome
+回答 answer
+回到 return to
+回家 go home
+回来 come back
+回去 go back
+火车 train
+机场 airport
+机票 plane ticket
+鸡蛋 egg
+记得 remember
+记住 memorize
+家里 at home
+家人 family members
+见面 meet up
+教学楼 teaching building
+姐姐 older sister
+介绍 introduce
+今年 this year
+今天 today
+进来 come in
+进去 go in
+觉得 feel / think
+咖啡 coffee
+开始 start
+开车 drive a car
+看见 see
+考试 exam
+课本 textbook
+课文 lesson text
+快乐 happy
+里边 inside
+路口 intersection
+路上 on the road
+妈妈 mom
+马路 road / street
+马上 immediately
+没关系 it doesn't matter
+没什么 it's nothing
+没事儿 it's okay
+没有 do not have
+妹妹 younger sister
+门口 doorway / entrance
+门票 entrance ticket
+米饭 cooked rice
+面包 bread
+面条儿 noodles
+名字 name
+明天 tomorrow
+哪里 where
+哪儿 where
+那里 there
+那儿 there
+奶奶 grandmother
+男孩儿 boy
+男生 male student
+南边 south side
+女孩儿 girl
+女生 female student
+旁边 beside / side
+朋友 friend
+起床 get up
+前边 front
+前天 day before yesterday
+去年 last year
+全部 all / whole
+然后 then / afterwards
+认识 know / recognize
+商店 shop / store
+上班 go to work
+上边 above / upside
+上车 get on vehicle
+上次 last time
+上课 attend class
+上网 surf internet
+上午 morning
+上学 go to school
+身上 on the body
+身体 body / health
+什么 what
+生病 fall ill
+生日 birthday
+时候 time / moment
+时间 time / duration
+手表 wristwatch
+手机 mobile phone
+书包 schoolbag
+书店 bookstore
+数学 mathematics
+刷牙 brush teeth
+水果 fruit
+睡觉 sleep / go to bed
+说话 talk
+司机 driver
+送 send / deliver
+他们 they
+她们 they (female)
+太阳 sun
+天气 weather
+听到 hear
+听写 dictation
+同学 classmate
+图书馆 library
+外边 outside
+外国 foreign country
+玩儿 play
+晚饭 dinner
+晚上 evening / night
+问题 question / problem
+我们 we / us
+西边 west side
+洗澡 take a shower
+下班 finish work
+下边 below / downside
+下车 get off vehicle
+下次 next time
+下课 finish class
+下午 afternoon
+下雪 snow
+下雨 rain
+先生 mister / teacher
+现在 now
+香蕉 banana
+小姐 Miss
+小孩儿 child
+小朋友 kid
+小时 hour
+小学生 primary student
+校车 school bus
+校园 campus
+谢谢 thank you
+新年 New Year
+星期 week
+星期天 Sunday
+休息 rest
+学生 student
+学习 study / learn
+学校 school
+学院 college
+爷爷 grandfather
+衣服 clothes
+医生 doctor
+医院 hospital
+一半 half
+一会儿 a moment
+一块儿 together
+一下儿 a bit
+一样 same
+一边 side / while
+一起 together
+意思 meaning
+阴天 cloudy day
+因为 because
+音乐 music
+银行 bank
+邮局 post office
+有名 famous
+月亮 moon
+再见 goodbye
+在家 at home
+早饭 breakfast
+早上 morning
+怎么 how
+怎么样 how is it
+知道 know
+知识 knowledge
+中国 China
+中间 between / middle
+中午 noon
+中学 middle school
+中学生 middle school student
+重要 important
+周末 weekend
+准备 prepare
+桌子 table / desk
+字典 dictionary
+走路 walk
+昨天 yesterday
+左边 left side
+坐下 sit down
+作业 homework

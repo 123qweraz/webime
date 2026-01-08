@@ -138,15 +138,15 @@
     },
     {
       "char": "位",
-      "en": "position"
+      "en": "position; seat"
     },
     {
       "char": "列",
-      "en": "arrange"
+      "en": "list; arrange"
     },
     {
       "char": "泣",
-      "en": "unknown"
+      "en": null
     }
   ],
   "duo": [
@@ -164,7 +164,7 @@
     },
     {
       "char": "度",
-      "en": "degree"
+      "en": "degree; measure"
     },
     {
       "char": "躲",
@@ -200,23 +200,23 @@
     },
     {
       "char": "兑",
-      "en": "exchange"
+      "en": "exchange; convert"
     },
     {
       "char": "捶",
-      "en": "beat"
+      "en": "beat; pound"
     },
     {
       "char": "揣",
-      "en": "guess"
+      "en": "hold; guess"
     },
     {
       "char": "杂",
-      "en": "mixed"
+      "en": "mixed; miscellaneous"
     },
     {
       "char": "驮",
-      "en": "unknown"
+      "en": null
     }
   ],
   "za": [
@@ -230,15 +230,15 @@
     },
     {
       "char": "咱",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "嘁",
-      "en": "sneer"
+      "en": "sneer; scoff"
     },
     {
       "char": "扎",
-      "en": "prick"
+      "en": "prick; bind"
     }
   ],
   "di": [
@@ -272,7 +272,7 @@
     },
     {
       "char": "弟",
-      "en": "younger"
+      "en": "younger brother"
     },
     {
       "char": "递",
@@ -312,35 +312,35 @@
     },
     {
       "char": "勺",
-      "en": "spoon"
+      "en": "spoon; ladle"
     },
     {
       "char": "提",
-      "en": "carry"
+      "en": "lift; carry"
     },
     {
       "char": "的",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "芍",
-      "en": "herb"
+      "en": "peony; herb"
     },
     {
       "char": "蹄",
-      "en": "hoof"
+      "en": "hoof; foot"
     },
     {
       "char": "逐",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "逮",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "隶",
-      "en": "slave"
+      "en": "slave; subordinate"
     }
   ],
   "xiao": [
@@ -374,7 +374,7 @@
     },
     {
       "char": "孝",
-      "en": "filial"
+      "en": "filial piety"
     },
     {
       "char": "萧",
@@ -386,7 +386,7 @@
     },
     {
       "char": "削",
-      "en": "peel"
+      "en": "peel; cut"
     },
     {
       "char": "硝",
@@ -418,47 +418,47 @@
     },
     {
       "char": "俏",
-      "en": "pretty"
+      "en": "pretty; smart"
     },
     {
       "char": "号",
-      "en": "number"
+      "en": "number; call"
     },
     {
       "char": "呼",
-      "en": "breathe"
+      "en": "call; breathe"
     },
     {
       "char": "哨",
-      "en": "whistle"
+      "en": "whistle; sentry"
     },
     {
       "char": "唬",
-      "en": "intimidate"
+      "en": "intimidate; frighten"
     },
     {
       "char": "捎",
-      "en": "take"
+      "en": "take; bring"
     },
     {
       "char": "搜",
-      "en": "search"
+      "en": "search; seek"
     },
     {
       "char": "梢",
-      "en": "tip"
+      "en": "tip; twig"
     },
     {
       "char": "狡",
-      "en": "cunning"
+      "en": "cunning; tricky"
     },
     {
       "char": "胶",
-      "en": "glue"
+      "en": "glue; gum"
     },
     {
       "char": "芍",
-      "en": "herb"
+      "en": "peony; herb"
     }
   ],
   "shao": [
@@ -500,23 +500,23 @@
     },
     {
       "char": "削",
-      "en": "peel"
+      "en": "peel; cut"
     },
     {
       "char": "召",
-      "en": "summon"
+      "en": "summon; call"
     },
     {
       "char": "招",
-      "en": "attract"
+      "en": "attract; invite"
     },
     {
       "char": "搜",
-      "en": "search"
+      "en": "search; seek"
     },
     {
       "char": "笤",
-      "en": "whisk"
+      "en": "broom; whisk"
     }
   ],
   "que": [
@@ -546,15 +546,15 @@
     },
     {
       "char": "屈",
-      "en": "submit"
+      "en": "bend; submit"
     },
     {
       "char": "猎",
-      "en": "hunt"
+      "en": "hunt; chase"
     },
     {
       "char": "芍",
-      "en": "peony"
+      "en": "peony; herb"
     }
   ],
   "ba": [
@@ -580,7 +580,7 @@
     },
     {
       "char": "巴",
-      "en": "unknown"
+      "en": "巴山"
     },
     {
       "char": "罢",
@@ -608,7 +608,7 @@
     },
     {
       "char": "捌",
-      "en": "formal eight"
+      "en": "eight (financial)"
     },
     {
       "char": "芭",
@@ -632,11 +632,11 @@
     },
     {
       "char": "伯",
-      "en": "uncle"
+      "en": "uncle; elder brother"
     },
     {
       "char": "湃",
-      "en": "surge"
+      "en": "surge; dash"
     }
   ],
   "hong": [
@@ -674,15 +674,15 @@
     },
     {
       "char": "共",
-      "en": "together"
+      "en": "together; common"
     },
     {
       "char": "汪",
-      "en": "deep"
+      "en": "vast; deep"
     },
     {
       "char": "港",
-      "en": "harbor"
+      "en": "harbor; port"
     }
   ],
   "xi": [
@@ -760,7 +760,7 @@
     },
     {
       "char": "媳",
-      "en": "in"
+      "en": "daughter-in-law"
     },
     {
       "char": "嬉",
@@ -784,7 +784,7 @@
     },
     {
       "char": "熄",
-      "en": "out"
+      "en": "put out"
     },
     {
       "char": "熙",
@@ -816,35 +816,35 @@
     },
     {
       "char": "卤",
-      "en": "bittern"
+      "en": "brine; bittern"
     },
     {
       "char": "屎",
-      "en": "feces"
+      "en": "feces; poop"
     },
     {
       "char": "撕",
-      "en": "tear"
+      "en": "tear; rip"
     },
     {
       "char": "既",
-      "en": "already"
+      "en": "already; since"
     },
     {
       "char": "栖",
-      "en": "perch"
+      "en": "perch; reside"
     },
     {
       "char": "洒",
-      "en": "scatter"
+      "en": "sprinkle; scatter"
     },
     {
       "char": "猎",
-      "en": "hunt"
+      "en": "hunt; chase"
     },
     {
       "char": "腊",
-      "en": "bacon"
+      "en": "bacon; dried meat"
     }
   ],
   "yang": [
@@ -906,19 +906,19 @@
     },
     {
       "char": "鸯",
-      "en": "mandarin"
+      "en": "mandarin duck"
     },
     {
       "char": "昂",
-      "en": "high"
+      "en": "high; hold up"
     },
     {
       "char": "映",
-      "en": "reflect"
+      "en": "reflect; shine"
     },
     {
       "char": "英",
-      "en": "hero"
+      "en": "hero; outstanding"
     }
   ],
   "ji": [
@@ -1000,7 +1000,7 @@
     },
     {
       "char": "即",
-      "en": "at"
+      "en": "at once"
     },
     {
       "char": "叽",
@@ -1112,7 +1112,7 @@
     },
     {
       "char": "箕",
-      "en": "winnowing"
+      "en": "winnowing basket"
     },
     {
       "char": "籍",
@@ -1124,51 +1124,51 @@
     },
     {
       "char": "鲫",
-      "en": "crucian"
+      "en": "crucian carp"
     },
     {
       "char": "倚",
-      "en": "depend"
+      "en": "lean on; depend"
     },
     {
       "char": "其",
-      "en": "its"
+      "en": "his; its"
     },
     {
       "char": "奇",
-      "en": "odd"
+      "en": "strange; odd"
     },
     {
       "char": "居",
-      "en": "live"
+      "en": "reside; live"
     },
     {
       "char": "揖",
-      "en": "salute"
+      "en": "bow; salute"
     },
     {
       "char": "期",
-      "en": "period"
+      "en": "period; expect"
     },
     {
       "char": "棋",
-      "en": "chess"
+      "en": "chess; board game"
     },
     {
       "char": "洁",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "秸",
-      "en": "straw"
+      "en": "straw; stalk"
     },
     {
       "char": "系",
-      "en": "tie"
+      "en": "tie; connect"
     },
     {
       "char": "给",
-      "en": "give"
+      "en": "give; provide"
     },
     {
       "char": "蜡",
@@ -1176,15 +1176,15 @@
     },
     {
       "char": "隔",
-      "en": "isolate"
+      "en": "separate; isolate"
     },
     {
       "char": "革",
-      "en": "leather"
+      "en": "leather; reform"
     },
     {
       "char": "齐",
-      "en": "neat"
+      "en": "neat; together"
     }
   ],
   "qi": [
@@ -1290,7 +1290,7 @@
     },
     {
       "char": "柒",
-      "en": "formal seven"
+      "en": "seven (formal)"
     },
     {
       "char": "漆",
@@ -1314,7 +1314,7 @@
     },
     {
       "char": "迄",
-      "en": "up"
+      "en": "up to"
     },
     {
       "char": "骑",
@@ -1330,75 +1330,75 @@
     },
     {
       "char": "切",
-      "en": "cut"
+      "en": "cut; slice"
     },
     {
       "char": "刺",
-      "en": "stab"
+      "en": "stab; prick"
     },
     {
       "char": "勤",
-      "en": "diligent"
+      "en": "diligent; hardworking"
     },
     {
       "char": "吃",
-      "en": "eat"
+      "en": "eat; consume"
     },
     {
       "char": "吱",
-      "en": "squeak"
+      "en": "squeak; creak"
     },
     {
       "char": "宿",
-      "en": "lodge"
+      "en": "stay; lodge"
     },
     {
       "char": "己",
-      "en": "oneself"
+      "en": "oneself; sixth of ten heavenly stems"
     },
     {
       "char": "技",
-      "en": "skill"
+      "en": "skill; technique"
     },
     {
       "char": "抵",
-      "en": "resist"
+      "en": "resist; support"
     },
     {
       "char": "揭",
-      "en": "uncover"
+      "en": "uncover; reveal"
     },
     {
       "char": "支",
-      "en": "support"
+      "en": "support; branch"
     },
     {
       "char": "枝",
-      "en": "branch"
+      "en": "branch; twig"
     },
     {
       "char": "溪",
-      "en": "stream"
+      "en": "stream; brook"
     },
     {
       "char": "畸",
-      "en": "irregular"
+      "en": "abnormal; irregular"
     },
     {
       "char": "示",
-      "en": "show"
+      "en": "show; indicate"
     },
     {
       "char": "稽",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "荠",
-      "en": "purse"
+      "en": "shepherd's purse; herb"
     },
     {
       "char": "逗",
-      "en": "tease"
+      "en": "tease; amuse"
     }
   ],
   "ling": [
@@ -1464,15 +1464,15 @@
     },
     {
       "char": "冷",
-      "en": "cold"
+      "en": "cold; cool"
     },
     {
       "char": "怜",
-      "en": "pity"
+      "en": "pity; sympathy"
     },
     {
       "char": "棱",
-      "en": "edge"
+      "en": "edge; corner"
     },
     {
       "char": "磷",
@@ -1486,7 +1486,7 @@
     },
     {
       "char": "陆",
-      "en": "formal six"
+      "en": "six"
     },
     {
       "char": "露",
@@ -1498,7 +1498,7 @@
     },
     {
       "char": "卢",
-      "en": "surname"
+      "en": "surname Lu"
     },
     {
       "char": "炉",
@@ -1550,15 +1550,15 @@
     },
     {
       "char": "角",
-      "en": "angle"
+      "en": "angle; horn"
     },
     {
       "char": "谷",
-      "en": "valley"
+      "en": "valley; grain"
     },
     {
       "char": "酪",
-      "en": "cheese"
+      "en": "cheese; cream"
     }
   ],
   "mang": [
@@ -1588,7 +1588,7 @@
     },
     {
       "char": "朦",
-      "en": "dim"
+      "en": "dim; hazy"
     }
   ],
   "meng": [
@@ -1630,11 +1630,11 @@
     },
     {
       "char": "明",
-      "en": "bright"
+      "en": "bright; clear"
     },
     {
       "char": "氓",
-      "en": "people"
+      "en": "common people; rustic"
     }
   ],
   "tan": [
@@ -1644,7 +1644,7 @@
     },
     {
       "char": "弹",
-      "en": "bullet"
+      "en": "bullet; spring"
     },
     {
       "char": "滩",
@@ -1716,23 +1716,23 @@
     },
     {
       "char": "但",
-      "en": "however"
+      "en": "but; however"
     },
     {
       "char": "沈",
-      "en": "surname"
+      "en": "surname shen; sink"
     },
     {
       "char": "淡",
-      "en": "light"
+      "en": "light; thin"
     },
     {
       "char": "炎",
-      "en": "inflammation"
+      "en": "inflammation; flame"
     },
     {
       "char": "胆",
-      "en": "gallbladder"
+      "en": "gallbladder; courage"
     },
     {
       "char": "舔",
@@ -1794,27 +1794,27 @@
     },
     {
       "char": "堤",
-      "en": "dyke"
+      "en": "dyke; embankment"
     },
     {
       "char": "弟",
-      "en": "younger"
+      "en": "younger brother"
     },
     {
       "char": "折",
-      "en": "fold"
+      "en": "fold; break"
     },
     {
       "char": "是",
-      "en": "yes"
+      "en": "yes; correct"
     },
     {
       "char": "肆",
-      "en": "formal four"
+      "en": "four; reckless"
     },
     {
       "char": "达",
-      "en": "arrive"
+      "en": "reach; arrive"
     }
   ],
   "suo": [
@@ -1852,23 +1852,23 @@
     },
     {
       "char": "些",
-      "en": "few"
+      "en": "some; a few"
     },
     {
       "char": "抄",
-      "en": "copy"
+      "en": "copy; plagiarize"
     },
     {
       "char": "沙",
-      "en": "grit"
+      "en": "sand; grit"
     },
     {
       "char": "衰",
-      "en": "decline"
+      "en": "decline; fade"
     },
     {
       "char": "霍",
-      "en": "quickly"
+      "en": "suddenly; quickly"
     }
   ],
   "pai": [
@@ -1898,15 +1898,15 @@
     },
     {
       "char": "啡",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "脾",
-      "en": "temperament"
+      "en": "spleen; temperament"
     },
     {
       "char": "迫",
-      "en": "force"
+      "en": "force; urgent"
     }
   ],
   "po": [
@@ -1920,7 +1920,7 @@
     },
     {
       "char": "婆",
-      "en": "old"
+      "en": "old woman"
     },
     {
       "char": "泼",
@@ -1944,31 +1944,31 @@
     },
     {
       "char": "剖",
-      "en": "dissect"
+      "en": "dissect; analyze"
     },
     {
       "char": "朴",
-      "en": "plain"
+      "en": "simple; plain"
     },
     {
       "char": "番",
-      "en": "time"
+      "en": "time; foreign"
     },
     {
       "char": "繁",
-      "en": "complex"
+      "en": "complex; numerous"
     },
     {
       "char": "膊",
-      "en": "arm"
+      "en": "arm; shoulder"
     },
     {
       "char": "跛",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "霸",
-      "en": "hegemon"
+      "en": "tyrant; hegemon"
     }
   ],
   "you": [
@@ -2042,15 +2042,15 @@
     },
     {
       "char": "叹",
-      "en": "sigh"
+      "en": "sigh; exclaim"
     },
     {
       "char": "奥",
-      "en": "profound"
+      "en": "profound; mysterious"
     },
     {
       "char": "扰",
-      "en": "bother"
+      "en": "disturb; bother"
     }
   ],
   "ke": [
@@ -2112,11 +2112,11 @@
     },
     {
       "char": "棵",
-      "en": "for"
+      "en": "classifier for trees"
     },
     {
       "char": "呵",
-      "en": "laugh"
+      "en": "laugh; scold"
     }
   ],
   "xin": [
@@ -2158,11 +2158,11 @@
     },
     {
       "char": "寻",
-      "en": "find"
+      "en": "seek; find"
     },
     {
       "char": "款",
-      "en": "money"
+      "en": "money; style"
     }
   ],
   "peng": [
@@ -2172,7 +2172,7 @@
     },
     {
       "char": "彭",
-      "en": "surname"
+      "en": "surname Peng"
     },
     {
       "char": "棚",
@@ -2220,27 +2220,27 @@
     },
     {
       "char": "傍",
-      "en": "near"
+      "en": "beside; near"
     },
     {
       "char": "庄",
-      "en": "villa"
+      "en": "villa; manor"
     },
     {
       "char": "旁",
-      "en": "side"
+      "en": "side; beside"
     },
     {
       "char": "榜",
-      "en": "list"
+      "en": "list; notice"
     },
     {
       "char": "苹",
-      "en": "apple"
+      "en": "apple; duckweed"
     },
     {
       "char": "逢",
-      "en": "meet"
+      "en": "meet; encounter"
     }
   ],
   "ping": [
@@ -2278,23 +2278,23 @@
     },
     {
       "char": "乒",
-      "en": "ping"
+      "en": "ping-pong"
     },
     {
       "char": "冯",
-      "en": "surname"
+      "en": "surname feng"
     },
     {
       "char": "砰",
-      "en": "bang"
+      "en": "bang; thud"
     },
     {
       "char": "秤",
-      "en": "scale"
+      "en": "scale; balance"
     },
     {
       "char": "聘",
-      "en": "employ"
+      "en": "employ; invite"
     }
   ],
   "ying": [
@@ -2376,19 +2376,19 @@
     },
     {
       "char": "哩",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "央",
-      "en": "center"
+      "en": "center; middle"
     },
     {
       "char": "景",
-      "en": "view"
+      "en": "scenery; view"
     },
     {
       "char": "甸",
-      "en": "countryside"
+      "en": "pasture; countryside"
     },
     {
       "char": "缨",
@@ -2396,7 +2396,7 @@
     },
     {
       "char": "逞",
-      "en": "off"
+      "en": "show off; succeed"
     }
   ],
   "pian": [
@@ -2422,15 +2422,15 @@
     },
     {
       "char": "便",
-      "en": "then"
+      "en": "convenient; then"
     },
     {
       "char": "平",
-      "en": "flat"
+      "en": "flat; level"
     },
     {
       "char": "扁",
-      "en": "narrow"
+      "en": "flat; narrow"
     },
     {
       "char": "蝙",
@@ -2438,7 +2438,7 @@
     },
     {
       "char": "辨",
-      "en": "distinguish"
+      "en": "distinguish; differentiate"
     }
   ],
   "bian": [
@@ -2456,7 +2456,7 @@
     },
     {
       "char": "遍",
-      "en": "all"
+      "en": "all over"
     },
     {
       "char": "编",
@@ -2496,13 +2496,13 @@
     },
     {
       "char": "封",
-      "en": "seal"
+      "en": "seal; close"
     }
   ],
   "wo": [
     {
       "char": "我",
-      "en": "unknown"
+      "en": "I"
     },
     {
       "char": "窝",
@@ -2530,11 +2530,11 @@
     },
     {
       "char": "夭",
-      "en": "young"
+      "en": "die young; delicate"
     },
     {
       "char": "瘟",
-      "en": "plague"
+      "en": "plague; epidemic"
     }
   ],
   "wei": [
@@ -2620,7 +2620,7 @@
     },
     {
       "char": "魏",
-      "en": "wei"
+      "en": "surname Wei"
     },
     {
       "char": "巍",
@@ -2656,11 +2656,11 @@
     },
     {
       "char": "偎",
-      "en": "lean"
+      "en": "lean close to"
     },
     {
       "char": "尉",
-      "en": "military"
+      "en": "military officer"
     },
     {
       "char": "喂",
@@ -2668,27 +2668,27 @@
     },
     {
       "char": "于",
-      "en": "in"
+      "en": "in; at"
     },
     {
       "char": "堤",
-      "en": "dyke"
+      "en": "dyke; embankment"
     },
     {
       "char": "有",
-      "en": "have"
+      "en": "have; exist"
     },
     {
       "char": "机",
-      "en": "chance"
+      "en": "machine; chance"
     },
     {
       "char": "立",
-      "en": "establish"
+      "en": "stand; establish"
     },
     {
       "char": "遗",
-      "en": "behind"
+      "en": "leave behind; omit"
     }
   ],
   "gong": [
@@ -2754,15 +2754,15 @@
     },
     {
       "char": "杠",
-      "en": "bar"
+      "en": "bar; pole"
     },
     {
       "char": "磺",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "红",
-      "en": "red"
+      "en": "red; scarlet"
     },
     {
       "char": "虹",
@@ -2788,11 +2788,11 @@
     },
     {
       "char": "侧",
-      "en": "side"
+      "en": "side; lateral"
     },
     {
       "char": "措",
-      "en": "handle"
+      "en": "handle; deal with"
     }
   ],
   "ga": [
@@ -2802,15 +2802,15 @@
     },
     {
       "char": "夹",
-      "en": "sandwich"
+      "en": "clamp; sandwich"
     },
     {
       "char": "胳",
-      "en": "arm"
+      "en": "arm; limb"
     },
     {
       "char": "轧",
-      "en": "roll"
+      "en": "crush; roll"
     }
   ],
   "jia": [
@@ -2896,19 +2896,19 @@
     },
     {
       "char": "押",
-      "en": "detain"
+      "en": "detain; mortgage"
     },
     {
       "char": "挟",
-      "en": "hold"
+      "en": "hold; carry"
     },
     {
       "char": "揩",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "暇",
-      "en": "leisure"
+      "en": "leisure; spare time"
     }
   ],
   "feng": [
@@ -2934,7 +2934,7 @@
     },
     {
       "char": "冯",
-      "en": "feng"
+      "en": "surname Feng"
     },
     {
       "char": "凤",
@@ -2970,19 +2970,19 @@
     },
     {
       "char": "捧",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "方",
-      "en": "direction"
+      "en": "square; direction"
     },
     {
       "char": "泛",
-      "en": "float"
+      "en": "float; spread"
     },
     {
       "char": "蚌",
-      "en": "clam"
+      "en": "clam; mussel"
     }
   ],
   "jian": [
@@ -3036,11 +3036,11 @@
     },
     {
       "char": "浅",
-      "en": "superficial"
+      "en": "shallow; superficial"
     },
     {
       "char": "践",
-      "en": "on"
+      "en": "step on"
     },
     {
       "char": "键",
@@ -3100,7 +3100,7 @@
     },
     {
       "char": "捡",
-      "en": "up"
+      "en": "pick up"
     },
     {
       "char": "柬",
@@ -3108,11 +3108,11 @@
     },
     {
       "char": "歼",
-      "en": "wipe"
+      "en": "wipe out"
     },
     {
       "char": "涧",
-      "en": "mountain"
+      "en": "mountain stream"
     },
     {
       "char": "奸",
@@ -3132,19 +3132,19 @@
     },
     {
       "char": "前",
-      "en": "front"
+      "en": "front; before"
     },
     {
       "char": "咸",
-      "en": "all"
+      "en": "salty; all"
     },
     {
       "char": "喊",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "沮",
-      "en": "discourage"
+      "en": "damp; discourage"
     }
   ],
   "tu": [
@@ -3194,15 +3194,15 @@
     },
     {
       "char": "余",
-      "en": "remaining"
+      "en": "remaining; i"
     },
     {
       "char": "杜",
-      "en": "du"
+      "en": "cypress; surname du"
     },
     {
       "char": "跌",
-      "en": "tumble"
+      "en": "fall; tumble"
     }
   ],
   "die": [
@@ -3232,19 +3232,19 @@
     },
     {
       "char": "哆",
-      "en": "tremble"
+      "en": "tremble; shiver"
     },
     {
       "char": "涉",
-      "en": "wade"
+      "en": "wade; involve"
     },
     {
       "char": "窒",
-      "en": "suffocate"
+      "en": "suffocate; stuffy"
     },
     {
       "char": "至",
-      "en": "until"
+      "en": "to; until"
     },
     {
       "char": "踢",
@@ -3270,7 +3270,7 @@
     },
     {
       "char": "行",
-      "en": "go"
+      "en": "walk; go"
     }
   ],
   "du": [
@@ -3280,7 +3280,7 @@
     },
     {
       "char": "都",
-      "en": "all"
+      "en": "all; capital"
     },
     {
       "char": "毒",
@@ -3336,15 +3336,15 @@
     },
     {
       "char": "土",
-      "en": "soil"
+      "en": "soil; earth"
     },
     {
       "char": "宅",
-      "en": "house"
+      "en": "residence; house"
     },
     {
       "char": "顿",
-      "en": "pause"
+      "en": "pause; suddenly"
     }
   ],
   "zhai": [
@@ -3374,23 +3374,23 @@
     },
     {
       "char": "侧",
-      "en": "lateral"
+      "en": "side; lateral"
     },
     {
       "char": "度",
-      "en": "measure"
+      "en": "degree; measure"
     },
     {
       "char": "择",
-      "en": "choose"
+      "en": "choose; select"
     },
     {
       "char": "柴",
-      "en": "firewood"
+      "en": "firewood; wood"
     },
     {
       "char": "祭",
-      "en": "worship"
+      "en": "sacrifice; worship"
     }
   ],
   "che": [
@@ -3416,23 +3416,23 @@
     },
     {
       "char": "宅",
-      "en": "house"
+      "en": "residence; house"
     },
     {
       "char": "尺",
-      "en": "unit"
+      "en": "chi (chinese unit of length)"
     },
     {
       "char": "拆",
-      "en": "apart"
+      "en": "take apart; dismantle"
     },
     {
       "char": "斥",
-      "en": "scold"
+      "en": "scold; accuse"
     },
     {
       "char": "池",
-      "en": "unknown"
+      "en": null
     }
   ],
   "zi": [
@@ -3462,7 +3462,7 @@
     },
     {
       "char": "仔",
-      "en": "young"
+      "en": "young; baby"
     },
     {
       "char": "籽",
@@ -3478,7 +3478,7 @@
     },
     {
       "char": "姊",
-      "en": "elder"
+      "en": "elder sister"
     },
     {
       "char": "滋",
@@ -3486,19 +3486,19 @@
     },
     {
       "char": "事",
-      "en": "matter"
+      "en": "matter; affair"
     },
     {
       "char": "吱",
-      "en": "squeak"
+      "en": "squeak; creak"
     },
     {
       "char": "柴",
-      "en": "firewood"
+      "en": "firewood; wood"
     },
     {
       "char": "次",
-      "en": "time"
+      "en": "time; order"
     }
   ],
   "jiu": [
@@ -3512,7 +3512,7 @@
     },
     {
       "char": "久",
-      "en": "long"
+      "en": "long time"
     },
     {
       "char": "旧",
@@ -3540,7 +3540,7 @@
     },
     {
       "char": "玖",
-      "en": "formal nine"
+      "en": "precious"
     },
     {
       "char": "灸",
@@ -3568,7 +3568,7 @@
     },
     {
       "char": "愁",
-      "en": "sorrow"
+      "en": "sorrow; worry"
     }
   ],
   "fu": [
@@ -3646,7 +3646,7 @@
     },
     {
       "char": "佛",
-      "en": "buddha"
+      "en": "Buddha"
     },
     {
       "char": "符",
@@ -3654,7 +3654,7 @@
     },
     {
       "char": "俘",
-      "en": "prisoner"
+      "en": "prisoner of war"
     },
     {
       "char": "俯",
@@ -3726,7 +3726,7 @@
     },
     {
       "char": "赴",
-      "en": "go"
+      "en": "go to"
     },
     {
       "char": "辐",
@@ -3738,39 +3738,39 @@
     },
     {
       "char": "仅",
-      "en": "only"
+      "en": "only; merely"
     },
     {
       "char": "包",
-      "en": "wrap"
+      "en": "wrap; bag"
     },
     {
       "char": "哺",
-      "en": "nurse"
+      "en": "feed; nurse"
     },
     {
       "char": "市",
-      "en": "city"
+      "en": "city; market"
     },
     {
       "char": "怀",
-      "en": "hold"
+      "en": "hold; cherish"
     },
     {
       "char": "沸",
-      "en": "boil"
+      "en": "boil; bubble"
     },
     {
       "char": "脯",
-      "en": "dried"
+      "en": "chest; dried meat"
     },
     {
       "char": "还",
-      "en": "also"
+      "en": "still; also"
     },
     {
       "char": "不",
-      "en": "no"
+      "en": "no; not"
     },
     {
       "char": "麸",
@@ -3832,27 +3832,27 @@
     },
     {
       "char": "剥",
-      "en": "peel"
+      "en": "peel; strip"
     },
     {
       "char": "卜",
-      "en": "divination"
+      "en": "divination; predict"
     },
     {
       "char": "堡",
-      "en": "fortress"
+      "en": "castle; fortress"
     },
     {
       "char": "扶",
-      "en": "help"
+      "en": "help; support"
     },
     {
       "char": "暴",
-      "en": "violent"
+      "en": "violent; sudden"
     },
     {
       "char": "甫",
-      "en": "just"
+      "en": "just; beginning"
     }
   ],
   "pou": [
@@ -3862,15 +3862,15 @@
     },
     {
       "char": "培",
-      "en": "cultivate"
+      "en": "cultivate; train"
     },
     {
       "char": "抱",
-      "en": "hug"
+      "en": "hug; embrace"
     },
     {
       "char": "部",
-      "en": "part"
+      "en": "department; part"
     }
   ],
   "zheng": [
@@ -3932,27 +3932,27 @@
     },
     {
       "char": "郑",
-      "en": "zheng"
+      "en": "surname Zheng"
     },
     {
       "char": "丁",
-      "en": "adult"
+      "en": "male adult"
     },
     {
       "char": "奠",
-      "en": "lay"
+      "en": "lay foundation; commemorate"
     },
     {
       "char": "承",
-      "en": "bear"
+      "en": "bear; accept"
     },
     {
       "char": "敞",
-      "en": "spacious"
+      "en": "open; spacious"
     },
     {
       "char": "趟",
-      "en": "trip"
+      "en": "trip; time"
     }
   ],
   "zhu": [
@@ -4010,7 +4010,7 @@
     },
     {
       "char": "拄",
-      "en": "on"
+      "en": "lean on"
     },
     {
       "char": "株",
@@ -4054,7 +4054,7 @@
     },
     {
       "char": "之",
-      "en": "particle"
+      "en": "possessive particle"
     },
     {
       "char": "予",
@@ -4062,51 +4062,51 @@
     },
     {
       "char": "宁",
-      "en": "peaceful"
+      "en": "peaceful; calm"
     },
     {
       "char": "属",
-      "en": "belong"
+      "en": "belong to; genus"
     },
     {
       "char": "庶",
-      "en": "numerous"
+      "en": "common; numerous"
     },
     {
       "char": "斗",
-      "en": "fight"
+      "en": "fight; bucket"
     },
     {
       "char": "朝",
-      "en": "dynasty"
+      "en": "dynasty; morning"
     },
     {
       "char": "术",
-      "en": "skill"
+      "en": "skill; method"
     },
     {
       "char": "柠",
-      "en": "lemon"
+      "en": "lemon; citrus"
     },
     {
       "char": "泞",
-      "en": "muddy"
+      "en": "muddy; swampy"
     },
     {
       "char": "茁",
-      "en": "thrive"
+      "en": "thrive; grow"
     },
     {
       "char": "逗",
-      "en": "tease"
+      "en": "tease; amuse"
     },
     {
       "char": "阻",
-      "en": "hinder"
+      "en": "hinder; block"
     },
     {
       "char": "除",
-      "en": "remove"
+      "en": "eliminate; remove"
     }
   ],
   "yu": [
@@ -4124,7 +4124,7 @@
     },
     {
       "char": "余",
-      "en": "unknown"
+      "en": "I"
     },
     {
       "char": "语",
@@ -4236,7 +4236,7 @@
     },
     {
       "char": "豫",
-      "en": "henan"
+      "en": "Henan"
     },
     {
       "char": "迂",
@@ -4260,71 +4260,71 @@
     },
     {
       "char": "亏",
-      "en": "deficit"
+      "en": "lose; deficit"
     },
     {
       "char": "吁",
-      "en": "appeal"
+      "en": "sigh; appeal"
     },
     {
       "char": "奥",
-      "en": "mysterious"
+      "en": "profound; mysterious"
     },
     {
       "char": "宛",
-      "en": "as"
+      "en": "as if; curved"
     },
     {
       "char": "尉",
-      "en": "officer"
+      "en": "military officer"
     },
     {
       "char": "懊",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "或",
-      "en": "or"
+      "en": "or; maybe"
     },
     {
       "char": "拗",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "昙",
-      "en": "short"
+      "en": "short-lived; ephemeral"
     },
     {
       "char": "梧",
-      "en": "parasol"
+      "en": "parasol tree"
     },
     {
       "char": "澳",
-      "en": "bay"
+      "en": "bay; australia"
     },
     {
       "char": "王",
-      "en": "king"
+      "en": "king; monarch"
     },
     {
       "char": "粥",
-      "en": "porridge"
+      "en": "porridge; gruel"
     },
     {
       "char": "舒",
-      "en": "comfortable"
+      "en": "comfortable; ease"
     },
     {
       "char": "蔚",
-      "en": "vivid"
+      "en": "luxuriant; vivid"
     },
     {
       "char": "衙",
-      "en": "government"
+      "en": "government office"
     },
     {
       "char": "谷",
-      "en": "valley"
+      "en": "valley; grain"
     }
   ],
   "jue": [
@@ -4338,7 +4338,7 @@
     },
     {
       "char": "绝",
-      "en": "cut"
+      "en": "cut off"
     },
     {
       "char": "掘",
@@ -4362,23 +4362,23 @@
     },
     {
       "char": "乙",
-      "en": "of"
+      "en": "second of ten heavenly stems"
     },
     {
       "char": "屈",
-      "en": "bend"
+      "en": "bend; submit"
     },
     {
       "char": "狂",
-      "en": "mad"
+      "en": "crazy; mad"
     },
     {
       "char": "穴",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "脚",
-      "en": "leg"
+      "en": "foot; leg"
     },
     {
       "char": "蛙",
@@ -4386,7 +4386,7 @@
     },
     {
       "char": "角",
-      "en": "angle"
+      "en": "angle; horn"
     }
   ],
   "shua": [
@@ -4400,11 +4400,11 @@
     },
     {
       "char": "唆",
-      "en": "instigate"
+      "en": "instigate; abet"
     },
     {
       "char": "涮",
-      "en": "rinse"
+      "en": "rinse; boil"
     }
   ],
   "su": [
@@ -4454,17 +4454,17 @@
     },
     {
       "char": "搬",
-      "en": "carry"
+      "en": "move; carry"
     },
     {
       "char": "缩",
-      "en": "shrink"
+      "en": "shrink; contract"
     }
   ],
   "liao": [
     {
       "char": "了",
-      "en": "particle"
+      "en": "particle indicating completion"
     },
     {
       "char": "料",
@@ -4496,7 +4496,7 @@
     },
     {
       "char": "嘹",
-      "en": "loud"
+      "en": "loud and clear"
     },
     {
       "char": "寥",
@@ -4516,7 +4516,7 @@
     },
     {
       "char": "潦",
-      "en": "unknown"
+      "en": null
     }
   ],
   "kan": [
@@ -4546,11 +4546,11 @@
     },
     {
       "char": "喊",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "嵌",
-      "en": "inlay"
+      "en": "inlay; embed"
     }
   ],
   "pan": [
@@ -4572,7 +4572,7 @@
     },
     {
       "char": "潘",
-      "en": "surname"
+      "en": "surname Pan"
     },
     {
       "char": "畔",
@@ -4584,7 +4584,7 @@
     },
     {
       "char": "伴",
-      "en": "partner"
+      "en": "companion; partner"
     },
     {
       "char": "半",
@@ -4592,31 +4592,31 @@
     },
     {
       "char": "扳",
-      "en": "twist"
+      "en": "pull; twist"
     },
     {
       "char": "拌",
-      "en": "mix"
+      "en": "mix; stir"
     },
     {
       "char": "片",
-      "en": "piece"
+      "en": "piece; slice"
     },
     {
       "char": "番",
-      "en": "foreign"
+      "en": "time; foreign"
     },
     {
       "char": "繁",
-      "en": "numerous"
+      "en": "complex; numerous"
     },
     {
       "char": "胖",
-      "en": "fat"
+      "en": "fat; plump"
     },
     {
       "char": "般",
-      "en": "kind"
+      "en": "kind; sort"
     }
   ],
   "ban": [
@@ -4682,15 +4682,15 @@
     },
     {
       "char": "卑",
-      "en": "low"
+      "en": "humble; low"
     },
     {
       "char": "彬",
-      "en": "refined"
+      "en": "refined; elegant"
     },
     {
       "char": "辨",
-      "en": "distinguish"
+      "en": "distinguish; differentiate"
     }
   ],
   "yong": [
@@ -4740,17 +4740,17 @@
     },
     {
       "char": "容",
-      "en": "contain"
+      "en": "contain; tolerate"
     },
     {
       "char": "遇",
-      "en": "unknown"
+      "en": null
     }
   ],
   "wan": [
     {
       "char": "万",
-      "en": "ten"
+      "en": "ten thousand"
     },
     {
       "char": "完",
@@ -4782,7 +4782,7 @@
     },
     {
       "char": "宛",
-      "en": "as"
+      "en": "as if"
     },
     {
       "char": "弯",
@@ -4810,19 +4810,19 @@
     },
     {
       "char": "免",
-      "en": "exempt"
+      "en": "avoid; exempt"
     },
     {
       "char": "园",
-      "en": "garden"
+      "en": "garden; park"
     },
     {
       "char": "娩",
-      "en": "deliver"
+      "en": "give birth; deliver"
     },
     {
       "char": "蔓",
-      "en": "vine"
+      "en": "vine; creep"
     }
   ],
   "yuan": [
@@ -4872,7 +4872,7 @@
     },
     {
       "char": "袁",
-      "en": "yuan"
+      "en": "surname Yuan"
     },
     {
       "char": "猿",
@@ -4896,27 +4896,27 @@
     },
     {
       "char": "鸳",
-      "en": "mandarin"
+      "en": "mandarin duck"
     },
     {
       "char": "允",
-      "en": "allow"
+      "en": "allow; permit"
     },
     {
       "char": "咽",
-      "en": "throat"
+      "en": "swallow; throat"
     },
     {
       "char": "宛",
-      "en": "if"
+      "en": "as if; curved"
     },
     {
       "char": "捐",
-      "en": "donate"
+      "en": "donate; contribute"
     },
     {
       "char": "穿",
-      "en": "wear"
+      "en": "wear; pierce"
     }
   ],
   "cao": [
@@ -4942,11 +4942,11 @@
     },
     {
       "char": "澡",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "造",
-      "en": "make"
+      "en": "make; build"
     }
   ],
   "zao": [
@@ -5008,15 +5008,15 @@
     },
     {
       "char": "槽",
-      "en": "trough"
+      "en": "trough; groove"
     },
     {
       "char": "窖",
-      "en": "pit"
+      "en": "cellar; pit"
     },
     {
       "char": "草",
-      "en": "grass"
+      "en": "grass; herb"
     }
   ],
   "xie": [
@@ -5106,23 +5106,23 @@
     },
     {
       "char": "叶",
-      "en": "ye"
+      "en": "leaf; surname ye"
     },
     {
       "char": "契",
-      "en": "agreement"
+      "en": "contract; agreement"
     },
     {
       "char": "接",
-      "en": "receive"
+      "en": "receive; connect"
     },
     {
       "char": "汁",
-      "en": "juice"
+      "en": "juice; sap"
     },
     {
       "char": "溉",
-      "en": "irrigate"
+      "en": "irrigate; water"
     },
     {
       "char": "血",
@@ -5130,11 +5130,11 @@
     },
     {
       "char": "解",
-      "en": "explain"
+      "en": "solve; explain"
     },
     {
       "char": "豫",
-      "en": "hesitate"
+      "en": "hesitate; henan"
     }
   ],
   "sui": [
@@ -5176,11 +5176,11 @@
     },
     {
       "char": "尿",
-      "en": "urine"
+      "en": "urine; pee"
     },
     {
       "char": "粹",
-      "en": "pure"
+      "en": "pure; essence"
     }
   ],
   "xian": [
@@ -5262,7 +5262,7 @@
     },
     {
       "char": "舷",
-      "en": "side"
+      "en": "side of ship"
     },
     {
       "char": "衔",
@@ -5290,27 +5290,27 @@
     },
     {
       "char": "捍",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "探",
-      "en": "investigate"
+      "en": "explore; investigate"
     },
     {
       "char": "洒",
-      "en": "scatter"
+      "en": "sprinkle; scatter"
     },
     {
       "char": "洗",
-      "en": "wash"
+      "en": "wash; clean"
     },
     {
       "char": "省",
-      "en": "save"
+      "en": "save; examine"
     },
     {
       "char": "碱",
-      "en": "base"
+      "en": "alkali; base"
     },
     {
       "char": "肩",
@@ -5318,11 +5318,11 @@
     },
     {
       "char": "见",
-      "en": "meet"
+      "en": "see; meet"
     },
     {
       "char": "铣",
-      "en": "mill"
+      "en": "mill; cut"
     }
   ],
   "xiu": [
@@ -5364,11 +5364,11 @@
     },
     {
       "char": "宿",
-      "en": "lodge"
+      "en": "stay; lodge"
     },
     {
       "char": "臭",
-      "en": "stinky"
+      "en": "stinky; smelly"
     }
   ],
   "deng": [
@@ -5398,15 +5398,15 @@
     },
     {
       "char": "邓",
-      "en": "deng"
+      "en": "surname Deng"
     },
     {
       "char": "橙",
-      "en": "orange"
+      "en": "orange; citrus"
     },
     {
       "char": "澄",
-      "en": "unknown"
+      "en": null
     }
   ],
   "shan": [
@@ -5464,27 +5464,27 @@
     },
     {
       "char": "单",
-      "en": "single"
+      "en": "single; alone"
     },
     {
       "char": "掸",
-      "en": "dust"
+      "en": "dust; flick"
     },
     {
       "char": "掺",
-      "en": "blend"
+      "en": "mix; blend"
     },
     {
       "char": "栅",
-      "en": "fence"
+      "en": "fence; barrier"
     },
     {
       "char": "檀",
-      "en": "tan"
+      "en": "sandalwood; surname tan"
     },
     {
       "char": "邓",
-      "en": "deng"
+      "en": "surname deng"
     }
   ],
   "la": [
@@ -5518,11 +5518,11 @@
     },
     {
       "char": "落",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "蓝",
-      "en": "indigo"
+      "en": "blue; indigo"
     }
   ],
   "zhuan": [
@@ -5548,7 +5548,7 @@
     },
     {
       "char": "传",
-      "en": "pass"
+      "en": "pass on; spread"
     }
   ],
   "e": [
@@ -5570,7 +5570,7 @@
     },
     {
       "char": "俄",
-      "en": "russia"
+      "en": "Russia"
     },
     {
       "char": "蛾",
@@ -5602,31 +5602,31 @@
     },
     {
       "char": "啊",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "庵",
-      "en": "nunnery"
+      "en": "nunnery; hut"
     },
     {
       "char": "歹",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "蛤",
-      "en": "clam"
+      "en": "clam; crab"
     },
     {
       "char": "邑",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "阿",
-      "en": "prefix"
+      "en": "prefix; aunt"
     },
     {
       "char": "隘",
-      "en": "narrow"
+      "en": "narrow; pass"
     }
   ],
   "hua": [
@@ -5640,7 +5640,7 @@
     },
     {
       "char": "华",
-      "en": "china"
+      "en": "China"
     },
     {
       "char": "花",
@@ -5672,15 +5672,15 @@
     },
     {
       "char": "找",
-      "en": "find"
+      "en": "find; seek"
     },
     {
       "char": "敌",
-      "en": "enemy"
+      "en": "enemy; opponent"
     },
     {
       "char": "豁",
-      "en": "open"
+      "en": "open; clear"
     }
   ],
   "mu": [
@@ -5718,7 +5718,7 @@
     },
     {
       "char": "亩",
-      "en": "chinese"
+      "en": "mu (Chinese unit of area)"
     },
     {
       "char": "姆",
@@ -5750,19 +5750,19 @@
     },
     {
       "char": "嘿",
-      "en": "hi"
+      "en": "hey; hi"
     },
     {
       "char": "姥",
-      "en": "grandmother"
+      "en": "grandmother; old woman"
     },
     {
       "char": "模",
-      "en": "model"
+      "en": "model; mold"
     },
     {
       "char": "莫",
-      "en": "unknown"
+      "en": null
     }
   ],
   "zhun": [
@@ -5776,19 +5776,19 @@
     },
     {
       "char": "屯",
-      "en": "station"
+      "en": "station; gather"
     },
     {
       "char": "敦",
-      "en": "honest"
+      "en": "honest; sincere"
     },
     {
       "char": "淳",
-      "en": "pure"
+      "en": "pure; honest"
     },
     {
       "char": "盹",
-      "en": "doze"
+      "en": "doze; nap"
     }
   ],
   "si": [
@@ -5818,7 +5818,7 @@
     },
     {
       "char": "似",
-      "en": "like"
+      "en": "like; resemble"
     },
     {
       "char": "寺",
@@ -5834,7 +5834,7 @@
     },
     {
       "char": "肆",
-      "en": "formal four"
+      "en": "four"
     },
     {
       "char": "饲",
@@ -5846,43 +5846,43 @@
     },
     {
       "char": "以",
-      "en": "with"
+      "en": "with; by"
     },
     {
       "char": "伺",
-      "en": "attend"
+      "en": "wait; attend"
     },
     {
       "char": "厕",
-      "en": "bathroom"
+      "en": "toilet; bathroom"
     },
     {
       "char": "台",
-      "en": "platform"
+      "en": "platform; stage"
     },
     {
       "char": "已",
-      "en": "of"
+      "en": "already; seventh of ten heavenly stems"
     },
     {
       "char": "徙",
-      "en": "move"
+      "en": "move; migrate"
     },
     {
       "char": "析",
-      "en": "analyze"
+      "en": "analyze; split"
     },
     {
       "char": "祠",
-      "en": "hall"
+      "en": "ancestral hall; temple"
     },
     {
       "char": "肄",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "食",
-      "en": "eat"
+      "en": "eat; food"
     }
   ],
   "zhan": [
@@ -5944,11 +5944,11 @@
     },
     {
       "char": "袒",
-      "en": "bare"
+      "en": "bare; expose"
     },
     {
       "char": "颤",
-      "en": "unknown"
+      "en": null
     }
   ],
   "zhuang": [
@@ -5982,7 +5982,7 @@
     },
     {
       "char": "幢",
-      "en": "building"
+      "en": "building; tall"
     }
   ],
   "qiao": [
@@ -6004,7 +6004,7 @@
     },
     {
       "char": "侨",
-      "en": "overseas"
+      "en": "overseas Chinese"
     },
     {
       "char": "俏",
@@ -6052,47 +6052,47 @@
     },
     {
       "char": "削",
-      "en": "peel"
+      "en": "peel; cut"
     },
     {
       "char": "壳",
-      "en": "shell"
+      "en": "shell; husk"
     },
     {
       "char": "愁",
-      "en": "sorrow"
+      "en": "sorrow; worry"
     },
     {
       "char": "招",
-      "en": "attract"
+      "en": "attract; invite"
     },
     {
       "char": "捎",
-      "en": "take"
+      "en": "take; bring"
     },
     {
       "char": "搞",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "校",
-      "en": "school"
+      "en": "school; check"
     },
     {
       "char": "焦",
-      "en": "burnt"
+      "en": "burnt; anxious"
     },
     {
       "char": "硝",
-      "en": "nitrate"
+      "en": "nitrate; saltpeter"
     },
     {
       "char": "蕉",
-      "en": "banana"
+      "en": "banana; plantain"
     },
     {
       "char": "雀",
-      "en": "bird"
+      "en": "sparrow; bird"
     }
   ],
   "sao": [
@@ -6102,7 +6102,7 @@
     },
     {
       "char": "嫂",
-      "en": "elder"
+      "en": "elder brother's wife"
     },
     {
       "char": "骚",
@@ -6118,15 +6118,15 @@
     },
     {
       "char": "哨",
-      "en": "whistle"
+      "en": "whistle; sentry"
     },
     {
       "char": "梢",
-      "en": "twig"
+      "en": "tip; twig"
     },
     {
       "char": "燥",
-      "en": "dry"
+      "en": "dry; arid"
     }
   ],
   "zhui": [
@@ -6152,23 +6152,23 @@
     },
     {
       "char": "垂",
-      "en": "hang"
+      "en": "hang; droop"
     },
     {
       "char": "揣",
-      "en": "guess"
+      "en": "hold; guess"
     },
     {
       "char": "椎",
-      "en": "vertebra"
+      "en": "vertebra; hammer"
     },
     {
       "char": "致",
-      "en": "send"
+      "en": "cause; send"
     },
     {
       "char": "隧",
-      "en": "tunnel"
+      "en": "tunnel; cave"
     }
   ],
   "zai": [
@@ -6202,7 +6202,7 @@
     },
     {
       "char": "才",
-      "en": "talent"
+      "en": "talent; ability"
     }
   ],
   "chun": [
@@ -6298,19 +6298,19 @@
     },
     {
       "char": "填",
-      "en": "fill"
+      "en": "fill; stuff"
     },
     {
       "char": "慎",
-      "en": "careful"
+      "en": "careful; prudent"
     },
     {
       "char": "趁",
-      "en": "of"
+      "en": "take advantage of; while"
     },
     {
       "char": "鼎",
-      "en": "tripod"
+      "en": "tripod; cauldron"
     }
   ],
   "hu": [
@@ -6384,35 +6384,35 @@
     },
     {
       "char": "和",
-      "en": "harmonious"
+      "en": "and; harmonious"
     },
     {
       "char": "戏",
-      "en": "play"
+      "en": "play; game"
     },
     {
       "char": "核",
-      "en": "core"
+      "en": "core; nucleus"
     },
     {
       "char": "羽",
-      "en": "feather"
+      "en": "feather; plume"
     },
     {
       "char": "芦",
-      "en": "reed"
+      "en": "reed; rush"
     },
     {
       "char": "苦",
-      "en": "bitter"
+      "en": "bitter; painful"
     },
     {
       "char": "许",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "雇",
-      "en": "employ"
+      "en": "hire; employ"
     }
   ],
   "bo": [
@@ -6426,7 +6426,7 @@
     },
     {
       "char": "薄",
-      "en": "thin"
+      "en": "thin; light"
     },
     {
       "char": "伯",
@@ -6434,7 +6434,7 @@
     },
     {
       "char": "泊",
-      "en": "anchor"
+      "en": "anchor; lake"
     },
     {
       "char": "勃",
@@ -6494,59 +6494,59 @@
     },
     {
       "char": "渤",
-      "en": "bohai"
+      "en": "Bohai Sea"
     },
     {
       "char": "佛",
-      "en": "buddha"
+      "en": "buddha; buddhist"
     },
     {
       "char": "募",
-      "en": "raise"
+      "en": "recruit; raise"
     },
     {
       "char": "怕",
-      "en": "fear"
+      "en": "fear; afraid"
     },
     {
       "char": "拍",
-      "en": "pat"
+      "en": "pat; beat"
     },
     {
       "char": "拔",
-      "en": "out"
+      "en": "pull out; extract"
     },
     {
       "char": "暴",
-      "en": "violent"
+      "en": "violent; sudden"
     },
     {
       "char": "服",
-      "en": "wear"
+      "en": "wear; obey"
     },
     {
       "char": "柏",
-      "en": "cypress"
+      "en": "cypress; surname bai"
     },
     {
       "char": "潘",
-      "en": "surname"
+      "en": "surname pan"
     },
     {
       "char": "瀑",
-      "en": "cascade"
+      "en": "waterfall; cascade"
     },
     {
       "char": "爆",
-      "en": "explode"
+      "en": "explode; burst"
     },
     {
       "char": "番",
-      "en": "time"
+      "en": "time; foreign"
     },
     {
       "char": "白",
-      "en": "white"
+      "en": "white; pure"
     },
     {
       "char": "百",
@@ -6554,27 +6554,27 @@
     },
     {
       "char": "簿",
-      "en": "notebook"
+      "en": "book; notebook"
     },
     {
       "char": "般",
-      "en": "kind"
+      "en": "kind; sort"
     },
     {
       "char": "菩",
-      "en": "benevolent"
+      "en": "bodhi; benevolent"
     },
     {
       "char": "蒲",
-      "en": "rush"
+      "en": "cattail; rush"
     },
     {
       "char": "跑",
-      "en": "run"
+      "en": "run; race"
     },
     {
       "char": "魄",
-      "en": "unknown"
+      "en": null
     }
   ],
   "pang": [
@@ -6592,7 +6592,7 @@
     },
     {
       "char": "乓",
-      "en": "ping"
+      "en": "ping-pong"
     },
     {
       "char": "螃",
@@ -6600,39 +6600,39 @@
     },
     {
       "char": "仿",
-      "en": "imitate"
+      "en": "imitate; resemble"
     },
     {
       "char": "傍",
-      "en": "beside"
+      "en": "beside; near"
     },
     {
       "char": "彭",
-      "en": "surname"
+      "en": "surname peng"
     },
     {
       "char": "房",
-      "en": "room"
+      "en": "room; house"
     },
     {
       "char": "方",
-      "en": "direction"
+      "en": "square; direction"
     },
     {
       "char": "榜",
-      "en": "list"
+      "en": "list; notice"
     },
     {
       "char": "磅",
-      "en": "weigh"
+      "en": "pound; weigh"
     },
     {
       "char": "膀",
-      "en": "shoulder"
+      "en": "shoulder; wing"
     },
     {
       "char": "逢",
-      "en": "meet"
+      "en": "meet; encounter"
     }
   ],
   "shi": [
@@ -6762,7 +6762,7 @@
     },
     {
       "char": "拾",
-      "en": "formal ten"
+      "en": "pick up"
     },
     {
       "char": "施",
@@ -6822,47 +6822,47 @@
     },
     {
       "char": "什",
-      "en": "what"
+      "en": "what; ten"
     },
     {
       "char": "堤",
-      "en": "dyke"
+      "en": "dyke; embankment"
     },
     {
       "char": "寺",
-      "en": "monastery"
+      "en": "temple; monastery"
     },
     {
       "char": "提",
-      "en": "carry"
+      "en": "lift; carry"
     },
     {
       "char": "斯",
-      "en": "this"
+      "en": "this; thus"
     },
     {
       "char": "殖",
-      "en": "breed"
+      "en": "reproduce; breed"
     },
     {
       "char": "汁",
-      "en": "juice"
+      "en": "juice; sap"
     },
     {
       "char": "液",
-      "en": "fluid"
+      "en": "liquid; fluid"
     },
     {
       "char": "肢",
-      "en": "arm"
+      "en": "limb; arm"
     },
     {
       "char": "舍",
-      "en": "house"
+      "en": "abandon; house"
     },
     {
       "char": "赫",
-      "en": "prominent"
+      "en": "bright; prominent"
     }
   ],
   "he": [
@@ -6924,35 +6924,35 @@
     },
     {
       "char": "吓",
-      "en": "scare"
+      "en": "scare; frighten"
     },
     {
       "char": "呼",
-      "en": "call"
+      "en": "call; breathe"
     },
     {
       "char": "哈",
-      "en": "ha"
+      "en": "laugh; ha"
     },
     {
       "char": "害",
-      "en": "injury"
+      "en": "harm; injury"
     },
     {
       "char": "揭",
-      "en": "uncover"
+      "en": "uncover; reveal"
     },
     {
       "char": "格",
-      "en": "style"
+      "en": "grid; style"
     },
     {
       "char": "洽",
-      "en": "negotiate"
+      "en": "harmonize; negotiate"
     },
     {
       "char": "渴",
-      "en": "thirsty"
+      "en": "thirsty; eager"
     },
     {
       "char": "硅",
@@ -6960,7 +6960,7 @@
     },
     {
       "char": "苛",
-      "en": "severe"
+      "en": "harsh; severe"
     },
     {
       "char": "蝎",
@@ -6968,7 +6968,7 @@
     },
     {
       "char": "霍",
-      "en": "quickly"
+      "en": "suddenly; quickly"
     }
   ],
   "geng": [
@@ -6998,15 +6998,15 @@
     },
     {
       "char": "硬",
-      "en": "firm"
+      "en": "hard; firm"
     },
     {
       "char": "邢",
-      "en": "xing"
+      "en": "surname xing"
     },
     {
       "char": "颈",
-      "en": "unknown"
+      "en": null
     }
   ],
   "jin": [
@@ -7028,7 +7028,7 @@
     },
     {
       "char": "斤",
-      "en": "jin"
+      "en": "jin (Chinese unit of weight)"
     },
     {
       "char": "尽",
@@ -7084,7 +7084,7 @@
     },
     {
       "char": "吟",
-      "en": "recite"
+      "en": "recite; chant"
     },
     {
       "char": "肋",
@@ -7130,7 +7130,7 @@
     },
     {
       "char": "奠",
-      "en": "lay"
+      "en": "lay foundation; commemorate"
     }
   ],
   "dong": [
@@ -7168,11 +7168,11 @@
     },
     {
       "char": "桐",
-      "en": "paulownia"
+      "en": "paulownia; tung"
     },
     {
       "char": "筒",
-      "en": "tube"
+      "en": "tube; cylinder"
     }
   ],
   "pa": [
@@ -7190,11 +7190,11 @@
     },
     {
       "char": "把",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "扒",
-      "en": "scratch"
+      "en": "scratch; pick"
     },
     {
       "char": "帕",
@@ -7202,23 +7202,23 @@
     },
     {
       "char": "叭",
-      "en": "pop"
+      "en": "crack; pop"
     },
     {
       "char": "吧",
-      "en": "bar"
+      "en": "particle; bar"
     },
     {
       "char": "派",
-      "en": "send"
+      "en": "send; faction"
     },
     {
       "char": "耙",
-      "en": "harrow"
+      "en": "harrow; rake"
     },
     {
       "char": "芭",
-      "en": "palm"
+      "en": "banana; palm"
     }
   ],
   "sha": [
@@ -7264,15 +7264,15 @@
     },
     {
       "char": "哈",
-      "en": "laugh"
+      "en": "laugh; ha"
     },
     {
       "char": "接",
-      "en": "receive"
+      "en": "receive; connect"
     },
     {
       "char": "杉",
-      "en": "cedar"
+      "en": "cedar; fir"
     }
   ],
   "fei": [
@@ -7326,7 +7326,7 @@
     },
     {
       "char": "拂",
-      "en": "brush"
+      "en": "brush; wipe"
     }
   ],
   "cai": [
@@ -7422,23 +7422,23 @@
     },
     {
       "char": "司",
-      "en": "department"
+      "en": "manage; department"
     },
     {
       "char": "差",
-      "en": "difference"
+      "en": "difference; mistake"
     },
     {
       "char": "措",
-      "en": "handle"
+      "en": "handle; deal with"
     },
     {
       "char": "柴",
-      "en": "firewood"
+      "en": "firewood; wood"
     },
     {
       "char": "滋",
-      "en": "nourish"
+      "en": "nourish; grow"
     }
   ],
   "xuan": [
@@ -7484,19 +7484,19 @@
     },
     {
       "char": "券",
-      "en": "ticket"
+      "en": "ticket; certificate"
     },
     {
       "char": "撰",
-      "en": "write"
+      "en": "write; compose"
     },
     {
       "char": "暖",
-      "en": "mild"
+      "en": "warm; mild"
     },
     {
       "char": "滋",
-      "en": "nourish"
+      "en": "nourish; grow"
     }
   ],
   "dang": [
@@ -7560,23 +7560,23 @@
     },
     {
       "char": "伯",
-      "en": "uncle"
+      "en": "uncle; elder brother"
     },
     {
       "char": "啡",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "扒",
-      "en": "scratch"
+      "en": "scratch; pick"
     },
     {
       "char": "排",
-      "en": "arrange"
+      "en": "arrange; line up"
     },
     {
       "char": "派",
-      "en": "send"
+      "en": "send; faction"
     }
   ],
   "mo": [
@@ -7586,7 +7586,7 @@
     },
     {
       "char": "没",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "模",
@@ -7642,7 +7642,7 @@
     },
     {
       "char": "馍",
-      "en": "steamed"
+      "en": "steamed bun"
     },
     {
       "char": "寞",
@@ -7662,7 +7662,7 @@
     },
     {
       "char": "万",
-      "en": "ten"
+      "en": "ten thousand"
     },
     {
       "char": "么",
@@ -7670,31 +7670,31 @@
     },
     {
       "char": "伯",
-      "en": "uncle"
+      "en": "uncle; elder brother"
     },
     {
       "char": "冒",
-      "en": "risk"
+      "en": "risk; pretend"
     },
     {
       "char": "勿",
-      "en": "do"
+      "en": "do not; not"
     },
     {
       "char": "嘿",
-      "en": "hey"
+      "en": "hey; hi"
     },
     {
       "char": "帕",
-      "en": "handkerchief"
+      "en": "handkerchief; scarf"
     },
     {
       "char": "无",
-      "en": "no"
+      "en": "no; none"
     },
     {
       "char": "昧",
-      "en": "dark"
+      "en": "dark; ignorant"
     },
     {
       "char": "百",
@@ -7702,23 +7702,23 @@
     },
     {
       "char": "脉",
-      "en": "vein"
+      "en": "vein; pulse"
     },
     {
       "char": "藐",
-      "en": "on"
+      "en": "despise; look down on"
     },
     {
       "char": "蟆",
-      "en": "toad"
+      "en": "toad; frog"
     },
     {
       "char": "袜",
-      "en": "sock"
+      "en": "sock; stocking"
     },
     {
       "char": "貌",
-      "en": "appearance"
+      "en": "appearance; look"
     }
   ],
   "yun": [
@@ -7768,35 +7768,35 @@
     },
     {
       "char": "员",
-      "en": "member"
+      "en": "member; employee"
     },
     {
       "char": "均",
-      "en": "average"
+      "en": "even; average"
     },
     {
       "char": "宛",
-      "en": "if"
+      "en": "as if; curved"
     },
     {
       "char": "尉",
-      "en": "officer"
+      "en": "military officer"
     },
     {
       "char": "怨",
-      "en": "resentment"
+      "en": "complain; resentment"
     },
     {
       "char": "温",
-      "en": "temperature"
+      "en": "warm; temperature"
     },
     {
       "char": "瘟",
-      "en": "plague"
+      "en": "plague; epidemic"
     },
     {
       "char": "盾",
-      "en": "shield"
+      "en": "shield; protect"
     }
   ],
   "tian": [
@@ -7830,27 +7830,27 @@
     },
     {
       "char": "佃",
-      "en": "tenant"
+      "en": "tenant farmer"
     },
     {
       "char": "典",
-      "en": "classic"
+      "en": "classic; standard"
     },
     {
       "char": "吞",
-      "en": "gulp"
+      "en": "swallow; gulp"
     },
     {
       "char": "沾",
-      "en": "dip"
+      "en": "dip; touch"
     },
     {
       "char": "甸",
-      "en": "pasture"
+      "en": "pasture; countryside"
     },
     {
       "char": "苫",
-      "en": "mat"
+      "en": "cover; mat"
     },
     {
       "char": "蚕",
@@ -7922,23 +7922,23 @@
     },
     {
       "char": "兄",
-      "en": "elder"
+      "en": "elder brother"
     },
     {
       "char": "呈",
-      "en": "present"
+      "en": "present; show"
     },
     {
       "char": "枉",
-      "en": "unjust"
+      "en": "枉然; unjust"
     },
     {
       "char": "磺",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "逛",
-      "en": "stroll"
+      "en": "wander; stroll"
     }
   ],
   "wang": [
@@ -7976,7 +7976,7 @@
     },
     {
       "char": "枉",
-      "en": "unknown"
+      "en": "枉然"
     },
     {
       "char": "汪",
@@ -7984,15 +7984,15 @@
     },
     {
       "char": "方",
-      "en": "square"
+      "en": "square; direction"
     },
     {
       "char": "皇",
-      "en": "emperor"
+      "en": "emperor; royal"
     },
     {
       "char": "芒",
-      "en": "bristle"
+      "en": "awn; bristle"
     }
   ],
   "xia": [
@@ -8046,31 +8046,31 @@
     },
     {
       "char": "假",
-      "en": "fake"
+      "en": "fake; borrow"
     },
     {
       "char": "厦",
-      "en": "mansion"
+      "en": "mansion; building"
     },
     {
       "char": "呀",
-      "en": "ah"
+      "en": "ah; oh"
     },
     {
       "char": "呼",
-      "en": "call"
+      "en": "call; breathe"
     },
     {
       "char": "唬",
-      "en": "intimidate"
+      "en": "intimidate; frighten"
     },
     {
       "char": "押",
-      "en": "detain"
+      "en": "detain; mortgage"
     },
     {
       "char": "斜",
-      "en": "oblique"
+      "en": "slant; oblique"
     }
   ],
   "yin": [
@@ -8136,35 +8136,35 @@
     },
     {
       "char": "众",
-      "en": "crowd"
+      "en": "crowd; many"
     },
     {
       "char": "听",
-      "en": "listen"
+      "en": "listen; hear"
     },
     {
       "char": "垦",
-      "en": "cultivate"
+      "en": "cultivate; reclaim"
     },
     {
       "char": "壹",
-      "en": "formal one"
+      "en": "one (formal)"
     },
     {
       "char": "币",
-      "en": "money"
+      "en": "currency; money"
     },
     {
       "char": "潭",
-      "en": "pond"
+      "en": "pond; deep pool"
     },
     {
       "char": "烟",
-      "en": "tobacco"
+      "en": "smoke; tobacco"
     },
     {
       "char": "言",
-      "en": "word"
+      "en": "word; speech"
     }
   ],
   "cui": [
@@ -8198,23 +8198,23 @@
     },
     {
       "char": "体",
-      "en": "body"
+      "en": "body; form"
     },
     {
       "char": "卒",
-      "en": "finally"
+      "en": "soldier; finally"
     },
     {
       "char": "察",
-      "en": "observe"
+      "en": "observe; inspect"
     },
     {
       "char": "洒",
-      "en": "sprinkle"
+      "en": "sprinkle; scatter"
     },
     {
       "char": "衰",
-      "en": "fade"
+      "en": "decline; fade"
     }
   ],
   "ben": [
@@ -8232,17 +8232,17 @@
     },
     {
       "char": "体",
-      "en": "body"
+      "en": "body; form"
     },
     {
       "char": "夯",
-      "en": "pound"
+      "en": "ram; pound"
     }
   ],
   "zhi": [
     {
       "char": "之",
-      "en": "possessive"
+      "en": "possessive particle"
     },
     {
       "char": "只",
@@ -8402,45 +8402,45 @@
     },
     {
       "char": "埃",
-      "en": "dust"
+      "en": "dust; atom"
     },
     {
       "char": "恃",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "抵",
-      "en": "resist"
+      "en": "resist; support"
     },
     {
       "char": "拓",
-      "en": "open"
+      "en": "develop; open up"
     },
     {
       "char": "昵",
-      "en": "intimate"
+      "en": "intimate; close"
     },
     {
       "char": "氏",
-      "en": "clan"
+      "en": "clan; surname"
     },
     {
       "char": "示",
-      "en": "show"
+      "en": "show; indicate"
     },
     {
       "char": "积",
-      "en": "accumulate"
+      "en": "accumulate; store"
     },
     {
       "char": "识",
-      "en": "know"
+      "en": "know; recognize"
     }
   ],
   "she": [
     {
       "char": "设",
-      "en": "set"
+      "en": "set up"
     },
     {
       "char": "社",
@@ -8484,19 +8484,19 @@
     },
     {
       "char": "折",
-      "en": "break"
+      "en": "fold; break"
     },
     {
       "char": "拾",
-      "en": "formal ten"
+      "en": "pick up; collect"
     },
     {
       "char": "碟",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "邪",
-      "en": "evil"
+      "en": "evil; heretical"
     }
   ],
   "yan": [
@@ -8626,63 +8626,63 @@
     },
     {
       "char": "雁",
-      "en": "wild"
+      "en": "wild goose"
     },
     {
       "char": "但",
-      "en": "but"
+      "en": "but; however"
     },
     {
       "char": "俺",
-      "en": "we"
+      "en": "i; we"
     },
     {
       "char": "厂",
-      "en": "factory"
+      "en": "factory; workshop"
     },
     {
       "char": "巡",
-      "en": "inspect"
+      "en": "patrol; inspect"
     },
     {
       "char": "广",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "庵",
-      "en": "nunnery"
+      "en": "nunnery; hut"
     },
     {
       "char": "殷",
-      "en": "abundant"
+      "en": "abundant; sincere"
     },
     {
       "char": "涎",
-      "en": "drool"
+      "en": "saliva; drool"
     },
     {
       "char": "淡",
-      "en": "light"
+      "en": "light; thin"
     },
     {
       "char": "淫",
-      "en": "lewd"
+      "en": "excessive; lewd"
     },
     {
       "char": "狠",
-      "en": "cruel"
+      "en": "cruel; fierce"
     },
     {
       "char": "癌",
-      "en": "cancer"
+      "en": "cancer; carcinoma"
     },
     {
       "char": "羡",
-      "en": "envy"
+      "en": "envy; admire"
     },
     {
       "char": "蔫",
-      "en": "withered"
+      "en": "withered; wilted"
     },
     {
       "char": "铅",
@@ -8704,11 +8704,11 @@
     },
     {
       "char": "曾",
-      "en": "once"
+      "en": "once; ever"
     },
     {
       "char": "综",
-      "en": "synthesize"
+      "en": "synthesize; comprehensive"
     }
   ],
   "ceng": [
@@ -8730,7 +8730,7 @@
     },
     {
       "char": "增",
-      "en": "increase"
+      "en": "increase; add"
     }
   ],
   "dao": [
@@ -8788,15 +8788,15 @@
     },
     {
       "char": "受",
-      "en": "accept"
+      "en": "receive; accept"
     },
     {
       "char": "敦",
-      "en": "honest"
+      "en": "honest; sincere"
     },
     {
       "char": "陶",
-      "en": "pottery"
+      "en": "pottery; contented"
     }
   ],
   "wa": [
@@ -8826,7 +8826,7 @@
     },
     {
       "char": "凹",
-      "en": "concave"
+      "en": "concave; hollow"
     },
     {
       "char": "鞋",
@@ -8852,11 +8852,11 @@
     },
     {
       "char": "闽",
-      "en": "fujian"
+      "en": "Fujian"
     },
     {
       "char": "眠",
-      "en": "sleep"
+      "en": "sleep; rest"
     }
   ],
   "chui": [
@@ -8924,23 +8924,23 @@
     },
     {
       "char": "姥",
-      "en": "old"
+      "en": "old woman"
     },
     {
       "char": "僚",
-      "en": "official"
+      "en": "official; colleague"
     },
     {
       "char": "撩",
-      "en": "tease"
+      "en": "tease; flirt"
     },
     {
       "char": "络",
-      "en": "net"
+      "en": "net; connect"
     },
     {
       "char": "落",
-      "en": "unknown"
+      "en": null
     }
   ],
   "luo": [
@@ -8954,7 +8954,7 @@
     },
     {
       "char": "洛",
-      "en": "luo"
+      "en": "Luo River"
     },
     {
       "char": "络",
@@ -8998,27 +8998,27 @@
     },
     {
       "char": "果",
-      "en": "result"
+      "en": "fruit; result"
     },
     {
       "char": "格",
-      "en": "grid"
+      "en": "grid; style"
     },
     {
       "char": "烙",
-      "en": "brand"
+      "en": "brand; bake"
     },
     {
       "char": "碌",
-      "en": "tedious"
+      "en": "busy; tedious"
     },
     {
       "char": "路",
-      "en": "road"
+      "en": "road; path"
     },
     {
       "char": "酪",
-      "en": "cheese"
+      "en": "cheese; cream"
     }
   ],
   "hou": [
@@ -9078,7 +9078,7 @@
     },
     {
       "char": "姐",
-      "en": "elder"
+      "en": "elder sister"
     },
     {
       "char": "阶",
@@ -9130,7 +9130,7 @@
     },
     {
       "char": "竭",
-      "en": "use"
+      "en": "use up"
     },
     {
       "char": "芥",
@@ -9146,27 +9146,27 @@
     },
     {
       "char": "亥",
-      "en": "of"
+      "en": "twelfth of twelve earthly branches"
     },
     {
       "char": "价",
-      "en": "value"
+      "en": "price; value"
     },
     {
       "char": "假",
-      "en": "fake"
+      "en": "fake; borrow"
     },
     {
       "char": "唧",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "圾",
-      "en": "garbage"
+      "en": "garbage; trash"
     },
     {
       "char": "契",
-      "en": "contract"
+      "en": "contract; agreement"
     },
     {
       "char": "她",
@@ -9174,39 +9174,39 @@
     },
     {
       "char": "家",
-      "en": "home"
+      "en": "family; home"
     },
     {
       "char": "差",
-      "en": "difference"
+      "en": "difference; mistake"
     },
     {
       "char": "担",
-      "en": "carry"
+      "en": "carry; shoulder"
     },
     {
       "char": "拾",
-      "en": "formal ten"
+      "en": "pick up; collect"
     },
     {
       "char": "楷",
-      "en": "model"
+      "en": "model; regular script"
     },
     {
       "char": "概",
-      "en": "general"
+      "en": "general; approximate"
     },
     {
       "char": "渴",
-      "en": "thirsty"
+      "en": "thirsty; eager"
     },
     {
       "char": "祖",
-      "en": "ancestor"
+      "en": "ancestor; forefather"
     },
     {
       "char": "籍",
-      "en": "book"
+      "en": "book; record"
     }
   ],
   "jiao": [
@@ -9224,7 +9224,7 @@
     },
     {
       "char": "校",
-      "en": "school"
+      "en": "school; check"
     },
     {
       "char": "脚",
@@ -9236,7 +9236,7 @@
     },
     {
       "char": "觉",
-      "en": "feel"
+      "en": "feel; realize"
     },
     {
       "char": "较",
@@ -9324,23 +9324,23 @@
     },
     {
       "char": "叽",
-      "en": "chirp"
+      "en": "chirp; chatter"
     },
     {
       "char": "咬",
-      "en": "bite"
+      "en": "bite; gnaw"
     },
     {
       "char": "嚼",
-      "en": "masticate"
+      "en": "chew; masticate"
     },
     {
       "char": "妖",
-      "en": "evil"
+      "en": "evil spirit; charming"
     },
     {
       "char": "激",
-      "en": "arouse"
+      "en": "stimulate; arouse"
     }
   ],
   "lei": [
@@ -9428,21 +9428,21 @@
     },
     {
       "char": "抹",
-      "en": "wipe"
+      "en": "wipe; smear"
     },
     {
       "char": "摩",
-      "en": "rub"
+      "en": "rub; touch"
     },
     {
       "char": "靡",
-      "en": "unknown"
+      "en": null
     }
   ],
   "hang": [
     {
       "char": "行",
-      "en": "walk"
+      "en": "walk; go"
     },
     {
       "char": "航",
@@ -9458,27 +9458,27 @@
     },
     {
       "char": "吭",
-      "en": "cough"
+      "en": "cough; utter"
     },
     {
       "char": "巷",
-      "en": "lane"
+      "en": "lane; alley"
     },
     {
       "char": "炕",
-      "en": "heated"
+      "en": "heated brick bed"
     },
     {
       "char": "狠",
-      "en": "fierce"
+      "en": "cruel; fierce"
     },
     {
       "char": "狼",
-      "en": "wolf"
+      "en": "wolf; cruel"
     },
     {
       "char": "肮",
-      "en": "unknown"
+      "en": null
     }
   ],
   "xing": [
@@ -9536,19 +9536,19 @@
     },
     {
       "char": "邢",
-      "en": "xing"
+      "en": "surname Xing"
     },
     {
       "char": "省",
-      "en": "examine"
+      "en": "save; examine"
     },
     {
       "char": "研",
-      "en": "grind"
+      "en": "study; grind"
     },
     {
       "char": "胜",
-      "en": "win"
+      "en": "win; succeed"
     }
   ],
   "zhe": [
@@ -9590,23 +9590,23 @@
     },
     {
       "char": "嘀",
-      "en": "murmur"
+      "en": "tick; murmur"
     },
     {
       "char": "堵",
-      "en": "block"
+      "en": "block; stop"
     },
     {
       "char": "庶",
-      "en": "common"
+      "en": "common; numerous"
     },
     {
       "char": "斥",
-      "en": "accuse"
+      "en": "scold; accuse"
     },
     {
       "char": "著",
-      "en": "write"
+      "en": "write; famous"
     }
   ],
   "zha": [
@@ -9656,19 +9656,19 @@
     },
     {
       "char": "册",
-      "en": "volume"
+      "en": "book; volume"
     },
     {
       "char": "哆",
-      "en": "tremble"
+      "en": "tremble; shiver"
     },
     {
       "char": "插",
-      "en": "insert"
+      "en": "insert; stick"
     },
     {
       "char": "查",
-      "en": "examine"
+      "en": "check; examine"
     },
     {
       "char": "蜡",
@@ -9676,7 +9676,7 @@
     },
     {
       "char": "轧",
-      "en": "roll"
+      "en": "crush; roll"
     }
   ],
   "bi": [
@@ -9754,7 +9754,7 @@
     },
     {
       "char": "荸",
-      "en": "chestnut"
+      "en": "water chestnut"
     },
     {
       "char": "蓖",
@@ -9778,59 +9778,59 @@
     },
     {
       "char": "佛",
-      "en": "buddha"
+      "en": "buddha; buddhist"
     },
     {
       "char": "卑",
-      "en": "low"
+      "en": "humble; low"
     },
     {
       "char": "幅",
-      "en": "width"
+      "en": "width; piece"
     },
     {
       "char": "拂",
-      "en": "brush"
+      "en": "brush; wipe"
     },
     {
       "char": "服",
-      "en": "obey"
+      "en": "wear; obey"
     },
     {
       "char": "泌",
-      "en": "secrete"
+      "en": "secrete; ooze"
     },
     {
       "char": "波",
-      "en": "ripple"
+      "en": "wave; ripple"
     },
     {
       "char": "秘",
-      "en": "secret"
+      "en": "secret; hidden"
     },
     {
       "char": "肥",
-      "en": "fat"
+      "en": "fat; fertile"
     },
     {
       "char": "脾",
-      "en": "temperament"
+      "en": "spleen; temperament"
     },
     {
       "char": "虑",
-      "en": "consider"
+      "en": "consider; worry"
     },
     {
       "char": "被",
-      "en": "quilt"
+      "en": "quilt; cover"
     },
     {
       "char": "跛",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "辟",
-      "en": "up"
+      "en": "open up; establish"
     }
   ],
   "bie": [
@@ -9852,27 +9852,27 @@
     },
     {
       "char": "扒",
-      "en": "pick"
+      "en": "scratch; pick"
     },
     {
       "char": "拔",
-      "en": "extract"
+      "en": "pull out; extract"
     },
     {
       "char": "捌",
-      "en": "formal eight"
+      "en": "eight (financial)"
     },
     {
       "char": "撇",
-      "en": "leave"
+      "en": "leave; abandon"
     },
     {
       "char": "秘",
-      "en": "hidden"
+      "en": "secret; hidden"
     },
     {
       "char": "蔽",
-      "en": "unknown"
+      "en": null
     }
   ],
   "pie": [
@@ -9882,7 +9882,7 @@
     },
     {
       "char": "蔽",
-      "en": "unknown"
+      "en": null
     }
   ],
   "fen": [
@@ -9940,19 +9940,19 @@
     },
     {
       "char": "匪",
-      "en": "robber"
+      "en": "bandit; robber"
     },
     {
       "char": "奔",
-      "en": "run"
+      "en": "run; rush"
     },
     {
       "char": "扮",
-      "en": "up"
+      "en": "dress up; pretend"
     },
     {
       "char": "盼",
-      "en": "hope"
+      "en": "hope; expect"
     }
   ],
   "pen": [
@@ -9966,7 +9966,7 @@
     },
     {
       "char": "吩",
-      "en": "instruct"
+      "en": "instruct; tell"
     }
   ],
   "mi": [
@@ -10024,11 +10024,11 @@
     },
     {
       "char": "摩",
-      "en": "touch"
+      "en": "rub; touch"
     },
     {
       "char": "辟",
-      "en": "up"
+      "en": "open up; establish"
     }
   ],
   "zhong": [
@@ -10078,11 +10078,11 @@
     },
     {
       "char": "童",
-      "en": "child"
+      "en": "child; boy"
     },
     {
       "char": "董",
-      "en": "dong"
+      "en": "supervisor; surname dong"
     },
     {
       "char": "蚣",
@@ -10140,11 +10140,11 @@
     },
     {
       "char": "洞",
-      "en": "hole"
+      "en": "cave; hole"
     },
     {
       "char": "重",
-      "en": "important"
+      "en": "heavy; important"
     }
   ],
   "gan": [
@@ -10170,7 +10170,7 @@
     },
     {
       "char": "柑",
-      "en": "mandarin"
+      "en": "mandarin orange"
     },
     {
       "char": "竿",
@@ -10194,23 +10194,23 @@
     },
     {
       "char": "个",
-      "en": "classifier"
+      "en": "classifier for items"
     },
     {
       "char": "乾",
-      "en": "heaven"
+      "en": "heaven; dry"
     },
     {
       "char": "奸",
-      "en": "traitor"
+      "en": "traitor; adultery"
     },
     {
       "char": "捍",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "汗",
-      "en": "perspiration"
+      "en": "sweat; perspiration"
     }
   ],
   "zhao": [
@@ -10228,7 +10228,7 @@
     },
     {
       "char": "赵",
-      "en": "zhao"
+      "en": "surname Zhao"
     },
     {
       "char": "兆",
@@ -10256,23 +10256,23 @@
     },
     {
       "char": "嘲",
-      "en": "mock"
+      "en": "mock; ridicule"
     },
     {
       "char": "朝",
-      "en": "dynasty"
+      "en": "dynasty; morning"
     },
     {
       "char": "桃",
-      "en": "peach"
+      "en": "peach; surname tao"
     },
     {
       "char": "着",
-      "en": "wear"
+      "en": "particle; wear"
     },
     {
       "char": "著",
-      "en": "write"
+      "en": "write; famous"
     },
     {
       "char": "蚤",
@@ -10290,7 +10290,7 @@
     },
     {
       "char": "着",
-      "en": "particle"
+      "en": "particle; wear"
     },
     {
       "char": "卓",
@@ -10322,19 +10322,19 @@
     },
     {
       "char": "勺",
-      "en": "spoon"
+      "en": "spoon; ladle"
     },
     {
       "char": "琢",
-      "en": "polish"
+      "en": "carve; polish"
     },
     {
       "char": "缴",
-      "en": "hand"
+      "en": "hand over; pay"
     },
     {
       "char": "著",
-      "en": "write"
+      "en": "write; famous"
     }
   ],
   "chu": [
@@ -10396,35 +10396,35 @@
     },
     {
       "char": "助",
-      "en": "help"
+      "en": "help; assist"
     },
     {
       "char": "柠",
-      "en": "lemon"
+      "en": "lemon; citrus"
     },
     {
       "char": "涂",
-      "en": "spread"
+      "en": "spread; paint"
     },
     {
       "char": "淑",
-      "en": "gentle"
+      "en": "pure; gentle"
     },
     {
       "char": "硫",
-      "en": "sulfur"
+      "en": "sulfur; sulphur"
     },
     {
       "char": "祝",
-      "en": "wish"
+      "en": "wish; celebrate"
     },
     {
       "char": "絮",
-      "en": "floc"
+      "en": "floc; cotton"
     },
     {
       "char": "著",
-      "en": "write"
+      "en": "write; famous"
     }
   ],
   "hui": [
@@ -10510,23 +10510,23 @@
     },
     {
       "char": "堕",
-      "en": "fall"
+      "en": "fall; sink"
     },
     {
       "char": "徊",
-      "en": "linger"
+      "en": "wander; linger"
     },
     {
       "char": "涣",
-      "en": "scatter"
+      "en": "disperse; scatter"
     },
     {
       "char": "溃",
-      "en": "collapse"
+      "en": "collapse; break"
     },
     {
       "char": "虫",
-      "en": "insect"
+      "en": "insect; worm"
     }
   ],
   "gua": [
@@ -10544,7 +10544,7 @@
     },
     {
       "char": "卦",
-      "en": "divination"
+      "en": "divination trigram"
     },
     {
       "char": "寡",
@@ -10556,7 +10556,7 @@
     },
     {
       "char": "括",
-      "en": "include"
+      "en": "include; enclose"
     },
     {
       "char": "舌",
@@ -10618,11 +10618,11 @@
     },
     {
       "char": "咽",
-      "en": "swallow"
+      "en": "swallow; throat"
     },
     {
       "char": "喝",
-      "en": "drink"
+      "en": "drink; shout"
     },
     {
       "char": "墅",
@@ -10630,19 +10630,19 @@
     },
     {
       "char": "射",
-      "en": "shoot"
+      "en": "shoot; fire"
     },
     {
       "char": "斜",
-      "en": "oblique"
+      "en": "slant; oblique"
     },
     {
       "char": "涂",
-      "en": "spread"
+      "en": "spread; paint"
     },
     {
       "char": "邪",
-      "en": "evil"
+      "en": "evil; heretical"
     }
   ],
   "xu": [
@@ -10684,7 +10684,7 @@
     },
     {
       "char": "畜",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "旭",
@@ -10700,7 +10700,7 @@
     },
     {
       "char": "婿",
-      "en": "in"
+      "en": "son-in-law"
     },
     {
       "char": "吁",
@@ -10716,31 +10716,31 @@
     },
     {
       "char": "于",
-      "en": "at"
+      "en": "in; at"
     },
     {
       "char": "休",
-      "en": "rest"
+      "en": "rest; stop"
     },
     {
       "char": "余",
-      "en": "remaining"
+      "en": "remaining; i"
     },
     {
       "char": "呼",
-      "en": "call"
+      "en": "call; breathe"
     },
     {
       "char": "姐",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "芋",
-      "en": "taro"
+      "en": "taro; tuber"
     },
     {
       "char": "邪",
-      "en": "heretical"
+      "en": "evil; heretical"
     }
   ],
   "ning": [
@@ -10774,19 +10774,19 @@
     },
     {
       "char": "年",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "攘",
-      "en": "push"
+      "en": "push; jostle"
     },
     {
       "char": "泥",
-      "en": "clay"
+      "en": "mud; clay"
     },
     {
       "char": "疑",
-      "en": "doubt"
+      "en": "doubt; suspect"
     }
   ],
   "shui": [
@@ -10808,13 +10808,13 @@
     },
     {
       "char": "说",
-      "en": "speak"
+      "en": "speak; say"
     }
   ],
   "shei": [
     {
       "char": "谁",
-      "en": "who"
+      "en": "who; whom"
     }
   ],
   "qian": [
@@ -10892,23 +10892,23 @@
     },
     {
       "char": "寨",
-      "en": "village"
+      "en": "stockade; village"
     },
     {
       "char": "柑",
-      "en": "mandarin"
+      "en": "mandarin orange"
     },
     {
       "char": "筋",
-      "en": "tendon"
+      "en": "tendon; muscle"
     },
     {
       "char": "纤",
-      "en": "slender"
+      "en": "thin; slender"
     },
     {
       "char": "赶",
-      "en": "up"
+      "en": "catch up; hurry"
     }
   ],
   "suan": [
@@ -10926,7 +10926,7 @@
     },
     {
       "char": "撰",
-      "en": "write"
+      "en": "write; compose"
     }
   ],
   "ju": [
@@ -10996,7 +10996,7 @@
     },
     {
       "char": "菊",
-      "en": "chrysanthemu"
+      "en": "chrysanthemum"
     },
     {
       "char": "锯",
@@ -11020,43 +11020,43 @@
     },
     {
       "char": "且",
-      "en": "and"
+      "en": "and; also"
     },
     {
       "char": "仇",
-      "en": "enemy"
+      "en": "enemy; hatred"
     },
     {
       "char": "告",
-      "en": "inform"
+      "en": "tell; inform"
     },
     {
       "char": "姐",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "娶",
-      "en": "marry"
+      "en": "marry; take wife"
     },
     {
       "char": "屈",
-      "en": "bend"
+      "en": "bend; submit"
     },
     {
       "char": "拱",
-      "en": "arch"
+      "en": "arch; bow"
     },
     {
       "char": "柜",
-      "en": "cabinet"
+      "en": "cabinet; cupboard"
     },
     {
       "char": "渠",
-      "en": "ditch"
+      "en": "ditch; canal"
     },
     {
       "char": "租",
-      "en": "hire"
+      "en": "rent; hire"
     },
     {
       "char": "蛆",
@@ -11064,17 +11064,17 @@
     },
     {
       "char": "足",
-      "en": "sufficient"
+      "en": "foot; sufficient"
     },
     {
       "char": "车",
-      "en": "vehicle"
+      "en": "car; vehicle"
     }
   ],
   "lia": [
     {
       "char": "俩",
-      "en": "two"
+      "en": "two people"
     }
   ],
   "liang": [
@@ -11108,7 +11108,7 @@
     },
     {
       "char": "辆",
-      "en": "vehicles"
+      "en": "classifier for vehicles"
     },
     {
       "char": "晾",
@@ -11124,11 +11124,11 @@
     },
     {
       "char": "俩",
-      "en": "people"
+      "en": "two people"
     },
     {
       "char": "惊",
-      "en": "surprise"
+      "en": "surprise; shock"
     }
   ],
   "yi": [
@@ -11146,7 +11146,7 @@
     },
     {
       "char": "亿",
-      "en": "hundred"
+      "en": "hundred million"
     },
     {
       "char": "义",
@@ -11170,7 +11170,7 @@
     },
     {
       "char": "依",
-      "en": "rely"
+      "en": "rely on"
     },
     {
       "char": "仪",
@@ -11214,7 +11214,7 @@
     },
     {
       "char": "乙",
-      "en": "second"
+      "en": "second of ten Heavenly Stems"
     },
     {
       "char": "伊",
@@ -11226,7 +11226,7 @@
     },
     {
       "char": "壹",
-      "en": "formal one"
+      "en": "one (formal)"
     },
     {
       "char": "夷",
@@ -11282,7 +11282,7 @@
     },
     {
       "char": "绎",
-      "en": "sort"
+      "en": "sort out"
     },
     {
       "char": "翼",
@@ -11314,35 +11314,35 @@
     },
     {
       "char": "也",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "印",
-      "en": "print"
+      "en": "print; seal"
     },
     {
       "char": "台",
-      "en": "platform"
+      "en": "platform; stage"
     },
     {
       "char": "叹",
-      "en": "sigh"
+      "en": "sigh; exclaim"
     },
     {
       "char": "听",
-      "en": "listen"
+      "en": "listen; hear"
     },
     {
       "char": "夕",
-      "en": "evening"
+      "en": "evening; dusk"
     },
     {
       "char": "失",
-      "en": "lose"
+      "en": "lose; miss"
     },
     {
       "char": "奇",
-      "en": "odd"
+      "en": "strange; odd"
     },
     {
       "char": "它",
@@ -11350,47 +11350,47 @@
     },
     {
       "char": "射",
-      "en": "shoot"
+      "en": "shoot; fire"
     },
     {
       "char": "尾",
-      "en": "tail"
+      "en": "tail; end"
     },
     {
       "char": "崎",
-      "en": "uneven"
+      "en": "rugged; uneven"
     },
     {
       "char": "怠",
-      "en": "negligent"
+      "en": "lazy; negligent"
     },
     {
       "char": "施",
-      "en": "carry"
+      "en": "carry out; apply"
     },
     {
       "char": "汽",
-      "en": "vapor"
+      "en": "steam; vapor"
     },
     {
       "char": "泄",
-      "en": "leak"
+      "en": "leak; release"
     },
     {
       "char": "熙",
-      "en": "bright"
+      "en": "bright; prosperous"
     },
     {
       "char": "疙",
-      "en": "bump"
+      "en": "bump; lump"
     },
     {
       "char": "羡",
-      "en": "envy"
+      "en": "envy; admire"
     },
     {
       "char": "艾",
-      "en": "mugwort"
+      "en": "mugwort; stop"
     },
     {
       "char": "蛇",
@@ -11402,11 +11402,11 @@
     },
     {
       "char": "隶",
-      "en": "slave"
+      "en": "slave; subordinate"
     },
     {
       "char": "食",
-      "en": "food"
+      "en": "eat; food"
     }
   ],
   "shu": [
@@ -11480,7 +11480,7 @@
     },
     {
       "char": "蜀",
-      "en": "sichuan"
+      "en": "Sichuan"
     },
     {
       "char": "赎",
@@ -11536,35 +11536,35 @@
     },
     {
       "char": "售",
-      "en": "market"
+      "en": "sell; market"
     },
     {
       "char": "嗽",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "娶",
-      "en": "wife"
+      "en": "marry; take wife"
     },
     {
       "char": "朱",
-      "en": "zhu"
+      "en": "vermilion; surname zhu"
     },
     {
       "char": "豫",
-      "en": "hesitate"
+      "en": "hesitate; henan"
     },
     {
       "char": "透",
-      "en": "penetrate"
+      "en": "penetrate; pass through"
     },
     {
       "char": "野",
-      "en": "field"
+      "en": "wild; field"
     },
     {
       "char": "除",
-      "en": "eliminate"
+      "en": "eliminate; remove"
     },
     {
       "char": "黍",
@@ -11578,7 +11578,7 @@
     },
     {
       "char": "欧",
-      "en": "europe"
+      "en": "Europe"
     },
     {
       "char": "呕",
@@ -11586,7 +11586,7 @@
     },
     {
       "char": "藕",
-      "en": "lotus"
+      "en": "lotus root"
     },
     {
       "char": "鸥",
@@ -11598,15 +11598,15 @@
     },
     {
       "char": "区",
-      "en": "region"
+      "en": "region; area"
     },
     {
       "char": "握",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "遇",
-      "en": "unknown"
+      "en": null
     }
   ],
   "lan": [
@@ -11730,7 +11730,7 @@
     },
     {
       "char": "湘",
-      "en": "hunan"
+      "en": "Hunan"
     },
     {
       "char": "翔",
@@ -11742,15 +11742,15 @@
     },
     {
       "char": "攘",
-      "en": "push"
+      "en": "push; jostle"
     },
     {
       "char": "洋",
-      "en": "ocean"
+      "en": "ocean; foreign"
     },
     {
       "char": "降",
-      "en": "descend"
+      "en": "descend; surrender"
     }
   ],
   "bang": [
@@ -11784,7 +11784,7 @@
     },
     {
       "char": "梆",
-      "en": "clapper"
+      "en": "wooden clapper"
     },
     {
       "char": "蚌",
@@ -11800,11 +11800,11 @@
     },
     {
       "char": "彭",
-      "en": "surname"
+      "en": "surname peng"
     },
     {
       "char": "旁",
-      "en": "beside"
+      "en": "side; beside"
     },
     {
       "char": "螃",
@@ -11814,7 +11814,7 @@
   "han": [
     {
       "char": "汉",
-      "en": "han"
+      "en": "Han"
     },
     {
       "char": "汗",
@@ -11834,7 +11834,7 @@
     },
     {
       "char": "韩",
-      "en": "surname"
+      "en": "surname Han"
     },
     {
       "char": "函",
@@ -11886,19 +11886,19 @@
     },
     {
       "char": "厂",
-      "en": "factory"
+      "en": "factory; workshop"
     },
     {
       "char": "嵌",
-      "en": "inlay"
+      "en": "inlay; embed"
     },
     {
       "char": "感",
-      "en": "feel"
+      "en": "feel; sense"
     },
     {
       "char": "甘",
-      "en": "willing"
+      "en": "sweet; willing"
     }
   ],
   "hai": [
@@ -11920,7 +11920,7 @@
     },
     {
       "char": "亥",
-      "en": "twelfth"
+      "en": "twelfth of twelve Earthly Branches"
     },
     {
       "char": "骇",
@@ -11946,7 +11946,7 @@
     },
     {
       "char": "闯",
-      "en": "rush"
+      "en": "rush in"
     },
     {
       "char": "疮",
@@ -11962,7 +11962,7 @@
     },
     {
       "char": "葱",
-      "en": "green"
+      "en": "green onion; shallot"
     }
   ],
   "mou": [
@@ -11976,7 +11976,7 @@
     },
     {
       "char": "件",
-      "en": "item"
+      "en": "item; piece"
     }
   ],
   "gui": [
@@ -12006,7 +12006,7 @@
     },
     {
       "char": "跪",
-      "en": "unknown"
+      "en": "跪倒"
     },
     {
       "char": "柜",
@@ -12042,23 +12042,23 @@
     },
     {
       "char": "娃",
-      "en": "baby"
+      "en": "baby; child"
     },
     {
       "char": "桅",
-      "en": "mast"
+      "en": "mast; pole"
     },
     {
       "char": "概",
-      "en": "approximate"
+      "en": "general; approximate"
     },
     {
       "char": "洼",
-      "en": "hollow"
+      "en": "hollow; depression"
     },
     {
       "char": "祈",
-      "en": "pray"
+      "en": "pray; request"
     }
   ],
   "lian": [
@@ -12116,11 +12116,11 @@
     },
     {
       "char": "令",
-      "en": "order"
+      "en": "order; make"
     },
     {
       "char": "零",
-      "en": "zero"
+      "en": "zero; scattered"
     }
   ],
   "fan": [
@@ -12186,7 +12186,7 @@
     },
     {
       "char": "潘",
-      "en": "pan"
+      "en": "surname pan"
     }
   ],
   "nu": [
@@ -12204,11 +12204,11 @@
     },
     {
       "char": "仅",
-      "en": "only"
+      "en": "only; merely"
     },
     {
       "char": "褥",
-      "en": "mattress"
+      "en": "mattress; quilt"
     }
   ],
   "shen": [
@@ -12274,15 +12274,15 @@
     },
     {
       "char": "信",
-      "en": "letter"
+      "en": "trust; letter"
     },
     {
       "char": "参",
-      "en": "participate"
+      "en": "participate; ginseng"
     },
     {
       "char": "震",
-      "en": "shake"
+      "en": "shake; thunder"
     }
   ],
   "lun": [
@@ -12300,7 +12300,7 @@
     },
     {
       "char": "仑",
-      "en": "logical"
+      "en": "logical sequence"
     },
     {
       "char": "抡",
@@ -12350,19 +12350,19 @@
     },
     {
       "char": "匀",
-      "en": "uniform"
+      "en": "even; uniform"
     },
     {
       "char": "卷",
-      "en": "roll"
+      "en": "roll; volume"
     },
     {
       "char": "旬",
-      "en": "ten"
+      "en": "ten days; month"
     },
     {
       "char": "龟",
-      "en": "unknown"
+      "en": null
     }
   ],
   "zuo": [
@@ -12396,23 +12396,23 @@
     },
     {
       "char": "乍",
-      "en": "just"
+      "en": "suddenly; just"
     },
     {
       "char": "凿",
-      "en": "chisel"
+      "en": "chisel; carve"
     },
     {
       "char": "挫",
-      "en": "frustrate"
+      "en": "frustrate; defeat"
     },
     {
       "char": "撮",
-      "en": "pinch"
+      "en": "pinch; gather"
     },
     {
       "char": "醋",
-      "en": "vinegar"
+      "en": "vinegar; jealous"
     }
   ],
   "reng": [
@@ -12484,19 +12484,19 @@
     },
     {
       "char": "亲",
-      "en": "relative"
+      "en": "relative; dear"
     },
     {
       "char": "声",
-      "en": "sound"
+      "en": "sound; voice"
     },
     {
       "char": "精",
-      "en": "essence"
+      "en": "refined; essence"
     },
     {
       "char": "胜",
-      "en": "win"
+      "en": "win; succeed"
     }
   ],
   "an": [
@@ -12522,7 +12522,7 @@
     },
     {
       "char": "俺",
-      "en": "unknown"
+      "en": "I"
     },
     {
       "char": "庵",
@@ -12538,19 +12538,19 @@
     },
     {
       "char": "厂",
-      "en": "factory"
+      "en": "factory; workshop"
     },
     {
       "char": "干",
-      "en": "trunk"
+      "en": "dry; trunk"
     },
     {
       "char": "广",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "盒",
-      "en": "unknown"
+      "en": null
     }
   ],
   "shuan": [
@@ -12606,19 +12606,19 @@
     },
     {
       "char": "串",
-      "en": "cluster"
+      "en": "string; cluster"
     },
     {
       "char": "卷",
-      "en": "volume"
+      "en": "roll; volume"
     },
     {
       "char": "拴",
-      "en": "fasten"
+      "en": "tie; fasten"
     },
     {
       "char": "栓",
-      "en": "bolt"
+      "en": "bolt; pin"
     }
   ],
   "da": [
@@ -12648,21 +12648,21 @@
     },
     {
       "char": "塌",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "塔",
-      "en": "tower"
+      "en": "tower; pagoda"
     },
     {
       "char": "胆",
-      "en": "gallbladder"
+      "en": "gallbladder; courage"
     }
   ],
   "de": [
     {
       "char": "的",
-      "en": "possessive"
+      "en": "possessive particle"
     },
     {
       "char": "得",
@@ -12674,21 +12674,21 @@
     },
     {
       "char": "地",
-      "en": "earth"
+      "en": "ground; earth"
     },
     {
       "char": "底",
-      "en": "bottom"
+      "en": "bottom; base"
     },
     {
       "char": "登",
-      "en": "climb"
+      "en": "climb; ascend"
     }
   ],
   "dei": [
     {
       "char": "得",
-      "en": "get"
+      "en": "get; obtain"
     }
   ],
   "yao": [
@@ -12734,7 +12734,7 @@
     },
     {
       "char": "姚",
-      "en": "yao"
+      "en": "surname Yao"
     },
     {
       "char": "耀",
@@ -12766,31 +12766,31 @@
     },
     {
       "char": "侥",
-      "en": "lucky"
+      "en": "lucky; by chance"
     },
     {
       "char": "幼",
-      "en": "young"
+      "en": "young; childish"
     },
     {
       "char": "淫",
-      "en": "excessive"
+      "en": "excessive; lewd"
     },
     {
       "char": "由",
-      "en": "by"
+      "en": "by; reason"
     },
     {
       "char": "疟",
-      "en": "malaria"
+      "en": "malaria; fever"
     },
     {
       "char": "约",
-      "en": "agree"
+      "en": "agree; approximately"
     },
     {
       "char": "陶",
-      "en": "pottery"
+      "en": "pottery; contented"
     }
   ],
   "chi": [
@@ -12800,7 +12800,7 @@
     },
     {
       "char": "尺",
-      "en": "chi"
+      "en": "chi (Chinese unit of length)"
     },
     {
       "char": "迟",
@@ -12856,15 +12856,15 @@
     },
     {
       "char": "匙",
-      "en": "key"
+      "en": "spoon; key"
     },
     {
       "char": "哆",
-      "en": "tremble"
+      "en": "tremble; shiver"
     },
     {
       "char": "喜",
-      "en": "joy"
+      "en": "happy; joy"
     },
     {
       "char": "她",
@@ -12872,39 +12872,39 @@
     },
     {
       "char": "抬",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "拆",
-      "en": "apart"
+      "en": "take apart; dismantle"
     },
     {
       "char": "拖",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "提",
-      "en": "lift"
+      "en": "lift; carry"
     },
     {
       "char": "治",
-      "en": "govern"
+      "en": "govern; cure"
     },
     {
       "char": "离",
-      "en": "depart"
+      "en": "leave; depart"
     },
     {
       "char": "移",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "茬",
-      "en": "stubble"
+      "en": "stubble; crop"
     },
     {
       "char": "莉",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "蛇",
@@ -12922,7 +12922,7 @@
     },
     {
       "char": "妹",
-      "en": "younger"
+      "en": "younger sister"
     },
     {
       "char": "梅",
@@ -12970,23 +12970,23 @@
     },
     {
       "char": "味",
-      "en": "taste"
+      "en": "taste; flavor"
     },
     {
       "char": "墨",
-      "en": "ink"
+      "en": "ink; black"
     },
     {
       "char": "某",
-      "en": "some"
+      "en": "certain; some"
     },
     {
       "char": "糜",
-      "en": "porridge"
+      "en": "porridge; mashed"
     },
     {
       "char": "谜",
-      "en": "riddle"
+      "en": "riddle; puzzle"
     }
   ],
   "ren": [
@@ -13024,7 +13024,7 @@
     },
     {
       "char": "儿",
-      "en": "child"
+      "en": "child; son"
     }
   ],
   "kuan": [
@@ -13038,11 +13038,11 @@
     },
     {
       "char": "完",
-      "en": "complete"
+      "en": "complete; finish"
     },
     {
       "char": "棵",
-      "en": "for"
+      "en": "classifier for trees"
     }
   ],
   "cha": [
@@ -13088,27 +13088,27 @@
     },
     {
       "char": "刹",
-      "en": "instant"
+      "en": "instant; stop"
     },
     {
       "char": "喳",
-      "en": "chatter"
+      "en": "chatter; chirp"
     },
     {
       "char": "土",
-      "en": "earth"
+      "en": "soil; earth"
     },
     {
       "char": "捷",
-      "en": "quick"
+      "en": "quick; victory"
     },
     {
       "char": "接",
-      "en": "connect"
+      "en": "receive; connect"
     },
     {
       "char": "斜",
-      "en": "slant"
+      "en": "slant; oblique"
     },
     {
       "char": "杈",
@@ -13142,11 +13142,11 @@
     },
     {
       "char": "将",
-      "en": "will"
+      "en": "will; general"
     },
     {
       "char": "控",
-      "en": "manage"
+      "en": "control; manage"
     }
   ],
   "qiu": [
@@ -13176,15 +13176,15 @@
     },
     {
       "char": "仇",
-      "en": "enemy"
+      "en": "enemy; hatred"
     },
     {
       "char": "团",
-      "en": "group"
+      "en": "group; round"
     },
     {
       "char": "龟",
-      "en": "unknown"
+      "en": null
     }
   ],
   "chou": [
@@ -13230,7 +13230,7 @@
     },
     {
       "char": "扭",
-      "en": "twist"
+      "en": "twist; turn"
     }
   ],
   "sheng": [
@@ -13276,7 +13276,7 @@
     },
     {
       "char": "笙",
-      "en": "musical"
+      "en": "sheng (musical instrument)"
     },
     {
       "char": "绳",
@@ -13284,15 +13284,15 @@
     },
     {
       "char": "乘",
-      "en": "ride"
+      "en": "ride; multiply"
     },
     {
       "char": "姓",
-      "en": "surname"
+      "en": "surname; family name"
     },
     {
       "char": "甸",
-      "en": "pasture"
+      "en": "pasture; countryside"
     }
   ],
   "fa": [
@@ -13326,11 +13326,11 @@
     },
     {
       "char": "拔",
-      "en": "out"
+      "en": "pull out; extract"
     },
     {
       "char": "泛",
-      "en": "float"
+      "en": "float; spread"
     }
   ],
   "bei": [
@@ -13388,31 +13388,31 @@
     },
     {
       "char": "狈",
-      "en": "wolf"
+      "en": "wolf-like animal"
     },
     {
       "char": "拔",
-      "en": "pull"
+      "en": "pull out; extract"
     },
     {
       "char": "波",
-      "en": "wave"
+      "en": "wave; ripple"
     },
     {
       "char": "臂",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "菩",
-      "en": "bodhi"
+      "en": "bodhi; benevolent"
     },
     {
       "char": "葡",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "跋",
-      "en": "march"
+      "en": "march; travel"
     }
   ],
   "juan": [
@@ -13422,7 +13422,7 @@
     },
     {
       "char": "圈",
-      "en": "circle"
+      "en": "circle; ring"
     },
     {
       "char": "捐",
@@ -13446,11 +13446,11 @@
     },
     {
       "char": "蕊",
-      "en": "stamen"
+      "en": "stamen; pistil"
     },
     {
       "char": "身",
-      "en": "body"
+      "en": "body; self"
     }
   ],
   "qin": [
@@ -13464,7 +13464,7 @@
     },
     {
       "char": "秦",
-      "en": "qin"
+      "en": "Qin dynasty"
     },
     {
       "char": "琴",
@@ -13496,7 +13496,7 @@
     },
     {
       "char": "浸",
-      "en": "soak"
+      "en": "soak; immerse"
     }
   ],
   "mao": [
@@ -13546,11 +13546,11 @@
     },
     {
       "char": "描",
-      "en": "draw"
+      "en": "draw; sketch"
     },
     {
       "char": "耗",
-      "en": "waste"
+      "en": "consume; waste"
     }
   ],
   "lv": [
@@ -13576,7 +13576,7 @@
     },
     {
       "char": "吕",
-      "en": "surname"
+      "en": "surname Lü"
     },
     {
       "char": "律",
@@ -13616,7 +13616,7 @@
     },
     {
       "char": "累",
-      "en": "tired"
+      "en": "tired; accumulate"
     }
   ],
   "gu": [
@@ -13690,31 +13690,31 @@
     },
     {
       "char": "告",
-      "en": "inform"
+      "en": "tell; inform"
     },
     {
       "char": "家",
-      "en": "family"
+      "en": "family; home"
     },
     {
       "char": "枯",
-      "en": "withered"
+      "en": "withered; dry"
     },
     {
       "char": "滑",
-      "en": "slippery"
+      "en": "slippery; smooth"
     },
     {
       "char": "苦",
-      "en": "painful"
+      "en": "bitter; painful"
     },
     {
       "char": "角",
-      "en": "angle"
+      "en": "angle; horn"
     },
     {
       "char": "贾",
-      "en": "merchant"
+      "en": "merchant; buy"
     }
   ],
   "dou": [
@@ -13756,15 +13756,15 @@
     },
     {
       "char": "投",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "读",
-      "en": "read"
+      "en": "read; study"
     },
     {
       "char": "逾",
-      "en": "exceed"
+      "en": "exceed; cross"
     }
   ],
   "kun": [
@@ -13774,7 +13774,7 @@
     },
     {
       "char": "昆",
-      "en": "kunlun"
+      "en": "Kunlun"
     },
     {
       "char": "捆",
@@ -13786,11 +13786,11 @@
     },
     {
       "char": "卵",
-      "en": "ovum"
+      "en": "egg; ovum"
     },
     {
       "char": "混",
-      "en": "unknown"
+      "en": null
     }
   ],
   "luan": [
@@ -13906,23 +13906,23 @@
     },
     {
       "char": "劲",
-      "en": "energy"
+      "en": "strength; energy"
     },
     {
       "char": "氏",
-      "en": "surname"
+      "en": "clan; surname"
     },
     {
       "char": "蜻",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "醒",
-      "en": "up"
+      "en": "wake up; sober"
     },
     {
       "char": "青",
-      "en": "green"
+      "en": "green; blue"
     }
   ],
   "er": [
@@ -13948,7 +13948,7 @@
     },
     {
       "char": "贰",
-      "en": "formal two"
+      "en": "two"
     },
     {
       "char": "饵",
@@ -13970,7 +13970,7 @@
     },
     {
       "char": "思",
-      "en": "think"
+      "en": "think; consider"
     }
   ],
   "dian": [
@@ -14024,7 +14024,7 @@
     },
     {
       "char": "佃",
-      "en": "farmer"
+      "en": "tenant farmer"
     },
     {
       "char": "玷",
@@ -14036,11 +14036,11 @@
     },
     {
       "char": "沾",
-      "en": "dip"
+      "en": "dip; touch"
     },
     {
       "char": "涎",
-      "en": "saliva"
+      "en": "saliva; drool"
     },
     {
       "char": "蜓",
@@ -14066,29 +14066,29 @@
     },
     {
       "char": "吴",
-      "en": "surname"
+      "en": "surname wu"
     },
     {
       "char": "囤",
-      "en": "store"
+      "en": "store; granary"
     },
     {
       "char": "敦",
-      "en": "honest"
+      "en": "honest; sincere"
     },
     {
       "char": "褪",
-      "en": "off"
+      "en": "take off; fade"
     },
     {
       "char": "逐",
-      "en": "unknown"
+      "en": null
     }
   ],
   "chang": [
     {
       "char": "长",
-      "en": "long"
+      "en": "long; grow"
     },
     {
       "char": "常",
@@ -14140,25 +14140,25 @@
     },
     {
       "char": "倘",
-      "en": "if"
+      "en": "if; suppose"
     },
     {
       "char": "尚",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "淌",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "裳",
-      "en": "unknown"
+      "en": null
     }
   ],
   "weng": [
     {
       "char": "翁",
-      "en": "old"
+      "en": "old man"
     },
     {
       "char": "嗡",
@@ -14180,15 +14180,15 @@
     },
     {
       "char": "吓",
-      "en": "scare"
+      "en": "scare; frighten"
     },
     {
       "char": "呵",
-      "en": "laugh"
+      "en": "laugh; scold"
     },
     {
       "char": "虾",
-      "en": "prawn"
+      "en": "shrimp; prawn"
     }
   ],
   "zhang": [
@@ -14238,7 +14238,7 @@
     },
     {
       "char": "樟",
-      "en": "tree"
+      "en": "camphor tree"
     },
     {
       "char": "涨",
@@ -14252,7 +14252,7 @@
   "ding": [
     {
       "char": "丁",
-      "en": "male"
+      "en": "male adult"
     },
     {
       "char": "定",
@@ -14288,11 +14288,11 @@
     },
     {
       "char": "奠",
-      "en": "lay"
+      "en": "lay foundation; commemorate"
     },
     {
       "char": "灯",
-      "en": "light"
+      "en": "lamp; light"
     }
   ],
   "zong": [
@@ -14322,7 +14322,7 @@
     },
     {
       "char": "从",
-      "en": "follow"
+      "en": "follow; from"
     }
   ],
   "pei": [
@@ -14356,15 +14356,15 @@
     },
     {
       "char": "倍",
-      "en": "double"
+      "en": "double; times"
     },
     {
       "char": "啡",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "坏",
-      "en": "bad"
+      "en": "bad; broken"
     },
     {
       "char": "肺",
@@ -14410,7 +14410,7 @@
     },
     {
       "char": "俊",
-      "en": "handsome"
+      "en": "handsome; talented"
     }
   ],
   "gao": [
@@ -14452,11 +14452,11 @@
     },
     {
       "char": "浩",
-      "en": "vast"
+      "en": "vast; grand"
     },
     {
       "char": "蒿",
-      "en": "wormwood"
+      "en": "wormwood; herb"
     }
   ],
   "ai": [
@@ -14510,15 +14510,15 @@
     },
     {
       "char": "乃",
-      "en": "thus"
+      "en": "thus; then"
     },
     {
       "char": "呆",
-      "en": "stupid"
+      "en": "stupid; dull"
     },
     {
       "char": "奇",
-      "en": "odd"
+      "en": "strange; odd"
     }
   ],
   "kang": [
@@ -14532,11 +14532,11 @@
     },
     {
       "char": "扛",
-      "en": "carry"
+      "en": "carry on shoulder"
     },
     {
       "char": "炕",
-      "en": "heated"
+      "en": "heated brick bed"
     },
     {
       "char": "慷",
@@ -14548,19 +14548,19 @@
     },
     {
       "char": "坑",
-      "en": "pit"
+      "en": "pit; hole"
     },
     {
       "char": "奋",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "杭",
-      "en": "hangzhou"
+      "en": "hangzhou; boat"
     },
     {
       "char": "荒",
-      "en": "uncultivated"
+      "en": "wasteland; uncultivated"
     }
   ],
   "fang": [
@@ -14656,7 +14656,7 @@
     },
     {
       "char": "衙",
-      "en": "government"
+      "en": "government office"
     },
     {
       "char": "讶",
@@ -14676,15 +14676,15 @@
     },
     {
       "char": "御",
-      "en": "imperial"
+      "en": "resist; imperial"
     },
     {
       "char": "歇",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "邪",
-      "en": "heretical"
+      "en": "evil; heretical"
     }
   ],
   "huo": [
@@ -14730,29 +14730,29 @@
     },
     {
       "char": "化",
-      "en": "change"
+      "en": "change; transform"
     },
     {
       "char": "呵",
-      "en": "scold"
+      "en": "laugh; scold"
     },
     {
       "char": "和",
-      "en": "and"
+      "en": "and; harmonious"
     },
     {
       "char": "扮",
-      "en": "up"
+      "en": "dress up; pretend"
     },
     {
       "char": "越",
-      "en": "exceed"
+      "en": "cross; exceed"
     }
   ],
   "ge": [
     {
       "char": "个",
-      "en": "classifier"
+      "en": "classifier for items"
     },
     {
       "char": "各",
@@ -14760,7 +14760,7 @@
     },
     {
       "char": "哥",
-      "en": "brother"
+      "en": "elder brother"
     },
     {
       "char": "歌",
@@ -14812,35 +14812,35 @@
     },
     {
       "char": "介",
-      "en": "introduce"
+      "en": "introduce; between"
     },
     {
       "char": "假",
-      "en": "fake"
+      "en": "fake; borrow"
     },
     {
       "char": "可",
-      "en": "may"
+      "en": "can; may"
     },
     {
       "char": "合",
-      "en": "together"
+      "en": "combine; together"
     },
     {
       "char": "屹",
-      "en": "stand"
+      "en": "stand firm; towering"
     },
     {
       "char": "浩",
-      "en": "vast"
+      "en": "vast; grand"
     },
     {
       "char": "盖",
-      "en": "lid"
+      "en": "cover; lid"
     },
     {
       "char": "蛤",
-      "en": "crab"
+      "en": "clam; crab"
     }
   ],
   "wai": [
@@ -14854,7 +14854,7 @@
     },
     {
       "char": "夭",
-      "en": "die"
+      "en": "die young; delicate"
     }
   ],
   "pi": [
@@ -14912,55 +14912,55 @@
     },
     {
       "char": "辟",
-      "en": "open"
+      "en": "open up"
     },
     {
       "char": "副",
-      "en": "deputy"
+      "en": "deputy; pair"
     },
     {
       "char": "卑",
-      "en": "humble"
+      "en": "humble; low"
     },
     {
       "char": "否",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "坏",
-      "en": "bad"
+      "en": "bad; broken"
     },
     {
       "char": "培",
-      "en": "cultivate"
+      "en": "cultivate; train"
     },
     {
       "char": "庇",
-      "en": "shelter"
+      "en": "shelter; protect"
     },
     {
       "char": "扑",
-      "en": "pounce"
+      "en": "pounce; beat"
     },
     {
       "char": "拂",
-      "en": "brush"
+      "en": "brush; wipe"
     },
     {
       "char": "比",
-      "en": "ratio"
+      "en": "compare; ratio"
     },
     {
       "char": "番",
-      "en": "foreign"
+      "en": "time; foreign"
     },
     {
       "char": "蚌",
-      "en": "mussel"
+      "en": "clam; mussel"
     },
     {
       "char": "被",
-      "en": "quilt"
+      "en": "quilt; cover"
     }
   ],
   "bu": [
@@ -15006,19 +15006,19 @@
     },
     {
       "char": "卜",
-      "en": "divination"
+      "en": "divination; predict"
     },
     {
       "char": "堡",
-      "en": "fortress"
+      "en": "castle; fortress"
     },
     {
       "char": "薄",
-      "en": "thin"
+      "en": "thin; light"
     },
     {
       "char": "附",
-      "en": "attach"
+      "en": "attach; add"
     }
   ],
   "liu": [
@@ -15036,7 +15036,7 @@
     },
     {
       "char": "刘",
-      "en": "liu"
+      "en": "surname Liu"
     },
     {
       "char": "柳",
@@ -15072,19 +15072,19 @@
     },
     {
       "char": "游",
-      "en": "travel"
+      "en": "swim; travel"
     },
     {
       "char": "碌",
-      "en": "busy"
+      "en": "busy; tedious"
     },
     {
       "char": "聊",
-      "en": "chat"
+      "en": "chat; talk"
     },
     {
       "char": "陆",
-      "en": "formal six"
+      "en": "land; six"
     }
   ],
   "mai": [
@@ -15114,15 +15114,15 @@
     },
     {
       "char": "咪",
-      "en": "meow"
+      "en": "meow; purr"
     },
     {
       "char": "哩",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "派",
-      "en": "faction"
+      "en": "send; faction"
     }
   ],
   "man": [
@@ -15148,7 +15148,7 @@
     },
     {
       "char": "馒",
-      "en": "bun"
+      "en": "steamed bun"
     },
     {
       "char": "瞒",
@@ -15164,11 +15164,11 @@
     },
     {
       "char": "埋",
-      "en": "cover"
+      "en": "bury; cover"
     },
     {
       "char": "幕",
-      "en": "unknown"
+      "en": null
     }
   ],
   "diao": [
@@ -15194,7 +15194,7 @@
     },
     {
       "char": "叼",
-      "en": "hold"
+      "en": "hold in mouth"
     },
     {
       "char": "吊",
@@ -15206,23 +15206,23 @@
     },
     {
       "char": "刀",
-      "en": "knife"
+      "en": "knife; sword"
     },
     {
       "char": "挑",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "敦",
-      "en": "sincere"
+      "en": "honest; sincere"
     },
     {
       "char": "稠",
-      "en": "dense"
+      "en": "dense; thick"
     },
     {
       "char": "跳",
-      "en": "jump"
+      "en": "jump; hop"
     },
     {
       "char": "鸟",
@@ -15248,11 +15248,11 @@
     },
     {
       "char": "敦",
-      "en": "honest"
+      "en": "honest; sincere"
     },
     {
       "char": "追",
-      "en": "chase"
+      "en": "chase; pursue"
     }
   ],
   "tuan": [
@@ -15262,19 +15262,19 @@
     },
     {
       "char": "揣",
-      "en": "hold"
+      "en": "hold; guess"
     },
     {
       "char": "敦",
-      "en": "sincere"
+      "en": "honest; sincere"
     },
     {
       "char": "痪",
-      "en": "paralysis"
+      "en": "paralysis; numb"
     },
     {
       "char": "税",
-      "en": "tax"
+      "en": "tax; duty"
     }
   ],
   "ni": [
@@ -15316,7 +15316,7 @@
     },
     {
       "char": "呢",
-      "en": "unknown"
+      "en": null
     }
   ],
   "sun": [
@@ -15330,11 +15330,11 @@
     },
     {
       "char": "笋",
-      "en": "bamboo"
+      "en": "bamboo shoot"
     },
     {
       "char": "餐",
-      "en": "meal"
+      "en": "meal; dine"
     }
   ],
   "hun": [
@@ -15364,15 +15364,15 @@
     },
     {
       "char": "捆",
-      "en": "bind"
+      "en": "bind; tie"
     },
     {
       "char": "昆",
-      "en": "elder"
+      "en": "elder brother; kunlun"
     },
     {
       "char": "棍",
-      "en": "club"
+      "en": "stick; club"
     }
   ],
   "chen": [
@@ -15414,35 +15414,35 @@
     },
     {
       "char": "堪",
-      "en": "bear"
+      "en": "bear; endure"
     },
     {
       "char": "填",
-      "en": "fill"
+      "en": "fill; stuff"
     },
     {
       "char": "帘",
-      "en": "curtain"
+      "en": "curtain; screen"
     },
     {
       "char": "枕",
-      "en": "pillow"
+      "en": "pillow; rest"
     },
     {
       "char": "橙",
-      "en": "orange"
+      "en": "orange; citrus"
     },
     {
       "char": "沈",
-      "en": "surname"
+      "en": "surname shen; sink"
     },
     {
       "char": "疹",
-      "en": "rash"
+      "en": "rash; spot"
     },
     {
       "char": "称",
-      "en": "weigh"
+      "en": "weigh; call"
     }
   ],
   "nie": [
@@ -15452,7 +15452,7 @@
     },
     {
       "char": "聂",
-      "en": "surname"
+      "en": "surname Nie"
     },
     {
       "char": "孽",
@@ -15464,19 +15464,19 @@
     },
     {
       "char": "哪",
-      "en": "which"
+      "en": "which; where"
     },
     {
       "char": "幸",
-      "en": "lucky"
+      "en": "lucky; fortunate"
     },
     {
       "char": "捻",
-      "en": "twist"
+      "en": "twist; pinch"
     },
     {
       "char": "泥",
-      "en": "mud"
+      "en": "mud; clay"
     }
   ],
   "nian": [
@@ -15506,11 +15506,11 @@
     },
     {
       "char": "粘",
-      "en": "stick"
+      "en": "stick; glue"
     },
     {
       "char": "趁",
-      "en": "of"
+      "en": "take advantage of; while"
     }
   ],
   "kou": [
@@ -15532,13 +15532,13 @@
     },
     {
       "char": "挎",
-      "en": "carry"
+      "en": "carry on arm"
     }
   ],
   "mie": [
     {
       "char": "灭",
-      "en": "put"
+      "en": "put out"
     },
     {
       "char": "蔑",
@@ -15546,7 +15546,7 @@
     },
     {
       "char": "咪",
-      "en": "meow"
+      "en": "meow; purr"
     }
   ],
   "tai": [
@@ -15584,11 +15584,11 @@
     },
     {
       "char": "大",
-      "en": "big"
+      "en": "big; large"
     },
     {
       "char": "能",
-      "en": "can"
+      "en": "can; ability"
     }
   ],
   "bin": [
@@ -15618,7 +15618,7 @@
     },
     {
       "char": "份",
-      "en": "portion"
+      "en": "share; portion"
     }
   ],
   "dan": [
@@ -15676,27 +15676,27 @@
     },
     {
       "char": "忱",
-      "en": "sincere"
+      "en": "sincere; earnest"
     },
     {
       "char": "憾",
-      "en": "regret"
+      "en": "regret; remorse"
     },
     {
       "char": "檐",
-      "en": "overhang"
+      "en": "eave; overhang"
     },
     {
       "char": "潭",
-      "en": "pond"
+      "en": "pond; deep pool"
     },
     {
       "char": "石",
-      "en": "stone"
+      "en": "stone; rock"
     },
     {
       "char": "蜒",
-      "en": "gecko"
+      "en": "gecko; lizard"
     }
   ],
   "tuo": [
@@ -15742,7 +15742,7 @@
     },
     {
       "char": "他",
-      "en": "he"
+      "en": "he; other"
     },
     {
       "char": "它",
@@ -15750,15 +15750,15 @@
     },
     {
       "char": "惰",
-      "en": "lazy"
+      "en": "lazy; indolent"
     },
     {
       "char": "池",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "税",
-      "en": "tax"
+      "en": "tax; duty"
     },
     {
       "char": "蛇",
@@ -15766,7 +15766,7 @@
     },
     {
       "char": "魄",
-      "en": "unknown"
+      "en": null
     }
   ],
   "gai": [
@@ -15804,15 +15804,15 @@
     },
     {
       "char": "核",
-      "en": "nucleus"
+      "en": "core; nucleus"
     },
     {
       "char": "汽",
-      "en": "vapor"
+      "en": "steam; vapor"
     },
     {
       "char": "芥",
-      "en": "mustard"
+      "en": "mustard; weed"
     }
   ],
   "miao": [
@@ -15850,11 +15850,11 @@
     },
     {
       "char": "吵",
-      "en": "noisy"
+      "en": "noisy; quarrel"
     },
     {
       "char": "猫",
-      "en": "feline"
+      "en": "cat; feline"
     }
   ],
   "gun": [
@@ -15868,11 +15868,11 @@
     },
     {
       "char": "卷",
-      "en": "volume"
+      "en": "roll; volume"
     },
     {
       "char": "混",
-      "en": "unknown"
+      "en": null
     }
   ],
   "ao": [
@@ -15910,11 +15910,11 @@
     },
     {
       "char": "嚣",
-      "en": "noisy"
+      "en": "noisy; arrogant"
     },
     {
       "char": "棍",
-      "en": "club"
+      "en": "stick; club"
     }
   ],
   "jiang": [
@@ -15976,7 +15976,7 @@
     },
     {
       "char": "强",
-      "en": "powerful"
+      "en": "strong; powerful"
     },
     {
       "char": "虹",
@@ -16006,11 +16006,11 @@
     },
     {
       "char": "栅",
-      "en": "fence"
+      "en": "fence; barrier"
     },
     {
       "char": "赦",
-      "en": "unknown"
+      "en": null
     }
   ],
   "chan": [
@@ -16052,23 +16052,23 @@
     },
     {
       "char": "单",
-      "en": "alone"
+      "en": "single; alone"
     },
     {
       "char": "厘",
-      "en": "percent"
+      "en": "centimeter; percent"
     },
     {
       "char": "掺",
-      "en": "mix"
+      "en": "mix; blend"
     },
     {
       "char": "沾",
-      "en": "dip"
+      "en": "dip; touch"
     },
     {
       "char": "苫",
-      "en": "cover"
+      "en": "cover; mat"
     }
   ],
   "ta": [
@@ -16098,27 +16098,27 @@
     },
     {
       "char": "蹋",
-      "en": "on"
+      "en": "step on"
     },
     {
       "char": "哈",
-      "en": "laugh"
+      "en": "laugh; ha"
     },
     {
       "char": "太",
-      "en": "very"
+      "en": "too; very"
     },
     {
       "char": "拓",
-      "en": "develop"
+      "en": "develop; open up"
     },
     {
       "char": "搭",
-      "en": "build"
+      "en": "build; put up"
     },
     {
       "char": "达",
-      "en": "reach"
+      "en": "reach; arrive"
     }
   ],
   "ming": [
@@ -16148,15 +16148,15 @@
     },
     {
       "char": "皿",
-      "en": "vessel"
+      "en": "vessel; dish"
     },
     {
       "char": "盟",
-      "en": "alliance"
+      "en": "alliance; oath"
     },
     {
       "char": "萌",
-      "en": "sprout"
+      "en": "sprout; germinate"
     }
   ],
   "kuo": [
@@ -16178,7 +16178,7 @@
     },
     {
       "char": "适",
-      "en": "unknown"
+      "en": null
     }
   ],
   "xun": [
@@ -16216,7 +16216,7 @@
     },
     {
       "char": "殉",
-      "en": "die"
+      "en": "die for"
     },
     {
       "char": "汛",
@@ -16240,19 +16240,19 @@
     },
     {
       "char": "梭",
-      "en": "weave"
+      "en": "shuttle; weave"
     },
     {
       "char": "洒",
-      "en": "sprinkle"
+      "en": "sprinkle; scatter"
     },
     {
       "char": "潭",
-      "en": "pond"
+      "en": "pond; deep pool"
     },
     {
       "char": "荤",
-      "en": "vegetarian"
+      "en": "meat; non-vegetarian"
     }
   ],
   "wen": [
@@ -16298,23 +16298,23 @@
     },
     {
       "char": "免",
-      "en": "exempt"
+      "en": "avoid; exempt"
     },
     {
       "char": "娩",
-      "en": "birth"
+      "en": "give birth; deliver"
     },
     {
       "char": "昧",
-      "en": "dark"
+      "en": "dark; ignorant"
     },
     {
       "char": "眼",
-      "en": "eye"
+      "en": "eye; sight"
     },
     {
       "char": "限",
-      "en": "limit"
+      "en": "limit; restrict"
     }
   ],
   "tao": [
@@ -16328,7 +16328,7 @@
     },
     {
       "char": "讨",
-      "en": "ask"
+      "en": "ask for"
     },
     {
       "char": "套",
@@ -16344,7 +16344,7 @@
     },
     {
       "char": "滔",
-      "en": "billowing"
+      "en": "surging; billowing"
     },
     {
       "char": "萄",
@@ -16352,7 +16352,7 @@
     },
     {
       "char": "掏",
-      "en": "dig"
+      "en": "dig out"
     },
     {
       "char": "陶",
@@ -16360,19 +16360,19 @@
     },
     {
       "char": "叨",
-      "en": "chatter"
+      "en": "chatter; repeat"
     },
     {
       "char": "姚",
-      "en": "yao"
+      "en": "surname yao"
     },
     {
       "char": "挑",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "跳",
-      "en": "jump"
+      "en": "jump; hop"
     }
   ],
   "yo": [
@@ -16382,7 +16382,7 @@
     },
     {
       "char": "育",
-      "en": "educate"
+      "en": "educate; breed"
     }
   ],
   "shou": [
@@ -16428,7 +16428,7 @@
     },
     {
       "char": "熟",
-      "en": "cooked"
+      "en": "ripe; cooked"
     }
   ],
   "huan": [
@@ -16442,7 +16442,7 @@
     },
     {
       "char": "还",
-      "en": "still"
+      "en": "still; also"
     },
     {
       "char": "环",
@@ -16482,11 +16482,11 @@
     },
     {
       "char": "援",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "灌",
-      "en": "irrigate"
+      "en": "irrigate; pour"
     }
   ],
   "cong": [
@@ -16538,11 +16538,11 @@
     },
     {
       "char": "朴",
-      "en": "plain"
+      "en": "simple; plain"
     },
     {
       "char": "膘",
-      "en": "fat"
+      "en": "fat; flesh"
     }
   ],
   "zang": [
@@ -16560,7 +16560,7 @@
     },
     {
       "char": "藏",
-      "en": "hide"
+      "en": "hide; store"
     }
   ],
   "chai": [
@@ -16578,15 +16578,15 @@
     },
     {
       "char": "差",
-      "en": "mistake"
+      "en": "difference; mistake"
     },
     {
       "char": "搓",
-      "en": "rub"
+      "en": "rub; twist"
     },
     {
       "char": "查",
-      "en": "check"
+      "en": "check; examine"
     }
   ],
   "cuo": [
@@ -16616,19 +16616,19 @@
     },
     {
       "char": "差",
-      "en": "mistake"
+      "en": "difference; mistake"
     },
     {
       "char": "摧",
-      "en": "destroy"
+      "en": "destroy; defeat"
     },
     {
       "char": "昔",
-      "en": "past"
+      "en": "past; former"
     },
     {
       "char": "最",
-      "en": "best"
+      "en": "most; best"
     }
   ],
   "ne": [
@@ -16638,15 +16638,15 @@
     },
     {
       "char": "呐",
-      "en": "shout"
+      "en": "shout; yell"
     },
     {
       "char": "哪",
-      "en": "which"
+      "en": "which; where"
     },
     {
       "char": "那",
-      "en": "that"
+      "en": "that; those"
     }
   ],
   "guan": [
@@ -16672,7 +16672,7 @@
     },
     {
       "char": "惯",
-      "en": "used"
+      "en": "used to"
     },
     {
       "char": "灌",
@@ -16696,11 +16696,11 @@
     },
     {
       "char": "串",
-      "en": "string"
+      "en": "string; cluster"
     },
     {
       "char": "果",
-      "en": "fruit"
+      "en": "fruit; result"
     }
   ],
   "dai": [
@@ -16746,15 +16746,15 @@
     },
     {
       "char": "大",
-      "en": "big"
+      "en": "big; large"
     },
     {
       "char": "毒",
-      "en": "poison"
+      "en": "poison; toxic"
     },
     {
       "char": "隶",
-      "en": "slave"
+      "en": "slave; subordinate"
     }
   ],
   "ku": [
@@ -16788,23 +16788,23 @@
     },
     {
       "char": "古",
-      "en": "ancient"
+      "en": "ancient; old"
     },
     {
       "char": "圣",
-      "en": "holy"
+      "en": "sacred; holy"
     },
     {
       "char": "挎",
-      "en": "on"
+      "en": "carry on arm"
     },
     {
       "char": "掘",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "跨",
-      "en": "straddle"
+      "en": "straddle; cross"
     }
   ],
   "nuo": [
@@ -16826,33 +16826,33 @@
     },
     {
       "char": "呐",
-      "en": "yell"
+      "en": "shout; yell"
     },
     {
       "char": "哪",
-      "en": "which"
+      "en": "which; where"
     },
     {
       "char": "娜",
-      "en": "elegant"
+      "en": "elegant; graceful"
     },
     {
       "char": "掉",
-      "en": "drop"
+      "en": "drop; fall"
     },
     {
       "char": "那",
-      "en": "that"
+      "en": "that; those"
     },
     {
       "char": "需",
-      "en": "need"
+      "en": "need; require"
     }
   ],
   "xiong": [
     {
       "char": "兄",
-      "en": "elder"
+      "en": "elder brother"
     },
     {
       "char": "熊",
@@ -16880,11 +16880,11 @@
     },
     {
       "char": "宪",
-      "en": "law"
+      "en": "constitution; law"
     },
     {
       "char": "能",
-      "en": "ability"
+      "en": "can; ability"
     }
   ],
   "wu": [
@@ -16902,7 +16902,7 @@
     },
     {
       "char": "吴",
-      "en": "surname"
+      "en": "surname Wu"
     },
     {
       "char": "武",
@@ -16962,7 +16962,7 @@
     },
     {
       "char": "梧",
-      "en": "parasol"
+      "en": "parasol tree"
     },
     {
       "char": "芜",
@@ -16990,7 +16990,7 @@
     },
     {
       "char": "伍",
-      "en": "formal five"
+      "en": "squad"
     },
     {
       "char": "呜",
@@ -16998,15 +16998,15 @@
     },
     {
       "char": "亡",
-      "en": "perish"
+      "en": "die; perish"
     },
     {
       "char": "恶",
-      "en": "evil"
+      "en": "evil; bad"
     },
     {
       "char": "母",
-      "en": "female"
+      "en": "mother; female"
     }
   ],
   "qu": [
@@ -17032,7 +17032,7 @@
     },
     {
       "char": "趋",
-      "en": "tend"
+      "en": "tend to"
     },
     {
       "char": "趣",
@@ -17064,11 +17064,11 @@
     },
     {
       "char": "句",
-      "en": "sentence"
+      "en": "sentence; phrase"
     },
     {
       "char": "巨",
-      "en": "huge"
+      "en": "huge; giant"
     },
     {
       "char": "蜡",
@@ -17076,7 +17076,7 @@
     },
     {
       "char": "鞠",
-      "en": "kick"
+      "en": "bow; kick"
     }
   ],
   "pao": [
@@ -17110,19 +17110,19 @@
     },
     {
       "char": "包",
-      "en": "wrap"
+      "en": "wrap; bag"
     },
     {
       "char": "抱",
-      "en": "hug"
+      "en": "hug; embrace"
     },
     {
       "char": "胞",
-      "en": "embryo"
+      "en": "cell; embryo"
     },
     {
       "char": "苞",
-      "en": "bud"
+      "en": "bud; bract"
     }
   ],
   "sen": [
@@ -17132,7 +17132,7 @@
     },
     {
       "char": "洒",
-      "en": "sprinkle"
+      "en": "sprinkle; scatter"
     }
   ],
   "sa": [
@@ -17146,7 +17146,7 @@
     },
     {
       "char": "萨",
-      "en": "sakya"
+      "en": "Sakya"
     },
     {
       "char": "飒",
@@ -17172,15 +17172,15 @@
     },
     {
       "char": "哪",
-      "en": "which"
+      "en": "which; where"
     },
     {
       "char": "能",
-      "en": "can"
+      "en": "can; ability"
     },
     {
       "char": "那",
-      "en": "that"
+      "en": "that; those"
     }
   ],
   "tou": [
@@ -17202,11 +17202,11 @@
     },
     {
       "char": "愉",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "逗",
-      "en": "amuse"
+      "en": "tease; amuse"
     }
   ],
   "lie": [
@@ -17236,19 +17236,19 @@
     },
     {
       "char": "例",
-      "en": "example"
+      "en": "example; case"
     },
     {
       "char": "栗",
-      "en": "chestnut"
+      "en": "chestnut; surname li"
     },
     {
       "char": "累",
-      "en": "tired"
+      "en": "tired; accumulate"
     },
     {
       "char": "膊",
-      "en": "arm"
+      "en": "arm; shoulder"
     }
   ],
   "lou": [
@@ -17262,7 +17262,7 @@
     },
     {
       "char": "露",
-      "en": "dew"
+      "en": "dew; expose"
     },
     {
       "char": "娄",
@@ -17282,7 +17282,7 @@
     },
     {
       "char": "牢",
-      "en": "prison"
+      "en": "prison; stable"
     }
   ],
   "xue": [
@@ -17316,7 +17316,7 @@
     },
     {
       "char": "哮",
-      "en": "roar"
+      "en": "roar; howl"
     }
   ],
   "song": [
@@ -17330,7 +17330,7 @@
     },
     {
       "char": "宋",
-      "en": "dynasty"
+      "en": "Song dynasty"
     },
     {
       "char": "诵",
@@ -17410,7 +17410,7 @@
     },
     {
       "char": "们",
-      "en": "plural"
+      "en": "plural particle"
     },
     {
       "char": "闷",
@@ -17436,7 +17436,7 @@
     },
     {
       "char": "腔",
-      "en": "cavity"
+      "en": "cavity; tone"
     }
   ],
   "cang": [
@@ -17500,11 +17500,11 @@
     },
     {
       "char": "句",
-      "en": "sentence"
+      "en": "sentence; phrase"
     },
     {
       "char": "拘",
-      "en": "arrest"
+      "en": "arrest; restrict"
     }
   ],
   "hen": [
@@ -17526,7 +17526,7 @@
     },
     {
       "char": "掀",
-      "en": "unknown"
+      "en": null
     }
   ],
   "kao": [
@@ -17552,7 +17552,7 @@
     },
     {
       "char": "搞",
-      "en": "unknown"
+      "en": null
     }
   ],
   "a": [
@@ -17566,11 +17566,11 @@
     },
     {
       "char": "呵",
-      "en": "laugh"
+      "en": "laugh; scold"
     },
     {
       "char": "腌",
-      "en": "salt"
+      "en": "salt; pickle"
     }
   ],
   "bao": [
@@ -17636,27 +17636,27 @@
     },
     {
       "char": "刨",
-      "en": "dig"
+      "en": "dig; plane"
     },
     {
       "char": "剥",
-      "en": "peel"
+      "en": "peel; strip"
     },
     {
       "char": "呆",
-      "en": "stupid"
+      "en": "stupid; dull"
     },
     {
       "char": "瀑",
-      "en": "waterfall"
+      "en": "waterfall; cascade"
     },
     {
       "char": "炮",
-      "en": "roast"
+      "en": "cannon; roast"
     },
     {
       "char": "袍",
-      "en": "gown"
+      "en": "robe; gown"
     }
   ],
   "nan": [
@@ -17708,7 +17708,7 @@
     },
     {
       "char": "内",
-      "en": "inside"
+      "en": "inside; internal"
     },
     {
       "char": "南",
@@ -17716,7 +17716,7 @@
     },
     {
       "char": "絮",
-      "en": "floc"
+      "en": "floc; cotton"
     }
   ],
   "zun": [
@@ -17730,11 +17730,11 @@
     },
     {
       "char": "奠",
-      "en": "lay"
+      "en": "lay foundation; commemorate"
     },
     {
       "char": "蹲",
-      "en": "squat"
+      "en": "squat; crouch"
     }
   ],
   "guo": [
@@ -17752,7 +17752,7 @@
     },
     {
       "char": "郭",
-      "en": "surname"
+      "en": "surname Guo"
     },
     {
       "char": "锅",
@@ -17764,19 +17764,19 @@
     },
     {
       "char": "划",
-      "en": "draw"
+      "en": "draw; plan"
     },
     {
       "char": "唬",
-      "en": "intimidate"
+      "en": "intimidate; frighten"
     },
     {
       "char": "活",
-      "en": "live"
+      "en": "live; alive"
     },
     {
       "char": "涡",
-      "en": "eddy"
+      "en": "whirlpool; eddy"
     }
   ],
   "beng": [
@@ -17798,23 +17798,23 @@
     },
     {
       "char": "傍",
-      "en": "beside"
+      "en": "beside; near"
     },
     {
       "char": "平",
-      "en": "flat"
+      "en": "flat; level"
     },
     {
       "char": "旁",
-      "en": "side"
+      "en": "side; beside"
     },
     {
       "char": "榜",
-      "en": "list"
+      "en": "list; notice"
     },
     {
       "char": "蚌",
-      "en": "mussel"
+      "en": "clam; mussel"
     }
   ],
   "kui": [
@@ -17852,11 +17852,11 @@
     },
     {
       "char": "缺",
-      "en": "lack"
+      "en": "lack; short"
     },
     {
       "char": "踩",
-      "en": "unknown"
+      "en": null
     }
   ],
   "ken": [
@@ -17878,7 +17878,7 @@
     },
     {
       "char": "狠",
-      "en": "cruel"
+      "en": "cruel; fierce"
     }
   ],
   "zhua": [
@@ -17888,7 +17888,7 @@
     },
     {
       "char": "爪",
-      "en": "claw"
+      "en": "claw; nail"
     }
   ],
   "cou": [
@@ -17898,23 +17898,23 @@
     },
     {
       "char": "奏",
-      "en": "play"
+      "en": "play; present"
     },
     {
       "char": "揍",
-      "en": "beat"
+      "en": "beat; hit"
     },
     {
       "char": "族",
-      "en": "clan"
+      "en": "clan; nationality"
     },
     {
       "char": "簇",
-      "en": "bunch"
+      "en": "cluster; bunch"
     },
     {
       "char": "趣",
-      "en": "interest"
+      "en": "interest; fun"
     }
   ],
   "lve": [
@@ -17928,7 +17928,7 @@
     },
     {
       "char": "率",
-      "en": "lead"
+      "en": "rate; lead"
     }
   ],
   "me": [
@@ -17938,11 +17938,11 @@
     },
     {
       "char": "末",
-      "en": "end"
+      "en": "end; last"
     },
     {
       "char": "没",
-      "en": "unknown"
+      "en": null
     }
   ],
   "chong": [
@@ -17952,7 +17952,7 @@
     },
     {
       "char": "重",
-      "en": "heavy"
+      "en": "heavy; important"
     },
     {
       "char": "冲",
@@ -17972,23 +17972,23 @@
     },
     {
       "char": "涌",
-      "en": "surge"
+      "en": "surge; gush"
     },
     {
       "char": "烛",
-      "en": "candle"
+      "en": "candle; light"
     },
     {
       "char": "盅",
-      "en": "bowl"
+      "en": "cup; bowl"
     },
     {
       "char": "种",
-      "en": "plant"
+      "en": "seed; plant"
     },
     {
       "char": "茧",
-      "en": "cocoon"
+      "en": "cocoon; shell"
     }
   ],
   "ru": [
@@ -18022,19 +18022,19 @@
     },
     {
       "char": "女",
-      "en": "female"
+      "en": "female; woman"
     },
     {
       "char": "月",
-      "en": "moon"
+      "en": "moon; month"
     },
     {
       "char": "肉",
-      "en": "meat"
+      "en": "meat; flesh"
     },
     {
       "char": "需",
-      "en": "need"
+      "en": "need; require"
     }
   ],
   "biao": [
@@ -18056,11 +18056,11 @@
     },
     {
       "char": "漂",
-      "en": "drift"
+      "en": "float; drift"
     },
     {
       "char": "苞",
-      "en": "bud"
+      "en": "bud; bract"
     }
   ],
   "rong": [
@@ -18106,7 +18106,7 @@
     },
     {
       "char": "隔",
-      "en": "isolate"
+      "en": "separate; isolate"
     }
   ],
   "hao": [
@@ -18148,11 +18148,11 @@
     },
     {
       "char": "唬",
-      "en": "intimidate"
+      "en": "intimidate; frighten"
     },
     {
       "char": "镐",
-      "en": "pickaxe"
+      "en": "pickaxe; spade"
     }
   ],
   "bing": [
@@ -18174,7 +18174,7 @@
     },
     {
       "char": "丙",
-      "en": "third"
+      "en": "third of ten Heavenly Stems"
     },
     {
       "char": "柄",
@@ -18194,15 +18194,15 @@
     },
     {
       "char": "屏",
-      "en": "screen"
+      "en": "screen; shield"
     },
     {
       "char": "平",
-      "en": "flat"
+      "en": "flat; level"
     },
     {
       "char": "拼",
-      "en": "spell"
+      "en": "spell; combine"
     }
   ],
   "yue": [
@@ -18224,11 +18224,11 @@
     },
     {
       "char": "岳",
-      "en": "yue"
+      "en": "Yue"
     },
     {
       "char": "粤",
-      "en": "guangdong"
+      "en": "Guangdong"
     },
     {
       "char": "跃",
@@ -18240,19 +18240,19 @@
     },
     {
       "char": "乐",
-      "en": "joyful"
+      "en": "happy; joyful"
     },
     {
       "char": "块",
-      "en": "piece"
+      "en": "piece; lump"
     },
     {
       "char": "蜕",
-      "en": "shed"
+      "en": "shed; molt"
     },
     {
       "char": "说",
-      "en": "speak"
+      "en": "speak; say"
     },
     {
       "char": "钥",
@@ -18298,11 +18298,11 @@
     },
     {
       "char": "剿",
-      "en": "suppress"
+      "en": "suppress; annihilate"
     },
     {
       "char": "绰",
-      "en": "ample"
+      "en": "ample; graceful"
     }
   ],
   "gang": [
@@ -18344,15 +18344,15 @@
     },
     {
       "char": "扛",
-      "en": "carry"
+      "en": "carry on shoulder"
     },
     {
       "char": "抗",
-      "en": "resist"
+      "en": "resist; oppose"
     },
     {
       "char": "肮",
-      "en": "unknown"
+      "en": null
     }
   ],
   "zhou": [
@@ -18410,27 +18410,27 @@
     },
     {
       "char": "啄",
-      "en": "peck"
+      "en": "peck; pick"
     },
     {
       "char": "扭",
-      "en": "twist"
+      "en": "twist; turn"
     },
     {
       "char": "注",
-      "en": "pour"
+      "en": "pour; inject"
     },
     {
       "char": "祝",
-      "en": "wish"
+      "en": "wish; celebrate"
     },
     {
       "char": "育",
-      "en": "educate"
+      "en": "educate; breed"
     },
     {
       "char": "逐",
-      "en": "unknown"
+      "en": null
     }
   ],
   "niang": [
@@ -18452,7 +18452,7 @@
   "zhei": [
     {
       "char": "这",
-      "en": "unknown"
+      "en": null
     }
   ],
   "long": [
@@ -18470,7 +18470,7 @@
     },
     {
       "char": "弄",
-      "en": "play"
+      "en": "do; play"
     },
     {
       "char": "聋",
@@ -18516,23 +18516,23 @@
     },
     {
       "char": "契",
-      "en": "contract"
+      "en": "contract; agreement"
     },
     {
       "char": "捷",
-      "en": "quick"
+      "en": "quick; victory"
     },
     {
       "char": "漆",
-      "en": "paint"
+      "en": "paint; lacquer"
     },
     {
       "char": "砌",
-      "en": "build"
+      "en": "build; lay"
     },
     {
       "char": "茄",
-      "en": "eggplant"
+      "en": "eggplant; tomato"
     }
   ],
   "ang": [
@@ -18546,11 +18546,11 @@
     },
     {
       "char": "仰",
-      "en": "look"
+      "en": "look up; admire"
     },
     {
       "char": "腌",
-      "en": "salt"
+      "en": "salt; pickle"
     }
   ],
   "lin": [
@@ -18604,13 +18604,13 @@
     },
     {
       "char": "任",
-      "en": "appoint"
+      "en": "appoint; allow"
     }
   ],
   "hng": [
     {
       "char": "哼",
-      "en": "snort"
+      "en": "snort; hum"
     }
   ],
   "duan": [
@@ -18658,23 +18658,23 @@
     },
     {
       "char": "姚",
-      "en": "surname"
+      "en": "surname yao"
     },
     {
       "char": "桃",
-      "en": "peach"
+      "en": "peach; surname tao"
     },
     {
       "char": "稠",
-      "en": "dense"
+      "en": "dense; thick"
     },
     {
       "char": "调",
-      "en": "adjust"
+      "en": "adjust; transfer"
     },
     {
       "char": "超",
-      "en": "exceed"
+      "en": "exceed; surpass"
     }
   ],
   "niao": [
@@ -18688,7 +18688,7 @@
     },
     {
       "char": "溺",
-      "en": "drown"
+      "en": "drown; submerge"
     }
   ],
   "cu": [
@@ -18710,19 +18710,19 @@
     },
     {
       "char": "且",
-      "en": "and"
+      "en": "and; also"
     },
     {
       "char": "卒",
-      "en": "soldier"
+      "en": "soldier; finally"
     },
     {
       "char": "戚",
-      "en": "relative"
+      "en": "relative; sorrow"
     },
     {
       "char": "趣",
-      "en": "interest"
+      "en": "interest; fun"
     }
   ],
   "shuo": [
@@ -18740,19 +18740,19 @@
     },
     {
       "char": "勺",
-      "en": "ladle"
+      "en": "spoon; ladle"
     },
     {
       "char": "嗽",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "数",
-      "en": "number"
+      "en": "number; count"
     },
     {
       "char": "溯",
-      "en": "go"
+      "en": "go against; trace"
     }
   ],
   "san": [
@@ -18770,7 +18770,7 @@
     },
     {
       "char": "叁",
-      "en": "formal three"
+      "en": "three (formal)"
     }
   ],
   "ruo": [
@@ -18784,11 +18784,11 @@
     },
     {
       "char": "惹",
-      "en": "provoke"
+      "en": "provoke; annoy"
     },
     {
       "char": "溺",
-      "en": "drown"
+      "en": "drown; submerge"
     }
   ],
   "sang": [
@@ -18824,15 +18824,15 @@
     },
     {
       "char": "堆",
-      "en": "pile"
+      "en": "pile; heap"
     },
     {
       "char": "摧",
-      "en": "destroy"
+      "en": "destroy; defeat"
     },
     {
       "char": "撮",
-      "en": "gather"
+      "en": "pinch; gather"
     }
   ],
   "huang": [
@@ -18890,15 +18890,15 @@
     },
     {
       "char": "横",
-      "en": "horizontal"
+      "en": "horizontal; across"
     },
     {
       "char": "芒",
-      "en": "awn"
+      "en": "awn; bristle"
     },
     {
       "char": "茫",
-      "en": "boundless"
+      "en": "vast; boundless"
     }
   ],
   "cun": [
@@ -18916,7 +18916,7 @@
     },
     {
       "char": "蹲",
-      "en": "crouch"
+      "en": "squat; crouch"
     }
   ],
   "kai": [
@@ -18942,19 +18942,19 @@
     },
     {
       "char": "喝",
-      "en": "drink"
+      "en": "drink; shout"
     },
     {
       "char": "岂",
-      "en": "how"
+      "en": "how; why"
     },
     {
       "char": "核",
-      "en": "core"
+      "en": "core; nucleus"
     },
     {
       "char": "渴",
-      "en": "thirsty"
+      "en": "thirsty; eager"
     }
   ],
   "zan": [
@@ -18968,7 +18968,7 @@
     },
     {
       "char": "咱",
-      "en": "unknown"
+      "en": "I"
     },
     {
       "char": "攒",
@@ -18990,11 +18990,11 @@
     },
     {
       "char": "兑",
-      "en": "exchange"
+      "en": "exchange; convert"
     },
     {
       "char": "内",
-      "en": "inside"
+      "en": "inside; internal"
     }
   ],
   "kua": [
@@ -19012,7 +19012,7 @@
     },
     {
       "char": "挎",
-      "en": "on"
+      "en": "carry on arm"
     },
     {
       "char": "胯",
@@ -19030,11 +19030,11 @@
     },
     {
       "char": "攒",
-      "en": "save"
+      "en": "save; accumulate"
     },
     {
       "char": "蹲",
-      "en": "crouch"
+      "en": "squat; crouch"
     }
   ],
   "shuai": [
@@ -19060,7 +19060,7 @@
     },
     {
       "char": "率",
-      "en": "rate"
+      "en": "rate; lead"
     }
   ],
   "nei": [
@@ -19074,11 +19074,11 @@
     },
     {
       "char": "哪",
-      "en": "which"
+      "en": "which; where"
     },
     {
       "char": "那",
-      "en": "that"
+      "en": "that; those"
     }
   ],
   "sou": [
@@ -19088,7 +19088,7 @@
     },
     {
       "char": "艘",
-      "en": "classifier"
+      "en": "classifier for ships"
     },
     {
       "char": "嗽",
@@ -19096,7 +19096,7 @@
     },
     {
       "char": "族",
-      "en": "nationality"
+      "en": "clan; nationality"
     }
   ],
   "chuan": [
@@ -19162,7 +19162,7 @@
     },
     {
       "char": "匕",
-      "en": "dagger"
+      "en": "dagger; spoon"
     },
     {
       "char": "泵",
@@ -19188,7 +19188,7 @@
     },
     {
       "char": "拗",
-      "en": "unknown"
+      "en": null
     }
   ],
   "shang": [
@@ -19222,7 +19222,7 @@
     },
     {
       "char": "汤",
-      "en": "soup"
+      "en": "soup; hot water"
     }
   ],
   "run": [
@@ -19232,7 +19232,7 @@
     },
     {
       "char": "闰",
-      "en": "leap"
+      "en": "leap year"
     }
   ],
   "te": [
@@ -19242,11 +19242,11 @@
     },
     {
       "char": "匿",
-      "en": "hide"
+      "en": "hide; conceal"
     },
     {
       "char": "式",
-      "en": "form"
+      "en": "style; form"
     }
   ],
   "kuai": [
@@ -19264,7 +19264,7 @@
     },
     {
       "char": "会",
-      "en": "meet"
+      "en": "meet; can"
     },
     {
       "char": "傀",
@@ -19272,7 +19272,7 @@
     },
     {
       "char": "魁",
-      "en": "giant"
+      "en": "leader; giant"
     }
   ],
   "tie": [
@@ -19290,11 +19290,11 @@
     },
     {
       "char": "占",
-      "en": "occupy"
+      "en": "occupy; divine"
     },
     {
       "char": "蝶",
-      "en": "unknown"
+      "en": null
     }
   ],
   "mian": [
@@ -19370,15 +19370,15 @@
     },
     {
       "char": "嘁",
-      "en": "sneer"
+      "en": "sneer; scoff"
     },
     {
       "char": "姐",
-      "en": "unknown"
+      "en": null
     },
     {
       "char": "沮",
-      "en": "damp"
+      "en": "damp; discourage"
     }
   ],
   "rou": [
@@ -19414,15 +19414,15 @@
     },
     {
       "char": "塞",
-      "en": "block"
+      "en": "block; stuff"
     },
     {
       "char": "寨",
-      "en": "stockade"
+      "en": "stockade; village"
     },
     {
       "char": "泣",
-      "en": "unknown"
+      "en": null
     }
   ],
   "shun": [
@@ -19440,15 +19440,15 @@
     },
     {
       "char": "俊",
-      "en": "handsome"
+      "en": "handsome; talented"
     },
     {
       "char": "巡",
-      "en": "patrol"
+      "en": "patrol; inspect"
     },
     {
       "char": "盾",
-      "en": "shield"
+      "en": "shield; protect"
     }
   ],
   "lang": [
@@ -19482,7 +19482,7 @@
     },
     {
       "char": "羹",
-      "en": "soup"
+      "en": "soup; broth"
     }
   ],
   "cheng": [
@@ -19544,35 +19544,35 @@
     },
     {
       "char": "净",
-      "en": "clean"
+      "en": "clean; pure"
     },
     {
       "char": "敞",
-      "en": "open"
+      "en": "open; spacious"
     },
     {
       "char": "棱",
-      "en": "edge"
+      "en": "edge; corner"
     },
     {
       "char": "盛",
-      "en": "fill"
+      "en": "fill; hold"
     },
     {
       "char": "盯",
-      "en": "gaze"
+      "en": "stare; gaze"
     },
     {
       "char": "趟",
-      "en": "trip"
+      "en": "trip; time"
     },
     {
       "char": "醒",
-      "en": "wake"
+      "en": "wake up; sober"
     },
     {
       "char": "铛",
-      "en": "gong"
+      "en": "bell; gong"
     }
   ],
   "guang": [
@@ -19590,11 +19590,11 @@
     },
     {
       "char": "恍",
-      "en": "confused"
+      "en": "confused; vague"
     },
     {
       "char": "横",
-      "en": "horizontal"
+      "en": "horizontal; across"
     }
   ],
   "shuang": [
@@ -19628,7 +19628,7 @@
   "kei": [
     {
       "char": "刻",
-      "en": "carve"
+      "en": "carve; moment"
     }
   ],
   "nao": [
@@ -19664,17 +19664,17 @@
     },
     {
       "char": "族",
-      "en": "clan"
+      "en": "clan; nationality"
     },
     {
       "char": "趣",
-      "en": "interest"
+      "en": "interest; fun"
     }
   ],
   "nin": [
     {
       "char": "您",
-      "en": "you"
+      "en": "you (honorific)"
     }
   ],
   "qia": [
@@ -19692,11 +19692,11 @@
     },
     {
       "char": "卡",
-      "en": "card"
+      "en": "card; block"
     },
     {
       "char": "客",
-      "en": "guest"
+      "en": "guest; visitor"
     }
   ],
   "qiong": [
@@ -19710,7 +19710,7 @@
     },
     {
       "char": "鞠",
-      "en": "bow"
+      "en": "bow; kick"
     }
   ],
   "tui": [
@@ -19740,19 +19740,19 @@
     },
     {
       "char": "弟",
-      "en": "younger"
+      "en": "younger brother"
     },
     {
       "char": "税",
-      "en": "tax"
+      "en": "tax; duty"
     },
     {
       "char": "脱",
-      "en": "off"
+      "en": "take off; escape"
     },
     {
       "char": "追",
-      "en": "chase"
+      "en": "chase; pursue"
     }
   ],
   "neng": [
@@ -19762,11 +19762,11 @@
     },
     {
       "char": "而",
-      "en": "and"
+      "en": "and; but"
     },
     {
       "char": "耐",
-      "en": "unknown"
+      "en": null
     }
   ],
   "keng": [
@@ -19786,7 +19786,7 @@
     },
     {
       "char": "絮",
-      "en": "floc"
+      "en": "floc; cotton"
     }
   ],
   "teng": [
@@ -19854,11 +19854,11 @@
     },
     {
       "char": "淮",
-      "en": "river"
+      "en": "Huai River"
     },
     {
       "char": "槐",
-      "en": "pagoda"
+      "en": "pagoda tree"
     },
     {
       "char": "徊",
@@ -19866,11 +19866,11 @@
     },
     {
       "char": "划",
-      "en": "draw"
+      "en": "draw; plan"
     },
     {
       "char": "坯",
-      "en": "blank"
+      "en": "blank; roughcast"
     }
   ],
   "hei": [
@@ -19908,15 +19908,15 @@
     },
     {
       "char": "促",
-      "en": "urge"
+      "en": "urge; promote"
     },
     {
       "char": "簇",
-      "en": "cluster"
+      "en": "cluster; bunch"
     },
     {
       "char": "踱",
-      "en": "stroll"
+      "en": "pace; stroll"
     }
   ],
   "zen": [
@@ -19954,7 +19954,7 @@
     },
     {
       "char": "色",
-      "en": "color"
+      "en": "color; hue"
     }
   ],
   "miu": [
@@ -19966,7 +19966,7 @@
   "le": [
     {
       "char": "了",
-      "en": "particle"
+      "en": "particle indicating completion"
     },
     {
       "char": "乐",
@@ -19978,7 +19978,7 @@
     },
     {
       "char": "勒",
-      "en": "force"
+      "en": "restrain; force"
     }
   ],
   "ca": [
@@ -19988,7 +19988,7 @@
     },
     {
       "char": "拆",
-      "en": "take"
+      "en": "take apart; dismantle"
     }
   ],
   "nve": [
@@ -20008,7 +20008,7 @@
     },
     {
       "char": "不",
-      "en": "no"
+      "en": "no; not"
     }
   ],
   "seng": [
@@ -20024,17 +20024,17 @@
     },
     {
       "char": "撮",
-      "en": "pinch"
+      "en": "pinch; gather"
     },
     {
       "char": "赚",
-      "en": "earn"
+      "en": "earn; profit"
     }
   ],
   "chua": [
     {
       "char": "撮",
-      "en": "pinch"
+      "en": "pinch; gather"
     }
   ],
   "qun": [
@@ -20048,7 +20048,7 @@
     },
     {
       "char": "蹲",
-      "en": "crouch"
+      "en": "squat; crouch"
     }
   ],
   "gei": [
@@ -20060,7 +20060,7 @@
   "zhuai": [
     {
       "char": "转",
-      "en": "turn"
+      "en": "turn; rotate"
     }
   ],
   "gen": [
@@ -20074,7 +20074,7 @@
     },
     {
       "char": "痕",
-      "en": "trace"
+      "en": "trace; mark"
     }
   ],
   "nong": [
@@ -20108,7 +20108,7 @@
   "cen": [
     {
       "char": "参",
-      "en": "participate"
+      "en": "participate; ginseng"
     }
   ],
   "nen": [
@@ -20124,7 +20124,7 @@
     },
     {
       "char": "坷",
-      "en": "clod"
+      "en": "clod; rough"
     }
   ],
   "nang": [
@@ -20144,7 +20144,7 @@
     },
     {
       "char": "若",
-      "en": "unknown"
+      "en": null
     }
   ],
   "diu": [
@@ -20184,13 +20184,13 @@
     },
     {
       "char": "需",
-      "en": "need"
+      "en": "need; require"
     }
   ],
   "fo": [
     {
       "char": "佛",
-      "en": "buddha"
+      "en": "buddha; buddhist"
     }
   ]
 }

@@ -1,0 +1,11562 @@
+{
+  "立": [
+    {
+      "pinyin": "li",
+      "en": "stand"
+    },
+    {
+      "pinyin": "wei",
+      "en": "stand; establish"
+    }
+  ],
+  "离": [
+    {
+      "pinyin": "li",
+      "en": "leave"
+    },
+    {
+      "pinyin": "chi",
+      "en": "leave; depart"
+    }
+  ],
+  "例": [
+    {
+      "pinyin": "li",
+      "en": "case"
+    },
+    {
+      "pinyin": "lie",
+      "en": "example; case"
+    }
+  ],
+  "隶": [
+    {
+      "pinyin": "li",
+      "en": "slave"
+    },
+    {
+      "pinyin": "di",
+      "en": "slave; subordinate",
+      "suspicious": true
+    },
+    {
+      "pinyin": "yi",
+      "en": "slave; subordinate",
+      "suspicious": true
+    },
+    {
+      "pinyin": "dai",
+      "en": "slave; subordinate",
+      "suspicious": true
+    }
+  ],
+  "栗": [
+    {
+      "pinyin": "li",
+      "en": "chestnut"
+    },
+    {
+      "pinyin": "lie",
+      "en": "chestnut; surname li"
+    }
+  ],
+  "厘": [
+    {
+      "pinyin": "li",
+      "en": "percent"
+    },
+    {
+      "pinyin": "chan",
+      "en": "centimeter; percent"
+    }
+  ],
+  "哩": [
+    {
+      "pinyin": "li",
+      "en": "particle"
+    },
+    {
+      "pinyin": "ying",
+      "en": null
+    },
+    {
+      "pinyin": "mai",
+      "en": null
+    }
+  ],
+  "莉": [
+    {
+      "pinyin": "li",
+      "en": "jasmine"
+    },
+    {
+      "pinyin": "chi",
+      "en": null
+    }
+  ],
+  "位": [
+    {
+      "pinyin": "wei",
+      "en": "seat"
+    },
+    {
+      "pinyin": "li",
+      "en": "position; seat"
+    }
+  ],
+  "列": [
+    {
+      "pinyin": "lie",
+      "en": "list"
+    },
+    {
+      "pinyin": "li",
+      "en": "list; arrange"
+    }
+  ],
+  "泣": [
+    {
+      "pinyin": "qi",
+      "en": "cry"
+    },
+    {
+      "pinyin": "li",
+      "en": null
+    },
+    {
+      "pinyin": "se",
+      "en": null
+    }
+  ],
+  "度": [
+    {
+      "pinyin": "du",
+      "en": "degree"
+    },
+    {
+      "pinyin": "duo",
+      "en": "degree; measure"
+    },
+    {
+      "pinyin": "zhai",
+      "en": "degree; measure"
+    }
+  ],
+  "惰": [
+    {
+      "pinyin": "duo",
+      "en": "lazy"
+    },
+    {
+      "pinyin": "tuo",
+      "en": "lazy; indolent"
+    }
+  ],
+  "堕": [
+    {
+      "pinyin": "duo",
+      "en": "fall"
+    },
+    {
+      "pinyin": "hui",
+      "en": "fall; sink"
+    }
+  ],
+  "踱": [
+    {
+      "pinyin": "duo",
+      "en": "pace"
+    },
+    {
+      "pinyin": "chuo",
+      "en": "pace; stroll"
+    }
+  ],
+  "哆": [
+    {
+      "pinyin": "duo",
+      "en": "shiver"
+    },
+    {
+      "pinyin": "die",
+      "en": "tremble; shiver",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zha",
+      "en": "tremble; shiver",
+      "suspicious": true
+    },
+    {
+      "pinyin": "chi",
+      "en": "tremble; shiver",
+      "suspicious": true
+    }
+  ],
+  "兑": [
+    {
+      "pinyin": "dui",
+      "en": "convert"
+    },
+    {
+      "pinyin": "duo",
+      "en": "exchange; convert"
+    },
+    {
+      "pinyin": "rui",
+      "en": "exchange; convert"
+    }
+  ],
+  "捶": [
+    {
+      "pinyin": "chui",
+      "en": "beat"
+    },
+    {
+      "pinyin": "duo",
+      "en": "beat; pound"
+    }
+  ],
+  "揣": [
+    {
+      "pinyin": "chuai",
+      "en": "hold"
+    },
+    {
+      "pinyin": "duo",
+      "en": "hold; guess",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zhui",
+      "en": "hold; guess",
+      "suspicious": true
+    },
+    {
+      "pinyin": "tuan",
+      "en": "hold; guess",
+      "suspicious": true
+    }
+  ],
+  "杂": [
+    {
+      "pinyin": "za",
+      "en": "mixed"
+    },
+    {
+      "pinyin": "duo",
+      "en": "mixed; miscellaneous"
+    }
+  ],
+  "驮": [
+    {
+      "pinyin": "tuo",
+      "en": "load"
+    },
+    {
+      "pinyin": "duo",
+      "en": null
+    }
+  ],
+  "咱": [
+    {
+      "pinyin": "zan",
+      "en": "I"
+    },
+    {
+      "pinyin": "za",
+      "en": null
+    }
+  ],
+  "嘁": [
+    {
+      "pinyin": "qi",
+      "en": "sneer"
+    },
+    {
+      "pinyin": "za",
+      "en": "sneer; scoff"
+    },
+    {
+      "pinyin": "zu",
+      "en": "sneer; scoff"
+    }
+  ],
+  "扎": [
+    {
+      "pinyin": "zha",
+      "en": "bind"
+    },
+    {
+      "pinyin": "za",
+      "en": "prick; bind"
+    }
+  ],
+  "地": [
+    {
+      "pinyin": "di",
+      "en": "earth"
+    },
+    {
+      "pinyin": "de",
+      "en": "ground; earth"
+    }
+  ],
+  "底": [
+    {
+      "pinyin": "di",
+      "en": "base"
+    },
+    {
+      "pinyin": "de",
+      "en": "bottom; base"
+    }
+  ],
+  "敌": [
+    {
+      "pinyin": "di",
+      "en": "enemy"
+    },
+    {
+      "pinyin": "hua",
+      "en": "enemy; opponent"
+    }
+  ],
+  "弟": [
+    {
+      "pinyin": "di",
+      "en": "younger brother"
+    },
+    {
+      "pinyin": "ti",
+      "en": "younger brother"
+    },
+    {
+      "pinyin": "tui",
+      "en": "younger brother"
+    }
+  ],
+  "堤": [
+    {
+      "pinyin": "di",
+      "en": "dyke"
+    },
+    {
+      "pinyin": "ti",
+      "en": "dyke; embankment",
+      "suspicious": true
+    },
+    {
+      "pinyin": "wei",
+      "en": "dyke; embankment",
+      "suspicious": true
+    },
+    {
+      "pinyin": "shi",
+      "en": "dyke; embankment",
+      "suspicious": true
+    }
+  ],
+  "抵": [
+    {
+      "pinyin": "di",
+      "en": "resist"
+    },
+    {
+      "pinyin": "qi",
+      "en": "resist; support"
+    },
+    {
+      "pinyin": "zhi",
+      "en": "resist; support"
+    }
+  ],
+  "嘀": [
+    {
+      "pinyin": "di",
+      "en": "tick"
+    },
+    {
+      "pinyin": "zhe",
+      "en": "tick; murmur"
+    }
+  ],
+  "勺": [
+    {
+      "pinyin": "shao",
+      "en": "spoon"
+    },
+    {
+      "pinyin": "di",
+      "en": "spoon; ladle",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zhuo",
+      "en": "spoon; ladle",
+      "suspicious": true
+    },
+    {
+      "pinyin": "shuo",
+      "en": "spoon; ladle",
+      "suspicious": true
+    }
+  ],
+  "提": [
+    {
+      "pinyin": "ti",
+      "en": "lift"
+    },
+    {
+      "pinyin": "di",
+      "en": "lift; carry",
+      "suspicious": true
+    },
+    {
+      "pinyin": "shi",
+      "en": "lift; carry",
+      "suspicious": true
+    },
+    {
+      "pinyin": "chi",
+      "en": "lift; carry",
+      "suspicious": true
+    }
+  ],
+  "的": [
+    {
+      "pinyin": "de",
+      "en": "possessive particle"
+    },
+    {
+      "pinyin": "di",
+      "en": null
+    }
+  ],
+  "芍": [
+    {
+      "pinyin": "shao",
+      "en": "herb"
+    },
+    {
+      "pinyin": "di",
+      "en": "peony; herb",
+      "suspicious": true
+    },
+    {
+      "pinyin": "xiao",
+      "en": "peony; herb",
+      "suspicious": true
+    },
+    {
+      "pinyin": "que",
+      "en": "peony; herb",
+      "suspicious": true
+    }
+  ],
+  "蹄": [
+    {
+      "pinyin": "ti",
+      "en": "hoof"
+    },
+    {
+      "pinyin": "di",
+      "en": "hoof; foot"
+    }
+  ],
+  "逐": [
+    {
+      "pinyin": "zhu",
+      "en": "chase"
+    },
+    {
+      "pinyin": "di",
+      "en": null,
+      "suspicious": true
+    },
+    {
+      "pinyin": "tun",
+      "en": null,
+      "suspicious": true
+    },
+    {
+      "pinyin": "zhou",
+      "en": null,
+      "suspicious": true
+    }
+  ],
+  "逮": [
+    {
+      "pinyin": "dai",
+      "en": "catch"
+    },
+    {
+      "pinyin": "di",
+      "en": null
+    }
+  ],
+  "校": [
+    {
+      "pinyin": "xiao",
+      "en": "check"
+    },
+    {
+      "pinyin": "qiao",
+      "en": "school; check"
+    },
+    {
+      "pinyin": "jiao",
+      "en": "school; check"
+    }
+  ],
+  "削": [
+    {
+      "pinyin": "xue",
+      "en": "cut"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "peel; cut",
+      "suspicious": true
+    },
+    {
+      "pinyin": "shao",
+      "en": "peel; cut",
+      "suspicious": true
+    },
+    {
+      "pinyin": "qiao",
+      "en": "peel; cut",
+      "suspicious": true
+    }
+  ],
+  "硝": [
+    {
+      "pinyin": "xiao",
+      "en": "nitrate"
+    },
+    {
+      "pinyin": "qiao",
+      "en": "nitrate; saltpeter"
+    }
+  ],
+  "哮": [
+    {
+      "pinyin": "xiao",
+      "en": "roar"
+    },
+    {
+      "pinyin": "xue",
+      "en": "roar; howl"
+    }
+  ],
+  "嚣": [
+    {
+      "pinyin": "xiao",
+      "en": "noisy"
+    },
+    {
+      "pinyin": "ao",
+      "en": "noisy; arrogant"
+    }
+  ],
+  "俏": [
+    {
+      "pinyin": "qiao",
+      "en": "smart"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "pretty; smart"
+    }
+  ],
+  "号": [
+    {
+      "pinyin": "hao",
+      "en": "call"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "number; call"
+    }
+  ],
+  "呼": [
+    {
+      "pinyin": "hu",
+      "en": "call"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "call; breathe",
+      "suspicious": true
+    },
+    {
+      "pinyin": "he",
+      "en": "call; breathe",
+      "suspicious": true
+    },
+    {
+      "pinyin": "xia",
+      "en": "call; breathe",
+      "suspicious": true
+    },
+    {
+      "pinyin": "xu",
+      "en": "call; breathe",
+      "suspicious": true
+    }
+  ],
+  "哨": [
+    {
+      "pinyin": "shao",
+      "en": "sentry"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "whistle; sentry"
+    },
+    {
+      "pinyin": "sao",
+      "en": "whistle; sentry"
+    }
+  ],
+  "唬": [
+    {
+      "pinyin": "hu",
+      "en": "frighten"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "intimidate; frighten",
+      "suspicious": true
+    },
+    {
+      "pinyin": "xia",
+      "en": "intimidate; frighten",
+      "suspicious": true
+    },
+    {
+      "pinyin": "guo",
+      "en": "intimidate; frighten",
+      "suspicious": true
+    },
+    {
+      "pinyin": "hao",
+      "en": "intimidate; frighten",
+      "suspicious": true
+    }
+  ],
+  "捎": [
+    {
+      "pinyin": "shao",
+      "en": "take"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "take; bring"
+    },
+    {
+      "pinyin": "qiao",
+      "en": "take; bring"
+    }
+  ],
+  "搜": [
+    {
+      "pinyin": "sou",
+      "en": "seek"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "search; seek"
+    },
+    {
+      "pinyin": "shao",
+      "en": "search; seek"
+    }
+  ],
+  "梢": [
+    {
+      "pinyin": "shao",
+      "en": "tip"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "tip; twig"
+    },
+    {
+      "pinyin": "sao",
+      "en": "tip; twig"
+    }
+  ],
+  "狡": [
+    {
+      "pinyin": "jiao",
+      "en": "tricky"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "cunning; tricky"
+    }
+  ],
+  "胶": [
+    {
+      "pinyin": "jiao",
+      "en": "gum"
+    },
+    {
+      "pinyin": "xiao",
+      "en": "glue; gum"
+    }
+  ],
+  "召": [
+    {
+      "pinyin": "zhao",
+      "en": "call"
+    },
+    {
+      "pinyin": "shao",
+      "en": "summon; call"
+    }
+  ],
+  "招": [
+    {
+      "pinyin": "zhao",
+      "en": "invite"
+    },
+    {
+      "pinyin": "shao",
+      "en": "attract; invite"
+    },
+    {
+      "pinyin": "qiao",
+      "en": "attract; invite"
+    }
+  ],
+  "笤": [
+    {
+      "pinyin": "tiao",
+      "en": "broom"
+    },
+    {
+      "pinyin": "shao",
+      "en": "broom; whisk"
+    }
+  ],
+  "缺": [
+    {
+      "pinyin": "que",
+      "en": "lack"
+    },
+    {
+      "pinyin": "kui",
+      "en": "lack; short"
+    }
+  ],
+  "雀": [
+    {
+      "pinyin": "que",
+      "en": "bird"
+    },
+    {
+      "pinyin": "qiao",
+      "en": "sparrow; bird"
+    }
+  ],
+  "屈": [
+    {
+      "pinyin": "qu",
+      "en": "bend"
+    },
+    {
+      "pinyin": "que",
+      "en": "bend; submit",
+      "suspicious": true
+    },
+    {
+      "pinyin": "jue",
+      "en": "bend; submit",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ju",
+      "en": "bend; submit",
+      "suspicious": true
+    }
+  ],
+  "猎": [
+    {
+      "pinyin": "lie",
+      "en": "hunt"
+    },
+    {
+      "pinyin": "que",
+      "en": "hunt; chase"
+    },
+    {
+      "pinyin": "xi",
+      "en": "hunt; chase"
+    }
+  ],
+  "把": [
+    {
+      "pinyin": "ba",
+      "en": "hold"
+    },
+    {
+      "pinyin": "pa",
+      "en": null
+    }
+  ],
+  "吧": [
+    {
+      "pinyin": "ba",
+      "en": "bar"
+    },
+    {
+      "pinyin": "pa",
+      "en": "particle; bar"
+    }
+  ],
+  "拔": [
+    {
+      "pinyin": "ba",
+      "en": "extract"
+    },
+    {
+      "pinyin": "bo",
+      "en": "pull out; extract",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bie",
+      "en": "pull out; extract",
+      "suspicious": true
+    },
+    {
+      "pinyin": "fa",
+      "en": "pull out; extract",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bei",
+      "en": "pull out; extract",
+      "suspicious": true
+    }
+  ],
+  "霸": [
+    {
+      "pinyin": "ba",
+      "en": "tyrant"
+    },
+    {
+      "pinyin": "po",
+      "en": "tyrant; hegemon"
+    }
+  ],
+  "扒": [
+    {
+      "pinyin": "ba",
+      "en": "pick"
+    },
+    {
+      "pinyin": "pa",
+      "en": "scratch; pick",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bai",
+      "en": "scratch; pick",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bie",
+      "en": "scratch; pick",
+      "suspicious": true
+    }
+  ],
+  "捌": [
+    {
+      "pinyin": "ba",
+      "en": "eight (financial)"
+    },
+    {
+      "pinyin": "bie",
+      "en": "eight (financial)"
+    }
+  ],
+  "芭": [
+    {
+      "pinyin": "ba",
+      "en": "palm"
+    },
+    {
+      "pinyin": "pa",
+      "en": "banana; palm"
+    }
+  ],
+  "跋": [
+    {
+      "pinyin": "ba",
+      "en": "march"
+    },
+    {
+      "pinyin": "bei",
+      "en": "march; travel"
+    }
+  ],
+  "叭": [
+    {
+      "pinyin": "ba",
+      "en": "pop"
+    },
+    {
+      "pinyin": "pa",
+      "en": "crack; pop"
+    }
+  ],
+  "耙": [
+    {
+      "pinyin": "ba",
+      "en": "rake"
+    },
+    {
+      "pinyin": "pa",
+      "en": "harrow; rake"
+    }
+  ],
+  "伯": [
+    {
+      "pinyin": "bo",
+      "en": "uncle"
+    },
+    {
+      "pinyin": "ba",
+      "en": "uncle; elder brother",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bai",
+      "en": "uncle; elder brother",
+      "suspicious": true
+    },
+    {
+      "pinyin": "mo",
+      "en": "uncle; elder brother",
+      "suspicious": true
+    }
+  ],
+  "湃": [
+    {
+      "pinyin": "pai",
+      "en": "dash"
+    },
+    {
+      "pinyin": "ba",
+      "en": "surge; dash"
+    }
+  ],
+  "红": [
+    {
+      "pinyin": "hong",
+      "en": "red"
+    },
+    {
+      "pinyin": "gong",
+      "en": "red; scarlet"
+    }
+  ],
+  "虹": [
+    {
+      "pinyin": "hong",
+      "en": "rainbow"
+    },
+    {
+      "pinyin": "gong",
+      "en": "rainbow"
+    },
+    {
+      "pinyin": "jiang",
+      "en": "rainbow"
+    }
+  ],
+  "共": [
+    {
+      "pinyin": "gong",
+      "en": "common"
+    },
+    {
+      "pinyin": "hong",
+      "en": "together; common"
+    }
+  ],
+  "汪": [
+    {
+      "pinyin": "wang",
+      "en": "vast"
+    },
+    {
+      "pinyin": "hong",
+      "en": "vast; deep"
+    }
+  ],
+  "港": [
+    {
+      "pinyin": "gang",
+      "en": "port"
+    },
+    {
+      "pinyin": "hong",
+      "en": "harbor; port"
+    }
+  ],
+  "喜": [
+    {
+      "pinyin": "xi",
+      "en": "joy"
+    },
+    {
+      "pinyin": "chi",
+      "en": "happy; joy"
+    }
+  ],
+  "系": [
+    {
+      "pinyin": "xi",
+      "en": "tie"
+    },
+    {
+      "pinyin": "ji",
+      "en": "tie; connect"
+    }
+  ],
+  "洗": [
+    {
+      "pinyin": "xi",
+      "en": "wash"
+    },
+    {
+      "pinyin": "xian",
+      "en": "wash; clean"
+    }
+  ],
+  "溪": [
+    {
+      "pinyin": "xi",
+      "en": "brook"
+    },
+    {
+      "pinyin": "qi",
+      "en": "stream; brook"
+    }
+  ],
+  "析": [
+    {
+      "pinyin": "xi",
+      "en": "split"
+    },
+    {
+      "pinyin": "si",
+      "en": "analyze; split"
+    }
+  ],
+  "昔": [
+    {
+      "pinyin": "xi",
+      "en": "past"
+    },
+    {
+      "pinyin": "cuo",
+      "en": "past; former"
+    }
+  ],
+  "夕": [
+    {
+      "pinyin": "xi",
+      "en": "dusk"
+    },
+    {
+      "pinyin": "yi",
+      "en": "evening; dusk"
+    }
+  ],
+  "徙": [
+    {
+      "pinyin": "xi",
+      "en": "move"
+    },
+    {
+      "pinyin": "si",
+      "en": "move; migrate"
+    }
+  ],
+  "戏": [
+    {
+      "pinyin": "xi",
+      "en": "play"
+    },
+    {
+      "pinyin": "hu",
+      "en": "play; game"
+    }
+  ],
+  "熙": [
+    {
+      "pinyin": "xi",
+      "en": "bright"
+    },
+    {
+      "pinyin": "yi",
+      "en": "bright; prosperous"
+    }
+  ],
+  "铣": [
+    {
+      "pinyin": "xi",
+      "en": "cut"
+    },
+    {
+      "pinyin": "xian",
+      "en": "mill; cut"
+    }
+  ],
+  "卤": [
+    {
+      "pinyin": "lu",
+      "en": "brine"
+    },
+    {
+      "pinyin": "xi",
+      "en": "brine; bittern"
+    }
+  ],
+  "屎": [
+    {
+      "pinyin": "shi",
+      "en": "poop"
+    },
+    {
+      "pinyin": "xi",
+      "en": "feces; poop"
+    }
+  ],
+  "撕": [
+    {
+      "pinyin": "si",
+      "en": "rip"
+    },
+    {
+      "pinyin": "xi",
+      "en": "tear; rip"
+    }
+  ],
+  "既": [
+    {
+      "pinyin": "ji",
+      "en": "since"
+    },
+    {
+      "pinyin": "xi",
+      "en": "already; since"
+    }
+  ],
+  "栖": [
+    {
+      "pinyin": "qi",
+      "en": "perch"
+    },
+    {
+      "pinyin": "xi",
+      "en": "perch; reside"
+    }
+  ],
+  "洒": [
+    {
+      "pinyin": "sa",
+      "en": "scatter"
+    },
+    {
+      "pinyin": "xi",
+      "en": "sprinkle; scatter",
+      "suspicious": true
+    },
+    {
+      "pinyin": "xian",
+      "en": "sprinkle; scatter",
+      "suspicious": true
+    },
+    {
+      "pinyin": "cui",
+      "en": "sprinkle; scatter",
+      "suspicious": true
+    },
+    {
+      "pinyin": "xun",
+      "en": "sprinkle; scatter",
+      "suspicious": true
+    },
+    {
+      "pinyin": "sen",
+      "en": "sprinkle; scatter",
+      "suspicious": true
+    }
+  ],
+  "腊": [
+    {
+      "pinyin": "la",
+      "en": "bacon"
+    },
+    {
+      "pinyin": "xi",
+      "en": "bacon; dried meat"
+    }
+  ],
+  "洋": [
+    {
+      "pinyin": "yang",
+      "en": "ocean"
+    },
+    {
+      "pinyin": "xiang",
+      "en": "ocean; foreign"
+    }
+  ],
+  "央": [
+    {
+      "pinyin": "yang",
+      "en": "center"
+    },
+    {
+      "pinyin": "ying",
+      "en": "center; middle"
+    }
+  ],
+  "仰": [
+    {
+      "pinyin": "yang",
+      "en": "admire"
+    },
+    {
+      "pinyin": "ang",
+      "en": "look up; admire"
+    }
+  ],
+  "昂": [
+    {
+      "pinyin": "ang",
+      "en": "high"
+    },
+    {
+      "pinyin": "yang",
+      "en": "high; hold up"
+    }
+  ],
+  "映": [
+    {
+      "pinyin": "ying",
+      "en": "shine"
+    },
+    {
+      "pinyin": "yang",
+      "en": "reflect; shine"
+    }
+  ],
+  "英": [
+    {
+      "pinyin": "ying",
+      "en": "hero"
+    },
+    {
+      "pinyin": "yang",
+      "en": "hero; outstanding"
+    }
+  ],
+  "己": [
+    {
+      "pinyin": "ji",
+      "en": "oneself"
+    },
+    {
+      "pinyin": "qi",
+      "en": "oneself; sixth of ten heavenly stems"
+    }
+  ],
+  "机": [
+    {
+      "pinyin": "ji",
+      "en": "chance"
+    },
+    {
+      "pinyin": "wei",
+      "en": "machine; chance"
+    }
+  ],
+  "技": [
+    {
+      "pinyin": "ji",
+      "en": "skill"
+    },
+    {
+      "pinyin": "qi",
+      "en": "skill; technique"
+    }
+  ],
+  "积": [
+    {
+      "pinyin": "ji",
+      "en": "store"
+    },
+    {
+      "pinyin": "zhi",
+      "en": "accumulate; store"
+    }
+  ],
+  "叽": [
+    {
+      "pinyin": "ji",
+      "en": "chirp"
+    },
+    {
+      "pinyin": "jiao",
+      "en": "chirp; chatter"
+    }
+  ],
+  "圾": [
+    {
+      "pinyin": "ji",
+      "en": "trash"
+    },
+    {
+      "pinyin": "jie",
+      "en": "garbage; trash"
+    }
+  ],
+  "唧": [
+    {
+      "pinyin": "ji",
+      "en": "chirp"
+    },
+    {
+      "pinyin": "jie",
+      "en": null
+    }
+  ],
+  "荠": [
+    {
+      "pinyin": "ji",
+      "en": "herb"
+    },
+    {
+      "pinyin": "qi",
+      "en": "shepherd's purse; herb"
+    }
+  ],
+  "激": [
+    {
+      "pinyin": "ji",
+      "en": "arouse"
+    },
+    {
+      "pinyin": "jiao",
+      "en": "stimulate; arouse"
+    }
+  ],
+  "畸": [
+    {
+      "pinyin": "ji",
+      "en": "abnormal"
+    },
+    {
+      "pinyin": "qi",
+      "en": "abnormal; irregular"
+    }
+  ],
+  "祭": [
+    {
+      "pinyin": "ji",
+      "en": "worship"
+    },
+    {
+      "pinyin": "zhai",
+      "en": "sacrifice; worship"
+    }
+  ],
+  "稽": [
+    {
+      "pinyin": "ji",
+      "en": "check"
+    },
+    {
+      "pinyin": "qi",
+      "en": null
+    }
+  ],
+  "籍": [
+    {
+      "pinyin": "ji",
+      "en": "book"
+    },
+    {
+      "pinyin": "jie",
+      "en": "book; record"
+    }
+  ],
+  "倚": [
+    {
+      "pinyin": "yi",
+      "en": "depend"
+    },
+    {
+      "pinyin": "ji",
+      "en": "lean on; depend"
+    }
+  ],
+  "其": [
+    {
+      "pinyin": "qi",
+      "en": "his"
+    },
+    {
+      "pinyin": "ji",
+      "en": "his; its"
+    }
+  ],
+  "奇": [
+    {
+      "pinyin": "qi",
+      "en": "odd"
+    },
+    {
+      "pinyin": "ji",
+      "en": "strange; odd",
+      "suspicious": true
+    },
+    {
+      "pinyin": "yi",
+      "en": "strange; odd",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ai",
+      "en": "strange; odd",
+      "suspicious": true
+    }
+  ],
+  "居": [
+    {
+      "pinyin": "ju",
+      "en": "live"
+    },
+    {
+      "pinyin": "ji",
+      "en": "reside; live"
+    }
+  ],
+  "揖": [
+    {
+      "pinyin": "yi",
+      "en": "bow"
+    },
+    {
+      "pinyin": "ji",
+      "en": "bow; salute"
+    }
+  ],
+  "期": [
+    {
+      "pinyin": "qi",
+      "en": "period"
+    },
+    {
+      "pinyin": "ji",
+      "en": "period; expect"
+    }
+  ],
+  "棋": [
+    {
+      "pinyin": "qi",
+      "en": "chess"
+    },
+    {
+      "pinyin": "ji",
+      "en": "chess; board game"
+    }
+  ],
+  "洁": [
+    {
+      "pinyin": "jie",
+      "en": "pure"
+    },
+    {
+      "pinyin": "ji",
+      "en": null
+    }
+  ],
+  "秸": [
+    {
+      "pinyin": "jie",
+      "en": "straw"
+    },
+    {
+      "pinyin": "ji",
+      "en": "straw; stalk"
+    }
+  ],
+  "给": [
+    {
+      "pinyin": "gei",
+      "en": "give"
+    },
+    {
+      "pinyin": "ji",
+      "en": "give; provide"
+    }
+  ],
+  "蜡": [
+    {
+      "pinyin": "la",
+      "en": "wax"
+    },
+    {
+      "pinyin": "ji",
+      "en": "wax",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zha",
+      "en": "wax",
+      "suspicious": true
+    },
+    {
+      "pinyin": "qu",
+      "en": "wax",
+      "suspicious": true
+    }
+  ],
+  "隔": [
+    {
+      "pinyin": "ge",
+      "en": "isolate"
+    },
+    {
+      "pinyin": "ji",
+      "en": "separate; isolate"
+    },
+    {
+      "pinyin": "rong",
+      "en": "separate; isolate"
+    }
+  ],
+  "革": [
+    {
+      "pinyin": "ge",
+      "en": "reform"
+    },
+    {
+      "pinyin": "ji",
+      "en": "leather; reform"
+    }
+  ],
+  "齐": [
+    {
+      "pinyin": "qi",
+      "en": "neat"
+    },
+    {
+      "pinyin": "ji",
+      "en": "neat; together"
+    }
+  ],
+  "汽": [
+    {
+      "pinyin": "qi",
+      "en": "steam"
+    },
+    {
+      "pinyin": "yi",
+      "en": "steam; vapor"
+    },
+    {
+      "pinyin": "gai",
+      "en": "steam; vapor"
+    }
+  ],
+  "戚": [
+    {
+      "pinyin": "qi",
+      "en": "sorrow"
+    },
+    {
+      "pinyin": "cu",
+      "en": "relative; sorrow"
+    }
+  ],
+  "岂": [
+    {
+      "pinyin": "qi",
+      "en": "how"
+    },
+    {
+      "pinyin": "kai",
+      "en": "how; why"
+    }
+  ],
+  "崎": [
+    {
+      "pinyin": "qi",
+      "en": "rugged"
+    },
+    {
+      "pinyin": "yi",
+      "en": "rugged; uneven"
+    }
+  ],
+  "漆": [
+    {
+      "pinyin": "qi",
+      "en": "paint"
+    },
+    {
+      "pinyin": "qie",
+      "en": "paint; lacquer"
+    }
+  ],
+  "砌": [
+    {
+      "pinyin": "qi",
+      "en": "lay"
+    },
+    {
+      "pinyin": "qie",
+      "en": "build; lay"
+    }
+  ],
+  "祈": [
+    {
+      "pinyin": "qi",
+      "en": "pray"
+    },
+    {
+      "pinyin": "gui",
+      "en": "pray; request"
+    }
+  ],
+  "契": [
+    {
+      "pinyin": "qi",
+      "en": "contract"
+    },
+    {
+      "pinyin": "xie",
+      "en": "contract; agreement",
+      "suspicious": true
+    },
+    {
+      "pinyin": "jie",
+      "en": "contract; agreement",
+      "suspicious": true
+    },
+    {
+      "pinyin": "qie",
+      "en": "contract; agreement",
+      "suspicious": true
+    }
+  ],
+  "切": [
+    {
+      "pinyin": "qie",
+      "en": "cut"
+    },
+    {
+      "pinyin": "qi",
+      "en": "cut; slice"
+    }
+  ],
+  "刺": [
+    {
+      "pinyin": "ci",
+      "en": "stab"
+    },
+    {
+      "pinyin": "qi",
+      "en": "stab; prick"
+    }
+  ],
+  "勤": [
+    {
+      "pinyin": "qin",
+      "en": "diligent"
+    },
+    {
+      "pinyin": "qi",
+      "en": "diligent; hardworking"
+    }
+  ],
+  "吃": [
+    {
+      "pinyin": "chi",
+      "en": "eat"
+    },
+    {
+      "pinyin": "qi",
+      "en": "eat; consume"
+    }
+  ],
+  "吱": [
+    {
+      "pinyin": "zhi",
+      "en": "creak"
+    },
+    {
+      "pinyin": "qi",
+      "en": "squeak; creak"
+    },
+    {
+      "pinyin": "zi",
+      "en": "squeak; creak"
+    }
+  ],
+  "宿": [
+    {
+      "pinyin": "su",
+      "en": "stay"
+    },
+    {
+      "pinyin": "qi",
+      "en": "stay; lodge"
+    },
+    {
+      "pinyin": "xiu",
+      "en": "stay; lodge"
+    }
+  ],
+  "揭": [
+    {
+      "pinyin": "jie",
+      "en": "reveal"
+    },
+    {
+      "pinyin": "qi",
+      "en": "uncover; reveal"
+    },
+    {
+      "pinyin": "he",
+      "en": "uncover; reveal"
+    }
+  ],
+  "支": [
+    {
+      "pinyin": "zhi",
+      "en": "branch"
+    },
+    {
+      "pinyin": "qi",
+      "en": "support; branch"
+    }
+  ],
+  "枝": [
+    {
+      "pinyin": "zhi",
+      "en": "twig"
+    },
+    {
+      "pinyin": "qi",
+      "en": "branch; twig"
+    }
+  ],
+  "示": [
+    {
+      "pinyin": "shi",
+      "en": "show"
+    },
+    {
+      "pinyin": "qi",
+      "en": "show; indicate"
+    },
+    {
+      "pinyin": "zhi",
+      "en": "show; indicate"
+    }
+  ],
+  "逗": [
+    {
+      "pinyin": "dou",
+      "en": "tease"
+    },
+    {
+      "pinyin": "qi",
+      "en": "tease; amuse",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zhu",
+      "en": "tease; amuse",
+      "suspicious": true
+    },
+    {
+      "pinyin": "tou",
+      "en": "tease; amuse",
+      "suspicious": true
+    }
+  ],
+  "零": [
+    {
+      "pinyin": "ling",
+      "en": "zero"
+    },
+    {
+      "pinyin": "lian",
+      "en": "zero; scattered"
+    }
+  ],
+  "令": [
+    {
+      "pinyin": "ling",
+      "en": "make"
+    },
+    {
+      "pinyin": "lian",
+      "en": "order; make"
+    }
+  ],
+  "冷": [
+    {
+      "pinyin": "leng",
+      "en": "cold"
+    },
+    {
+      "pinyin": "ling",
+      "en": "cold; cool"
+    }
+  ],
+  "怜": [
+    {
+      "pinyin": "lian",
+      "en": "pity"
+    },
+    {
+      "pinyin": "ling",
+      "en": "pity; sympathy"
+    }
+  ],
+  "棱": [
+    {
+      "pinyin": "leng",
+      "en": "edge"
+    },
+    {
+      "pinyin": "ling",
+      "en": "edge; corner"
+    },
+    {
+      "pinyin": "cheng",
+      "en": "edge; corner"
+    }
+  ],
+  "磷": [
+    {
+      "pinyin": "lin",
+      "en": "phosphorus"
+    },
+    {
+      "pinyin": "ling",
+      "en": "phosphorus"
+    }
+  ],
+  "路": [
+    {
+      "pinyin": "lu",
+      "en": "road"
+    },
+    {
+      "pinyin": "luo",
+      "en": "road; path"
+    }
+  ],
+  "陆": [
+    {
+      "pinyin": "lu",
+      "en": "six"
+    },
+    {
+      "pinyin": "liu",
+      "en": "land; six"
+    }
+  ],
+  "露": [
+    {
+      "pinyin": "lu",
+      "en": "dew"
+    },
+    {
+      "pinyin": "lou",
+      "en": "dew; expose"
+    }
+  ],
+  "芦": [
+    {
+      "pinyin": "lu",
+      "en": "reed"
+    },
+    {
+      "pinyin": "hu",
+      "en": "reed; rush"
+    }
+  ],
+  "鹿": [
+    {
+      "pinyin": "lu",
+      "en": "deer"
+    },
+    {
+      "pinyin": "lv",
+      "en": "deer"
+    }
+  ],
+  "碌": [
+    {
+      "pinyin": "lu",
+      "en": "busy"
+    },
+    {
+      "pinyin": "luo",
+      "en": "busy; tedious"
+    },
+    {
+      "pinyin": "liu",
+      "en": "busy; tedious"
+    }
+  ],
+  "六": [
+    {
+      "pinyin": "liu",
+      "en": "six"
+    },
+    {
+      "pinyin": "lu",
+      "en": "six"
+    }
+  ],
+  "绿": [
+    {
+      "pinyin": "lv",
+      "en": "green"
+    },
+    {
+      "pinyin": "lu",
+      "en": "green"
+    }
+  ],
+  "角": [
+    {
+      "pinyin": "jiao",
+      "en": "horn"
+    },
+    {
+      "pinyin": "lu",
+      "en": "angle; horn",
+      "suspicious": true
+    },
+    {
+      "pinyin": "jue",
+      "en": "angle; horn",
+      "suspicious": true
+    },
+    {
+      "pinyin": "gu",
+      "en": "angle; horn",
+      "suspicious": true
+    }
+  ],
+  "谷": [
+    {
+      "pinyin": "gu",
+      "en": "grain"
+    },
+    {
+      "pinyin": "lu",
+      "en": "valley; grain"
+    },
+    {
+      "pinyin": "yu",
+      "en": "valley; grain"
+    }
+  ],
+  "酪": [
+    {
+      "pinyin": "lao",
+      "en": "cream"
+    },
+    {
+      "pinyin": "lu",
+      "en": "cheese; cream"
+    },
+    {
+      "pinyin": "luo",
+      "en": "cheese; cream"
+    }
+  ],
+  "茫": [
+    {
+      "pinyin": "mang",
+      "en": "vast"
+    },
+    {
+      "pinyin": "huang",
+      "en": "vast; boundless"
+    }
+  ],
+  "芒": [
+    {
+      "pinyin": "mang",
+      "en": "awn"
+    },
+    {
+      "pinyin": "wang",
+      "en": "awn; bristle"
+    },
+    {
+      "pinyin": "huang",
+      "en": "awn; bristle"
+    }
+  ],
+  "氓": [
+    {
+      "pinyin": "mang",
+      "en": "rustic"
+    },
+    {
+      "pinyin": "meng",
+      "en": "common people; rustic"
+    }
+  ],
+  "朦": [
+    {
+      "pinyin": "meng",
+      "en": "dim"
+    },
+    {
+      "pinyin": "mang",
+      "en": "dim; hazy"
+    }
+  ],
+  "盟": [
+    {
+      "pinyin": "meng",
+      "en": "oath"
+    },
+    {
+      "pinyin": "ming",
+      "en": "alliance; oath"
+    }
+  ],
+  "萌": [
+    {
+      "pinyin": "meng",
+      "en": "sprout"
+    },
+    {
+      "pinyin": "ming",
+      "en": "sprout; germinate"
+    }
+  ],
+  "明": [
+    {
+      "pinyin": "ming",
+      "en": "clear"
+    },
+    {
+      "pinyin": "meng",
+      "en": "bright; clear"
+    }
+  ],
+  "弹": [
+    {
+      "pinyin": "dan",
+      "en": "bullet"
+    },
+    {
+      "pinyin": "tan",
+      "en": "bullet; spring"
+    }
+  ],
+  "探": [
+    {
+      "pinyin": "tan",
+      "en": "explore"
+    },
+    {
+      "pinyin": "xian",
+      "en": "explore; investigate"
+    }
+  ],
+  "叹": [
+    {
+      "pinyin": "tan",
+      "en": "sigh"
+    },
+    {
+      "pinyin": "you",
+      "en": "sigh; exclaim"
+    },
+    {
+      "pinyin": "yi",
+      "en": "sigh; exclaim"
+    }
+  ],
+  "潭": [
+    {
+      "pinyin": "tan",
+      "en": "pond"
+    },
+    {
+      "pinyin": "yin",
+      "en": "pond; deep pool",
+      "suspicious": true
+    },
+    {
+      "pinyin": "dan",
+      "en": "pond; deep pool",
+      "suspicious": true
+    },
+    {
+      "pinyin": "xun",
+      "en": "pond; deep pool",
+      "suspicious": true
+    }
+  ],
+  "袒": [
+    {
+      "pinyin": "tan",
+      "en": "bare"
+    },
+    {
+      "pinyin": "zhan",
+      "en": "bare; expose"
+    }
+  ],
+  "昙": [
+    {
+      "pinyin": "tan",
+      "en": "ephemeral"
+    },
+    {
+      "pinyin": "yu",
+      "en": "short-lived; ephemeral"
+    }
+  ],
+  "檀": [
+    {
+      "pinyin": "tan",
+      "en": "sandalwood"
+    },
+    {
+      "pinyin": "shan",
+      "en": "sandalwood; surname tan"
+    }
+  ],
+  "但": [
+    {
+      "pinyin": "dan",
+      "en": "but"
+    },
+    {
+      "pinyin": "tan",
+      "en": "but; however"
+    },
+    {
+      "pinyin": "yan",
+      "en": "but; however"
+    }
+  ],
+  "沈": [
+    {
+      "pinyin": "shen",
+      "en": "sink"
+    },
+    {
+      "pinyin": "tan",
+      "en": "surname shen; sink"
+    },
+    {
+      "pinyin": "chen",
+      "en": "surname shen; sink"
+    }
+  ],
+  "淡": [
+    {
+      "pinyin": "dan",
+      "en": "thin"
+    },
+    {
+      "pinyin": "tan",
+      "en": "light; thin"
+    },
+    {
+      "pinyin": "yan",
+      "en": "light; thin"
+    }
+  ],
+  "炎": [
+    {
+      "pinyin": "yan",
+      "en": "flame"
+    },
+    {
+      "pinyin": "tan",
+      "en": "inflammation; flame"
+    }
+  ],
+  "胆": [
+    {
+      "pinyin": "dan",
+      "en": "courage"
+    },
+    {
+      "pinyin": "tan",
+      "en": "gallbladder; courage"
+    },
+    {
+      "pinyin": "da",
+      "en": "gallbladder; courage"
+    }
+  ],
+  "舔": [
+    {
+      "pinyin": "tian",
+      "en": "lick"
+    },
+    {
+      "pinyin": "tan",
+      "en": "lick"
+    }
+  ],
+  "体": [
+    {
+      "pinyin": "ti",
+      "en": "body"
+    },
+    {
+      "pinyin": "cui",
+      "en": "body; form"
+    },
+    {
+      "pinyin": "ben",
+      "en": "body; form"
+    }
+  ],
+  "踢": [
+    {
+      "pinyin": "ti",
+      "en": "kick"
+    },
+    {
+      "pinyin": "die",
+      "en": "kick"
+    }
+  ],
+  "折": [
+    {
+      "pinyin": "zhe",
+      "en": "fold"
+    },
+    {
+      "pinyin": "ti",
+      "en": "fold; break"
+    },
+    {
+      "pinyin": "she",
+      "en": "fold; break"
+    }
+  ],
+  "是": [
+    {
+      "pinyin": "shi",
+      "en": "yes"
+    },
+    {
+      "pinyin": "ti",
+      "en": "yes; correct"
+    }
+  ],
+  "肆": [
+    {
+      "pinyin": "si",
+      "en": "four"
+    },
+    {
+      "pinyin": "ti",
+      "en": "four; reckless"
+    }
+  ],
+  "达": [
+    {
+      "pinyin": "da",
+      "en": "reach"
+    },
+    {
+      "pinyin": "ti",
+      "en": "reach; arrive"
+    },
+    {
+      "pinyin": "ta",
+      "en": "reach; arrive"
+    }
+  ],
+  "缩": [
+    {
+      "pinyin": "suo",
+      "en": "shrink"
+    },
+    {
+      "pinyin": "su",
+      "en": "shrink; contract"
+    }
+  ],
+  "梭": [
+    {
+      "pinyin": "suo",
+      "en": "weave"
+    },
+    {
+      "pinyin": "xun",
+      "en": "shuttle; weave"
+    }
+  ],
+  "唆": [
+    {
+      "pinyin": "suo",
+      "en": "abet"
+    },
+    {
+      "pinyin": "shua",
+      "en": "instigate; abet"
+    }
+  ],
+  "些": [
+    {
+      "pinyin": "xie",
+      "en": "some"
+    },
+    {
+      "pinyin": "suo",
+      "en": "some; a few"
+    }
+  ],
+  "抄": [
+    {
+      "pinyin": "chao",
+      "en": "copy"
+    },
+    {
+      "pinyin": "suo",
+      "en": "copy; plagiarize"
+    }
+  ],
+  "沙": [
+    {
+      "pinyin": "sha",
+      "en": "sand"
+    },
+    {
+      "pinyin": "suo",
+      "en": "sand; grit"
+    }
+  ],
+  "衰": [
+    {
+      "pinyin": "shuai",
+      "en": "fade"
+    },
+    {
+      "pinyin": "suo",
+      "en": "decline; fade"
+    },
+    {
+      "pinyin": "cui",
+      "en": "decline; fade"
+    }
+  ],
+  "霍": [
+    {
+      "pinyin": "huo",
+      "en": "quickly"
+    },
+    {
+      "pinyin": "suo",
+      "en": "suddenly; quickly"
+    },
+    {
+      "pinyin": "he",
+      "en": "suddenly; quickly"
+    }
+  ],
+  "排": [
+    {
+      "pinyin": "pai",
+      "en": "arrange"
+    },
+    {
+      "pinyin": "bai",
+      "en": "arrange; line up"
+    }
+  ],
+  "拍": [
+    {
+      "pinyin": "pai",
+      "en": "pat"
+    },
+    {
+      "pinyin": "bo",
+      "en": "pat; beat"
+    }
+  ],
+  "派": [
+    {
+      "pinyin": "pai",
+      "en": "send"
+    },
+    {
+      "pinyin": "pa",
+      "en": "send; faction",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bai",
+      "en": "send; faction",
+      "suspicious": true
+    },
+    {
+      "pinyin": "mai",
+      "en": "send; faction",
+      "suspicious": true
+    }
+  ],
+  "啡": [
+    {
+      "pinyin": "fei",
+      "en": "coffee"
+    },
+    {
+      "pinyin": "pai",
+      "en": null,
+      "suspicious": true
+    },
+    {
+      "pinyin": "bai",
+      "en": null,
+      "suspicious": true
+    },
+    {
+      "pinyin": "pei",
+      "en": null,
+      "suspicious": true
+    }
+  ],
+  "脾": [
+    {
+      "pinyin": "pi",
+      "en": "spleen"
+    },
+    {
+      "pinyin": "pai",
+      "en": "spleen; temperament"
+    },
+    {
+      "pinyin": "bi",
+      "en": "spleen; temperament"
+    }
+  ],
+  "迫": [
+    {
+      "pinyin": "po",
+      "en": "force"
+    },
+    {
+      "pinyin": "pai",
+      "en": "force; urgent"
+    }
+  ],
+  "泊": [
+    {
+      "pinyin": "po",
+      "en": "lake"
+    },
+    {
+      "pinyin": "bo",
+      "en": "anchor; lake"
+    }
+  ],
+  "魄": [
+    {
+      "pinyin": "po",
+      "en": "soul"
+    },
+    {
+      "pinyin": "bo",
+      "en": null
+    },
+    {
+      "pinyin": "tuo",
+      "en": null
+    }
+  ],
+  "剖": [
+    {
+      "pinyin": "pou",
+      "en": "dissect"
+    },
+    {
+      "pinyin": "po",
+      "en": "dissect; analyze"
+    }
+  ],
+  "朴": [
+    {
+      "pinyin": "pu",
+      "en": "plain"
+    },
+    {
+      "pinyin": "po",
+      "en": "simple; plain"
+    },
+    {
+      "pinyin": "piao",
+      "en": "simple; plain"
+    }
+  ],
+  "番": [
+    {
+      "pinyin": "fan",
+      "en": "time"
+    },
+    {
+      "pinyin": "po",
+      "en": "time; foreign",
+      "suspicious": true
+    },
+    {
+      "pinyin": "pan",
+      "en": "time; foreign",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bo",
+      "en": "time; foreign",
+      "suspicious": true
+    },
+    {
+      "pinyin": "pi",
+      "en": "time; foreign",
+      "suspicious": true
+    }
+  ],
+  "繁": [
+    {
+      "pinyin": "fan",
+      "en": "complex"
+    },
+    {
+      "pinyin": "po",
+      "en": "complex; numerous"
+    },
+    {
+      "pinyin": "pan",
+      "en": "complex; numerous"
+    }
+  ],
+  "膊": [
+    {
+      "pinyin": "bo",
+      "en": "arm"
+    },
+    {
+      "pinyin": "po",
+      "en": "arm; shoulder"
+    },
+    {
+      "pinyin": "lie",
+      "en": "arm; shoulder"
+    }
+  ],
+  "跛": [
+    {
+      "pinyin": "bo",
+      "en": "lame"
+    },
+    {
+      "pinyin": "po",
+      "en": null
+    },
+    {
+      "pinyin": "bi",
+      "en": null
+    }
+  ],
+  "有": [
+    {
+      "pinyin": "you",
+      "en": "have"
+    },
+    {
+      "pinyin": "wei",
+      "en": "have; exist"
+    }
+  ],
+  "由": [
+    {
+      "pinyin": "you",
+      "en": "by"
+    },
+    {
+      "pinyin": "yao",
+      "en": "by; reason"
+    }
+  ],
+  "游": [
+    {
+      "pinyin": "you",
+      "en": "swim"
+    },
+    {
+      "pinyin": "liu",
+      "en": "swim; travel"
+    }
+  ],
+  "幼": [
+    {
+      "pinyin": "you",
+      "en": "young"
+    },
+    {
+      "pinyin": "yao",
+      "en": "young; childish"
+    }
+  ],
+  "奥": [
+    {
+      "pinyin": "ao",
+      "en": "profound"
+    },
+    {
+      "pinyin": "you",
+      "en": "profound; mysterious"
+    },
+    {
+      "pinyin": "yu",
+      "en": "profound; mysterious"
+    }
+  ],
+  "扰": [
+    {
+      "pinyin": "rao",
+      "en": "bother"
+    },
+    {
+      "pinyin": "you",
+      "en": "disturb; bother"
+    }
+  ],
+  "可": [
+    {
+      "pinyin": "ke",
+      "en": "can"
+    },
+    {
+      "pinyin": "ge",
+      "en": "can; may"
+    }
+  ],
+  "刻": [
+    {
+      "pinyin": "ke",
+      "en": "carve"
+    },
+    {
+      "pinyin": "kei",
+      "en": "carve; moment"
+    }
+  ],
+  "客": [
+    {
+      "pinyin": "ke",
+      "en": "guest"
+    },
+    {
+      "pinyin": "qia",
+      "en": "guest; visitor"
+    }
+  ],
+  "渴": [
+    {
+      "pinyin": "ke",
+      "en": "eager"
+    },
+    {
+      "pinyin": "he",
+      "en": "thirsty; eager",
+      "suspicious": true
+    },
+    {
+      "pinyin": "jie",
+      "en": "thirsty; eager",
+      "suspicious": true
+    },
+    {
+      "pinyin": "kai",
+      "en": "thirsty; eager",
+      "suspicious": true
+    }
+  ],
+  "咳": [
+    {
+      "pinyin": "ke",
+      "en": "cough"
+    },
+    {
+      "pinyin": "hai",
+      "en": "cough"
+    },
+    {
+      "pinyin": "gai",
+      "en": "cough"
+    }
+  ],
+  "坷": [
+    {
+      "pinyin": "ke",
+      "en": "clod"
+    },
+    {
+      "pinyin": "jiong",
+      "en": "clod; rough"
+    }
+  ],
+  "壳": [
+    {
+      "pinyin": "ke",
+      "en": "husk"
+    },
+    {
+      "pinyin": "qiao",
+      "en": "shell; husk"
+    }
+  ],
+  "苛": [
+    {
+      "pinyin": "ke",
+      "en": "harsh"
+    },
+    {
+      "pinyin": "he",
+      "en": "harsh; severe"
+    }
+  ],
+  "棵": [
+    {
+      "pinyin": "ke",
+      "en": "classifier for trees"
+    },
+    {
+      "pinyin": "kuan",
+      "en": "classifier for trees"
+    }
+  ],
+  "呵": [
+    {
+      "pinyin": "he",
+      "en": "laugh"
+    },
+    {
+      "pinyin": "ke",
+      "en": "laugh; scold",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ha",
+      "en": "laugh; scold",
+      "suspicious": true
+    },
+    {
+      "pinyin": "huo",
+      "en": "laugh; scold",
+      "suspicious": true
+    },
+    {
+      "pinyin": "a",
+      "en": "laugh; scold",
+      "suspicious": true
+    }
+  ],
+  "信": [
+    {
+      "pinyin": "xin",
+      "en": "trust"
+    },
+    {
+      "pinyin": "shen",
+      "en": "trust; letter"
+    }
+  ],
+  "寻": [
+    {
+      "pinyin": "xun",
+      "en": "seek"
+    },
+    {
+      "pinyin": "xin",
+      "en": "seek; find"
+    }
+  ],
+  "款": [
+    {
+      "pinyin": "kuan",
+      "en": "money"
+    },
+    {
+      "pinyin": "xin",
+      "en": "money; style"
+    }
+  ],
+  "彭": [
+    {
+      "pinyin": "peng",
+      "en": "surname Peng"
+    },
+    {
+      "pinyin": "pang",
+      "en": "surname peng"
+    },
+    {
+      "pinyin": "bang",
+      "en": "surname peng"
+    }
+  ],
+  "捧": [
+    {
+      "pinyin": "peng",
+      "en": "hold"
+    },
+    {
+      "pinyin": "feng",
+      "en": null
+    }
+  ],
+  "砰": [
+    {
+      "pinyin": "peng",
+      "en": "bang"
+    },
+    {
+      "pinyin": "ping",
+      "en": "bang; thud"
+    }
+  ],
+  "傍": [
+    {
+      "pinyin": "bang",
+      "en": "near"
+    },
+    {
+      "pinyin": "peng",
+      "en": "beside; near",
+      "suspicious": true
+    },
+    {
+      "pinyin": "pang",
+      "en": "beside; near",
+      "suspicious": true
+    },
+    {
+      "pinyin": "beng",
+      "en": "beside; near",
+      "suspicious": true
+    }
+  ],
+  "庄": [
+    {
+      "pinyin": "zhuang",
+      "en": "villa"
+    },
+    {
+      "pinyin": "peng",
+      "en": "villa; manor"
+    }
+  ],
+  "旁": [
+    {
+      "pinyin": "pang",
+      "en": "side"
+    },
+    {
+      "pinyin": "peng",
+      "en": "side; beside",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bang",
+      "en": "side; beside",
+      "suspicious": true
+    },
+    {
+      "pinyin": "beng",
+      "en": "side; beside",
+      "suspicious": true
+    }
+  ],
+  "榜": [
+    {
+      "pinyin": "bang",
+      "en": "list"
+    },
+    {
+      "pinyin": "peng",
+      "en": "list; notice",
+      "suspicious": true
+    },
+    {
+      "pinyin": "pang",
+      "en": "list; notice",
+      "suspicious": true
+    },
+    {
+      "pinyin": "beng",
+      "en": "list; notice",
+      "suspicious": true
+    }
+  ],
+  "苹": [
+    {
+      "pinyin": "ping",
+      "en": "apple"
+    },
+    {
+      "pinyin": "peng",
+      "en": "apple; duckweed"
+    }
+  ],
+  "逢": [
+    {
+      "pinyin": "feng",
+      "en": "meet"
+    },
+    {
+      "pinyin": "peng",
+      "en": "meet; encounter"
+    },
+    {
+      "pinyin": "pang",
+      "en": "meet; encounter"
+    }
+  ],
+  "平": [
+    {
+      "pinyin": "ping",
+      "en": "flat"
+    },
+    {
+      "pinyin": "pian",
+      "en": "flat; level",
+      "suspicious": true
+    },
+    {
+      "pinyin": "beng",
+      "en": "flat; level",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bing",
+      "en": "flat; level",
+      "suspicious": true
+    }
+  ],
+  "屏": [
+    {
+      "pinyin": "ping",
+      "en": "screen"
+    },
+    {
+      "pinyin": "bing",
+      "en": "screen; shield"
+    }
+  ],
+  "冯": [
+    {
+      "pinyin": "feng",
+      "en": "surname Feng"
+    },
+    {
+      "pinyin": "ping",
+      "en": "surname feng"
+    }
+  ],
+  "秤": [
+    {
+      "pinyin": "cheng",
+      "en": "scale"
+    },
+    {
+      "pinyin": "ping",
+      "en": "scale; balance"
+    }
+  ],
+  "聘": [
+    {
+      "pinyin": "pin",
+      "en": "employ"
+    },
+    {
+      "pinyin": "ping",
+      "en": "employ; invite"
+    }
+  ],
+  "硬": [
+    {
+      "pinyin": "ying",
+      "en": "hard"
+    },
+    {
+      "pinyin": "geng",
+      "en": "hard; firm"
+    }
+  ],
+  "景": [
+    {
+      "pinyin": "jing",
+      "en": "view"
+    },
+    {
+      "pinyin": "ying",
+      "en": "scenery; view"
+    }
+  ],
+  "甸": [
+    {
+      "pinyin": "dian",
+      "en": "pasture"
+    },
+    {
+      "pinyin": "ying",
+      "en": "pasture; countryside",
+      "suspicious": true
+    },
+    {
+      "pinyin": "tian",
+      "en": "pasture; countryside",
+      "suspicious": true
+    },
+    {
+      "pinyin": "sheng",
+      "en": "pasture; countryside",
+      "suspicious": true
+    }
+  ],
+  "逞": [
+    {
+      "pinyin": "cheng",
+      "en": "succeed"
+    },
+    {
+      "pinyin": "ying",
+      "en": "show off; succeed"
+    }
+  ],
+  "片": [
+    {
+      "pinyin": "pian",
+      "en": "piece"
+    },
+    {
+      "pinyin": "pan",
+      "en": "piece; slice"
+    }
+  ],
+  "便": [
+    {
+      "pinyin": "bian",
+      "en": "then"
+    },
+    {
+      "pinyin": "pian",
+      "en": "convenient; then"
+    }
+  ],
+  "扁": [
+    {
+      "pinyin": "bian",
+      "en": "flat"
+    },
+    {
+      "pinyin": "pian",
+      "en": "flat; narrow"
+    }
+  ],
+  "蝙": [
+    {
+      "pinyin": "bian",
+      "en": "bat"
+    },
+    {
+      "pinyin": "pian",
+      "en": "bat"
+    }
+  ],
+  "辨": [
+    {
+      "pinyin": "bian",
+      "en": "distinguish"
+    },
+    {
+      "pinyin": "pian",
+      "en": "distinguish; differentiate"
+    },
+    {
+      "pinyin": "ban",
+      "en": "distinguish; differentiate"
+    }
+  ],
+  "封": [
+    {
+      "pinyin": "feng",
+      "en": "seal"
+    },
+    {
+      "pinyin": "bian",
+      "en": "seal; close"
+    }
+  ],
+  "握": [
+    {
+      "pinyin": "wo",
+      "en": "hold"
+    },
+    {
+      "pinyin": "ou",
+      "en": null
+    }
+  ],
+  "涡": [
+    {
+      "pinyin": "wo",
+      "en": "eddy"
+    },
+    {
+      "pinyin": "guo",
+      "en": "whirlpool; eddy"
+    }
+  ],
+  "夭": [
+    {
+      "pinyin": "yao",
+      "en": "delicate"
+    },
+    {
+      "pinyin": "wo",
+      "en": "die young; delicate"
+    },
+    {
+      "pinyin": "wai",
+      "en": "die young; delicate"
+    }
+  ],
+  "瘟": [
+    {
+      "pinyin": "wen",
+      "en": "plague"
+    },
+    {
+      "pinyin": "wo",
+      "en": "plague; epidemic"
+    },
+    {
+      "pinyin": "yun",
+      "en": "plague; epidemic"
+    }
+  ],
+  "味": [
+    {
+      "pinyin": "wei",
+      "en": "taste"
+    },
+    {
+      "pinyin": "mei",
+      "en": "taste; flavor"
+    }
+  ],
+  "尾": [
+    {
+      "pinyin": "wei",
+      "en": "end"
+    },
+    {
+      "pinyin": "yi",
+      "en": "tail; end"
+    }
+  ],
+  "桅": [
+    {
+      "pinyin": "wei",
+      "en": "mast"
+    },
+    {
+      "pinyin": "gui",
+      "en": "mast; pole"
+    }
+  ],
+  "蔚": [
+    {
+      "pinyin": "wei",
+      "en": "vivid"
+    },
+    {
+      "pinyin": "yu",
+      "en": "luxuriant; vivid"
+    }
+  ],
+  "尉": [
+    {
+      "pinyin": "wei",
+      "en": "military officer"
+    },
+    {
+      "pinyin": "yu",
+      "en": "military officer"
+    },
+    {
+      "pinyin": "yun",
+      "en": "military officer"
+    }
+  ],
+  "于": [
+    {
+      "pinyin": "yu",
+      "en": "in"
+    },
+    {
+      "pinyin": "wei",
+      "en": "in; at"
+    },
+    {
+      "pinyin": "xu",
+      "en": "in; at"
+    }
+  ],
+  "遗": [
+    {
+      "pinyin": "yi",
+      "en": "omit"
+    },
+    {
+      "pinyin": "wei",
+      "en": "leave behind; omit"
+    }
+  ],
+  "拱": [
+    {
+      "pinyin": "gong",
+      "en": "bow"
+    },
+    {
+      "pinyin": "ju",
+      "en": "arch; bow"
+    }
+  ],
+  "蚣": [
+    {
+      "pinyin": "gong",
+      "en": "centipede"
+    },
+    {
+      "pinyin": "zhong",
+      "en": "centipede"
+    }
+  ],
+  "杠": [
+    {
+      "pinyin": "gang",
+      "en": "bar"
+    },
+    {
+      "pinyin": "gong",
+      "en": "bar; pole"
+    }
+  ],
+  "磺": [
+    {
+      "pinyin": "huang",
+      "en": "sulfur"
+    },
+    {
+      "pinyin": "gong",
+      "en": null
+    },
+    {
+      "pinyin": "kuang",
+      "en": null
+    }
+  ],
+  "择": [
+    {
+      "pinyin": "ze",
+      "en": "choose"
+    },
+    {
+      "pinyin": "zhai",
+      "en": "choose; select"
+    }
+  ],
+  "侧": [
+    {
+      "pinyin": "ce",
+      "en": "side"
+    },
+    {
+      "pinyin": "ze",
+      "en": "side; lateral"
+    },
+    {
+      "pinyin": "zhai",
+      "en": "side; lateral"
+    }
+  ],
+  "措": [
+    {
+      "pinyin": "cuo",
+      "en": "handle"
+    },
+    {
+      "pinyin": "ze",
+      "en": "handle; deal with"
+    },
+    {
+      "pinyin": "ci",
+      "en": "handle; deal with"
+    }
+  ],
+  "咖": [
+    {
+      "pinyin": "ka",
+      "en": "coffee"
+    },
+    {
+      "pinyin": "ga",
+      "en": "coffee"
+    },
+    {
+      "pinyin": "jia",
+      "en": "coffee"
+    }
+  ],
+  "夹": [
+    {
+      "pinyin": "jia",
+      "en": "clamp"
+    },
+    {
+      "pinyin": "ga",
+      "en": "clamp; sandwich"
+    }
+  ],
+  "胳": [
+    {
+      "pinyin": "ge",
+      "en": "arm"
+    },
+    {
+      "pinyin": "ga",
+      "en": "arm; limb"
+    }
+  ],
+  "轧": [
+    {
+      "pinyin": "ya",
+      "en": "roll"
+    },
+    {
+      "pinyin": "ga",
+      "en": "crush; roll"
+    },
+    {
+      "pinyin": "zha",
+      "en": "crush; roll"
+    }
+  ],
+  "家": [
+    {
+      "pinyin": "jia",
+      "en": "home"
+    },
+    {
+      "pinyin": "jie",
+      "en": "family; home"
+    },
+    {
+      "pinyin": "gu",
+      "en": "family; home"
+    }
+  ],
+  "价": [
+    {
+      "pinyin": "jia",
+      "en": "price"
+    },
+    {
+      "pinyin": "jie",
+      "en": "price; value"
+    }
+  ],
+  "假": [
+    {
+      "pinyin": "jia",
+      "en": "fake"
+    },
+    {
+      "pinyin": "xia",
+      "en": "fake; borrow",
+      "suspicious": true
+    },
+    {
+      "pinyin": "jie",
+      "en": "fake; borrow",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ge",
+      "en": "fake; borrow",
+      "suspicious": true
+    }
+  ],
+  "茄": [
+    {
+      "pinyin": "jia",
+      "en": "tomato"
+    },
+    {
+      "pinyin": "qie",
+      "en": "eggplant; tomato"
+    }
+  ],
+  "贾": [
+    {
+      "pinyin": "jia",
+      "en": "buy"
+    },
+    {
+      "pinyin": "gu",
+      "en": "merchant; buy"
+    }
+  ],
+  "夏": [
+    {
+      "pinyin": "xia",
+      "en": "summer"
+    },
+    {
+      "pinyin": "jia",
+      "en": "summer"
+    }
+  ],
+  "押": [
+    {
+      "pinyin": "ya",
+      "en": "detain"
+    },
+    {
+      "pinyin": "jia",
+      "en": "detain; mortgage"
+    },
+    {
+      "pinyin": "xia",
+      "en": "detain; mortgage"
+    }
+  ],
+  "挟": [
+    {
+      "pinyin": "xie",
+      "en": "hold"
+    },
+    {
+      "pinyin": "jia",
+      "en": "hold; carry"
+    }
+  ],
+  "揩": [
+    {
+      "pinyin": "kai",
+      "en": "wipe"
+    },
+    {
+      "pinyin": "jia",
+      "en": null
+    }
+  ],
+  "暇": [
+    {
+      "pinyin": "xia",
+      "en": "leisure"
+    },
+    {
+      "pinyin": "jia",
+      "en": "leisure; spare time"
+    }
+  ],
+  "方": [
+    {
+      "pinyin": "fang",
+      "en": "square"
+    },
+    {
+      "pinyin": "feng",
+      "en": "square; direction",
+      "suspicious": true
+    },
+    {
+      "pinyin": "pang",
+      "en": "square; direction",
+      "suspicious": true
+    },
+    {
+      "pinyin": "wang",
+      "en": "square; direction",
+      "suspicious": true
+    }
+  ],
+  "泛": [
+    {
+      "pinyin": "fan",
+      "en": "float"
+    },
+    {
+      "pinyin": "feng",
+      "en": "float; spread"
+    },
+    {
+      "pinyin": "fa",
+      "en": "float; spread"
+    }
+  ],
+  "蚌": [
+    {
+      "pinyin": "bang",
+      "en": "clam"
+    },
+    {
+      "pinyin": "feng",
+      "en": "clam; mussel",
+      "suspicious": true
+    },
+    {
+      "pinyin": "pi",
+      "en": "clam; mussel",
+      "suspicious": true
+    },
+    {
+      "pinyin": "beng",
+      "en": "clam; mussel",
+      "suspicious": true
+    }
+  ],
+  "见": [
+    {
+      "pinyin": "jian",
+      "en": "see"
+    },
+    {
+      "pinyin": "xian",
+      "en": "see; meet"
+    }
+  ],
+  "件": [
+    {
+      "pinyin": "jian",
+      "en": "item"
+    },
+    {
+      "pinyin": "mou",
+      "en": "item; piece"
+    }
+  ],
+  "浅": [
+    {
+      "pinyin": "qian",
+      "en": "shallow"
+    },
+    {
+      "pinyin": "jian",
+      "en": "shallow; superficial"
+    }
+  ],
+  "碱": [
+    {
+      "pinyin": "jian",
+      "en": "base"
+    },
+    {
+      "pinyin": "xian",
+      "en": "alkali; base"
+    }
+  ],
+  "肩": [
+    {
+      "pinyin": "jian",
+      "en": "shoulder"
+    },
+    {
+      "pinyin": "xian",
+      "en": "shoulder"
+    }
+  ],
+  "茧": [
+    {
+      "pinyin": "jian",
+      "en": "shell"
+    },
+    {
+      "pinyin": "chong",
+      "en": "cocoon; shell"
+    }
+  ],
+  "奸": [
+    {
+      "pinyin": "jian",
+      "en": "traitor"
+    },
+    {
+      "pinyin": "gan",
+      "en": "traitor; adultery"
+    }
+  ],
+  "前": [
+    {
+      "pinyin": "qian",
+      "en": "front"
+    },
+    {
+      "pinyin": "jian",
+      "en": "front; before"
+    }
+  ],
+  "咸": [
+    {
+      "pinyin": "xian",
+      "en": "all"
+    },
+    {
+      "pinyin": "jian",
+      "en": "salty; all"
+    }
+  ],
+  "喊": [
+    {
+      "pinyin": "han",
+      "en": "call"
+    },
+    {
+      "pinyin": "jian",
+      "en": null
+    },
+    {
+      "pinyin": "kan",
+      "en": null
+    }
+  ],
+  "沮": [
+    {
+      "pinyin": "ju",
+      "en": "damp"
+    },
+    {
+      "pinyin": "jian",
+      "en": "damp; discourage"
+    },
+    {
+      "pinyin": "zu",
+      "en": "damp; discourage"
+    }
+  ],
+  "土": [
+    {
+      "pinyin": "tu",
+      "en": "soil"
+    },
+    {
+      "pinyin": "du",
+      "en": "soil; earth"
+    },
+    {
+      "pinyin": "cha",
+      "en": "soil; earth"
+    }
+  ],
+  "涂": [
+    {
+      "pinyin": "tu",
+      "en": "paint"
+    },
+    {
+      "pinyin": "chu",
+      "en": "spread; paint"
+    },
+    {
+      "pinyin": "ye",
+      "en": "spread; paint"
+    }
+  ],
+  "兔": [
+    {
+      "pinyin": "tu",
+      "en": "rabbit"
+    },
+    {
+      "pinyin": "chan",
+      "en": "rabbit"
+    }
+  ],
+  "余": [
+    {
+      "pinyin": "yu",
+      "en": "I"
+    },
+    {
+      "pinyin": "tu",
+      "en": "remaining; i"
+    },
+    {
+      "pinyin": "xu",
+      "en": "remaining; i"
+    }
+  ],
+  "杜": [
+    {
+      "pinyin": "du",
+      "en": "cypress"
+    },
+    {
+      "pinyin": "tu",
+      "en": "cypress; surname du"
+    }
+  ],
+  "跌": [
+    {
+      "pinyin": "die",
+      "en": "fall"
+    },
+    {
+      "pinyin": "tu",
+      "en": "fall; tumble"
+    }
+  ],
+  "碟": [
+    {
+      "pinyin": "die",
+      "en": "dish"
+    },
+    {
+      "pinyin": "she",
+      "en": null
+    }
+  ],
+  "蝶": [
+    {
+      "pinyin": "die",
+      "en": "butterfly"
+    },
+    {
+      "pinyin": "tie",
+      "en": null
+    }
+  ],
+  "涉": [
+    {
+      "pinyin": "she",
+      "en": "wade"
+    },
+    {
+      "pinyin": "die",
+      "en": "wade; involve"
+    }
+  ],
+  "窒": [
+    {
+      "pinyin": "zhi",
+      "en": "stuffy"
+    },
+    {
+      "pinyin": "die",
+      "en": "suffocate; stuffy"
+    }
+  ],
+  "至": [
+    {
+      "pinyin": "zhi",
+      "en": "to"
+    },
+    {
+      "pinyin": "die",
+      "en": "to; until"
+    }
+  ],
+  "横": [
+    {
+      "pinyin": "heng",
+      "en": "across"
+    },
+    {
+      "pinyin": "huang",
+      "en": "horizontal; across"
+    },
+    {
+      "pinyin": "guang",
+      "en": "horizontal; across"
+    }
+  ],
+  "哼": [
+    {
+      "pinyin": "heng",
+      "en": "hum"
+    },
+    {
+      "pinyin": "hng",
+      "en": "snort; hum"
+    }
+  ],
+  "行": [
+    {
+      "pinyin": "xing",
+      "en": "go"
+    },
+    {
+      "pinyin": "heng",
+      "en": "walk; go"
+    },
+    {
+      "pinyin": "hang",
+      "en": "walk; go"
+    }
+  ],
+  "都": [
+    {
+      "pinyin": "dou",
+      "en": "all"
+    },
+    {
+      "pinyin": "du",
+      "en": "all; capital"
+    }
+  ],
+  "毒": [
+    {
+      "pinyin": "du",
+      "en": "toxic"
+    },
+    {
+      "pinyin": "dai",
+      "en": "poison; toxic"
+    }
+  ],
+  "读": [
+    {
+      "pinyin": "du",
+      "en": "read"
+    },
+    {
+      "pinyin": "dou",
+      "en": "read; study"
+    }
+  ],
+  "堵": [
+    {
+      "pinyin": "du",
+      "en": "stop"
+    },
+    {
+      "pinyin": "zhe",
+      "en": "block; stop"
+    }
+  ],
+  "宅": [
+    {
+      "pinyin": "zhai",
+      "en": "house"
+    },
+    {
+      "pinyin": "du",
+      "en": "residence; house"
+    },
+    {
+      "pinyin": "che",
+      "en": "residence; house"
+    }
+  ],
+  "顿": [
+    {
+      "pinyin": "dun",
+      "en": "pause"
+    },
+    {
+      "pinyin": "du",
+      "en": "pause; suddenly"
+    }
+  ],
+  "寨": [
+    {
+      "pinyin": "zhai",
+      "en": "village"
+    },
+    {
+      "pinyin": "qian",
+      "en": "stockade; village"
+    },
+    {
+      "pinyin": "se",
+      "en": "stockade; village"
+    }
+  ],
+  "柴": [
+    {
+      "pinyin": "chai",
+      "en": "wood"
+    },
+    {
+      "pinyin": "zhai",
+      "en": "firewood; wood",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zi",
+      "en": "firewood; wood",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ci",
+      "en": "firewood; wood",
+      "suspicious": true
+    }
+  ],
+  "车": [
+    {
+      "pinyin": "che",
+      "en": "car"
+    },
+    {
+      "pinyin": "ju",
+      "en": "car; vehicle"
+    }
+  ],
+  "尺": [
+    {
+      "pinyin": "chi",
+      "en": "chi (Chinese unit of length)"
+    },
+    {
+      "pinyin": "che",
+      "en": "chi (chinese unit of length)"
+    }
+  ],
+  "拆": [
+    {
+      "pinyin": "chai",
+      "en": "dismantle"
+    },
+    {
+      "pinyin": "che",
+      "en": "take apart; dismantle",
+      "suspicious": true
+    },
+    {
+      "pinyin": "chi",
+      "en": "take apart; dismantle",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ca",
+      "en": "take apart; dismantle",
+      "suspicious": true
+    }
+  ],
+  "斥": [
+    {
+      "pinyin": "chi",
+      "en": "scold"
+    },
+    {
+      "pinyin": "che",
+      "en": "scold; accuse"
+    },
+    {
+      "pinyin": "zhe",
+      "en": "scold; accuse"
+    }
+  ],
+  "池": [
+    {
+      "pinyin": "chi",
+      "en": "pond"
+    },
+    {
+      "pinyin": "che",
+      "en": null
+    },
+    {
+      "pinyin": "tuo",
+      "en": null
+    }
+  ],
+  "仔": [
+    {
+      "pinyin": "zai",
+      "en": "baby"
+    },
+    {
+      "pinyin": "zi",
+      "en": "young; baby"
+    }
+  ],
+  "滋": [
+    {
+      "pinyin": "zi",
+      "en": "grow"
+    },
+    {
+      "pinyin": "ci",
+      "en": "nourish; grow"
+    },
+    {
+      "pinyin": "xuan",
+      "en": "nourish; grow"
+    }
+  ],
+  "事": [
+    {
+      "pinyin": "shi",
+      "en": "matter"
+    },
+    {
+      "pinyin": "zi",
+      "en": "matter; affair"
+    }
+  ],
+  "次": [
+    {
+      "pinyin": "ci",
+      "en": "time"
+    },
+    {
+      "pinyin": "zi",
+      "en": "time; order"
+    }
+  ],
+  "愁": [
+    {
+      "pinyin": "chou",
+      "en": "worry"
+    },
+    {
+      "pinyin": "jiu",
+      "en": "sorrow; worry"
+    },
+    {
+      "pinyin": "qiao",
+      "en": "sorrow; worry"
+    }
+  ],
+  "服": [
+    {
+      "pinyin": "fu",
+      "en": "wear"
+    },
+    {
+      "pinyin": "bo",
+      "en": "wear; obey"
+    },
+    {
+      "pinyin": "bi",
+      "en": "wear; obey"
+    }
+  ],
+  "附": [
+    {
+      "pinyin": "fu",
+      "en": "add"
+    },
+    {
+      "pinyin": "bu",
+      "en": "attach; add"
+    }
+  ],
+  "佛": [
+    {
+      "pinyin": "fu",
+      "en": "Buddha"
+    },
+    {
+      "pinyin": "bo",
+      "en": "buddha; buddhist",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bi",
+      "en": "buddha; buddhist",
+      "suspicious": true
+    },
+    {
+      "pinyin": "fo",
+      "en": "buddha; buddhist",
+      "suspicious": true
+    }
+  ],
+  "副": [
+    {
+      "pinyin": "fu",
+      "en": "pair"
+    },
+    {
+      "pinyin": "pi",
+      "en": "deputy; pair"
+    }
+  ],
+  "幅": [
+    {
+      "pinyin": "fu",
+      "en": "width"
+    },
+    {
+      "pinyin": "bi",
+      "en": "width; piece"
+    }
+  ],
+  "扶": [
+    {
+      "pinyin": "fu",
+      "en": "help"
+    },
+    {
+      "pinyin": "pu",
+      "en": "help; support"
+    }
+  ],
+  "拂": [
+    {
+      "pinyin": "fu",
+      "en": "wipe"
+    },
+    {
+      "pinyin": "fei",
+      "en": "brush; wipe",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bi",
+      "en": "brush; wipe",
+      "suspicious": true
+    },
+    {
+      "pinyin": "pi",
+      "en": "brush; wipe",
+      "suspicious": true
+    }
+  ],
+  "甫": [
+    {
+      "pinyin": "fu",
+      "en": "just"
+    },
+    {
+      "pinyin": "pu",
+      "en": "just; beginning"
+    }
+  ],
+  "仅": [
+    {
+      "pinyin": "jin",
+      "en": "only"
+    },
+    {
+      "pinyin": "fu",
+      "en": "only; merely"
+    },
+    {
+      "pinyin": "nu",
+      "en": "only; merely"
+    }
+  ],
+  "包": [
+    {
+      "pinyin": "bao",
+      "en": "bag"
+    },
+    {
+      "pinyin": "fu",
+      "en": "wrap; bag"
+    },
+    {
+      "pinyin": "pao",
+      "en": "wrap; bag"
+    }
+  ],
+  "哺": [
+    {
+      "pinyin": "bu",
+      "en": "feed"
+    },
+    {
+      "pinyin": "fu",
+      "en": "feed; nurse"
+    }
+  ],
+  "市": [
+    {
+      "pinyin": "shi",
+      "en": "city"
+    },
+    {
+      "pinyin": "fu",
+      "en": "city; market"
+    }
+  ],
+  "怀": [
+    {
+      "pinyin": "huai",
+      "en": "hold"
+    },
+    {
+      "pinyin": "fu",
+      "en": "hold; cherish"
+    }
+  ],
+  "沸": [
+    {
+      "pinyin": "fei",
+      "en": "boil"
+    },
+    {
+      "pinyin": "fu",
+      "en": "boil; bubble"
+    }
+  ],
+  "脯": [
+    {
+      "pinyin": "pu",
+      "en": "chest"
+    },
+    {
+      "pinyin": "fu",
+      "en": "chest; dried meat"
+    }
+  ],
+  "还": [
+    {
+      "pinyin": "hai",
+      "en": "also"
+    },
+    {
+      "pinyin": "fu",
+      "en": "still; also"
+    },
+    {
+      "pinyin": "huan",
+      "en": "still; also"
+    }
+  ],
+  "不": [
+    {
+      "pinyin": "bu",
+      "en": "no"
+    },
+    {
+      "pinyin": "fu",
+      "en": "no; not"
+    },
+    {
+      "pinyin": "fou",
+      "en": "no; not"
+    }
+  ],
+  "扑": [
+    {
+      "pinyin": "pu",
+      "en": "beat"
+    },
+    {
+      "pinyin": "pi",
+      "en": "pounce; beat"
+    }
+  ],
+  "瀑": [
+    {
+      "pinyin": "pu",
+      "en": "cascade"
+    },
+    {
+      "pinyin": "bo",
+      "en": "waterfall; cascade"
+    },
+    {
+      "pinyin": "bao",
+      "en": "waterfall; cascade"
+    }
+  ],
+  "菩": [
+    {
+      "pinyin": "pu",
+      "en": "bodhi"
+    },
+    {
+      "pinyin": "bo",
+      "en": "bodhi; benevolent"
+    },
+    {
+      "pinyin": "bei",
+      "en": "bodhi; benevolent"
+    }
+  ],
+  "葡": [
+    {
+      "pinyin": "pu",
+      "en": "grape"
+    },
+    {
+      "pinyin": "bei",
+      "en": null
+    }
+  ],
+  "蒲": [
+    {
+      "pinyin": "pu",
+      "en": "rush"
+    },
+    {
+      "pinyin": "bo",
+      "en": "cattail; rush"
+    }
+  ],
+  "剥": [
+    {
+      "pinyin": "bo",
+      "en": "peel"
+    },
+    {
+      "pinyin": "pu",
+      "en": "peel; strip"
+    },
+    {
+      "pinyin": "bao",
+      "en": "peel; strip"
+    }
+  ],
+  "卜": [
+    {
+      "pinyin": "bo",
+      "en": "predict"
+    },
+    {
+      "pinyin": "pu",
+      "en": "divination; predict"
+    },
+    {
+      "pinyin": "bu",
+      "en": "divination; predict"
+    }
+  ],
+  "堡": [
+    {
+      "pinyin": "bao",
+      "en": "castle"
+    },
+    {
+      "pinyin": "pu",
+      "en": "castle; fortress"
+    },
+    {
+      "pinyin": "bu",
+      "en": "castle; fortress"
+    }
+  ],
+  "暴": [
+    {
+      "pinyin": "bao",
+      "en": "sudden"
+    },
+    {
+      "pinyin": "pu",
+      "en": "violent; sudden"
+    },
+    {
+      "pinyin": "bo",
+      "en": "violent; sudden"
+    }
+  ],
+  "培": [
+    {
+      "pinyin": "pei",
+      "en": "train"
+    },
+    {
+      "pinyin": "pou",
+      "en": "cultivate; train"
+    },
+    {
+      "pinyin": "pi",
+      "en": "cultivate; train"
+    }
+  ],
+  "抱": [
+    {
+      "pinyin": "bao",
+      "en": "hug"
+    },
+    {
+      "pinyin": "pou",
+      "en": "hug; embrace"
+    },
+    {
+      "pinyin": "pao",
+      "en": "hug; embrace"
+    }
+  ],
+  "部": [
+    {
+      "pinyin": "bu",
+      "en": "part"
+    },
+    {
+      "pinyin": "pou",
+      "en": "department; part"
+    }
+  ],
+  "丁": [
+    {
+      "pinyin": "ding",
+      "en": "male adult"
+    },
+    {
+      "pinyin": "zheng",
+      "en": "male adult"
+    }
+  ],
+  "奠": [
+    {
+      "pinyin": "dian",
+      "en": "commemorate"
+    },
+    {
+      "pinyin": "zheng",
+      "en": "lay foundation; commemorate",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ting",
+      "en": "lay foundation; commemorate",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ding",
+      "en": "lay foundation; commemorate",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zun",
+      "en": "lay foundation; commemorate",
+      "suspicious": true
+    }
+  ],
+  "承": [
+    {
+      "pinyin": "cheng",
+      "en": "bear"
+    },
+    {
+      "pinyin": "zheng",
+      "en": "bear; accept"
+    }
+  ],
+  "敞": [
+    {
+      "pinyin": "chang",
+      "en": "open"
+    },
+    {
+      "pinyin": "zheng",
+      "en": "open; spacious"
+    },
+    {
+      "pinyin": "cheng",
+      "en": "open; spacious"
+    }
+  ],
+  "趟": [
+    {
+      "pinyin": "tang",
+      "en": "trip"
+    },
+    {
+      "pinyin": "zheng",
+      "en": "trip; time"
+    },
+    {
+      "pinyin": "cheng",
+      "en": "trip; time"
+    }
+  ],
+  "朱": [
+    {
+      "pinyin": "zhu",
+      "en": "vermilion"
+    },
+    {
+      "pinyin": "shu",
+      "en": "vermilion; surname zhu"
+    }
+  ],
+  "祝": [
+    {
+      "pinyin": "zhu",
+      "en": "wish"
+    },
+    {
+      "pinyin": "chu",
+      "en": "wish; celebrate"
+    },
+    {
+      "pinyin": "zhou",
+      "en": "wish; celebrate"
+    }
+  ],
+  "助": [
+    {
+      "pinyin": "zhu",
+      "en": "help"
+    },
+    {
+      "pinyin": "chu",
+      "en": "help; assist"
+    }
+  ],
+  "注": [
+    {
+      "pinyin": "zhu",
+      "en": "pour"
+    },
+    {
+      "pinyin": "zhou",
+      "en": "pour; inject"
+    }
+  ],
+  "著": [
+    {
+      "pinyin": "zhu",
+      "en": "write"
+    },
+    {
+      "pinyin": "zhe",
+      "en": "write; famous",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zhao",
+      "en": "write; famous",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zhuo",
+      "en": "write; famous",
+      "suspicious": true
+    },
+    {
+      "pinyin": "chu",
+      "en": "write; famous",
+      "suspicious": true
+    }
+  ],
+  "烛": [
+    {
+      "pinyin": "zhu",
+      "en": "light"
+    },
+    {
+      "pinyin": "chong",
+      "en": "candle; light"
+    }
+  ],
+  "之": [
+    {
+      "pinyin": "zhi",
+      "en": "possessive particle"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "possessive particle"
+    }
+  ],
+  "予": [
+    {
+      "pinyin": "yu",
+      "en": "give"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "give"
+    }
+  ],
+  "宁": [
+    {
+      "pinyin": "ning",
+      "en": "calm"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "peaceful; calm"
+    }
+  ],
+  "属": [
+    {
+      "pinyin": "shu",
+      "en": "genus"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "belong to; genus"
+    }
+  ],
+  "庶": [
+    {
+      "pinyin": "shu",
+      "en": "common"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "common; numerous"
+    },
+    {
+      "pinyin": "zhe",
+      "en": "common; numerous"
+    }
+  ],
+  "斗": [
+    {
+      "pinyin": "dou",
+      "en": "fight"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "fight; bucket"
+    }
+  ],
+  "朝": [
+    {
+      "pinyin": "chao",
+      "en": "dynasty"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "dynasty; morning"
+    },
+    {
+      "pinyin": "zhao",
+      "en": "dynasty; morning"
+    }
+  ],
+  "术": [
+    {
+      "pinyin": "shu",
+      "en": "skill"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "skill; method"
+    }
+  ],
+  "柠": [
+    {
+      "pinyin": "ning",
+      "en": "lemon"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "lemon; citrus"
+    },
+    {
+      "pinyin": "chu",
+      "en": "lemon; citrus"
+    }
+  ],
+  "泞": [
+    {
+      "pinyin": "ning",
+      "en": "muddy"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "muddy; swampy"
+    }
+  ],
+  "茁": [
+    {
+      "pinyin": "zhuo",
+      "en": "grow"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "thrive; grow"
+    }
+  ],
+  "阻": [
+    {
+      "pinyin": "zu",
+      "en": "block"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "hinder; block"
+    }
+  ],
+  "除": [
+    {
+      "pinyin": "chu",
+      "en": "remove"
+    },
+    {
+      "pinyin": "zhu",
+      "en": "eliminate; remove"
+    },
+    {
+      "pinyin": "shu",
+      "en": "eliminate; remove"
+    }
+  ],
+  "遇": [
+    {
+      "pinyin": "yu",
+      "en": "meet"
+    },
+    {
+      "pinyin": "yong",
+      "en": null
+    },
+    {
+      "pinyin": "ou",
+      "en": null
+    }
+  ],
+  "育": [
+    {
+      "pinyin": "yu",
+      "en": "breed"
+    },
+    {
+      "pinyin": "yo",
+      "en": "educate; breed"
+    },
+    {
+      "pinyin": "zhou",
+      "en": "educate; breed"
+    }
+  ],
+  "御": [
+    {
+      "pinyin": "yu",
+      "en": "resist"
+    },
+    {
+      "pinyin": "ya",
+      "en": "resist; imperial"
+    }
+  ],
+  "愉": [
+    {
+      "pinyin": "yu",
+      "en": "happy"
+    },
+    {
+      "pinyin": "tou",
+      "en": null
+    }
+  ],
+  "羽": [
+    {
+      "pinyin": "yu",
+      "en": "plume"
+    },
+    {
+      "pinyin": "hu",
+      "en": "feather; plume"
+    }
+  ],
+  "芋": [
+    {
+      "pinyin": "yu",
+      "en": "taro"
+    },
+    {
+      "pinyin": "xu",
+      "en": "taro; tuber"
+    }
+  ],
+  "豫": [
+    {
+      "pinyin": "yu",
+      "en": "Henan"
+    },
+    {
+      "pinyin": "xie",
+      "en": "hesitate; henan"
+    },
+    {
+      "pinyin": "shu",
+      "en": "hesitate; henan"
+    }
+  ],
+  "逾": [
+    {
+      "pinyin": "yu",
+      "en": "cross"
+    },
+    {
+      "pinyin": "dou",
+      "en": "exceed; cross"
+    }
+  ],
+  "亏": [
+    {
+      "pinyin": "kui",
+      "en": "lose"
+    },
+    {
+      "pinyin": "yu",
+      "en": "lose; deficit"
+    }
+  ],
+  "吁": [
+    {
+      "pinyin": "xu",
+      "en": "sigh"
+    },
+    {
+      "pinyin": "yu",
+      "en": "sigh; appeal"
+    }
+  ],
+  "宛": [
+    {
+      "pinyin": "wan",
+      "en": "as if"
+    },
+    {
+      "pinyin": "yu",
+      "en": "as if; curved",
+      "suspicious": true
+    },
+    {
+      "pinyin": "yuan",
+      "en": "as if; curved",
+      "suspicious": true
+    },
+    {
+      "pinyin": "yun",
+      "en": "as if; curved",
+      "suspicious": true
+    }
+  ],
+  "懊": [
+    {
+      "pinyin": "ao",
+      "en": "regret"
+    },
+    {
+      "pinyin": "yu",
+      "en": null
+    }
+  ],
+  "或": [
+    {
+      "pinyin": "huo",
+      "en": "or"
+    },
+    {
+      "pinyin": "yu",
+      "en": "or; maybe"
+    }
+  ],
+  "拗": [
+    {
+      "pinyin": "ao",
+      "en": "stubborn"
+    },
+    {
+      "pinyin": "yu",
+      "en": null
+    },
+    {
+      "pinyin": "niu",
+      "en": null
+    }
+  ],
+  "梧": [
+    {
+      "pinyin": "wu",
+      "en": "parasol tree"
+    },
+    {
+      "pinyin": "yu",
+      "en": "parasol tree"
+    }
+  ],
+  "澳": [
+    {
+      "pinyin": "ao",
+      "en": "bay"
+    },
+    {
+      "pinyin": "yu",
+      "en": "bay; australia"
+    }
+  ],
+  "王": [
+    {
+      "pinyin": "wang",
+      "en": "king"
+    },
+    {
+      "pinyin": "yu",
+      "en": "king; monarch"
+    }
+  ],
+  "粥": [
+    {
+      "pinyin": "zhou",
+      "en": "gruel"
+    },
+    {
+      "pinyin": "yu",
+      "en": "porridge; gruel"
+    }
+  ],
+  "舒": [
+    {
+      "pinyin": "shu",
+      "en": "ease"
+    },
+    {
+      "pinyin": "yu",
+      "en": "comfortable; ease"
+    }
+  ],
+  "衙": [
+    {
+      "pinyin": "ya",
+      "en": "government office"
+    },
+    {
+      "pinyin": "yu",
+      "en": "government office"
+    }
+  ],
+  "觉": [
+    {
+      "pinyin": "jue",
+      "en": "feel"
+    },
+    {
+      "pinyin": "jiao",
+      "en": "feel; realize"
+    }
+  ],
+  "掘": [
+    {
+      "pinyin": "jue",
+      "en": "dig"
+    },
+    {
+      "pinyin": "ku",
+      "en": null
+    }
+  ],
+  "嚼": [
+    {
+      "pinyin": "jue",
+      "en": "chew"
+    },
+    {
+      "pinyin": "jiao",
+      "en": "chew; masticate"
+    }
+  ],
+  "乙": [
+    {
+      "pinyin": "yi",
+      "en": "second of ten Heavenly Stems"
+    },
+    {
+      "pinyin": "jue",
+      "en": "second of ten heavenly stems"
+    }
+  ],
+  "狂": [
+    {
+      "pinyin": "kuang",
+      "en": "mad"
+    },
+    {
+      "pinyin": "jue",
+      "en": "crazy; mad"
+    }
+  ],
+  "穴": [
+    {
+      "pinyin": "xue",
+      "en": "cave"
+    },
+    {
+      "pinyin": "jue",
+      "en": null
+    }
+  ],
+  "脚": [
+    {
+      "pinyin": "jiao",
+      "en": "leg"
+    },
+    {
+      "pinyin": "jue",
+      "en": "foot; leg"
+    }
+  ],
+  "蛙": [
+    {
+      "pinyin": "wa",
+      "en": "frog"
+    },
+    {
+      "pinyin": "jue",
+      "en": "frog"
+    }
+  ],
+  "涮": [
+    {
+      "pinyin": "shuan",
+      "en": "boil"
+    },
+    {
+      "pinyin": "shua",
+      "en": "rinse; boil"
+    }
+  ],
+  "溯": [
+    {
+      "pinyin": "su",
+      "en": "trace"
+    },
+    {
+      "pinyin": "shuo",
+      "en": "go against; trace"
+    }
+  ],
+  "搬": [
+    {
+      "pinyin": "ban",
+      "en": "move"
+    },
+    {
+      "pinyin": "su",
+      "en": "move; carry"
+    }
+  ],
+  "了": [
+    {
+      "pinyin": "le",
+      "en": "particle indicating completion"
+    },
+    {
+      "pinyin": "liao",
+      "en": "particle indicating completion"
+    }
+  ],
+  "聊": [
+    {
+      "pinyin": "liao",
+      "en": "chat"
+    },
+    {
+      "pinyin": "liu",
+      "en": "chat; talk"
+    }
+  ],
+  "撩": [
+    {
+      "pinyin": "liao",
+      "en": "tease"
+    },
+    {
+      "pinyin": "lao",
+      "en": "tease; flirt"
+    }
+  ],
+  "僚": [
+    {
+      "pinyin": "liao",
+      "en": "official"
+    },
+    {
+      "pinyin": "lao",
+      "en": "official; colleague"
+    }
+  ],
+  "潦": [
+    {
+      "pinyin": "lao",
+      "en": "flood"
+    },
+    {
+      "pinyin": "liao",
+      "en": null
+    }
+  ],
+  "堪": [
+    {
+      "pinyin": "kan",
+      "en": "bear"
+    },
+    {
+      "pinyin": "chen",
+      "en": "bear; endure"
+    }
+  ],
+  "嵌": [
+    {
+      "pinyin": "qian",
+      "en": "inlay"
+    },
+    {
+      "pinyin": "kan",
+      "en": "inlay; embed"
+    },
+    {
+      "pinyin": "han",
+      "en": "inlay; embed"
+    }
+  ],
+  "盼": [
+    {
+      "pinyin": "pan",
+      "en": "hope"
+    },
+    {
+      "pinyin": "fen",
+      "en": "hope; expect"
+    }
+  ],
+  "潘": [
+    {
+      "pinyin": "pan",
+      "en": "surname Pan"
+    },
+    {
+      "pinyin": "bo",
+      "en": "surname pan"
+    },
+    {
+      "pinyin": "fan",
+      "en": "surname pan"
+    }
+  ],
+  "伴": [
+    {
+      "pinyin": "ban",
+      "en": "partner"
+    },
+    {
+      "pinyin": "pan",
+      "en": "companion; partner"
+    }
+  ],
+  "半": [
+    {
+      "pinyin": "ban",
+      "en": "half"
+    },
+    {
+      "pinyin": "pan",
+      "en": "half"
+    }
+  ],
+  "扳": [
+    {
+      "pinyin": "ban",
+      "en": "pull"
+    },
+    {
+      "pinyin": "pan",
+      "en": "pull; twist"
+    }
+  ],
+  "拌": [
+    {
+      "pinyin": "ban",
+      "en": "mix"
+    },
+    {
+      "pinyin": "pan",
+      "en": "mix; stir"
+    }
+  ],
+  "胖": [
+    {
+      "pinyin": "pang",
+      "en": "fat"
+    },
+    {
+      "pinyin": "pan",
+      "en": "fat; plump"
+    }
+  ],
+  "般": [
+    {
+      "pinyin": "ban",
+      "en": "kind"
+    },
+    {
+      "pinyin": "pan",
+      "en": "kind; sort"
+    },
+    {
+      "pinyin": "bo",
+      "en": "kind; sort"
+    }
+  ],
+  "扮": [
+    {
+      "pinyin": "ban",
+      "en": "pretend"
+    },
+    {
+      "pinyin": "fen",
+      "en": "dress up; pretend"
+    },
+    {
+      "pinyin": "huo",
+      "en": "dress up; pretend"
+    }
+  ],
+  "卑": [
+    {
+      "pinyin": "bei",
+      "en": "low"
+    },
+    {
+      "pinyin": "ban",
+      "en": "humble; low",
+      "suspicious": true
+    },
+    {
+      "pinyin": "bi",
+      "en": "humble; low",
+      "suspicious": true
+    },
+    {
+      "pinyin": "pi",
+      "en": "humble; low",
+      "suspicious": true
+    }
+  ],
+  "彬": [
+    {
+      "pinyin": "bin",
+      "en": "refined"
+    },
+    {
+      "pinyin": "ban",
+      "en": "refined; elegant"
+    }
+  ],
+  "涌": [
+    {
+      "pinyin": "yong",
+      "en": "gush"
+    },
+    {
+      "pinyin": "chong",
+      "en": "surge; gush"
+    }
+  ],
+  "容": [
+    {
+      "pinyin": "rong",
+      "en": "contain"
+    },
+    {
+      "pinyin": "yong",
+      "en": "contain; tolerate"
+    }
+  ],
+  "万": [
+    {
+      "pinyin": "wan",
+      "en": "ten thousand"
+    },
+    {
+      "pinyin": "mo",
+      "en": "ten thousand"
+    }
+  ],
+  "完": [
+    {
+      "pinyin": "wan",
+      "en": "finish"
+    },
+    {
+      "pinyin": "kuan",
+      "en": "complete; finish"
+    }
+  ],
+  "免": [
+    {
+      "pinyin": "mian",
+      "en": "avoid"
+    },
+    {
+      "pinyin": "wan",
+      "en": "avoid; exempt"
+    },
+    {
+      "pinyin": "wen",
+      "en": "avoid; exempt"
+    }
+  ],
+  "园": [
+    {
+      "pinyin": "yuan",
+      "en": "park"
+    },
+    {
+      "pinyin": "wan",
+      "en": "garden; park"
+    }
+  ],
+  "娩": [
+    {
+      "pinyin": "mian",
+      "en": "deliver"
+    },
+    {
+      "pinyin": "wan",
+      "en": "give birth; deliver"
+    },
+    {
+      "pinyin": "wen",
+      "en": "give birth; deliver"
+    }
+  ],
+  "蔓": [
+    {
+      "pinyin": "man",
+      "en": "vine"
+    },
+    {
+      "pinyin": "wan",
+      "en": "vine; creep"
+    }
+  ],
+  "员": [
+    {
+      "pinyin": "yuan",
+      "en": "member"
+    },
+    {
+      "pinyin": "yun",
+      "en": "member; employee"
+    }
+  ],
+  "怨": [
+    {
+      "pinyin": "yuan",
+      "en": "complain"
+    },
+    {
+      "pinyin": "yun",
+      "en": "complain; resentment"
+    }
+  ],
+  "援": [
+    {
+      "pinyin": "yuan",
+      "en": "help"
+    },
+    {
+      "pinyin": "huan",
+      "en": null
+    }
+  ],
+  "允": [
+    {
+      "pinyin": "yun",
+      "en": "allow"
+    },
+    {
+      "pinyin": "yuan",
+      "en": "allow; permit"
+    }
+  ],
+  "咽": [
+    {
+      "pinyin": "yan",
+      "en": "throat"
+    },
+    {
+      "pinyin": "yuan",
+      "en": "swallow; throat"
+    },
+    {
+      "pinyin": "ye",
+      "en": "swallow; throat"
+    }
+  ],
+  "捐": [
+    {
+      "pinyin": "juan",
+      "en": "donate"
+    },
+    {
+      "pinyin": "yuan",
+      "en": "donate; contribute"
+    }
+  ],
+  "穿": [
+    {
+      "pinyin": "chuan",
+      "en": "wear"
+    },
+    {
+      "pinyin": "yuan",
+      "en": "wear; pierce"
+    }
+  ],
+  "草": [
+    {
+      "pinyin": "cao",
+      "en": "herb"
+    },
+    {
+      "pinyin": "zao",
+      "en": "grass; herb"
+    }
+  ],
+  "槽": [
+    {
+      "pinyin": "cao",
+      "en": "trough"
+    },
+    {
+      "pinyin": "zao",
+      "en": "trough; groove"
+    }
+  ],
+  "澡": [
+    {
+      "pinyin": "zao",
+      "en": "wash"
+    },
+    {
+      "pinyin": "cao",
+      "en": null
+    }
+  ],
+  "造": [
+    {
+      "pinyin": "zao",
+      "en": "make"
+    },
+    {
+      "pinyin": "cao",
+      "en": "make; build"
+    }
+  ],
+  "燥": [
+    {
+      "pinyin": "zao",
+      "en": "dry"
+    },
+    {
+      "pinyin": "sao",
+      "en": "dry; arid"
+    }
+  ],
+  "蚤": [
+    {
+      "pinyin": "zao",
+      "en": "flea"
+    },
+    {
+      "pinyin": "zhao",
+      "en": "flea"
+    }
+  ],
+  "凿": [
+    {
+      "pinyin": "zao",
+      "en": "carve"
+    },
+    {
+      "pinyin": "zuo",
+      "en": "chisel; carve"
+    }
+  ],
+  "窖": [
+    {
+      "pinyin": "jiao",
+      "en": "pit"
+    },
+    {
+      "pinyin": "zao",
+      "en": "cellar; pit"
+    }
+  ],
+  "鞋": [
+    {
+      "pinyin": "xie",
+      "en": "shoe"
+    },
+    {
+      "pinyin": "wa",
+      "en": "shoe"
+    }
+  ],
+  "斜": [
+    {
+      "pinyin": "xie",
+      "en": "slant"
+    },
+    {
+      "pinyin": "xia",
+      "en": "slant; oblique",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ye",
+      "en": "slant; oblique",
+      "suspicious": true
+    },
+    {
+      "pinyin": "cha",
+      "en": "slant; oblique",
+      "suspicious": true
+    }
+  ],
+  "泄": [
+    {
+      "pinyin": "xie",
+      "en": "leak"
+    },
+    {
+      "pinyin": "yi",
+      "en": "leak; release"
+    }
+  ],
+  "歇": [
+    {
+      "pinyin": "xie",
+      "en": "rest"
+    },
+    {
+      "pinyin": "ya",
+      "en": null
+    }
+  ],
+  "蝎": [
+    {
+      "pinyin": "xie",
+      "en": "scorpion"
+    },
+    {
+      "pinyin": "he",
+      "en": "scorpion"
+    }
+  ],
+  "邪": [
+    {
+      "pinyin": "xie",
+      "en": "evil"
+    },
+    {
+      "pinyin": "she",
+      "en": "evil; heretical",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ye",
+      "en": "evil; heretical",
+      "suspicious": true
+    },
+    {
+      "pinyin": "xu",
+      "en": "evil; heretical",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ya",
+      "en": "evil; heretical",
+      "suspicious": true
+    }
+  ],
+  "叶": [
+    {
+      "pinyin": "ye",
+      "en": "leaf"
+    },
+    {
+      "pinyin": "xie",
+      "en": "leaf; surname ye"
+    }
+  ],
+  "接": [
+    {
+      "pinyin": "jie",
+      "en": "receive"
+    },
+    {
+      "pinyin": "xie",
+      "en": "receive; connect",
+      "suspicious": true
+    },
+    {
+      "pinyin": "sha",
+      "en": "receive; connect",
+      "suspicious": true
+    },
+    {
+      "pinyin": "cha",
+      "en": "receive; connect",
+      "suspicious": true
+    }
+  ],
+  "汁": [
+    {
+      "pinyin": "zhi",
+      "en": "sap"
+    },
+    {
+      "pinyin": "xie",
+      "en": "juice; sap"
+    },
+    {
+      "pinyin": "shi",
+      "en": "juice; sap"
+    }
+  ],
+  "溉": [
+    {
+      "pinyin": "gai",
+      "en": "water"
+    },
+    {
+      "pinyin": "xie",
+      "en": "irrigate; water"
+    }
+  ],
+  "血": [
+    {
+      "pinyin": "xue",
+      "en": "blood"
+    },
+    {
+      "pinyin": "xie",
+      "en": "blood"
+    }
+  ],
+  "解": [
+    {
+      "pinyin": "jie",
+      "en": "solve"
+    },
+    {
+      "pinyin": "xie",
+      "en": "solve; explain"
+    }
+  ],
+  "隧": [
+    {
+      "pinyin": "sui",
+      "en": "cave"
+    },
+    {
+      "pinyin": "zhui",
+      "en": "tunnel; cave"
+    }
+  ],
+  "尿": [
+    {
+      "pinyin": "niao",
+      "en": "pee"
+    },
+    {
+      "pinyin": "sui",
+      "en": "urine; pee"
+    }
+  ],
+  "粹": [
+    {
+      "pinyin": "cui",
+      "en": "pure"
+    },
+    {
+      "pinyin": "sui",
+      "en": "pure; essence"
+    }
+  ],
+  "限": [
+    {
+      "pinyin": "xian",
+      "en": "limit"
+    },
+    {
+      "pinyin": "wen",
+      "en": "limit; restrict"
+    }
+  ],
+  "掀": [
+    {
+      "pinyin": "xian",
+      "en": "lift"
+    },
+    {
+      "pinyin": "hen",
+      "en": null
+    }
+  ],
+  "涎": [
+    {
+      "pinyin": "xian",
+      "en": "drool"
+    },
+    {
+      "pinyin": "yan",
+      "en": "saliva; drool"
+    },
+    {
+      "pinyin": "dian",
+      "en": "saliva; drool"
+    }
+  ],
+  "纤": [
+    {
+      "pinyin": "xian",
+      "en": "thin"
+    },
+    {
+      "pinyin": "qian",
+      "en": "thin; slender"
+    }
+  ],
+  "羡": [
+    {
+      "pinyin": "xian",
+      "en": "envy"
+    },
+    {
+      "pinyin": "yan",
+      "en": "envy; admire"
+    },
+    {
+      "pinyin": "yi",
+      "en": "envy; admire"
+    }
+  ],
+  "宪": [
+    {
+      "pinyin": "xian",
+      "en": "law"
+    },
+    {
+      "pinyin": "xiong",
+      "en": "constitution; law"
+    }
+  ],
+  "捍": [
+    {
+      "pinyin": "han",
+      "en": "defend"
+    },
+    {
+      "pinyin": "xian",
+      "en": null
+    },
+    {
+      "pinyin": "gan",
+      "en": null
+    }
+  ],
+  "省": [
+    {
+      "pinyin": "sheng",
+      "en": "save"
+    },
+    {
+      "pinyin": "xian",
+      "en": "save; examine"
+    },
+    {
+      "pinyin": "xing",
+      "en": "save; examine"
+    }
+  ],
+  "休": [
+    {
+      "pinyin": "xiu",
+      "en": "rest"
+    },
+    {
+      "pinyin": "xu",
+      "en": "rest; stop"
+    }
+  ],
+  "臭": [
+    {
+      "pinyin": "chou",
+      "en": "stinky"
+    },
+    {
+      "pinyin": "xiu",
+      "en": "stinky; smelly"
+    }
+  ],
+  "灯": [
+    {
+      "pinyin": "deng",
+      "en": "lamp"
+    },
+    {
+      "pinyin": "ding",
+      "en": "lamp; light"
+    }
+  ],
+  "登": [
+    {
+      "pinyin": "deng",
+      "en": "climb"
+    },
+    {
+      "pinyin": "de",
+      "en": "climb; ascend"
+    }
+  ],
+  "邓": [
+    {
+      "pinyin": "deng",
+      "en": "surname Deng"
+    },
+    {
+      "pinyin": "shan",
+      "en": "surname deng"
+    }
+  ],
+  "橙": [
+    {
+      "pinyin": "cheng",
+      "en": "orange"
+    },
+    {
+      "pinyin": "deng",
+      "en": "orange; citrus"
+    },
+    {
+      "pinyin": "chen",
+      "en": "orange; citrus"
+    }
+  ],
+  "澄": [
+    {
+      "pinyin": "cheng",
+      "en": "pure"
+    },
+    {
+      "pinyin": "deng",
+      "en": null
+    }
+  ],
+  "杉": [
+    {
+      "pinyin": "shan",
+      "en": "fir"
+    },
+    {
+      "pinyin": "sha",
+      "en": "cedar; fir"
+    }
+  ],
+  "苫": [
+    {
+      "pinyin": "shan",
+      "en": "mat"
+    },
+    {
+      "pinyin": "tian",
+      "en": "cover; mat"
+    },
+    {
+      "pinyin": "chan",
+      "en": "cover; mat"
+    }
+  ],
+  "单": [
+    {
+      "pinyin": "dan",
+      "en": "alone"
+    },
+    {
+      "pinyin": "shan",
+      "en": "single; alone"
+    },
+    {
+      "pinyin": "chan",
+      "en": "single; alone"
+    }
+  ],
+  "掸": [
+    {
+      "pinyin": "dan",
+      "en": "dust"
+    },
+    {
+      "pinyin": "shan",
+      "en": "dust; flick"
+    }
+  ],
+  "掺": [
+    {
+      "pinyin": "can",
+      "en": "mix"
+    },
+    {
+      "pinyin": "shan",
+      "en": "mix; blend"
+    },
+    {
+      "pinyin": "chan",
+      "en": "mix; blend"
+    }
+  ],
+  "栅": [
+    {
+      "pinyin": "zha",
+      "en": "fence"
+    },
+    {
+      "pinyin": "shan",
+      "en": "fence; barrier"
+    },
+    {
+      "pinyin": "ce",
+      "en": "fence; barrier"
+    }
+  ],
+  "落": [
+    {
+      "pinyin": "luo",
+      "en": "fall"
+    },
+    {
+      "pinyin": "la",
+      "en": null
+    },
+    {
+      "pinyin": "lao",
+      "en": null
+    }
+  ],
+  "蓝": [
+    {
+      "pinyin": "lan",
+      "en": "blue"
+    },
+    {
+      "pinyin": "la",
+      "en": "blue; indigo"
+    }
+  ],
+  "转": [
+    {
+      "pinyin": "zhuan",
+      "en": "turn"
+    },
+    {
+      "pinyin": "zhuai",
+      "en": "turn; rotate"
+    }
+  ],
+  "赚": [
+    {
+      "pinyin": "zhuan",
+      "en": "earn"
+    },
+    {
+      "pinyin": "zuan",
+      "en": "earn; profit"
+    }
+  ],
+  "撰": [
+    {
+      "pinyin": "zhuan",
+      "en": "write"
+    },
+    {
+      "pinyin": "xuan",
+      "en": "write; compose"
+    },
+    {
+      "pinyin": "suan",
+      "en": "write; compose"
+    }
+  ],
+  "传": [
+    {
+      "pinyin": "chuan",
+      "en": "spread"
+    },
+    {
+      "pinyin": "zhuan",
+      "en": "pass on; spread"
+    }
+  ],
+  "恶": [
+    {
+      "pinyin": "e",
+      "en": "bad"
+    },
+    {
+      "pinyin": "wu",
+      "en": "evil; bad"
+    }
+  ],
+  "蛾": [
+    {
+      "pinyin": "e",
+      "en": "moth"
+    },
+    {
+      "pinyin": "yi",
+      "en": "moth"
+    }
+  ],
+  "啊": [
+    {
+      "pinyin": "a",
+      "en": "particle"
+    },
+    {
+      "pinyin": "e",
+      "en": null
+    }
+  ],
+  "庵": [
+    {
+      "pinyin": "an",
+      "en": "hut"
+    },
+    {
+      "pinyin": "e",
+      "en": "nunnery; hut"
+    },
+    {
+      "pinyin": "yan",
+      "en": "nunnery; hut"
+    }
+  ],
+  "歹": [
+    {
+      "pinyin": "dai",
+      "en": "bad"
+    },
+    {
+      "pinyin": "e",
+      "en": null
+    }
+  ],
+  "蛤": [
+    {
+      "pinyin": "ha",
+      "en": "clam"
+    },
+    {
+      "pinyin": "e",
+      "en": "clam; crab"
+    },
+    {
+      "pinyin": "ge",
+      "en": "clam; crab"
+    }
+  ],
+  "邑": [
+    {
+      "pinyin": "yi",
+      "en": "city"
+    },
+    {
+      "pinyin": "e",
+      "en": null
+    }
+  ],
+  "阿": [
+    {
+      "pinyin": "a",
+      "en": "aunt"
+    },
+    {
+      "pinyin": "e",
+      "en": "prefix; aunt"
+    }
+  ],
+  "隘": [
+    {
+      "pinyin": "ai",
+      "en": "pass"
+    },
+    {
+      "pinyin": "e",
+      "en": "narrow; pass"
+    }
+  ],
+  "化": [
+    {
+      "pinyin": "hua",
+      "en": "change"
+    },
+    {
+      "pinyin": "huo",
+      "en": "change; transform"
+    }
+  ],
+  "划": [
+    {
+      "pinyin": "hua",
+      "en": "draw"
+    },
+    {
+      "pinyin": "guo",
+      "en": "draw; plan"
+    },
+    {
+      "pinyin": "huai",
+      "en": "draw; plan"
+    }
+  ],
+  "滑": [
+    {
+      "pinyin": "hua",
+      "en": "smooth"
+    },
+    {
+      "pinyin": "gu",
+      "en": "slippery; smooth"
+    }
+  ],
+  "找": [
+    {
+      "pinyin": "zhao",
+      "en": "find"
+    },
+    {
+      "pinyin": "hua",
+      "en": "find; seek"
+    }
+  ],
+  "豁": [
+    {
+      "pinyin": "huo",
+      "en": "open"
+    },
+    {
+      "pinyin": "hua",
+      "en": "open; clear"
+    }
+  ],
+  "母": [
+    {
+      "pinyin": "mu",
+      "en": "mother"
+    },
+    {
+      "pinyin": "wu",
+      "en": "mother; female"
+    }
+  ],
+  "幕": [
+    {
+      "pinyin": "mu",
+      "en": "screen"
+    },
+    {
+      "pinyin": "man",
+      "en": null
+    }
+  ],
+  "募": [
+    {
+      "pinyin": "mu",
+      "en": "raise"
+    },
+    {
+      "pinyin": "bo",
+      "en": "recruit; raise"
+    }
+  ],
+  "嘿": [
+    {
+      "pinyin": "hei",
+      "en": "hi"
+    },
+    {
+      "pinyin": "mu",
+      "en": "hey; hi"
+    },
+    {
+      "pinyin": "mo",
+      "en": "hey; hi"
+    }
+  ],
+  "姥": [
+    {
+      "pinyin": "lao",
+      "en": "old woman"
+    },
+    {
+      "pinyin": "mu",
+      "en": "grandmother; old woman"
+    }
+  ],
+  "模": [
+    {
+      "pinyin": "mo",
+      "en": "mold"
+    },
+    {
+      "pinyin": "mu",
+      "en": "model; mold"
+    }
+  ],
+  "莫": [
+    {
+      "pinyin": "mo",
+      "en": "no"
+    },
+    {
+      "pinyin": "mu",
+      "en": null
+    }
+  ],
+  "屯": [
+    {
+      "pinyin": "tun",
+      "en": "gather"
+    },
+    {
+      "pinyin": "zhun",
+      "en": "station; gather"
+    }
+  ],
+  "敦": [
+    {
+      "pinyin": "dun",
+      "en": "honest"
+    },
+    {
+      "pinyin": "zhun",
+      "en": "honest; sincere",
+      "suspicious": true
+    },
+    {
+      "pinyin": "dao",
+      "en": "honest; sincere",
+      "suspicious": true
+    },
+    {
+      "pinyin": "tun",
+      "en": "honest; sincere",
+      "suspicious": true
+    },
+    {
+      "pinyin": "diao",
+      "en": "honest; sincere",
+      "suspicious": true
+    },
+    {
+      "pinyin": "dui",
+      "en": "honest; sincere",
+      "suspicious": true
+    },
+    {
+      "pinyin": "tuan",
+      "en": "honest; sincere",
+      "suspicious": true
+    }
+  ],
+  "淳": [
+    {
+      "pinyin": "chun",
+      "en": "pure"
+    },
+    {
+      "pinyin": "zhun",
+      "en": "pure; honest"
+    }
+  ],
+  "盹": [
+    {
+      "pinyin": "dun",
+      "en": "nap"
+    },
+    {
+      "pinyin": "zhun",
+      "en": "doze; nap"
+    }
+  ],
+  "思": [
+    {
+      "pinyin": "si",
+      "en": "think"
+    },
+    {
+      "pinyin": "sai",
+      "en": "think; consider"
+    }
+  ],
+  "司": [
+    {
+      "pinyin": "si",
+      "en": "manage"
+    },
+    {
+      "pinyin": "ci",
+      "en": "manage; department"
+    }
+  ],
+  "似": [
+    {
+      "pinyin": "shi",
+      "en": "like"
+    },
+    {
+      "pinyin": "si",
+      "en": "like; resemble"
+    }
+  ],
+  "寺": [
+    {
+      "pinyin": "si",
+      "en": "temple"
+    },
+    {
+      "pinyin": "shi",
+      "en": "temple; monastery"
+    }
+  ],
+  "斯": [
+    {
+      "pinyin": "si",
+      "en": "this"
+    },
+    {
+      "pinyin": "shi",
+      "en": "this; thus"
+    }
+  ],
+  "以": [
+    {
+      "pinyin": "yi",
+      "en": "by"
+    },
+    {
+      "pinyin": "si",
+      "en": "with; by"
+    }
+  ],
+  "伺": [
+    {
+      "pinyin": "ci",
+      "en": "wait"
+    },
+    {
+      "pinyin": "si",
+      "en": "wait; attend"
+    }
+  ],
+  "厕": [
+    {
+      "pinyin": "ce",
+      "en": "toilet"
+    },
+    {
+      "pinyin": "si",
+      "en": "toilet; bathroom"
+    }
+  ],
+  "台": [
+    {
+      "pinyin": "tai",
+      "en": "stage"
+    },
+    {
+      "pinyin": "si",
+      "en": "platform; stage"
+    },
+    {
+      "pinyin": "yi",
+      "en": "platform; stage"
+    }
+  ],
+  "已": [
+    {
+      "pinyin": "yi",
+      "en": "already"
+    },
+    {
+      "pinyin": "si",
+      "en": "already; seventh of ten heavenly stems"
+    }
+  ],
+  "祠": [
+    {
+      "pinyin": "ci",
+      "en": "temple"
+    },
+    {
+      "pinyin": "si",
+      "en": "ancestral hall; temple"
+    }
+  ],
+  "肄": [
+    {
+      "pinyin": "yi",
+      "en": "study"
+    },
+    {
+      "pinyin": "si",
+      "en": null
+    }
+  ],
+  "食": [
+    {
+      "pinyin": "shi",
+      "en": "eat"
+    },
+    {
+      "pinyin": "si",
+      "en": "eat; food"
+    },
+    {
+      "pinyin": "yi",
+      "en": "eat; food"
+    }
+  ],
+  "占": [
+    {
+      "pinyin": "zhan",
+      "en": "occupy"
+    },
+    {
+      "pinyin": "tie",
+      "en": "occupy; divine"
+    }
+  ],
+  "沾": [
+    {
+      "pinyin": "zhan",
+      "en": "dip"
+    },
+    {
+      "pinyin": "tian",
+      "en": "dip; touch",
+      "suspicious": true
+    },
+    {
+      "pinyin": "dian",
+      "en": "dip; touch",
+      "suspicious": true
+    },
+    {
+      "pinyin": "chan",
+      "en": "dip; touch",
+      "suspicious": true
+    }
+  ],
+  "粘": [
+    {
+      "pinyin": "zhan",
+      "en": "glue"
+    },
+    {
+      "pinyin": "nian",
+      "en": "stick; glue"
+    }
+  ],
+  "颤": [
+    {
+      "pinyin": "chan",
+      "en": "shake"
+    },
+    {
+      "pinyin": "zhan",
+      "en": null
+    }
+  ],
+  "幢": [
+    {
+      "pinyin": "chuang",
+      "en": "tall"
+    },
+    {
+      "pinyin": "zhuang",
+      "en": "building; tall"
+    }
+  ],
+  "搞": [
+    {
+      "pinyin": "gao",
+      "en": "do"
+    },
+    {
+      "pinyin": "qiao",
+      "en": null
+    },
+    {
+      "pinyin": "kao",
+      "en": null
+    }
+  ],
+  "焦": [
+    {
+      "pinyin": "jiao",
+      "en": "burnt"
+    },
+    {
+      "pinyin": "qiao",
+      "en": "burnt; anxious"
+    }
+  ],
+  "蕉": [
+    {
+      "pinyin": "jiao",
+      "en": "banana"
+    },
+    {
+      "pinyin": "qiao",
+      "en": "banana; plantain"
+    }
+  ],
+  "追": [
+    {
+      "pinyin": "zhui",
+      "en": "chase"
+    },
+    {
+      "pinyin": "dui",
+      "en": "chase; pursue"
+    },
+    {
+      "pinyin": "tui",
+      "en": "chase; pursue"
+    }
+  ],
+  "垂": [
+    {
+      "pinyin": "chui",
+      "en": "hang"
+    },
+    {
+      "pinyin": "zhui",
+      "en": "hang; droop"
+    }
+  ],
+  "椎": [
+    {
+      "pinyin": "chui",
+      "en": "hammer"
+    },
+    {
+      "pinyin": "zhui",
+      "en": "vertebra; hammer"
+    }
+  ],
+  "致": [
+    {
+      "pinyin": "zhi",
+      "en": "send"
+    },
+    {
+      "pinyin": "zhui",
+      "en": "cause; send"
+    }
+  ],
+  "才": [
+    {
+      "pinyin": "cai",
+      "en": "talent"
+    },
+    {
+      "pinyin": "zai",
+      "en": "talent; ability"
+    }
+  ],
+  "唇": [
+    {
+      "pinyin": "chun",
+      "en": "lip"
+    },
+    {
+      "pinyin": "zhen",
+      "en": "lip"
+    }
+  ],
+  "震": [
+    {
+      "pinyin": "zhen",
+      "en": "shake"
+    },
+    {
+      "pinyin": "shen",
+      "en": "shake; thunder"
+    }
+  ],
+  "枕": [
+    {
+      "pinyin": "zhen",
+      "en": "rest"
+    },
+    {
+      "pinyin": "chen",
+      "en": "pillow; rest"
+    }
+  ],
+  "疹": [
+    {
+      "pinyin": "zhen",
+      "en": "rash"
+    },
+    {
+      "pinyin": "chen",
+      "en": "rash; spot"
+    }
+  ],
+  "填": [
+    {
+      "pinyin": "tian",
+      "en": "fill"
+    },
+    {
+      "pinyin": "zhen",
+      "en": "fill; stuff"
+    },
+    {
+      "pinyin": "chen",
+      "en": "fill; stuff"
+    }
+  ],
+  "慎": [
+    {
+      "pinyin": "shen",
+      "en": "careful"
+    },
+    {
+      "pinyin": "zhen",
+      "en": "careful; prudent"
+    }
+  ],
+  "趁": [
+    {
+      "pinyin": "chen",
+      "en": "while"
+    },
+    {
+      "pinyin": "zhen",
+      "en": "take advantage of; while"
+    },
+    {
+      "pinyin": "nian",
+      "en": "take advantage of; while"
+    }
+  ],
+  "鼎": [
+    {
+      "pinyin": "ding",
+      "en": "tripod"
+    },
+    {
+      "pinyin": "zhen",
+      "en": "tripod; cauldron"
+    }
+  ],
+  "和": [
+    {
+      "pinyin": "he",
+      "en": "and"
+    },
+    {
+      "pinyin": "hu",
+      "en": "and; harmonious"
+    },
+    {
+      "pinyin": "huo",
+      "en": "and; harmonious"
+    }
+  ],
+  "核": [
+    {
+      "pinyin": "he",
+      "en": "core"
+    },
+    {
+      "pinyin": "hu",
+      "en": "core; nucleus",
+      "suspicious": true
+    },
+    {
+      "pinyin": "gai",
+      "en": "core; nucleus",
+      "suspicious": true
+    },
+    {
+      "pinyin": "kai",
+      "en": "core; nucleus",
+      "suspicious": true
+    }
+  ],
+  "苦": [
+    {
+      "pinyin": "ku",
+      "en": "bitter"
+    },
+    {
+      "pinyin": "hu",
+      "en": "bitter; painful"
+    },
+    {
+      "pinyin": "gu",
+      "en": "bitter; painful"
+    }
+  ],
+  "许": [
+    {
+      "pinyin": "xu",
+      "en": "allow"
+    },
+    {
+      "pinyin": "hu",
+      "en": null
+    }
+  ],
+  "雇": [
+    {
+      "pinyin": "gu",
+      "en": "hire"
+    },
+    {
+      "pinyin": "hu",
+      "en": "hire; employ"
+    }
+  ],
+  "波": [
+    {
+      "pinyin": "bo",
+      "en": "wave"
+    },
+    {
+      "pinyin": "bi",
+      "en": "wave; ripple"
+    },
+    {
+      "pinyin": "bei",
+      "en": "wave; ripple"
+    }
+  ],
+  "薄": [
+    {
+      "pinyin": "bao",
+      "en": "thin"
+    },
+    {
+      "pinyin": "bo",
+      "en": "thin; light"
+    },
+    {
+      "pinyin": "bu",
+      "en": "thin; light"
+    }
+  ],
+  "怕": [
+    {
+      "pinyin": "pa",
+      "en": "fear"
+    },
+    {
+      "pinyin": "bo",
+      "en": "fear; afraid"
+    }
+  ],
+  "柏": [
+    {
+      "pinyin": "bai",
+      "en": "cypress"
+    },
+    {
+      "pinyin": "bo",
+      "en": "cypress; surname bai"
+    }
+  ],
+  "爆": [
+    {
+      "pinyin": "bao",
+      "en": "burst"
+    },
+    {
+      "pinyin": "bo",
+      "en": "explode; burst"
+    }
+  ],
+  "白": [
+    {
+      "pinyin": "bai",
+      "en": "pure"
+    },
+    {
+      "pinyin": "bo",
+      "en": "white; pure"
+    }
+  ],
+  "百": [
+    {
+      "pinyin": "bai",
+      "en": "hundred"
+    },
+    {
+      "pinyin": "bo",
+      "en": "hundred"
+    },
+    {
+      "pinyin": "mo",
+      "en": "hundred"
+    }
+  ],
+  "簿": [
+    {
+      "pinyin": "bu",
+      "en": "book"
+    },
+    {
+      "pinyin": "bo",
+      "en": "book; notebook"
+    }
+  ],
+  "跑": [
+    {
+      "pinyin": "pao",
+      "en": "run"
+    },
+    {
+      "pinyin": "bo",
+      "en": "run; race"
+    }
+  ],
+  "螃": [
+    {
+      "pinyin": "pang",
+      "en": "crab"
+    },
+    {
+      "pinyin": "bang",
+      "en": "crab"
+    }
+  ],
+  "仿": [
+    {
+      "pinyin": "fang",
+      "en": "imitate"
+    },
+    {
+      "pinyin": "pang",
+      "en": "imitate; resemble"
+    }
+  ],
+  "房": [
+    {
+      "pinyin": "fang",
+      "en": "room"
+    },
+    {
+      "pinyin": "pang",
+      "en": "room; house"
+    }
+  ],
+  "磅": [
+    {
+      "pinyin": "bang",
+      "en": "pound"
+    },
+    {
+      "pinyin": "pang",
+      "en": "pound; weigh"
+    }
+  ],
+  "膀": [
+    {
+      "pinyin": "bang",
+      "en": "wing"
+    },
+    {
+      "pinyin": "pang",
+      "en": "shoulder; wing"
+    }
+  ],
+  "式": [
+    {
+      "pinyin": "shi",
+      "en": "form"
+    },
+    {
+      "pinyin": "te",
+      "en": "style; form"
+    }
+  ],
+  "石": [
+    {
+      "pinyin": "shi",
+      "en": "rock"
+    },
+    {
+      "pinyin": "dan",
+      "en": "stone; rock"
+    }
+  ],
+  "失": [
+    {
+      "pinyin": "shi",
+      "en": "lose"
+    },
+    {
+      "pinyin": "yi",
+      "en": "lose; miss"
+    }
+  ],
+  "识": [
+    {
+      "pinyin": "shi",
+      "en": "know"
+    },
+    {
+      "pinyin": "zhi",
+      "en": "know; recognize"
+    }
+  ],
+  "匙": [
+    {
+      "pinyin": "shi",
+      "en": "key"
+    },
+    {
+      "pinyin": "chi",
+      "en": "spoon; key"
+    }
+  ],
+  "恃": [
+    {
+      "pinyin": "shi",
+      "en": "depend"
+    },
+    {
+      "pinyin": "zhi",
+      "en": null
+    }
+  ],
+  "拾": [
+    {
+      "pinyin": "shi",
+      "en": "pick up"
+    },
+    {
+      "pinyin": "she",
+      "en": "pick up; collect"
+    },
+    {
+      "pinyin": "jie",
+      "en": "pick up; collect"
+    }
+  ],
+  "施": [
+    {
+      "pinyin": "shi",
+      "en": "apply"
+    },
+    {
+      "pinyin": "yi",
+      "en": "carry out; apply"
+    }
+  ],
+  "氏": [
+    {
+      "pinyin": "shi",
+      "en": "clan"
+    },
+    {
+      "pinyin": "zhi",
+      "en": "clan; surname"
+    },
+    {
+      "pinyin": "jing",
+      "en": "clan; surname"
+    }
+  ],
+  "适": [
+    {
+      "pinyin": "shi",
+      "en": "suitable"
+    },
+    {
+      "pinyin": "kuo",
+      "en": null
+    }
+  ],
+  "什": [
+    {
+      "pinyin": "shen",
+      "en": "ten"
+    },
+    {
+      "pinyin": "shi",
+      "en": "what; ten"
+    }
+  ],
+  "殖": [
+    {
+      "pinyin": "zhi",
+      "en": "breed"
+    },
+    {
+      "pinyin": "shi",
+      "en": "reproduce; breed"
+    }
+  ],
+  "液": [
+    {
+      "pinyin": "ye",
+      "en": "fluid"
+    },
+    {
+      "pinyin": "shi",
+      "en": "liquid; fluid"
+    }
+  ],
+  "肢": [
+    {
+      "pinyin": "zhi",
+      "en": "arm"
+    },
+    {
+      "pinyin": "shi",
+      "en": "limb; arm"
+    }
+  ],
+  "舍": [
+    {
+      "pinyin": "she",
+      "en": "house"
+    },
+    {
+      "pinyin": "shi",
+      "en": "abandon; house"
+    }
+  ],
+  "赫": [
+    {
+      "pinyin": "he",
+      "en": "bright"
+    },
+    {
+      "pinyin": "shi",
+      "en": "bright; prominent"
+    }
+  ],
+  "合": [
+    {
+      "pinyin": "he",
+      "en": "combine"
+    },
+    {
+      "pinyin": "ge",
+      "en": "combine; together"
+    }
+  ],
+  "喝": [
+    {
+      "pinyin": "he",
+      "en": "drink"
+    },
+    {
+      "pinyin": "ye",
+      "en": "drink; shout"
+    },
+    {
+      "pinyin": "kai",
+      "en": "drink; shout"
+    }
+  ],
+  "盒": [
+    {
+      "pinyin": "he",
+      "en": "box"
+    },
+    {
+      "pinyin": "an",
+      "en": null
+    }
+  ],
+  "吓": [
+    {
+      "pinyin": "xia",
+      "en": "scare"
+    },
+    {
+      "pinyin": "he",
+      "en": "scare; frighten"
+    },
+    {
+      "pinyin": "ha",
+      "en": "scare; frighten"
+    }
+  ],
+  "哈": [
+    {
+      "pinyin": "ha",
+      "en": "ha"
+    },
+    {
+      "pinyin": "he",
+      "en": "laugh; ha",
+      "suspicious": true
+    },
+    {
+      "pinyin": "sha",
+      "en": "laugh; ha",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ta",
+      "en": "laugh; ha",
+      "suspicious": true
+    }
+  ],
+  "害": [
+    {
+      "pinyin": "hai",
+      "en": "harm"
+    },
+    {
+      "pinyin": "he",
+      "en": "harm; injury"
+    }
+  ],
+  "格": [
+    {
+      "pinyin": "ge",
+      "en": "grid"
+    },
+    {
+      "pinyin": "he",
+      "en": "grid; style"
+    },
+    {
+      "pinyin": "luo",
+      "en": "grid; style"
+    }
+  ],
+  "洽": [
+    {
+      "pinyin": "qia",
+      "en": "harmonize"
+    },
+    {
+      "pinyin": "he",
+      "en": "harmonize; negotiate"
+    }
+  ],
+  "硅": [
+    {
+      "pinyin": "gui",
+      "en": "silicon"
+    },
+    {
+      "pinyin": "he",
+      "en": "silicon"
+    }
+  ],
+  "羹": [
+    {
+      "pinyin": "geng",
+      "en": "soup"
+    },
+    {
+      "pinyin": "lang",
+      "en": "soup; broth"
+    }
+  ],
+  "邢": [
+    {
+      "pinyin": "xing",
+      "en": "surname Xing"
+    },
+    {
+      "pinyin": "geng",
+      "en": "surname xing"
+    }
+  ],
+  "颈": [
+    {
+      "pinyin": "jing",
+      "en": "neck"
+    },
+    {
+      "pinyin": "geng",
+      "en": null
+    }
+  ],
+  "浸": [
+    {
+      "pinyin": "jin",
+      "en": "soak"
+    },
+    {
+      "pinyin": "qin",
+      "en": "soak; immerse"
+    }
+  ],
+  "筋": [
+    {
+      "pinyin": "jin",
+      "en": "tendon"
+    },
+    {
+      "pinyin": "qian",
+      "en": "tendon; muscle"
+    }
+  ],
+  "劲": [
+    {
+      "pinyin": "jin",
+      "en": "energy"
+    },
+    {
+      "pinyin": "jing",
+      "en": "strength; energy"
+    }
+  ],
+  "吟": [
+    {
+      "pinyin": "yin",
+      "en": "chant"
+    },
+    {
+      "pinyin": "jin",
+      "en": "recite; chant"
+    }
+  ],
+  "肋": [
+    {
+      "pinyin": "le",
+      "en": "rib"
+    },
+    {
+      "pinyin": "jin",
+      "en": "rib"
+    },
+    {
+      "pinyin": "lei",
+      "en": "rib"
+    }
+  ],
+  "听": [
+    {
+      "pinyin": "ting",
+      "en": "hear"
+    },
+    {
+      "pinyin": "yin",
+      "en": "listen; hear"
+    },
+    {
+      "pinyin": "yi",
+      "en": "listen; hear"
+    }
+  ],
+  "蜓": [
+    {
+      "pinyin": "ting",
+      "en": "dragonfly"
+    },
+    {
+      "pinyin": "dian",
+      "en": "dragonfly"
+    }
+  ],
+  "洞": [
+    {
+      "pinyin": "dong",
+      "en": "cave"
+    },
+    {
+      "pinyin": "tong",
+      "en": "cave; hole"
+    }
+  ],
+  "董": [
+    {
+      "pinyin": "dong",
+      "en": "supervisor"
+    },
+    {
+      "pinyin": "zhong",
+      "en": "supervisor; surname dong"
+    }
+  ],
+  "桐": [
+    {
+      "pinyin": "tong",
+      "en": "tung"
+    },
+    {
+      "pinyin": "dong",
+      "en": "paulownia; tung"
+    }
+  ],
+  "筒": [
+    {
+      "pinyin": "tong",
+      "en": "tube"
+    },
+    {
+      "pinyin": "dong",
+      "en": "tube; cylinder"
+    }
+  ],
+  "帕": [
+    {
+      "pinyin": "pa",
+      "en": "scarf"
+    },
+    {
+      "pinyin": "mo",
+      "en": "handkerchief; scarf"
+    }
+  ],
+  "厦": [
+    {
+      "pinyin": "sha",
+      "en": "mansion"
+    },
+    {
+      "pinyin": "xia",
+      "en": "mansion; building"
+    }
+  ],
+  "刹": [
+    {
+      "pinyin": "sha",
+      "en": "stop"
+    },
+    {
+      "pinyin": "cha",
+      "en": "instant; stop"
+    }
+  ],
+  "肥": [
+    {
+      "pinyin": "fei",
+      "en": "fat"
+    },
+    {
+      "pinyin": "bi",
+      "en": "fat; fertile"
+    }
+  ],
+  "肺": [
+    {
+      "pinyin": "fei",
+      "en": "lung"
+    },
+    {
+      "pinyin": "pei",
+      "en": "lung"
+    }
+  ],
+  "匪": [
+    {
+      "pinyin": "fei",
+      "en": "bandit"
+    },
+    {
+      "pinyin": "fen",
+      "en": "bandit; robber"
+    }
+  ],
+  "踩": [
+    {
+      "pinyin": "cai",
+      "en": "tread"
+    },
+    {
+      "pinyin": "kui",
+      "en": null
+    }
+  ],
+  "差": [
+    {
+      "pinyin": "cha",
+      "en": "mistake"
+    },
+    {
+      "pinyin": "ci",
+      "en": "difference; mistake",
+      "suspicious": true
+    },
+    {
+      "pinyin": "jie",
+      "en": "difference; mistake",
+      "suspicious": true
+    },
+    {
+      "pinyin": "chai",
+      "en": "difference; mistake",
+      "suspicious": true
+    },
+    {
+      "pinyin": "cuo",
+      "en": "difference; mistake",
+      "suspicious": true
+    }
+  ],
+  "券": [
+    {
+      "pinyin": "quan",
+      "en": "ticket"
+    },
+    {
+      "pinyin": "xuan",
+      "en": "ticket; certificate"
+    }
+  ],
+  "暖": [
+    {
+      "pinyin": "nuan",
+      "en": "warm"
+    },
+    {
+      "pinyin": "xuan",
+      "en": "warm; mild"
+    }
+  ],
+  "铛": [
+    {
+      "pinyin": "dang",
+      "en": "bell"
+    },
+    {
+      "pinyin": "cheng",
+      "en": "bell; gong"
+    }
+  ],
+  "没": [
+    {
+      "pinyin": "mei",
+      "en": "no"
+    },
+    {
+      "pinyin": "mo",
+      "en": null
+    },
+    {
+      "pinyin": "me",
+      "en": null
+    }
+  ],
+  "抹": [
+    {
+      "pinyin": "mo",
+      "en": "wipe"
+    },
+    {
+      "pinyin": "ma",
+      "en": "wipe; smear"
+    }
+  ],
+  "末": [
+    {
+      "pinyin": "mo",
+      "en": "end"
+    },
+    {
+      "pinyin": "me",
+      "en": "end; last"
+    }
+  ],
+  "墨": [
+    {
+      "pinyin": "mo",
+      "en": "ink"
+    },
+    {
+      "pinyin": "mei",
+      "en": "ink; black"
+    }
+  ],
+  "摩": [
+    {
+      "pinyin": "mo",
+      "en": "rub"
+    },
+    {
+      "pinyin": "ma",
+      "en": "rub; touch"
+    },
+    {
+      "pinyin": "mi",
+      "en": "rub; touch"
+    }
+  ],
+  "么": [
+    {
+      "pinyin": "me",
+      "en": "particle"
+    },
+    {
+      "pinyin": "mo",
+      "en": "particle",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ma",
+      "en": "particle",
+      "suspicious": true
+    },
+    {
+      "pinyin": "yao",
+      "en": "particle",
+      "suspicious": true
+    }
+  ],
+  "冒": [
+    {
+      "pinyin": "mao",
+      "en": "risk"
+    },
+    {
+      "pinyin": "mo",
+      "en": "risk; pretend"
+    }
+  ],
+  "勿": [
+    {
+      "pinyin": "wu",
+      "en": "not"
+    },
+    {
+      "pinyin": "mo",
+      "en": "do not; not"
+    }
+  ],
+  "无": [
+    {
+      "pinyin": "wu",
+      "en": "no"
+    },
+    {
+      "pinyin": "mo",
+      "en": "no; none"
+    }
+  ],
+  "昧": [
+    {
+      "pinyin": "mei",
+      "en": "dark"
+    },
+    {
+      "pinyin": "mo",
+      "en": "dark; ignorant"
+    },
+    {
+      "pinyin": "wen",
+      "en": "dark; ignorant"
+    }
+  ],
+  "脉": [
+    {
+      "pinyin": "mai",
+      "en": "vein"
+    },
+    {
+      "pinyin": "mo",
+      "en": "vein; pulse"
+    }
+  ],
+  "藐": [
+    {
+      "pinyin": "miao",
+      "en": "despise"
+    },
+    {
+      "pinyin": "mo",
+      "en": "despise; look down on"
+    }
+  ],
+  "蟆": [
+    {
+      "pinyin": "ma",
+      "en": "toad"
+    },
+    {
+      "pinyin": "mo",
+      "en": "toad; frog"
+    }
+  ],
+  "袜": [
+    {
+      "pinyin": "wa",
+      "en": "sock"
+    },
+    {
+      "pinyin": "mo",
+      "en": "sock; stocking"
+    }
+  ],
+  "貌": [
+    {
+      "pinyin": "mao",
+      "en": "look"
+    },
+    {
+      "pinyin": "mo",
+      "en": "appearance; look"
+    }
+  ],
+  "匀": [
+    {
+      "pinyin": "yun",
+      "en": "even"
+    },
+    {
+      "pinyin": "jun",
+      "en": "even; uniform"
+    }
+  ],
+  "均": [
+    {
+      "pinyin": "jun",
+      "en": "even"
+    },
+    {
+      "pinyin": "yun",
+      "en": "even; average"
+    }
+  ],
+  "温": [
+    {
+      "pinyin": "wen",
+      "en": "warm"
+    },
+    {
+      "pinyin": "yun",
+      "en": "warm; temperature"
+    }
+  ],
+  "盾": [
+    {
+      "pinyin": "dun",
+      "en": "shield"
+    },
+    {
+      "pinyin": "yun",
+      "en": "shield; protect"
+    },
+    {
+      "pinyin": "shun",
+      "en": "shield; protect"
+    }
+  ],
+  "佃": [
+    {
+      "pinyin": "dian",
+      "en": "tenant farmer"
+    },
+    {
+      "pinyin": "tian",
+      "en": "tenant farmer"
+    }
+  ],
+  "典": [
+    {
+      "pinyin": "dian",
+      "en": "classic"
+    },
+    {
+      "pinyin": "tian",
+      "en": "classic; standard"
+    }
+  ],
+  "吞": [
+    {
+      "pinyin": "tun",
+      "en": "gulp"
+    },
+    {
+      "pinyin": "tian",
+      "en": "swallow; gulp"
+    }
+  ],
+  "蚕": [
+    {
+      "pinyin": "can",
+      "en": "silkworm"
+    },
+    {
+      "pinyin": "tian",
+      "en": "silkworm"
+    }
+  ],
+  "参": [
+    {
+      "pinyin": "can",
+      "en": "ginseng"
+    },
+    {
+      "pinyin": "shen",
+      "en": "participate; ginseng"
+    },
+    {
+      "pinyin": "cen",
+      "en": "participate; ginseng"
+    }
+  ],
+  "餐": [
+    {
+      "pinyin": "can",
+      "en": "meal"
+    },
+    {
+      "pinyin": "sun",
+      "en": "meal; dine"
+    }
+  ],
+  "兄": [
+    {
+      "pinyin": "xiong",
+      "en": "elder brother"
+    },
+    {
+      "pinyin": "kuang",
+      "en": "elder brother"
+    }
+  ],
+  "呈": [
+    {
+      "pinyin": "cheng",
+      "en": "show"
+    },
+    {
+      "pinyin": "kuang",
+      "en": "present; show"
+    }
+  ],
+  "枉": [
+    {
+      "pinyin": "wang",
+      "en": "枉然"
+    },
+    {
+      "pinyin": "kuang",
+      "en": "枉然; unjust"
+    }
+  ],
+  "逛": [
+    {
+      "pinyin": "guang",
+      "en": "wander"
+    },
+    {
+      "pinyin": "kuang",
+      "en": "wander; stroll"
+    }
+  ],
+  "亡": [
+    {
+      "pinyin": "wang",
+      "en": "die"
+    },
+    {
+      "pinyin": "wu",
+      "en": "die; perish"
+    }
+  ],
+  "皇": [
+    {
+      "pinyin": "huang",
+      "en": "royal"
+    },
+    {
+      "pinyin": "wang",
+      "en": "emperor; royal"
+    }
+  ],
+  "虾": [
+    {
+      "pinyin": "xia",
+      "en": "prawn"
+    },
+    {
+      "pinyin": "ha",
+      "en": "shrimp; prawn"
+    }
+  ],
+  "呀": [
+    {
+      "pinyin": "ya",
+      "en": "ah"
+    },
+    {
+      "pinyin": "xia",
+      "en": "ah; oh"
+    }
+  ],
+  "印": [
+    {
+      "pinyin": "yin",
+      "en": "seal"
+    },
+    {
+      "pinyin": "yi",
+      "en": "print; seal"
+    }
+  ],
+  "殷": [
+    {
+      "pinyin": "yin",
+      "en": "sincere"
+    },
+    {
+      "pinyin": "yan",
+      "en": "abundant; sincere"
+    }
+  ],
+  "淫": [
+    {
+      "pinyin": "yin",
+      "en": "lewd"
+    },
+    {
+      "pinyin": "yan",
+      "en": "excessive; lewd"
+    },
+    {
+      "pinyin": "yao",
+      "en": "excessive; lewd"
+    }
+  ],
+  "众": [
+    {
+      "pinyin": "zhong",
+      "en": "many"
+    },
+    {
+      "pinyin": "yin",
+      "en": "crowd; many"
+    }
+  ],
+  "垦": [
+    {
+      "pinyin": "ken",
+      "en": "reclaim"
+    },
+    {
+      "pinyin": "yin",
+      "en": "cultivate; reclaim"
+    }
+  ],
+  "壹": [
+    {
+      "pinyin": "yi",
+      "en": "one (formal)"
+    },
+    {
+      "pinyin": "yin",
+      "en": "one (formal)"
+    }
+  ],
+  "币": [
+    {
+      "pinyin": "bi",
+      "en": "money"
+    },
+    {
+      "pinyin": "yin",
+      "en": "currency; money"
+    }
+  ],
+  "烟": [
+    {
+      "pinyin": "yan",
+      "en": "smoke"
+    },
+    {
+      "pinyin": "yin",
+      "en": "smoke; tobacco"
+    }
+  ],
+  "言": [
+    {
+      "pinyin": "yan",
+      "en": "word"
+    },
+    {
+      "pinyin": "yin",
+      "en": "word; speech"
+    }
+  ],
+  "摧": [
+    {
+      "pinyin": "cui",
+      "en": "defeat"
+    },
+    {
+      "pinyin": "cuo",
+      "en": "destroy; defeat"
+    },
+    {
+      "pinyin": "zui",
+      "en": "destroy; defeat"
+    }
+  ],
+  "卒": [
+    {
+      "pinyin": "zu",
+      "en": "soldier"
+    },
+    {
+      "pinyin": "cui",
+      "en": "soldier; finally"
+    },
+    {
+      "pinyin": "cu",
+      "en": "soldier; finally"
+    }
+  ],
+  "察": [
+    {
+      "pinyin": "cha",
+      "en": "observe"
+    },
+    {
+      "pinyin": "cui",
+      "en": "observe; inspect"
+    }
+  ],
+  "奔": [
+    {
+      "pinyin": "ben",
+      "en": "run"
+    },
+    {
+      "pinyin": "fen",
+      "en": "run; rush"
+    }
+  ],
+  "夯": [
+    {
+      "pinyin": "hang",
+      "en": "ram"
+    },
+    {
+      "pinyin": "ben",
+      "en": "ram; pound"
+    }
+  ],
+  "治": [
+    {
+      "pinyin": "zhi",
+      "en": "cure"
+    },
+    {
+      "pinyin": "chi",
+      "en": "govern; cure"
+    }
+  ],
+  "埃": [
+    {
+      "pinyin": "ai",
+      "en": "dust"
+    },
+    {
+      "pinyin": "zhi",
+      "en": "dust; atom"
+    }
+  ],
+  "拓": [
+    {
+      "pinyin": "tuo",
+      "en": "develop"
+    },
+    {
+      "pinyin": "zhi",
+      "en": "develop; open up"
+    },
+    {
+      "pinyin": "ta",
+      "en": "develop; open up"
+    }
+  ],
+  "昵": [
+    {
+      "pinyin": "ni",
+      "en": "close"
+    },
+    {
+      "pinyin": "zhi",
+      "en": "intimate; close"
+    }
+  ],
+  "射": [
+    {
+      "pinyin": "she",
+      "en": "fire"
+    },
+    {
+      "pinyin": "ye",
+      "en": "shoot; fire"
+    },
+    {
+      "pinyin": "yi",
+      "en": "shoot; fire"
+    }
+  ],
+  "舌": [
+    {
+      "pinyin": "she",
+      "en": "tongue"
+    },
+    {
+      "pinyin": "gua",
+      "en": "tongue"
+    }
+  ],
+  "蛇": [
+    {
+      "pinyin": "she",
+      "en": "snake"
+    },
+    {
+      "pinyin": "yi",
+      "en": "snake",
+      "suspicious": true
+    },
+    {
+      "pinyin": "chi",
+      "en": "snake",
+      "suspicious": true
+    },
+    {
+      "pinyin": "tuo",
+      "en": "snake",
+      "suspicious": true
+    }
+  ],
+  "赦": [
+    {
+      "pinyin": "she",
+      "en": "pardon"
+    },
+    {
+      "pinyin": "ce",
+      "en": null
+    }
+  ],
+  "眼": [
+    {
+      "pinyin": "yan",
+      "en": "eye"
+    },
+    {
+      "pinyin": "wen",
+      "en": "eye; sight"
+    }
+  ],
+  "研": [
+    {
+      "pinyin": "yan",
+      "en": "study"
+    },
+    {
+      "pinyin": "xing",
+      "en": "study; grind"
+    }
+  ],
+  "檐": [
+    {
+      "pinyin": "yan",
+      "en": "eave"
+    },
+    {
+      "pinyin": "dan",
+      "en": "eave; overhang"
+    }
+  ],
+  "腌": [
+    {
+      "pinyin": "yan",
+      "en": "salt"
+    },
+    {
+      "pinyin": "a",
+      "en": "salt; pickle"
+    },
+    {
+      "pinyin": "ang",
+      "en": "salt; pickle"
+    }
+  ],
+  "蜒": [
+    {
+      "pinyin": "yan",
+      "en": "gecko"
+    },
+    {
+      "pinyin": "dan",
+      "en": "gecko; lizard"
+    }
+  ],
+  "俺": [
+    {
+      "pinyin": "an",
+      "en": "I"
+    },
+    {
+      "pinyin": "yan",
+      "en": "i; we"
+    }
+  ],
+  "厂": [
+    {
+      "pinyin": "chang",
+      "en": "factory"
+    },
+    {
+      "pinyin": "yan",
+      "en": "factory; workshop",
+      "suspicious": true
+    },
+    {
+      "pinyin": "han",
+      "en": "factory; workshop",
+      "suspicious": true
+    },
+    {
+      "pinyin": "an",
+      "en": "factory; workshop",
+      "suspicious": true
+    }
+  ],
+  "巡": [
+    {
+      "pinyin": "xun",
+      "en": "patrol"
+    },
+    {
+      "pinyin": "yan",
+      "en": "patrol; inspect"
+    },
+    {
+      "pinyin": "shun",
+      "en": "patrol; inspect"
+    }
+  ],
+  "广": [
+    {
+      "pinyin": "guang",
+      "en": "wide"
+    },
+    {
+      "pinyin": "yan",
+      "en": null
+    },
+    {
+      "pinyin": "an",
+      "en": null
+    }
+  ],
+  "狠": [
+    {
+      "pinyin": "hen",
+      "en": "cruel"
+    },
+    {
+      "pinyin": "yan",
+      "en": "cruel; fierce",
+      "suspicious": true
+    },
+    {
+      "pinyin": "hang",
+      "en": "cruel; fierce",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ken",
+      "en": "cruel; fierce",
+      "suspicious": true
+    }
+  ],
+  "癌": [
+    {
+      "pinyin": "ai",
+      "en": "cancer"
+    },
+    {
+      "pinyin": "yan",
+      "en": "cancer; carcinoma"
+    }
+  ],
+  "蔫": [
+    {
+      "pinyin": "nian",
+      "en": "wilted"
+    },
+    {
+      "pinyin": "yan",
+      "en": "withered; wilted"
+    }
+  ],
+  "铅": [
+    {
+      "pinyin": "qian",
+      "en": "lead"
+    },
+    {
+      "pinyin": "yan",
+      "en": "lead"
+    }
+  ],
+  "增": [
+    {
+      "pinyin": "zeng",
+      "en": "add"
+    },
+    {
+      "pinyin": "ceng",
+      "en": "increase; add"
+    }
+  ],
+  "曾": [
+    {
+      "pinyin": "ceng",
+      "en": "once"
+    },
+    {
+      "pinyin": "zeng",
+      "en": "once; ever"
+    }
+  ],
+  "综": [
+    {
+      "pinyin": "zong",
+      "en": "synthesize"
+    },
+    {
+      "pinyin": "zeng",
+      "en": "synthesize; comprehensive"
+    }
+  ],
+  "僧": [
+    {
+      "pinyin": "seng",
+      "en": "monk"
+    },
+    {
+      "pinyin": "ceng",
+      "en": "monk"
+    }
+  ],
+  "刀": [
+    {
+      "pinyin": "dao",
+      "en": "knife"
+    },
+    {
+      "pinyin": "diao",
+      "en": "knife; sword"
+    }
+  ],
+  "叨": [
+    {
+      "pinyin": "dao",
+      "en": "repeat"
+    },
+    {
+      "pinyin": "tao",
+      "en": "chatter; repeat"
+    }
+  ],
+  "受": [
+    {
+      "pinyin": "shou",
+      "en": "accept"
+    },
+    {
+      "pinyin": "dao",
+      "en": "receive; accept"
+    }
+  ],
+  "陶": [
+    {
+      "pinyin": "tao",
+      "en": "pottery"
+    },
+    {
+      "pinyin": "dao",
+      "en": "pottery; contented"
+    },
+    {
+      "pinyin": "yao",
+      "en": "pottery; contented"
+    }
+  ],
+  "娃": [
+    {
+      "pinyin": "wa",
+      "en": "baby"
+    },
+    {
+      "pinyin": "gui",
+      "en": "baby; child"
+    }
+  ],
+  "洼": [
+    {
+      "pinyin": "wa",
+      "en": "hollow"
+    },
+    {
+      "pinyin": "gui",
+      "en": "hollow; depression"
+    }
+  ],
+  "凹": [
+    {
+      "pinyin": "ao",
+      "en": "hollow"
+    },
+    {
+      "pinyin": "wa",
+      "en": "concave; hollow"
+    }
+  ],
+  "皿": [
+    {
+      "pinyin": "min",
+      "en": "dish"
+    },
+    {
+      "pinyin": "ming",
+      "en": "vessel; dish"
+    }
+  ],
+  "眠": [
+    {
+      "pinyin": "mian",
+      "en": "rest"
+    },
+    {
+      "pinyin": "min",
+      "en": "sleep; rest"
+    }
+  ],
+  "牢": [
+    {
+      "pinyin": "lao",
+      "en": "prison"
+    },
+    {
+      "pinyin": "lou",
+      "en": "prison; stable"
+    }
+  ],
+  "烙": [
+    {
+      "pinyin": "lao",
+      "en": "bake"
+    },
+    {
+      "pinyin": "luo",
+      "en": "brand; bake"
+    }
+  ],
+  "络": [
+    {
+      "pinyin": "luo",
+      "en": "net"
+    },
+    {
+      "pinyin": "lao",
+      "en": "net; connect"
+    }
+  ],
+  "果": [
+    {
+      "pinyin": "guo",
+      "en": "fruit"
+    },
+    {
+      "pinyin": "luo",
+      "en": "fruit; result"
+    },
+    {
+      "pinyin": "guan",
+      "en": "fruit; result"
+    }
+  ],
+  "姐": [
+    {
+      "pinyin": "jie",
+      "en": "elder sister"
+    },
+    {
+      "pinyin": "xu",
+      "en": null,
+      "suspicious": true
+    },
+    {
+      "pinyin": "ju",
+      "en": null,
+      "suspicious": true
+    },
+    {
+      "pinyin": "zu",
+      "en": null,
+      "suspicious": true
+    }
+  ],
+  "捷": [
+    {
+      "pinyin": "jie",
+      "en": "quick"
+    },
+    {
+      "pinyin": "cha",
+      "en": "quick; victory"
+    },
+    {
+      "pinyin": "qie",
+      "en": "quick; victory"
+    }
+  ],
+  "芥": [
+    {
+      "pinyin": "jie",
+      "en": "weed"
+    },
+    {
+      "pinyin": "gai",
+      "en": "mustard; weed"
+    }
+  ],
+  "介": [
+    {
+      "pinyin": "jie",
+      "en": "between"
+    },
+    {
+      "pinyin": "ge",
+      "en": "introduce; between"
+    }
+  ],
+  "亥": [
+    {
+      "pinyin": "hai",
+      "en": "twelfth of twelve Earthly Branches"
+    },
+    {
+      "pinyin": "jie",
+      "en": "twelfth of twelve earthly branches"
+    }
+  ],
+  "她": [
+    {
+      "pinyin": "ta",
+      "en": "she"
+    },
+    {
+      "pinyin": "jie",
+      "en": "she"
+    },
+    {
+      "pinyin": "chi",
+      "en": "she"
+    }
+  ],
+  "担": [
+    {
+      "pinyin": "dan",
+      "en": "carry"
+    },
+    {
+      "pinyin": "jie",
+      "en": "carry; shoulder"
+    }
+  ],
+  "楷": [
+    {
+      "pinyin": "kai",
+      "en": "model"
+    },
+    {
+      "pinyin": "jie",
+      "en": "model; regular script"
+    }
+  ],
+  "概": [
+    {
+      "pinyin": "gai",
+      "en": "general"
+    },
+    {
+      "pinyin": "jie",
+      "en": "general; approximate"
+    },
+    {
+      "pinyin": "gui",
+      "en": "general; approximate"
+    }
+  ],
+  "祖": [
+    {
+      "pinyin": "zu",
+      "en": "ancestor"
+    },
+    {
+      "pinyin": "jie",
+      "en": "ancestor; forefather"
+    }
+  ],
+  "缴": [
+    {
+      "pinyin": "jiao",
+      "en": "pay"
+    },
+    {
+      "pinyin": "zhuo",
+      "en": "hand over; pay"
+    }
+  ],
+  "侥": [
+    {
+      "pinyin": "jiao",
+      "en": "lucky"
+    },
+    {
+      "pinyin": "yao",
+      "en": "lucky; by chance"
+    }
+  ],
+  "剿": [
+    {
+      "pinyin": "jiao",
+      "en": "suppress"
+    },
+    {
+      "pinyin": "chao",
+      "en": "suppress; annihilate"
+    }
+  ],
+  "咬": [
+    {
+      "pinyin": "yao",
+      "en": "bite"
+    },
+    {
+      "pinyin": "jiao",
+      "en": "bite; gnaw"
+    }
+  ],
+  "妖": [
+    {
+      "pinyin": "yao",
+      "en": "charming"
+    },
+    {
+      "pinyin": "jiao",
+      "en": "evil spirit; charming"
+    }
+  ],
+  "累": [
+    {
+      "pinyin": "lei",
+      "en": "tired"
+    },
+    {
+      "pinyin": "lv",
+      "en": "tired; accumulate"
+    },
+    {
+      "pinyin": "lie",
+      "en": "tired; accumulate"
+    }
+  ],
+  "勒": [
+    {
+      "pinyin": "lei",
+      "en": "force"
+    },
+    {
+      "pinyin": "le",
+      "en": "restrain; force"
+    }
+  ],
+  "靡": [
+    {
+      "pinyin": "mi",
+      "en": "wasteful"
+    },
+    {
+      "pinyin": "ma",
+      "en": null
+    }
+  ],
+  "杭": [
+    {
+      "pinyin": "hang",
+      "en": "boat"
+    },
+    {
+      "pinyin": "kang",
+      "en": "hangzhou; boat"
+    }
+  ],
+  "吭": [
+    {
+      "pinyin": "keng",
+      "en": "cough"
+    },
+    {
+      "pinyin": "hang",
+      "en": "cough; utter"
+    }
+  ],
+  "巷": [
+    {
+      "pinyin": "xiang",
+      "en": "lane"
+    },
+    {
+      "pinyin": "hang",
+      "en": "lane; alley"
+    }
+  ],
+  "炕": [
+    {
+      "pinyin": "kang",
+      "en": "heated brick bed"
+    },
+    {
+      "pinyin": "hang",
+      "en": "heated brick bed"
+    }
+  ],
+  "狼": [
+    {
+      "pinyin": "lang",
+      "en": "wolf"
+    },
+    {
+      "pinyin": "hang",
+      "en": "wolf; cruel"
+    }
+  ],
+  "肮": [
+    {
+      "pinyin": "ang",
+      "en": "dirty"
+    },
+    {
+      "pinyin": "hang",
+      "en": null
+    },
+    {
+      "pinyin": "gang",
+      "en": null
+    }
+  ],
+  "姓": [
+    {
+      "pinyin": "xing",
+      "en": "surname"
+    },
+    {
+      "pinyin": "sheng",
+      "en": "surname; family name"
+    }
+  ],
+  "醒": [
+    {
+      "pinyin": "xing",
+      "en": "sober"
+    },
+    {
+      "pinyin": "jing",
+      "en": "wake up; sober"
+    },
+    {
+      "pinyin": "cheng",
+      "en": "wake up; sober"
+    }
+  ],
+  "幸": [
+    {
+      "pinyin": "xing",
+      "en": "lucky"
+    },
+    {
+      "pinyin": "nie",
+      "en": "lucky; fortunate"
+    }
+  ],
+  "胜": [
+    {
+      "pinyin": "sheng",
+      "en": "win"
+    },
+    {
+      "pinyin": "xing",
+      "en": "win; succeed"
+    },
+    {
+      "pinyin": "qing",
+      "en": "win; succeed"
+    }
+  ],
+  "这": [
+    {
+      "pinyin": "zhe",
+      "en": "this"
+    },
+    {
+      "pinyin": "zhei",
+      "en": null
+    }
+  ],
+  "着": [
+    {
+      "pinyin": "zhe",
+      "en": "wear"
+    },
+    {
+      "pinyin": "zhao",
+      "en": "particle; wear"
+    },
+    {
+      "pinyin": "zhuo",
+      "en": "particle; wear"
+    }
+  ],
+  "乍": [
+    {
+      "pinyin": "zha",
+      "en": "just"
+    },
+    {
+      "pinyin": "zuo",
+      "en": "suddenly; just"
+    }
+  ],
+  "喳": [
+    {
+      "pinyin": "zha",
+      "en": "chirp"
+    },
+    {
+      "pinyin": "cha",
+      "en": "chatter; chirp"
+    }
+  ],
+  "册": [
+    {
+      "pinyin": "ce",
+      "en": "book"
+    },
+    {
+      "pinyin": "zha",
+      "en": "book; volume"
+    }
+  ],
+  "插": [
+    {
+      "pinyin": "cha",
+      "en": "stick"
+    },
+    {
+      "pinyin": "zha",
+      "en": "insert; stick"
+    }
+  ],
+  "查": [
+    {
+      "pinyin": "cha",
+      "en": "check"
+    },
+    {
+      "pinyin": "zha",
+      "en": "check; examine"
+    },
+    {
+      "pinyin": "chai",
+      "en": "check; examine"
+    }
+  ],
+  "比": [
+    {
+      "pinyin": "bi",
+      "en": "ratio"
+    },
+    {
+      "pinyin": "pi",
+      "en": "compare; ratio"
+    }
+  ],
+  "臂": [
+    {
+      "pinyin": "bi",
+      "en": "arm"
+    },
+    {
+      "pinyin": "bei",
+      "en": null
+    }
+  ],
+  "庇": [
+    {
+      "pinyin": "bi",
+      "en": "shelter"
+    },
+    {
+      "pinyin": "pi",
+      "en": "shelter; protect"
+    }
+  ],
+  "匕": [
+    {
+      "pinyin": "bi",
+      "en": "spoon"
+    },
+    {
+      "pinyin": "pin",
+      "en": "dagger; spoon"
+    }
+  ],
+  "蔽": [
+    {
+      "pinyin": "bi",
+      "en": "hide"
+    },
+    {
+      "pinyin": "bie",
+      "en": null
+    },
+    {
+      "pinyin": "pie",
+      "en": null
+    }
+  ],
+  "泌": [
+    {
+      "pinyin": "mi",
+      "en": "ooze"
+    },
+    {
+      "pinyin": "bi",
+      "en": "secrete; ooze"
+    }
+  ],
+  "秘": [
+    {
+      "pinyin": "mi",
+      "en": "secret"
+    },
+    {
+      "pinyin": "bi",
+      "en": "secret; hidden"
+    },
+    {
+      "pinyin": "bie",
+      "en": "secret; hidden"
+    }
+  ],
+  "虑": [
+    {
+      "pinyin": "lv",
+      "en": "worry"
+    },
+    {
+      "pinyin": "bi",
+      "en": "consider; worry"
+    }
+  ],
+  "被": [
+    {
+      "pinyin": "bei",
+      "en": "quilt"
+    },
+    {
+      "pinyin": "bi",
+      "en": "quilt; cover"
+    },
+    {
+      "pinyin": "pi",
+      "en": "quilt; cover"
+    }
+  ],
+  "辟": [
+    {
+      "pinyin": "pi",
+      "en": "open up"
+    },
+    {
+      "pinyin": "bi",
+      "en": "open up; establish"
+    },
+    {
+      "pinyin": "mi",
+      "en": "open up; establish"
+    }
+  ],
+  "撇": [
+    {
+      "pinyin": "pie",
+      "en": "leave"
+    },
+    {
+      "pinyin": "bie",
+      "en": "leave; abandon"
+    }
+  ],
+  "份": [
+    {
+      "pinyin": "fen",
+      "en": "share"
+    },
+    {
+      "pinyin": "bin",
+      "en": "share; portion"
+    }
+  ],
+  "奋": [
+    {
+      "pinyin": "fen",
+      "en": "exert"
+    },
+    {
+      "pinyin": "kang",
+      "en": null
+    }
+  ],
+  "吩": [
+    {
+      "pinyin": "fen",
+      "en": "tell"
+    },
+    {
+      "pinyin": "pen",
+      "en": "instruct; tell"
+    }
+  ],
+  "谜": [
+    {
+      "pinyin": "mi",
+      "en": "riddle"
+    },
+    {
+      "pinyin": "mei",
+      "en": "riddle; puzzle"
+    }
+  ],
+  "咪": [
+    {
+      "pinyin": "mi",
+      "en": "meow"
+    },
+    {
+      "pinyin": "mai",
+      "en": "meow; purr"
+    },
+    {
+      "pinyin": "mie",
+      "en": "meow; purr"
+    }
+  ],
+  "糜": [
+    {
+      "pinyin": "mi",
+      "en": "mashed"
+    },
+    {
+      "pinyin": "mei",
+      "en": "porridge; mashed"
+    }
+  ],
+  "种": [
+    {
+      "pinyin": "zhong",
+      "en": "seed"
+    },
+    {
+      "pinyin": "chong",
+      "en": "seed; plant"
+    }
+  ],
+  "重": [
+    {
+      "pinyin": "zhong",
+      "en": "heavy"
+    },
+    {
+      "pinyin": "tong",
+      "en": "heavy; important"
+    },
+    {
+      "pinyin": "chong",
+      "en": "heavy; important"
+    }
+  ],
+  "盅": [
+    {
+      "pinyin": "zhong",
+      "en": "cup"
+    },
+    {
+      "pinyin": "chong",
+      "en": "cup; bowl"
+    }
+  ],
+  "童": [
+    {
+      "pinyin": "tong",
+      "en": "boy"
+    },
+    {
+      "pinyin": "zhong",
+      "en": "child; boy"
+    }
+  ],
+  "干": [
+    {
+      "pinyin": "gan",
+      "en": "dry"
+    },
+    {
+      "pinyin": "an",
+      "en": "dry; trunk"
+    }
+  ],
+  "甘": [
+    {
+      "pinyin": "gan",
+      "en": "sweet"
+    },
+    {
+      "pinyin": "han",
+      "en": "sweet; willing"
+    }
+  ],
+  "柑": [
+    {
+      "pinyin": "gan",
+      "en": "mandarin orange"
+    },
+    {
+      "pinyin": "qian",
+      "en": "mandarin orange"
+    }
+  ],
+  "赶": [
+    {
+      "pinyin": "gan",
+      "en": "hurry"
+    },
+    {
+      "pinyin": "qian",
+      "en": "catch up; hurry"
+    }
+  ],
+  "感": [
+    {
+      "pinyin": "gan",
+      "en": "feel"
+    },
+    {
+      "pinyin": "han",
+      "en": "feel; sense"
+    }
+  ],
+  "个": [
+    {
+      "pinyin": "ge",
+      "en": "classifier for items"
+    },
+    {
+      "pinyin": "gan",
+      "en": "classifier for items"
+    }
+  ],
+  "乾": [
+    {
+      "pinyin": "qian",
+      "en": "dry"
+    },
+    {
+      "pinyin": "gan",
+      "en": "heaven; dry"
+    }
+  ],
+  "汗": [
+    {
+      "pinyin": "han",
+      "en": "sweat"
+    },
+    {
+      "pinyin": "gan",
+      "en": "sweat; perspiration"
+    }
+  ],
+  "爪": [
+    {
+      "pinyin": "zhao",
+      "en": "claw"
+    },
+    {
+      "pinyin": "zhua",
+      "en": "claw; nail"
+    }
+  ],
+  "嘲": [
+    {
+      "pinyin": "chao",
+      "en": "mock"
+    },
+    {
+      "pinyin": "zhao",
+      "en": "mock; ridicule"
+    }
+  ],
+  "桃": [
+    {
+      "pinyin": "tao",
+      "en": "peach"
+    },
+    {
+      "pinyin": "zhao",
+      "en": "peach; surname tao"
+    },
+    {
+      "pinyin": "tiao",
+      "en": "peach; surname tao"
+    }
+  ],
+  "啄": [
+    {
+      "pinyin": "zhuo",
+      "en": "peck"
+    },
+    {
+      "pinyin": "zhou",
+      "en": "peck; pick"
+    }
+  ],
+  "琢": [
+    {
+      "pinyin": "zuo",
+      "en": "carve"
+    },
+    {
+      "pinyin": "zhuo",
+      "en": "carve; polish"
+    }
+  ],
+  "畜": [
+    {
+      "pinyin": "chu",
+      "en": "animal"
+    },
+    {
+      "pinyin": "xu",
+      "en": null
+    }
+  ],
+  "淑": [
+    {
+      "pinyin": "shu",
+      "en": "pure"
+    },
+    {
+      "pinyin": "chu",
+      "en": "pure; gentle"
+    }
+  ],
+  "硫": [
+    {
+      "pinyin": "liu",
+      "en": "sulfur"
+    },
+    {
+      "pinyin": "chu",
+      "en": "sulfur; sulphur"
+    }
+  ],
+  "絮": [
+    {
+      "pinyin": "xu",
+      "en": "floc"
+    },
+    {
+      "pinyin": "chu",
+      "en": "floc; cotton",
+      "suspicious": true
+    },
+    {
+      "pinyin": "na",
+      "en": "floc; cotton",
+      "suspicious": true
+    },
+    {
+      "pinyin": "nv",
+      "en": "floc; cotton",
+      "suspicious": true
+    }
+  ],
+  "会": [
+    {
+      "pinyin": "hui",
+      "en": "can"
+    },
+    {
+      "pinyin": "kuai",
+      "en": "meet; can"
+    }
+  ],
+  "徊": [
+    {
+      "pinyin": "huai",
+      "en": "wander"
+    },
+    {
+      "pinyin": "hui",
+      "en": "wander; linger"
+    }
+  ],
+  "涣": [
+    {
+      "pinyin": "huan",
+      "en": "scatter"
+    },
+    {
+      "pinyin": "hui",
+      "en": "disperse; scatter"
+    }
+  ],
+  "溃": [
+    {
+      "pinyin": "kui",
+      "en": "break"
+    },
+    {
+      "pinyin": "hui",
+      "en": "collapse; break"
+    }
+  ],
+  "虫": [
+    {
+      "pinyin": "chong",
+      "en": "worm"
+    },
+    {
+      "pinyin": "hui",
+      "en": "insect; worm"
+    }
+  ],
+  "括": [
+    {
+      "pinyin": "kuo",
+      "en": "include"
+    },
+    {
+      "pinyin": "gua",
+      "en": "include; enclose"
+    }
+  ],
+  "也": [
+    {
+      "pinyin": "ye",
+      "en": "particle"
+    },
+    {
+      "pinyin": "yi",
+      "en": null
+    }
+  ],
+  "野": [
+    {
+      "pinyin": "ye",
+      "en": "wild"
+    },
+    {
+      "pinyin": "shu",
+      "en": "wild; field"
+    }
+  ],
+  "墅": [
+    {
+      "pinyin": "shu",
+      "en": "villa"
+    },
+    {
+      "pinyin": "ye",
+      "en": "villa"
+    }
+  ],
+  "需": [
+    {
+      "pinyin": "xu",
+      "en": "need"
+    },
+    {
+      "pinyin": "nuo",
+      "en": "need; require",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ru",
+      "en": "need; require",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ruan",
+      "en": "need; require",
+      "suspicious": true
+    }
+  ],
+  "冰": [
+    {
+      "pinyin": "bing",
+      "en": "ice"
+    },
+    {
+      "pinyin": "ning",
+      "en": "ice"
+    }
+  ],
+  "年": [
+    {
+      "pinyin": "nian",
+      "en": "age"
+    },
+    {
+      "pinyin": "ning",
+      "en": null
+    }
+  ],
+  "攘": [
+    {
+      "pinyin": "rang",
+      "en": "push"
+    },
+    {
+      "pinyin": "ning",
+      "en": "push; jostle"
+    },
+    {
+      "pinyin": "xiang",
+      "en": "push; jostle"
+    }
+  ],
+  "泥": [
+    {
+      "pinyin": "ni",
+      "en": "mud"
+    },
+    {
+      "pinyin": "ning",
+      "en": "mud; clay"
+    },
+    {
+      "pinyin": "nie",
+      "en": "mud; clay"
+    }
+  ],
+  "疑": [
+    {
+      "pinyin": "yi",
+      "en": "doubt"
+    },
+    {
+      "pinyin": "ning",
+      "en": "doubt; suspect"
+    }
+  ],
+  "谁": [
+    {
+      "pinyin": "shui",
+      "en": "who"
+    },
+    {
+      "pinyin": "shei",
+      "en": "who; whom"
+    }
+  ],
+  "税": [
+    {
+      "pinyin": "shui",
+      "en": "tax"
+    },
+    {
+      "pinyin": "tuan",
+      "en": "tax; duty",
+      "suspicious": true
+    },
+    {
+      "pinyin": "tuo",
+      "en": "tax; duty",
+      "suspicious": true
+    },
+    {
+      "pinyin": "tui",
+      "en": "tax; duty",
+      "suspicious": true
+    }
+  ],
+  "说": [
+    {
+      "pinyin": "shuo",
+      "en": "say"
+    },
+    {
+      "pinyin": "shui",
+      "en": "speak; say"
+    },
+    {
+      "pinyin": "yue",
+      "en": "speak; say"
+    }
+  ],
+  "句": [
+    {
+      "pinyin": "ju",
+      "en": "phrase"
+    },
+    {
+      "pinyin": "qu",
+      "en": "sentence; phrase"
+    },
+    {
+      "pinyin": "gou",
+      "en": "sentence; phrase"
+    }
+  ],
+  "巨": [
+    {
+      "pinyin": "ju",
+      "en": "huge"
+    },
+    {
+      "pinyin": "qu",
+      "en": "huge; giant"
+    }
+  ],
+  "拘": [
+    {
+      "pinyin": "ju",
+      "en": "arrest"
+    },
+    {
+      "pinyin": "gou",
+      "en": "arrest; restrict"
+    }
+  ],
+  "鞠": [
+    {
+      "pinyin": "ju",
+      "en": "bow"
+    },
+    {
+      "pinyin": "qu",
+      "en": "bow; kick"
+    },
+    {
+      "pinyin": "qiong",
+      "en": "bow; kick"
+    }
+  ],
+  "且": [
+    {
+      "pinyin": "qie",
+      "en": "and"
+    },
+    {
+      "pinyin": "ju",
+      "en": "and; also"
+    },
+    {
+      "pinyin": "cu",
+      "en": "and; also"
+    }
+  ],
+  "仇": [
+    {
+      "pinyin": "chou",
+      "en": "enemy"
+    },
+    {
+      "pinyin": "ju",
+      "en": "enemy; hatred"
+    },
+    {
+      "pinyin": "qiu",
+      "en": "enemy; hatred"
+    }
+  ],
+  "告": [
+    {
+      "pinyin": "gao",
+      "en": "tell"
+    },
+    {
+      "pinyin": "ju",
+      "en": "tell; inform"
+    },
+    {
+      "pinyin": "gu",
+      "en": "tell; inform"
+    }
+  ],
+  "娶": [
+    {
+      "pinyin": "qu",
+      "en": "marry"
+    },
+    {
+      "pinyin": "ju",
+      "en": "marry; take wife"
+    },
+    {
+      "pinyin": "shu",
+      "en": "marry; take wife"
+    }
+  ],
+  "柜": [
+    {
+      "pinyin": "gui",
+      "en": "cabinet"
+    },
+    {
+      "pinyin": "ju",
+      "en": "cabinet; cupboard"
+    }
+  ],
+  "渠": [
+    {
+      "pinyin": "qu",
+      "en": "ditch"
+    },
+    {
+      "pinyin": "ju",
+      "en": "ditch; canal"
+    }
+  ],
+  "租": [
+    {
+      "pinyin": "zu",
+      "en": "rent"
+    },
+    {
+      "pinyin": "ju",
+      "en": "rent; hire"
+    }
+  ],
+  "蛆": [
+    {
+      "pinyin": "qu",
+      "en": "maggot"
+    },
+    {
+      "pinyin": "ju",
+      "en": "maggot"
+    }
+  ],
+  "足": [
+    {
+      "pinyin": "zu",
+      "en": "foot"
+    },
+    {
+      "pinyin": "ju",
+      "en": "foot; sufficient"
+    }
+  ],
+  "俩": [
+    {
+      "pinyin": "lia",
+      "en": "two people"
+    },
+    {
+      "pinyin": "liang",
+      "en": "two people"
+    }
+  ],
+  "惊": [
+    {
+      "pinyin": "jing",
+      "en": "shock"
+    },
+    {
+      "pinyin": "liang",
+      "en": "surprise; shock"
+    }
+  ],
+  "移": [
+    {
+      "pinyin": "yi",
+      "en": "move"
+    },
+    {
+      "pinyin": "chi",
+      "en": null
+    }
+  ],
+  "屹": [
+    {
+      "pinyin": "yi",
+      "en": "towering"
+    },
+    {
+      "pinyin": "ge",
+      "en": "stand firm; towering"
+    }
+  ],
+  "它": [
+    {
+      "pinyin": "ta",
+      "en": "it"
+    },
+    {
+      "pinyin": "yi",
+      "en": "it"
+    },
+    {
+      "pinyin": "tuo",
+      "en": "it"
+    }
+  ],
+  "怠": [
+    {
+      "pinyin": "dai",
+      "en": "lazy"
+    },
+    {
+      "pinyin": "yi",
+      "en": "lazy; negligent"
+    }
+  ],
+  "疙": [
+    {
+      "pinyin": "ge",
+      "en": "bump"
+    },
+    {
+      "pinyin": "yi",
+      "en": "bump; lump"
+    }
+  ],
+  "艾": [
+    {
+      "pinyin": "ai",
+      "en": "stop"
+    },
+    {
+      "pinyin": "yi",
+      "en": "mugwort; stop"
+    }
+  ],
+  "数": [
+    {
+      "pinyin": "shu",
+      "en": "count"
+    },
+    {
+      "pinyin": "shuo",
+      "en": "number; count"
+    }
+  ],
+  "熟": [
+    {
+      "pinyin": "shu",
+      "en": "ripe"
+    },
+    {
+      "pinyin": "shou",
+      "en": "ripe; cooked"
+    }
+  ],
+  "售": [
+    {
+      "pinyin": "shou",
+      "en": "sell"
+    },
+    {
+      "pinyin": "shu",
+      "en": "sell; market"
+    }
+  ],
+  "嗽": [
+    {
+      "pinyin": "sou",
+      "en": "cough"
+    },
+    {
+      "pinyin": "shu",
+      "en": null
+    },
+    {
+      "pinyin": "shuo",
+      "en": null
+    }
+  ],
+  "透": [
+    {
+      "pinyin": "tou",
+      "en": "penetrate"
+    },
+    {
+      "pinyin": "shu",
+      "en": "penetrate; pass through"
+    }
+  ],
+  "区": [
+    {
+      "pinyin": "qu",
+      "en": "area"
+    },
+    {
+      "pinyin": "ou",
+      "en": "region; area"
+    }
+  ],
+  "降": [
+    {
+      "pinyin": "jiang",
+      "en": "descend"
+    },
+    {
+      "pinyin": "xiang",
+      "en": "descend; surrender"
+    }
+  ],
+  "憾": [
+    {
+      "pinyin": "han",
+      "en": "regret"
+    },
+    {
+      "pinyin": "dan",
+      "en": "regret; remorse"
+    }
+  ],
+  "窗": [
+    {
+      "pinyin": "chuang",
+      "en": "window"
+    },
+    {
+      "pinyin": "cong",
+      "en": "window"
+    }
+  ],
+  "囱": [
+    {
+      "pinyin": "cong",
+      "en": "chimney"
+    },
+    {
+      "pinyin": "chuang",
+      "en": "chimney"
+    }
+  ],
+  "葱": [
+    {
+      "pinyin": "cong",
+      "en": "shallot"
+    },
+    {
+      "pinyin": "chuang",
+      "en": "green onion; shallot"
+    }
+  ],
+  "某": [
+    {
+      "pinyin": "mou",
+      "en": "some"
+    },
+    {
+      "pinyin": "mei",
+      "en": "certain; some"
+    }
+  ],
+  "龟": [
+    {
+      "pinyin": "gui",
+      "en": "turtle"
+    },
+    {
+      "pinyin": "jun",
+      "en": null
+    },
+    {
+      "pinyin": "qiu",
+      "en": null
+    }
+  ],
+  "傀": [
+    {
+      "pinyin": "gui",
+      "en": "puppet"
+    },
+    {
+      "pinyin": "kui",
+      "en": "puppet"
+    },
+    {
+      "pinyin": "kuai",
+      "en": "puppet"
+    }
+  ],
+  "帘": [
+    {
+      "pinyin": "lian",
+      "en": "screen"
+    },
+    {
+      "pinyin": "chen",
+      "en": "curtain; screen"
+    }
+  ],
+  "褥": [
+    {
+      "pinyin": "ru",
+      "en": "quilt"
+    },
+    {
+      "pinyin": "nu",
+      "en": "mattress; quilt"
+    }
+  ],
+  "身": [
+    {
+      "pinyin": "shen",
+      "en": "body"
+    },
+    {
+      "pinyin": "juan",
+      "en": "body; self"
+    }
+  ],
+  "俊": [
+    {
+      "pinyin": "jun",
+      "en": "handsome"
+    },
+    {
+      "pinyin": "dun",
+      "en": "handsome; talented"
+    },
+    {
+      "pinyin": "shun",
+      "en": "handsome; talented"
+    }
+  ],
+  "卷": [
+    {
+      "pinyin": "juan",
+      "en": "roll"
+    },
+    {
+      "pinyin": "jun",
+      "en": "roll; volume",
+      "suspicious": true
+    },
+    {
+      "pinyin": "quan",
+      "en": "roll; volume",
+      "suspicious": true
+    },
+    {
+      "pinyin": "gun",
+      "en": "roll; volume",
+      "suspicious": true
+    }
+  ],
+  "旬": [
+    {
+      "pinyin": "xun",
+      "en": "month"
+    },
+    {
+      "pinyin": "jun",
+      "en": "ten days; month"
+    }
+  ],
+  "挫": [
+    {
+      "pinyin": "cuo",
+      "en": "defeat"
+    },
+    {
+      "pinyin": "zuo",
+      "en": "frustrate; defeat"
+    }
+  ],
+  "撮": [
+    {
+      "pinyin": "cuo",
+      "en": "pinch"
+    },
+    {
+      "pinyin": "zuo",
+      "en": "pinch; gather",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zui",
+      "en": "pinch; gather",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zuan",
+      "en": "pinch; gather",
+      "suspicious": true
+    },
+    {
+      "pinyin": "chua",
+      "en": "pinch; gather",
+      "suspicious": true
+    }
+  ],
+  "醋": [
+    {
+      "pinyin": "cu",
+      "en": "vinegar"
+    },
+    {
+      "pinyin": "zuo",
+      "en": "vinegar; jealous"
+    }
+  ],
+  "耳": [
+    {
+      "pinyin": "er",
+      "en": "ear"
+    },
+    {
+      "pinyin": "reng",
+      "en": "ear"
+    }
+  ],
+  "青": [
+    {
+      "pinyin": "qing",
+      "en": "blue"
+    },
+    {
+      "pinyin": "jing",
+      "en": "green; blue"
+    }
+  ],
+  "蜻": [
+    {
+      "pinyin": "qing",
+      "en": "dragonfly"
+    },
+    {
+      "pinyin": "jing",
+      "en": null
+    }
+  ],
+  "亲": [
+    {
+      "pinyin": "qin",
+      "en": "dear"
+    },
+    {
+      "pinyin": "qing",
+      "en": "relative; dear"
+    }
+  ],
+  "声": [
+    {
+      "pinyin": "sheng",
+      "en": "sound"
+    },
+    {
+      "pinyin": "qing",
+      "en": "sound; voice"
+    }
+  ],
+  "精": [
+    {
+      "pinyin": "jing",
+      "en": "refined"
+    },
+    {
+      "pinyin": "qing",
+      "en": "refined; essence"
+    }
+  ],
+  "拴": [
+    {
+      "pinyin": "shuan",
+      "en": "tie"
+    },
+    {
+      "pinyin": "quan",
+      "en": "tie; fasten"
+    }
+  ],
+  "栓": [
+    {
+      "pinyin": "shuan",
+      "en": "pin"
+    },
+    {
+      "pinyin": "quan",
+      "en": "bolt; pin"
+    }
+  ],
+  "圈": [
+    {
+      "pinyin": "quan",
+      "en": "ring"
+    },
+    {
+      "pinyin": "juan",
+      "en": "circle; ring"
+    }
+  ],
+  "串": [
+    {
+      "pinyin": "chuan",
+      "en": "string"
+    },
+    {
+      "pinyin": "quan",
+      "en": "string; cluster"
+    },
+    {
+      "pinyin": "guan",
+      "en": "string; cluster"
+    }
+  ],
+  "大": [
+    {
+      "pinyin": "da",
+      "en": "big"
+    },
+    {
+      "pinyin": "tai",
+      "en": "big; large"
+    },
+    {
+      "pinyin": "dai",
+      "en": "big; large"
+    }
+  ],
+  "搭": [
+    {
+      "pinyin": "da",
+      "en": "build"
+    },
+    {
+      "pinyin": "ta",
+      "en": "build; put up"
+    }
+  ],
+  "塌": [
+    {
+      "pinyin": "ta",
+      "en": "fall"
+    },
+    {
+      "pinyin": "da",
+      "en": null
+    }
+  ],
+  "塔": [
+    {
+      "pinyin": "ta",
+      "en": "tower"
+    },
+    {
+      "pinyin": "da",
+      "en": "tower; pagoda"
+    }
+  ],
+  "得": [
+    {
+      "pinyin": "de",
+      "en": "get"
+    },
+    {
+      "pinyin": "dei",
+      "en": "get; obtain"
+    }
+  ],
+  "姚": [
+    {
+      "pinyin": "yao",
+      "en": "surname Yao"
+    },
+    {
+      "pinyin": "tao",
+      "en": "surname yao"
+    },
+    {
+      "pinyin": "tiao",
+      "en": "surname yao"
+    }
+  ],
+  "钥": [
+    {
+      "pinyin": "yao",
+      "en": "key"
+    },
+    {
+      "pinyin": "yue",
+      "en": "key"
+    }
+  ],
+  "疟": [
+    {
+      "pinyin": "nve",
+      "en": "fever"
+    },
+    {
+      "pinyin": "yao",
+      "en": "malaria; fever"
+    }
+  ],
+  "约": [
+    {
+      "pinyin": "yue",
+      "en": "agree"
+    },
+    {
+      "pinyin": "yao",
+      "en": "agree; approximately"
+    }
+  ],
+  "抬": [
+    {
+      "pinyin": "tai",
+      "en": "lift"
+    },
+    {
+      "pinyin": "chi",
+      "en": null
+    }
+  ],
+  "拖": [
+    {
+      "pinyin": "tuo",
+      "en": "pull"
+    },
+    {
+      "pinyin": "chi",
+      "en": null
+    }
+  ],
+  "茬": [
+    {
+      "pinyin": "cha",
+      "en": "crop"
+    },
+    {
+      "pinyin": "chi",
+      "en": "stubble; crop"
+    }
+  ],
+  "任": [
+    {
+      "pinyin": "ren",
+      "en": "allow"
+    },
+    {
+      "pinyin": "lin",
+      "en": "appoint; allow"
+    }
+  ],
+  "儿": [
+    {
+      "pinyin": "er",
+      "en": "son"
+    },
+    {
+      "pinyin": "ren",
+      "en": "child; son"
+    }
+  ],
+  "强": [
+    {
+      "pinyin": "qiang",
+      "en": "strong"
+    },
+    {
+      "pinyin": "jiang",
+      "en": "strong; powerful"
+    }
+  ],
+  "腔": [
+    {
+      "pinyin": "qiang",
+      "en": "tone"
+    },
+    {
+      "pinyin": "kong",
+      "en": "cavity; tone"
+    }
+  ],
+  "将": [
+    {
+      "pinyin": "jiang",
+      "en": "will"
+    },
+    {
+      "pinyin": "qiang",
+      "en": "will; general"
+    }
+  ],
+  "控": [
+    {
+      "pinyin": "kong",
+      "en": "manage"
+    },
+    {
+      "pinyin": "qiang",
+      "en": "control; manage"
+    }
+  ],
+  "团": [
+    {
+      "pinyin": "tuan",
+      "en": "group"
+    },
+    {
+      "pinyin": "qiu",
+      "en": "group; round"
+    }
+  ],
+  "稠": [
+    {
+      "pinyin": "chou",
+      "en": "dense"
+    },
+    {
+      "pinyin": "diao",
+      "en": "dense; thick"
+    },
+    {
+      "pinyin": "tiao",
+      "en": "dense; thick"
+    }
+  ],
+  "扭": [
+    {
+      "pinyin": "niu",
+      "en": "turn"
+    },
+    {
+      "pinyin": "chou",
+      "en": "twist; turn"
+    },
+    {
+      "pinyin": "zhou",
+      "en": "twist; turn"
+    }
+  ],
+  "盛": [
+    {
+      "pinyin": "sheng",
+      "en": "fill"
+    },
+    {
+      "pinyin": "cheng",
+      "en": "fill; hold"
+    }
+  ],
+  "圣": [
+    {
+      "pinyin": "sheng",
+      "en": "holy"
+    },
+    {
+      "pinyin": "ku",
+      "en": "sacred; holy"
+    }
+  ],
+  "乘": [
+    {
+      "pinyin": "cheng",
+      "en": "ride"
+    },
+    {
+      "pinyin": "sheng",
+      "en": "ride; multiply"
+    }
+  ],
+  "倍": [
+    {
+      "pinyin": "bei",
+      "en": "times"
+    },
+    {
+      "pinyin": "pei",
+      "en": "double; times"
+    }
+  ],
+  "蕊": [
+    {
+      "pinyin": "rui",
+      "en": "stamen"
+    },
+    {
+      "pinyin": "juan",
+      "en": "stamen; pistil"
+    }
+  ],
+  "猫": [
+    {
+      "pinyin": "mao",
+      "en": "cat"
+    },
+    {
+      "pinyin": "miao",
+      "en": "cat; feline"
+    }
+  ],
+  "描": [
+    {
+      "pinyin": "miao",
+      "en": "draw"
+    },
+    {
+      "pinyin": "mao",
+      "en": "draw; sketch"
+    }
+  ],
+  "耗": [
+    {
+      "pinyin": "hao",
+      "en": "waste"
+    },
+    {
+      "pinyin": "mao",
+      "en": "consume; waste"
+    }
+  ],
+  "率": [
+    {
+      "pinyin": "lv",
+      "en": "rate"
+    },
+    {
+      "pinyin": "lve",
+      "en": "rate; lead"
+    },
+    {
+      "pinyin": "shuai",
+      "en": "rate; lead"
+    }
+  ],
+  "古": [
+    {
+      "pinyin": "gu",
+      "en": "old"
+    },
+    {
+      "pinyin": "ku",
+      "en": "ancient; old"
+    }
+  ],
+  "枯": [
+    {
+      "pinyin": "ku",
+      "en": "dry"
+    },
+    {
+      "pinyin": "gu",
+      "en": "withered; dry"
+    }
+  ],
+  "投": [
+    {
+      "pinyin": "tou",
+      "en": "cast"
+    },
+    {
+      "pinyin": "dou",
+      "en": null
+    }
+  ],
+  "昆": [
+    {
+      "pinyin": "kun",
+      "en": "Kunlun"
+    },
+    {
+      "pinyin": "hun",
+      "en": "elder brother; kunlun"
+    }
+  ],
+  "捆": [
+    {
+      "pinyin": "kun",
+      "en": "tie"
+    },
+    {
+      "pinyin": "hun",
+      "en": "bind; tie"
+    }
+  ],
+  "卵": [
+    {
+      "pinyin": "luan",
+      "en": "egg"
+    },
+    {
+      "pinyin": "kun",
+      "en": "egg; ovum"
+    }
+  ],
+  "混": [
+    {
+      "pinyin": "hun",
+      "en": "mix"
+    },
+    {
+      "pinyin": "kun",
+      "en": null
+    },
+    {
+      "pinyin": "gun",
+      "en": null
+    }
+  ],
+  "净": [
+    {
+      "pinyin": "jing",
+      "en": "pure"
+    },
+    {
+      "pinyin": "cheng",
+      "en": "clean; pure"
+    }
+  ],
+  "而": [
+    {
+      "pinyin": "er",
+      "en": "and"
+    },
+    {
+      "pinyin": "neng",
+      "en": "and; but"
+    }
+  ],
+  "塞": [
+    {
+      "pinyin": "sai",
+      "en": "block"
+    },
+    {
+      "pinyin": "se",
+      "en": "block; stuff"
+    }
+  ],
+  "吨": [
+    {
+      "pinyin": "dun",
+      "en": "ton"
+    },
+    {
+      "pinyin": "tun",
+      "en": "ton"
+    }
+  ],
+  "吴": [
+    {
+      "pinyin": "wu",
+      "en": "surname Wu"
+    },
+    {
+      "pinyin": "tun",
+      "en": "surname wu"
+    }
+  ],
+  "囤": [
+    {
+      "pinyin": "dun",
+      "en": "store"
+    },
+    {
+      "pinyin": "tun",
+      "en": "store; granary"
+    }
+  ],
+  "褪": [
+    {
+      "pinyin": "tui",
+      "en": "fade"
+    },
+    {
+      "pinyin": "tun",
+      "en": "take off; fade"
+    }
+  ],
+  "长": [
+    {
+      "pinyin": "zhang",
+      "en": "long"
+    },
+    {
+      "pinyin": "chang",
+      "en": "long; grow"
+    }
+  ],
+  "倘": [
+    {
+      "pinyin": "tang",
+      "en": "if"
+    },
+    {
+      "pinyin": "chang",
+      "en": "if; suppose"
+    }
+  ],
+  "尚": [
+    {
+      "pinyin": "shang",
+      "en": "yet"
+    },
+    {
+      "pinyin": "chang",
+      "en": null
+    }
+  ],
+  "淌": [
+    {
+      "pinyin": "tang",
+      "en": "flow"
+    },
+    {
+      "pinyin": "chang",
+      "en": null
+    }
+  ],
+  "裳": [
+    {
+      "pinyin": "shang",
+      "en": "clothes"
+    },
+    {
+      "pinyin": "chang",
+      "en": null
+    }
+  ],
+  "盯": [
+    {
+      "pinyin": "ding",
+      "en": "gaze"
+    },
+    {
+      "pinyin": "cheng",
+      "en": "stare; gaze"
+    }
+  ],
+  "从": [
+    {
+      "pinyin": "cong",
+      "en": "from"
+    },
+    {
+      "pinyin": "zong",
+      "en": "follow; from"
+    }
+  ],
+  "坏": [
+    {
+      "pinyin": "huai",
+      "en": "bad"
+    },
+    {
+      "pinyin": "pei",
+      "en": "bad; broken"
+    },
+    {
+      "pinyin": "pi",
+      "en": "bad; broken"
+    }
+  ],
+  "蹲": [
+    {
+      "pinyin": "dun",
+      "en": "squat"
+    },
+    {
+      "pinyin": "zun",
+      "en": "squat; crouch",
+      "suspicious": true
+    },
+    {
+      "pinyin": "cun",
+      "en": "squat; crouch",
+      "suspicious": true
+    },
+    {
+      "pinyin": "cuan",
+      "en": "squat; crouch",
+      "suspicious": true
+    },
+    {
+      "pinyin": "qun",
+      "en": "squat; crouch",
+      "suspicious": true
+    }
+  ],
+  "镐": [
+    {
+      "pinyin": "gao",
+      "en": "spade"
+    },
+    {
+      "pinyin": "hao",
+      "en": "pickaxe; spade"
+    }
+  ],
+  "浩": [
+    {
+      "pinyin": "hao",
+      "en": "vast"
+    },
+    {
+      "pinyin": "gao",
+      "en": "vast; grand"
+    },
+    {
+      "pinyin": "ge",
+      "en": "vast; grand"
+    }
+  ],
+  "蒿": [
+    {
+      "pinyin": "hao",
+      "en": "herb"
+    },
+    {
+      "pinyin": "gao",
+      "en": "wormwood; herb"
+    }
+  ],
+  "乃": [
+    {
+      "pinyin": "nai",
+      "en": "thus"
+    },
+    {
+      "pinyin": "ai",
+      "en": "thus; then"
+    }
+  ],
+  "呆": [
+    {
+      "pinyin": "dai",
+      "en": "dull"
+    },
+    {
+      "pinyin": "ai",
+      "en": "stupid; dull"
+    },
+    {
+      "pinyin": "bao",
+      "en": "stupid; dull"
+    }
+  ],
+  "抗": [
+    {
+      "pinyin": "kang",
+      "en": "resist"
+    },
+    {
+      "pinyin": "gang",
+      "en": "resist; oppose"
+    }
+  ],
+  "扛": [
+    {
+      "pinyin": "kang",
+      "en": "carry on shoulder"
+    },
+    {
+      "pinyin": "gang",
+      "en": "carry on shoulder"
+    }
+  ],
+  "坑": [
+    {
+      "pinyin": "keng",
+      "en": "pit"
+    },
+    {
+      "pinyin": "kang",
+      "en": "pit; hole"
+    }
+  ],
+  "荒": [
+    {
+      "pinyin": "huang",
+      "en": "wasteland"
+    },
+    {
+      "pinyin": "kang",
+      "en": "wasteland; uncultivated"
+    }
+  ],
+  "活": [
+    {
+      "pinyin": "huo",
+      "en": "live"
+    },
+    {
+      "pinyin": "guo",
+      "en": "live; alive"
+    }
+  ],
+  "越": [
+    {
+      "pinyin": "yue",
+      "en": "cross"
+    },
+    {
+      "pinyin": "huo",
+      "en": "cross; exceed"
+    }
+  ],
+  "盖": [
+    {
+      "pinyin": "gai",
+      "en": "lid"
+    },
+    {
+      "pinyin": "ge",
+      "en": "cover; lid"
+    }
+  ],
+  "坯": [
+    {
+      "pinyin": "pi",
+      "en": "blank"
+    },
+    {
+      "pinyin": "huai",
+      "en": "blank; roughcast"
+    }
+  ],
+  "否": [
+    {
+      "pinyin": "fou",
+      "en": "no"
+    },
+    {
+      "pinyin": "pi",
+      "en": null
+    }
+  ],
+  "泵": [
+    {
+      "pinyin": "beng",
+      "en": "pump"
+    },
+    {
+      "pinyin": "liu",
+      "en": "pump"
+    },
+    {
+      "pinyin": "pin",
+      "en": "pump"
+    }
+  ],
+  "埋": [
+    {
+      "pinyin": "mai",
+      "en": "bury"
+    },
+    {
+      "pinyin": "man",
+      "en": "bury; cover"
+    }
+  ],
+  "调": [
+    {
+      "pinyin": "diao",
+      "en": "adjust"
+    },
+    {
+      "pinyin": "tiao",
+      "en": "adjust; transfer"
+    }
+  ],
+  "掉": [
+    {
+      "pinyin": "diao",
+      "en": "drop"
+    },
+    {
+      "pinyin": "nuo",
+      "en": "drop; fall"
+    }
+  ],
+  "挑": [
+    {
+      "pinyin": "tiao",
+      "en": "choose"
+    },
+    {
+      "pinyin": "diao",
+      "en": null
+    },
+    {
+      "pinyin": "tao",
+      "en": null
+    }
+  ],
+  "跳": [
+    {
+      "pinyin": "tiao",
+      "en": "hop"
+    },
+    {
+      "pinyin": "diao",
+      "en": "jump; hop"
+    },
+    {
+      "pinyin": "tao",
+      "en": "jump; hop"
+    }
+  ],
+  "鸟": [
+    {
+      "pinyin": "niao",
+      "en": "bird"
+    },
+    {
+      "pinyin": "diao",
+      "en": "bird"
+    }
+  ],
+  "堆": [
+    {
+      "pinyin": "dui",
+      "en": "pile"
+    },
+    {
+      "pinyin": "zui",
+      "en": "pile; heap"
+    }
+  ],
+  "痪": [
+    {
+      "pinyin": "huan",
+      "en": "numb"
+    },
+    {
+      "pinyin": "tuan",
+      "en": "paralysis; numb"
+    }
+  ],
+  "匿": [
+    {
+      "pinyin": "ni",
+      "en": "hide"
+    },
+    {
+      "pinyin": "te",
+      "en": "hide; conceal"
+    }
+  ],
+  "溺": [
+    {
+      "pinyin": "ni",
+      "en": "drown"
+    },
+    {
+      "pinyin": "niao",
+      "en": "drown; submerge"
+    },
+    {
+      "pinyin": "ruo",
+      "en": "drown; submerge"
+    }
+  ],
+  "呢": [
+    {
+      "pinyin": "ne",
+      "en": "particle"
+    },
+    {
+      "pinyin": "ni",
+      "en": null
+    }
+  ],
+  "荤": [
+    {
+      "pinyin": "hun",
+      "en": "meat"
+    },
+    {
+      "pinyin": "xun",
+      "en": "meat; non-vegetarian"
+    }
+  ],
+  "棍": [
+    {
+      "pinyin": "gun",
+      "en": "club"
+    },
+    {
+      "pinyin": "hun",
+      "en": "stick; club"
+    },
+    {
+      "pinyin": "ao",
+      "en": "stick; club"
+    }
+  ],
+  "忱": [
+    {
+      "pinyin": "chen",
+      "en": "sincere"
+    },
+    {
+      "pinyin": "dan",
+      "en": "sincere; earnest"
+    }
+  ],
+  "称": [
+    {
+      "pinyin": "cheng",
+      "en": "call"
+    },
+    {
+      "pinyin": "chen",
+      "en": "weigh; call"
+    }
+  ],
+  "哪": [
+    {
+      "pinyin": "na",
+      "en": "which"
+    },
+    {
+      "pinyin": "nie",
+      "en": "which; where",
+      "suspicious": true
+    },
+    {
+      "pinyin": "ne",
+      "en": "which; where",
+      "suspicious": true
+    },
+    {
+      "pinyin": "nuo",
+      "en": "which; where",
+      "suspicious": true
+    },
+    {
+      "pinyin": "nai",
+      "en": "which; where",
+      "suspicious": true
+    },
+    {
+      "pinyin": "nei",
+      "en": "which; where",
+      "suspicious": true
+    }
+  ],
+  "捻": [
+    {
+      "pinyin": "nian",
+      "en": "twist"
+    },
+    {
+      "pinyin": "nie",
+      "en": "twist; pinch"
+    }
+  ],
+  "挎": [
+    {
+      "pinyin": "kua",
+      "en": "carry on arm"
+    },
+    {
+      "pinyin": "kou",
+      "en": "carry on arm"
+    },
+    {
+      "pinyin": "ku",
+      "en": "carry on arm"
+    }
+  ],
+  "太": [
+    {
+      "pinyin": "tai",
+      "en": "too"
+    },
+    {
+      "pinyin": "ta",
+      "en": "too; very"
+    }
+  ],
+  "能": [
+    {
+      "pinyin": "neng",
+      "en": "can"
+    },
+    {
+      "pinyin": "tai",
+      "en": "can; ability",
+      "suspicious": true
+    },
+    {
+      "pinyin": "xiong",
+      "en": "can; ability",
+      "suspicious": true
+    },
+    {
+      "pinyin": "nai",
+      "en": "can; ability",
+      "suspicious": true
+    }
+  ],
+  "脱": [
+    {
+      "pinyin": "tuo",
+      "en": "escape"
+    },
+    {
+      "pinyin": "tui",
+      "en": "take off; escape"
+    }
+  ],
+  "他": [
+    {
+      "pinyin": "ta",
+      "en": "he"
+    },
+    {
+      "pinyin": "tuo",
+      "en": "he; other"
+    }
+  ],
+  "吵": [
+    {
+      "pinyin": "chao",
+      "en": "noisy"
+    },
+    {
+      "pinyin": "miao",
+      "en": "noisy; quarrel"
+    }
+  ],
+  "灌": [
+    {
+      "pinyin": "guan",
+      "en": "pour"
+    },
+    {
+      "pinyin": "huan",
+      "en": "irrigate; pour"
+    }
+  ],
+  "漂": [
+    {
+      "pinyin": "piao",
+      "en": "float"
+    },
+    {
+      "pinyin": "biao",
+      "en": "float; drift"
+    }
+  ],
+  "膘": [
+    {
+      "pinyin": "biao",
+      "en": "fat"
+    },
+    {
+      "pinyin": "piao",
+      "en": "fat; flesh"
+    }
+  ],
+  "藏": [
+    {
+      "pinyin": "cang",
+      "en": "hide"
+    },
+    {
+      "pinyin": "zang",
+      "en": "hide; store"
+    }
+  ],
+  "搓": [
+    {
+      "pinyin": "cuo",
+      "en": "rub"
+    },
+    {
+      "pinyin": "chai",
+      "en": "rub; twist"
+    }
+  ],
+  "最": [
+    {
+      "pinyin": "zui",
+      "en": "most"
+    },
+    {
+      "pinyin": "cuo",
+      "en": "most; best"
+    }
+  ],
+  "呐": [
+    {
+      "pinyin": "na",
+      "en": "yell"
+    },
+    {
+      "pinyin": "ne",
+      "en": "shout; yell"
+    },
+    {
+      "pinyin": "nuo",
+      "en": "shout; yell"
+    }
+  ],
+  "那": [
+    {
+      "pinyin": "na",
+      "en": "that"
+    },
+    {
+      "pinyin": "ne",
+      "en": "that; those",
+      "suspicious": true
+    },
+    {
+      "pinyin": "nuo",
+      "en": "that; those",
+      "suspicious": true
+    },
+    {
+      "pinyin": "nai",
+      "en": "that; those",
+      "suspicious": true
+    },
+    {
+      "pinyin": "nei",
+      "en": "that; those",
+      "suspicious": true
+    }
+  ],
+  "跨": [
+    {
+      "pinyin": "kua",
+      "en": "cross"
+    },
+    {
+      "pinyin": "ku",
+      "en": "straddle; cross"
+    }
+  ],
+  "娜": [
+    {
+      "pinyin": "na",
+      "en": "elegant"
+    },
+    {
+      "pinyin": "nuo",
+      "en": "elegant; graceful"
+    }
+  ],
+  "趣": [
+    {
+      "pinyin": "qu",
+      "en": "fun"
+    },
+    {
+      "pinyin": "cou",
+      "en": "interest; fun",
+      "suspicious": true
+    },
+    {
+      "pinyin": "cu",
+      "en": "interest; fun",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zou",
+      "en": "interest; fun",
+      "suspicious": true
+    }
+  ],
+  "炮": [
+    {
+      "pinyin": "pao",
+      "en": "roast"
+    },
+    {
+      "pinyin": "bao",
+      "en": "cannon; roast"
+    }
+  ],
+  "袍": [
+    {
+      "pinyin": "pao",
+      "en": "robe"
+    },
+    {
+      "pinyin": "bao",
+      "en": "robe; gown"
+    }
+  ],
+  "刨": [
+    {
+      "pinyin": "pao",
+      "en": "dig"
+    },
+    {
+      "pinyin": "bao",
+      "en": "dig; plane"
+    }
+  ],
+  "胞": [
+    {
+      "pinyin": "bao",
+      "en": "cell"
+    },
+    {
+      "pinyin": "pao",
+      "en": "cell; embryo"
+    }
+  ],
+  "苞": [
+    {
+      "pinyin": "bao",
+      "en": "bud"
+    },
+    {
+      "pinyin": "pao",
+      "en": "bud; bract"
+    },
+    {
+      "pinyin": "biao",
+      "en": "bud; bract"
+    }
+  ],
+  "耐": [
+    {
+      "pinyin": "nai",
+      "en": "bear"
+    },
+    {
+      "pinyin": "neng",
+      "en": null
+    }
+  ],
+  "汤": [
+    {
+      "pinyin": "tang",
+      "en": "soup"
+    },
+    {
+      "pinyin": "shang",
+      "en": "soup; hot water"
+    }
+  ],
+  "痕": [
+    {
+      "pinyin": "hen",
+      "en": "mark"
+    },
+    {
+      "pinyin": "gen",
+      "en": "trace; mark"
+    }
+  ],
+  "南": [
+    {
+      "pinyin": "nan",
+      "en": "south"
+    },
+    {
+      "pinyin": "na",
+      "en": "south"
+    }
+  ],
+  "内": [
+    {
+      "pinyin": "nei",
+      "en": "inside"
+    },
+    {
+      "pinyin": "na",
+      "en": "inside; internal"
+    },
+    {
+      "pinyin": "rui",
+      "en": "inside; internal"
+    }
+  ],
+  "魁": [
+    {
+      "pinyin": "kui",
+      "en": "giant"
+    },
+    {
+      "pinyin": "kuai",
+      "en": "leader; giant"
+    }
+  ],
+  "奏": [
+    {
+      "pinyin": "zou",
+      "en": "play"
+    },
+    {
+      "pinyin": "cou",
+      "en": "play; present"
+    }
+  ],
+  "揍": [
+    {
+      "pinyin": "zou",
+      "en": "hit"
+    },
+    {
+      "pinyin": "cou",
+      "en": "beat; hit"
+    }
+  ],
+  "族": [
+    {
+      "pinyin": "zu",
+      "en": "clan"
+    },
+    {
+      "pinyin": "cou",
+      "en": "clan; nationality",
+      "suspicious": true
+    },
+    {
+      "pinyin": "sou",
+      "en": "clan; nationality",
+      "suspicious": true
+    },
+    {
+      "pinyin": "zou",
+      "en": "clan; nationality",
+      "suspicious": true
+    }
+  ],
+  "簇": [
+    {
+      "pinyin": "cu",
+      "en": "bunch"
+    },
+    {
+      "pinyin": "cou",
+      "en": "cluster; bunch"
+    },
+    {
+      "pinyin": "chuo",
+      "en": "cluster; bunch"
+    }
+  ],
+  "女": [
+    {
+      "pinyin": "nv",
+      "en": "woman"
+    },
+    {
+      "pinyin": "ru",
+      "en": "female; woman"
+    }
+  ],
+  "月": [
+    {
+      "pinyin": "yue",
+      "en": "moon"
+    },
+    {
+      "pinyin": "ru",
+      "en": "moon; month"
+    }
+  ],
+  "肉": [
+    {
+      "pinyin": "rou",
+      "en": "meat"
+    },
+    {
+      "pinyin": "ru",
+      "en": "meat; flesh"
+    }
+  ],
+  "拼": [
+    {
+      "pinyin": "pin",
+      "en": "spell"
+    },
+    {
+      "pinyin": "bing",
+      "en": "spell; combine"
+    }
+  ],
+  "乐": [
+    {
+      "pinyin": "le",
+      "en": "happy"
+    },
+    {
+      "pinyin": "yue",
+      "en": "happy; joyful"
+    }
+  ],
+  "块": [
+    {
+      "pinyin": "kuai",
+      "en": "lump"
+    },
+    {
+      "pinyin": "yue",
+      "en": "piece; lump"
+    }
+  ],
+  "蜕": [
+    {
+      "pinyin": "tui",
+      "en": "shed"
+    },
+    {
+      "pinyin": "yue",
+      "en": "shed; molt"
+    }
+  ],
+  "超": [
+    {
+      "pinyin": "chao",
+      "en": "exceed"
+    },
+    {
+      "pinyin": "tiao",
+      "en": "exceed; surpass"
+    }
+  ],
+  "绰": [
+    {
+      "pinyin": "chuo",
+      "en": "ample"
+    },
+    {
+      "pinyin": "chao",
+      "en": "ample; graceful"
+    }
+  ],
+  "弄": [
+    {
+      "pinyin": "nong",
+      "en": "do"
+    },
+    {
+      "pinyin": "long",
+      "en": "do; play"
+    }
+  ],
+  "促": [
+    {
+      "pinyin": "cu",
+      "en": "urge"
+    },
+    {
+      "pinyin": "chuo",
+      "en": "urge; promote"
+    }
+  ],
+  "若": [
+    {
+      "pinyin": "ruo",
+      "en": "like"
+    },
+    {
+      "pinyin": "re",
+      "en": null
+    }
+  ],
+  "惹": [
+    {
+      "pinyin": "re",
+      "en": "annoy"
+    },
+    {
+      "pinyin": "ruo",
+      "en": "provoke; annoy"
+    }
+  ],
+  "恍": [
+    {
+      "pinyin": "huang",
+      "en": "vague"
+    },
+    {
+      "pinyin": "guang",
+      "en": "confused; vague"
+    }
+  ],
+  "攒": [
+    {
+      "pinyin": "zan",
+      "en": "save"
+    },
+    {
+      "pinyin": "cuan",
+      "en": "save; accumulate"
+    }
+  ],
+  "色": [
+    {
+      "pinyin": "se",
+      "en": "hue"
+    },
+    {
+      "pinyin": "shai",
+      "en": "color; hue"
+    }
+  ],
+  "卡": [
+    {
+      "pinyin": "ka",
+      "en": "card"
+    },
+    {
+      "pinyin": "qia",
+      "en": "card; block"
+    }
+  ]
+}
