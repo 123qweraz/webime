@@ -51,9 +51,27 @@ function initEventListeners() {
         if (container) container.classList.remove("focused");
     });
 
+    // 关键：输入重定向
+    outputArea.addEventListener("keydown", (e) => {
+        const isIMETrigger = /^[a-z']$/i.test(e.key) && !e.ctrlKey && !e.metaKey;
+        if (isIMETrigger) {
+            saveSelection();
+            focusHiddenInput();
+            // 让事件流自然进入 hInput
+        }
+    });
+
     outputArea.addEventListener("mouseup", saveSelection);
-    outputArea.addEventListener("keyup", saveSelection);
-    outputArea.addEventListener("click", (e) => { saveSelection(); e.stopPropagation(); });
+    outputArea.addEventListener("keyup", (e) => {
+        saveSelection();
+        // 如果按下了方向键，更新虚拟光标位置
+        if (e.key.startsWith("Arrow")) updateFakeCaret();
+    });
+    outputArea.addEventListener("click", (e) => {
+        saveSelection();
+        e.stopPropagation();
+        updateFakeCaret();
+    });
 
     document.addEventListener("keydown", handleGlobalKeyDown);
     document.addEventListener("click", handleGlobalClick);
@@ -73,7 +91,6 @@ function handleKeyDown(e) {
 
     if (currentState === InputState.PRACTICE) return;
 
-    // 翻页逻辑
     if (buffer) {
         if (key === "=") { e.preventDefault(); if ((pageIndex + 1) * pageSize < combinedCandidates.length) { pageIndex++; render(); } return; }
         if (key === "-") { e.preventDefault(); if (pageIndex > 0) { pageIndex--; render(); } return; }
@@ -88,7 +105,6 @@ function handleKeyDown(e) {
         return;
     }
 
-    // Tab 模式下的字母过滤
     if (currentState === InputState.TAB && buffer) {
         if (/^[a-zA-Z]$/.test(key)) { e.preventDefault(); enFilter += key; pageIndex = 0; update(); return; }
         if (key === "Backspace") { 
@@ -99,7 +115,6 @@ function handleKeyDown(e) {
         }
     }
 
-    // 数字选词逻辑：统一使用过滤后的 combinedCandidates
     if (/^[0-9]$/.test(key)) {
         if (buffer && combinedCandidates.length > 0) {
             const idx = key === "0" ? 9 : parseInt(key) - 1;
@@ -116,8 +131,6 @@ function handleKeyDown(e) {
         if (buffer) { e.preventDefault(); buffer = buffer.slice(0, -1); hInput.value = buffer; update(); } 
         else {
             e.preventDefault();
-            const caret = outputArea.querySelector(".fake-caret");
-            if (caret) caret.remove();
             restoreSelection();
             outputArea.focus();
             document.execCommand("delete", false, null);
@@ -141,7 +154,6 @@ function handleInput(event) {
     const hInput = document.getElementById("hidden-input");
     if (!hInput) return;
     if (currentState === InputState.PRACTICE) { handlePracticeInput(event); return; }
-    // 即使在 TAB 模式下也允许同步 buffer 变化
     setBuffer(hInput.value); pageIndex = 0; update();
 }
 
@@ -174,7 +186,8 @@ function makeResizableV(resizerId, topPanelId, bottomPanelId) {
         const startY = e.clientY, startH = bottomPanel.offsetHeight;
         const onMove = (ev) => { bottomPanel.style.height = Math.max(150, startH + (startY - ev.clientY)) + "px"; };
         const onUp = () => { document.removeEventListener("mousemove", onMove); document.removeEventListener("mouseup", onUp); settings.inputHeight = bottomPanel.offsetHeight; saveSettings(); };
-        document.addEventListener("mousemove", onMove); document.addEventListener("mouseup", onUp);
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("mouseup", onUp);
     });
 }
 
