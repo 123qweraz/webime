@@ -1,5 +1,16 @@
 # History Dialog
 
+## 2026-01-08 04:15
+- **Task**: Implement Integrated Practice Directory View.
+- **Key Actions**:
+    1. **Directory Interface**: Replaced the modal-based chapter selection with a native "Directory View" inside the practice area.
+    2. **Chapter Cards**: Designed elegant cards for each chapter showing the word range (e.g., 1-20).
+    3. **Navigation Logic**: 
+        - Default to the directory when starting practice mode.
+        - Added a "Back to Directory" button in the practice footer for quick chapter switching.
+    4. **Flow Optimization**: Selecting a dictionary now immediately opens the corresponding chapter directory.
+    5. **UI/UX**: Improved visual consistency with a grid-based layout that works across themes.
+
 ## 2026-01-08 04:00
 - **Task**: Implement Dictionary Selection and Chapter Splitting for Practice Mode.
 - **Key Actions**:

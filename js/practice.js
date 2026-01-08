@@ -128,18 +128,23 @@ async function startPracticeMode() {
 
     setState(InputState.PRACTICE);
 
-    const progressKey = getPracticeProgressKey();
-    const savedIndex = localStorage.getItem(progressKey);
-    currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
-    
-    if (currentPracticeWordIndex >= practiceWords.length) {
-        currentPracticeWordIndex = 0;
-    }
-
     document.getElementById("output-card").style.display = "none";
     document.getElementById("practice-container").style.display = "flex";
     document.getElementById("practice-footer").style.display = "flex";
     document.getElementById("toggle-pinyin-btn").style.display = "inline-flex";
+
+    // Add Directory Button to footer if not exists
+    let dirBtn = document.getElementById("back-to-dir-btn");
+    if (!dirBtn) {
+        const footer = document.getElementById("practice-footer");
+        dirBtn = document.createElement("button");
+        dirBtn.id = "back-to-dir-btn";
+        dirBtn.className = "btn btn-toggle";
+        dirBtn.innerHTML = "章节目录";
+        dirBtn.onclick = showPracticeDirectory;
+        footer.insertBefore(dirBtn, footer.firstChild);
+    }
+    dirBtn.style.display = "inline-flex";
 
     cardLeft = document.getElementById("card-left");
     cardCenter = document.getElementById("card-center");
@@ -149,14 +154,99 @@ async function startPracticeMode() {
     document.getElementById("practice-mode-btn").style.display = "none";
     document.getElementById("exit-practice-mode-btn").style.display = "flex";
 
+    // If a chapter is already selected in settings, load cards, otherwise show directory
+    if (typeof settings.practice_chapter !== 'undefined' && settings.practice_chapter !== null) {
+        showChapterPractice();
+    } else {
+        showPracticeDirectory();
+    }
+}
+
+function showPracticeDirectory() {
+    const dirView = document.getElementById("practice-directory");
+    const cards = [cardLeft, cardCenter, cardRight];
+    
+    cards.forEach(c => c.style.display = "none");
+    dirView.style.display = "grid";
+    
+    renderDirectoryContent();
+}
+
+function renderDirectoryContent() {
+    const dirView = document.getElementById("practice-directory");
+    const dictPath = settings.practice_dict_path;
+    const practiceDict = allDicts.find((d) => (d.path || d.name) === dictPath && d.enabled);
+    
+    if (!practiceDict || !practiceDict.fetchedContent) {
+        dirView.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px;">加载词典失败...</div>`;
+        return;
+    }
+
+    // Recalculate word count from fetched content
+    let allWords = [];
+    for (const pinyin in practiceDict.fetchedContent) {
+        const data = practiceDict.fetchedContent[pinyin];
+        const arr = Array.isArray(data) ? data : [data];
+        arr.forEach(hz => allWords.push({ pinyin, hanzi: hz }));
+    }
+
+    const wordCount = allWords.length;
+    const chapterSize = 20;
+    const totalChapters = Math.ceil(wordCount / chapterSize);
+    const currentChapter = settings.practice_chapter;
+
+    let html = `
+        <div class="directory-header">
+            <div class="directory-title">${practiceDict.name} - 章节目录</div>
+            <button class="btn btn-sm" onclick="openDictModal()">更换词典</button>
+        </div>
+    `;
+
+    for (let i = 0; i < totalChapters; i++) {
+        const isActive = i === currentChapter;
+        const start = i * chapterSize + 1;
+        const end = Math.min((i + 1) * chapterSize, wordCount);
+        html += `
+            <div class="chapter-card ${isActive ? 'active' : ''}" onclick="selectChapter(${i})">
+                <div class="chapter-title">第 ${i + 1} 章</div>
+                <div class="chapter-info">${start} - ${end} 词</div>
+            </div>
+        `;
+    }
+
+    dirView.innerHTML = html;
+}
+
+async function selectChapter(index) {
+    settings.practice_chapter = index;
+    saveSettings();
+    showLoadingMessage("加载章节...");
+    await initPracticeModeData();
+    hideLoadingMessage();
+    showChapterPractice();
+}
+
+function showChapterPractice() {
+    document.getElementById("practice-directory").style.display = "none";
+    [cardLeft, cardCenter, cardRight].forEach(c => c.style.display = "flex");
+    
+    const progressKey = getPracticeProgressKey();
+    const savedIndex = localStorage.getItem(progressKey);
+    currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
+    
+    if (currentPracticeWordIndex >= practiceWords.length) {
+        currentPracticeWordIndex = 0;
+    }
+    
     loadCards();
-    setBuffer(""); // Clear buffer on start
     focusHiddenInput();
 }
 
 async function restartPracticeMode() {
-    currentPracticeWordIndex = 0;
-    await startPracticeMode();
+    // This is called when dictionary changes or user explicitly restarts
+    // We want to show the directory first to let them pick a chapter
+    await initPracticeModeData();
+    showPracticeDirectory();
 }
 
 function exitPracticeMode() {
@@ -168,10 +258,14 @@ function exitPracticeMode() {
     document.getElementById("practice-footer").style.display = "none";
     document.getElementById("toggle-pinyin-btn").style.display = "none";
     
+    const dirBtn = document.getElementById("back-to-dir-btn");
+    if (dirBtn) dirBtn.style.display = "none";
+    
     const toolbar = document.getElementById("practice-toolbar-left");
     if (toolbar) toolbar.style.display = "none";
 
     practiceCards.forEach((card) => {
+        card.style.display = "flex"; // Reset for next time
         card.classList.remove("visible", "current", "incorrect");
         const pyDisp = card.querySelector(".pinyin-display");
         const hzDisp = card.querySelector(".hanzi-display");

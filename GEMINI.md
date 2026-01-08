@@ -118,10 +118,8 @@
 
 ### 二、Git 使用规范（非常重要）
 
-#### 1️⃣ 禁止 Gemini 代替用户提交代码
 
-* ❌ 不允许：`git commit`
-* ✅ 允许：
+meici gai wan bang wo git commit, dan buyao push
 
   * 提醒用户当前应进行 Git 操作
   * 给出提交信息示例
