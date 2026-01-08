@@ -115,15 +115,11 @@ async function initPracticeModeData() {
     
     practiceWords = allWords.slice(startIdx, endIdx);
     
-    // Update the dictionary name and chapter info in UI
+    // 移除：不再向顶部工具栏注入繁杂信息，保持工具栏简洁
     const toolbar = document.getElementById("practice-toolbar-left");
     if (toolbar) {
-        toolbar.style.display = "flex";
-        toolbar.innerHTML = `
-            <div style="font-weight: 800; font-size: 14px; background: var(--primary-light); color: var(--primary); padding: 4px 12px; border-radius: 8px;">
-                ${practiceDict.name} - 第 ${chapterIndex + 1} 章 (${practiceWords.length} 词)
-            </div>
-        `;
+        toolbar.style.display = "none";
+        toolbar.innerHTML = "";
     }
 
     seededShuffle(practiceWords, `${dictPath}_${chapterIndex}`);
@@ -247,11 +243,13 @@ function renderDirectoryContent() {
         <div class="directory-header-v2">
             <div class="dict-info-box">
                 <div class="dict-name-main">${practiceDict.name}</div>
-                <div class="dict-stats-sub">共 ${totalChapters} 章节 • ${wordCount} 词汇</div>
+                <div class="dict-stats-sub">
+                    共 ${totalChapters} 章节 • ${wordCount} 词汇
+                    ${!isNaN(currentChapter) ? ` • <span style="color:var(--primary)">当前: 第 ${currentChapter + 1} 章</span>` : ""}
+                </div>
             </div>
             <button class="btn btn-sm" onclick="openDictModal()">更换词典</button>
         </div>
-        <div style="grid-column: 1/-1;">${paginationHtml}</div>
     `;
 
     for (let i = startChapter; i < endChapter; i++) {
@@ -272,7 +270,7 @@ function renderDirectoryContent() {
                 <div class="chapter-card-main">
                     <div class="chapter-title">第 ${i + 1} 章</div>
                     <div class="chapter-info">${start} - ${end} 词</div>
-                    <div style="font-size: 10px; color: var(--text-sec); margin-top: 4px;">${firstWordPy}...${lastWordPy}</div>
+                    <div class="chapter-range-hint">${firstWordPy} ... ${lastWordPy}</div>
                 </div>
                 ${progressPercent > 0 ? `
                     <div class="chapter-progress-tag" style="width: ${Math.min(progressPercent, 100)}%;"></div>

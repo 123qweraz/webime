@@ -500,6 +500,18 @@ body.dark-mode .history-header { background: #2c2c2e; }
     font-weight: 600;
 }
 
+.chapter-range-hint {
+    font-size: 11px;
+    color: var(--primary);
+    margin-top: 6px;
+    font-weight: 700;
+    opacity: 0.8;
+    background: var(--primary-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
 .chapter-progress-tag {
     position: absolute;
     bottom: 0;

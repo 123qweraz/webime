@@ -214,6 +214,10 @@ function handleCorrectionInput() {
 function handleGlobalClick(e) {
     if (currentState === InputState.EDIT && outputArea.contains(e.target)) return;
     if (currentState === InputState.CORRECTION && document.getElementById("correction-wrapper").contains(e.target)) return;
+    
+    // 修复：如果点击的是输入框、文本域或其他可编辑元素，不要强制夺取焦点
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable) return;
+    
     focusHiddenInput();
 }
 
