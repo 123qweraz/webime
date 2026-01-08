@@ -30,10 +30,7 @@ async function init() {
 }
 
 function applySettings() {
-    const outputCard = document.getElementById("output-card");
     const inputCard = document.getElementById("input-container");
-    
-    // Use height for input card stability
     if (inputCard && settings.inputHeight) {
         inputCard.style.height = settings.inputHeight + "px";
     }
@@ -41,7 +38,6 @@ function applySettings() {
     document.getElementById("historyPanel").style.display = settings.history ? "flex" : "none";
     document.getElementById("l-hist-btn").classList.toggle("active", settings.history);
     
-    // Apply theme
     const isDark = settings.theme === 'dark';
     document.body.classList.toggle('dark-mode', isDark);
     const themeBtn = document.getElementById('theme-toggle-btn');
@@ -62,13 +58,10 @@ function initEventListeners() {
     hInput.addEventListener("keydown", handleKeyDown);
     hInput.addEventListener("input", handleInput);
     
-    // Add listener to output area for direct editing
     outputArea.addEventListener("input", () => {
         committed = outputArea.innerText;
     });
     outputArea.addEventListener("click", (e) => {
-        // When clicking output area, we allow the browser to set focus and cursor
-        // but we need to be careful not to trigger focusHiddenInput immediately
         e.stopPropagation();
     });
 
@@ -164,10 +157,6 @@ function handleKeyDown(e) {
             hInput.value = buffer; 
             update(); 
         } else {
-            // Let the default backspace happen if in outputArea, 
-            // but we need to sync committed.
-            // Actually, if buffer is empty, we let hidden-input handle it?
-            // No, if buffer is empty and user presses backspace, we should delete from outputArea.
             if (document.activeElement !== outputArea) {
                 e.preventDefault();
                 committed = committed.slice(0, -1);
@@ -212,7 +201,7 @@ function handleGlobalKeyDown(e) {
     }
     if (e.ctrlKey && key === "e") { e.preventDefault(); focusOutputArea(); return; }
     if (e.ctrlKey && key === "c") {
-        if (currentState !== InputState.EDIT && currentState !== InputState.CORRECTION) { e.preventDefault(); archiveAndCopy(); }
+        if (currentState !== InputState.EDIT) { e.preventDefault(); archiveAndCopy(); }
         return;
     }
     if (e.key === "Escape") {
@@ -225,9 +214,7 @@ function handleGlobalKeyDown(e) {
 
 function handleGlobalClick(e) {
     if (outputArea.contains(e.target)) return;
-    
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON" || e.target.isContentEditable) return;
-    
     focusHiddenInput();
 }
 
