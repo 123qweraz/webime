@@ -5,7 +5,7 @@ let cardLeft, cardCenter, cardRight;
 let practiceCards = [];
 let showPinyinHint = false;
 let directoryPageIndex = 0;
-const directoryPageSize = 40;
+const directoryPageSize = 20; // 减小页大小，确保不滚动也能看到底部
 
 function getHanziChar(hanziObject) {
     if (typeof hanziObject === 'object' && hanziObject !== null && hanziObject.char) {
@@ -194,42 +194,56 @@ function renderDirectoryContent() {
     }
 
     // Recalculate word count from fetched content
-    let allWords = [];
-    for (const pinyin in practiceDict.fetchedContent) {
-        const data = practiceDict.fetchedContent[pinyin];
-        const arr = Array.isArray(data) ? data : [data];
-        arr.forEach(hz => allWords.push({ pinyin, hanzi: hz }));
+    let allWordsCount = 0;
+    for (const p in practiceDict.fetchedContent) {
+        const data = practiceDict.fetchedContent[p];
+        allWordsCount += Array.isArray(data) ? data.length : 1;
     }
 
-    const wordCount = allWords.length;
     const chapterSize = 20;
-    const totalChapters = Math.ceil(wordCount / chapterSize);
+    const totalChapters = Math.ceil(allWordsCount / chapterSize);
     const totalPages = Math.ceil(totalChapters / directoryPageSize);
     
-    // Ensure current page is valid
-    if (directoryPageIndex >= totalPages) directoryPageIndex = 0;
-
+    // Auto-detect page index if coming from a specific chapter
     const currentChapter = parseInt(settings.practice_chapter, 10);
-
-    let html = `
-        <div class="directory-header" style="grid-column: 1/-1;">
-            <div style="display: flex; flex-direction: column; gap: 4px;">
-                <div class="directory-title">${practiceDict.name}</div>
-                <div style="font-size: 13px; color: var(--text-sec); font-weight: 500;">
-                    共 ${totalChapters} 个章节 • ${wordCount} 词 • 第 ${directoryPageIndex + 1}/${totalPages} 页
-                </div>
-            </div>
-            <button class="btn btn-action btn-sm" onclick="openDictModal()">更换词典</button>
-        </div>
-    `;
+    if (!isNaN(currentChapter) && directoryPageIndex === 0 && currentChapter >= directoryPageSize) {
+        directoryPageIndex = Math.floor(currentChapter / directoryPageSize);
+    }
 
     const startChapter = directoryPageIndex * directoryPageSize;
     const endChapter = Math.min(startChapter + directoryPageSize, totalChapters);
 
+    const paginationHtml = `
+        <div class="pagination-bar">
+            <button class="btn btn-sm" onclick="changeDirectoryPage(-1)" ${directoryPageIndex === 0 ? 'disabled' : ''}>上一页 (-)</button>
+            <div class="pagination-center">
+                <span class="page-text">第 ${directoryPageIndex + 1} / ${totalPages} 页</span>
+                <div class="page-jump-group">
+                    <input type="number" class="page-jump-input" min="1" max="${totalPages}" placeholder="Go" 
+                        onkeydown="if(event.key==='Enter') jumpToDirectoryPage(this.value)">
+                    <button class="btn btn-sm btn-action" onclick="jumpToDirectoryPage(this.previousElementSibling.value)">跳转</button>
+                </div>
+            </div>
+            <button class="btn btn-sm" onclick="changeDirectoryPage(1)" ${directoryPageIndex === totalPages - 1 ? 'disabled' : ''}>下一页 (=)</button>
+        </div>
+    `;
+
+    let html = `
+        <div class="directory-header-v2">
+            <div class="dict-info-box">
+                <div class="dict-name-main">${practiceDict.name}</div>
+                <div class="dict-stats-sub">共 ${totalChapters} 章节 • ${allWordsCount} 词汇</div>
+            </div>
+            <button class="btn btn-sm" onclick="openDictModal()">更换词典</button>
+        </div>
+        <div style="grid-column: 1/-1;">${paginationHtml}</div>
+    `;
+
+    // Strict slice of chapters for the current page
     for (let i = startChapter; i < endChapter; i++) {
         const isActive = i === currentChapter;
         const start = i * chapterSize + 1;
-        const end = Math.min((i + 1) * chapterSize, wordCount);
+        const end = Math.min((i + 1) * chapterSize, allWordsCount);
         
         const progressKey = `${PRACTICE_PROGRESS_KEY}_${dictPath.replace(/[^a-zA-Z0-9]/g, '_')}_ch${i}`;
         const savedProgress = localStorage.getItem(progressKey);
@@ -249,22 +263,11 @@ function renderDirectoryContent() {
         `;
     }
 
-    // Pagination Footer
-    html += `
-        <div class="directory-footer" style="grid-column: 1/-1;">
-            <div class="pagination-controls">
-                <button class="btn btn-sm" onclick="changeDirectoryPage(-1)" ${directoryPageIndex === 0 ? 'disabled' : ''}>上一页 (-)</button>
-                <div class="page-info">第 ${directoryPageIndex + 1} / ${totalPages} 页</div>
-                <button class="btn btn-sm" onclick="changeDirectoryPage(1)" ${directoryPageIndex === totalPages - 1 ? 'disabled' : ''}>下一页 (=)</button>
-            </div>
-            <div class="page-jump">
-                <input type="number" id="dir-page-input" min="1" max="${totalPages}" placeholder="跳转..." onkeydown="if(event.key==='Enter') jumpToDirectoryPage(this.value)">
-                <button class="btn btn-sm btn-action" onclick="jumpToDirectoryPage(document.getElementById('dir-page-input').value)">跳转</button>
-            </div>
-        </div>
-    `;
+    html += `<div style="grid-column: 1/-1; margin-top: 20px;">${paginationHtml}</div>`;
 
     dirView.innerHTML = html;
+    // Scroll to top of directory view after page change
+    dirView.scrollTop = 0;
 }
 
 function changeDirectoryPage(delta) {
