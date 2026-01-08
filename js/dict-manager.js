@@ -105,7 +105,6 @@ async function toggleLanguageGroup(lang) {
     hideLoadingMessage();
     
     renderLanguageTab(lang);
-    updatePracticeDictSelector();
 }
 
 async function toggleRareDict() {
@@ -165,7 +164,6 @@ async function toggleDictStatus(index) {
         saveDictConfig();
         await loadAllDicts();
         renderUserTab();
-        updatePracticeDictSelector();
     }
 }
 
@@ -176,7 +174,6 @@ async function deleteDict(index) {
         saveDictConfig();
         await loadAllDicts();
         renderUserTab();
-        updatePracticeDictSelector();
     }
 }
 
@@ -207,49 +204,4 @@ async function handleImport(input) {
     };
     reader.readAsText(file);
     input.value = "";
-}
-
-function updatePracticeDictSelector() {
-    const selectEl = document.getElementById('practice-dict-select');
-    if (!selectEl) return;
-
-    const currentSelection = selectEl.value;
-    selectEl.innerHTML = '';
-
-    const enabledDicts = allDicts.filter(d => d.enabled && d.wordCount > 0);
-
-    if (enabledDicts.length === 0) {
-        const option = document.createElement('option');
-        option.value = "";
-        option.textContent = "无可用词典";
-        selectEl.appendChild(option);
-        return;
-    }
-
-    enabledDicts.forEach(dict => {
-        const option = document.createElement('option');
-        option.value = dict.path || dict.name;
-        option.textContent = `练习: ${dict.name}`;
-        selectEl.appendChild(option);
-    });
-
-    if (enabledDicts.some(d => (d.path || d.name) === currentSelection)) {
-        selectEl.value = currentSelection;
-    } else if (enabledDicts.length > 0) {
-        selectEl.value = enabledDicts[0].path || enabledDicts[0].name;
-    }
-    
-    selectEl.onchange = async () => {
-        settings.practice_dict_path = selectEl.value;
-        saveSettings();
-        showToast(`练习词典已切换`, 'info');
-        
-        // If in practice mode, restart it with new dictionary
-        if (typeof currentState !== 'undefined' && currentState === 'practice') {
-            await startPracticeMode();
-        }
-    };
-    
-    settings.practice_dict_path = selectEl.value;
-    saveSettings();
 }

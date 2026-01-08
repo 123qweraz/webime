@@ -15,7 +15,6 @@ async function init() {
         loadDictConfig();
         await loadAllDicts();
         applySettings();
-        updatePracticeDictSelector();
         updateHistoryUI(HISTORY);
 
         initEventListeners();
