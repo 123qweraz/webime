@@ -13,7 +13,6 @@ function updateHistoryUI(historyItems) {
     try {
         const historyList = document.getElementById("historyList");
         if (!historyList) return;
-
         historyList.innerHTML = "";
 
         if (!historyItems || historyItems.length === 0) {
@@ -32,13 +31,8 @@ function updateHistoryUI(historyItems) {
             timeSpan.className = "history-time";
             if (item.timestamp) {
                 const date = new Date(item.timestamp);
-                timeSpan.textContent = date.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                });
-            } else {
-                timeSpan.textContent = "刚刚";
-            }
+                timeSpan.textContent = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+            } else { timeSpan.textContent = "刚刚"; }
 
             const textSpan = document.createElement("span");
             textSpan.className = "history-text";
@@ -58,6 +52,7 @@ function updateHistoryUI(historyItems) {
 
             listItem.addEventListener("click", () => {
                 const textToInsert = item.text || item;
+                // 关键：历史回填
                 insertAtCursor(textToInsert);
                 update();
             });
@@ -88,34 +83,36 @@ function toggleHistoryPanel() {
     const isVisible = window.getComputedStyle(historyPanel).display === "flex";
     const newVisibility = !isVisible;
     historyPanel.style.display = newVisibility ? "flex" : "none";
-
     const histBtn = document.getElementById("l-hist-btn");
     histBtn.classList.toggle("active", newVisibility);
-
     settings.history = newVisibility;
     saveSettings();
 }
 
 function archiveAndCopy() {
     try {
-        if (committed.trim()) {
+        // 关键：直接从 DOM 获取最新内容，解决变量同步延迟问题
+        const textToArchive = outputArea.innerText.trim();
+        
+        if (textToArchive) {
             HISTORY.unshift({
-                text: committed,
+                text: textToArchive,
                 timestamp: Date.now(),
             });
             saveHistory();
 
-            navigator.clipboard.writeText(committed)
+            navigator.clipboard.writeText(textToArchive)
                 .then(() => {
+                    // 三合一：归档、复制、清空
                     clearOutput();
-                    showToast("已归档并复制到剪切板", "success");
+                    showToast("已归档并复制", "success");
                 })
                 .catch((err) => {
                     console.error("复制失败:", err);
                     showToast("复制失败", "error");
                 });
         } else {
-            showToast("没有内容可复制", "warning");
+            showToast("没有内容可归档", "warning");
         }
     } catch (error) {
         console.error("归档复制失败:", error);
