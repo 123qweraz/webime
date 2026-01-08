@@ -1,5 +1,25 @@
 # History Dialog
 
+## 2026-01-08 07:00
+- **Task**: Comprehensive UI Optimization and Virtual Cursor Removal.
+- **Key Actions**:
+    1. **Removed Virtual Cursor**: Eliminated the `fake-caret` (Ghost Caret) implementation across `js/ime.js`, `js/main.js`, and `css/style.css`, relying on the native browser caret for a more standard editing experience.
+    2. **Modernized Visual Design**:
+        - Adopted a clean, Apple-inspired aesthetic using SF Pro fonts and a refined color palette.
+        - Updated root variables for better theme consistency and modern feel.
+    3. **Card & Layout Refinement**:
+        - Enhanced `output-card` and `input-card` with softer shadows, smoother transitions, and consistent border radii (`18px`).
+        - Improved spacing and padding across the main layout and center container.
+    4. **Component Polishing**:
+        - Redesigned `toolbar` and `btn` styles for a more cohesive and professional appearance.
+        - Refined `candidate-item` typography and layout, improving readability and alignment.
+        - Optimized the `history-panel` and `history-item` for better visual hierarchy.
+    5. **Practice Mode & Modal Enhancements**:
+        - Sleeked down `practice-card-slot` and `chapter-card` with improved hover effects and layout.
+        - Modernized the dictionary modal and other overlays with enhanced blur effects and refined styling.
+    6. **Consistent Explorer UI**: Updated `hanzi_explorer.html` to align with the new app-wide UI standards, ensuring a seamless cross-page experience.
+    7. **Verified Integrity**: Passed all static integrity checks and logic tests after the refactor.
+
 ## 2026-01-08 06:30
 - **Task**: UI Polishing, Stability, and Performance Optimization.
 - **Key Actions**:

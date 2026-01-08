@@ -83,32 +83,6 @@ function updateBufferDisplay(buffer, activeSegment, precedingBuffer) {
     } else {
         bufferDisplay.innerHTML = `<span style="color: var(--text-sec); font-size: 12px;">直接点击文字编辑 | 输入拼音开始</span>`;
     }
-    updateFakeCaret();
-}
-
-function updateFakeCaret() {
-    const area = getOutputArea();
-    if (!area) return;
-    const oldCaret = area.querySelector(".fake-caret");
-    if (oldCaret) oldCaret.remove();
-    
-    // 只有当 IME 处于激活态（有buffer或焦点在hInput）且输出区没焦点时，显示虚拟光标
-    const hInput = document.getElementById("hidden-input");
-    if (document.activeElement === hInput && !buffer) {
-        const caret = document.createElement("span");
-        caret.className = "fake-caret";
-        caret.contentEditable = false;
-        
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            try {
-                const range = selection.getRangeAt(0);
-                if (area.contains(range.commonAncestorContainer)) {
-                    range.insertNode(caret);
-                } else { area.appendChild(caret); }
-            } catch(e) { area.appendChild(caret); }
-        } else { area.appendChild(caret); }
-    }
 }
 
 function lookupCandidates(activeSegment) {
@@ -197,8 +171,6 @@ function selectCandidate(selectedText) {
 function insertAtCursor(text) {
     const area = getOutputArea();
     if (!area) return;
-    const existingCaret = area.querySelector(".fake-caret");
-    if (existingCaret) existingCaret.remove();
     restoreSelection();
     area.focus();
     document.execCommand("insertText", false, text);

@@ -41,7 +41,6 @@ function initEventListeners() {
         if (container) container.classList.add("focused");
         const card = document.getElementById("output-card");
         if (card) card.classList.remove("focused");
-        updateFakeCaret();
     });
     
     outputArea.addEventListener("focus", () => {
@@ -54,13 +53,10 @@ function initEventListeners() {
     outputArea.addEventListener("mouseup", saveSelection);
     outputArea.addEventListener("keyup", (e) => {
         saveSelection();
-        // 如果按下了方向键，更新虚拟光标位置
-        if (e.key.startsWith("Arrow")) updateFakeCaret();
     });
     outputArea.addEventListener("click", (e) => {
         saveSelection();
         e.stopPropagation();
-        updateFakeCaret();
     });
 
     document.addEventListener("keydown", handleGlobalKeyDown);
