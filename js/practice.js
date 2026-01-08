@@ -250,7 +250,7 @@ function renderDirectoryContent() {
                     ${!isNaN(currentChapter) ? ` • <span style="color:var(--primary)">当前: 第 ${currentChapter + 1} 章</span>` : ""}
                 </div>
             </div>
-            <button class="btn btn-sm" onclick="openDictModal()">更换词典</button>
+            <button class="btn btn-sm" onclick="openSettingsSidebar()">更换词典</button>
         </div>
     `;
 

@@ -25,21 +25,22 @@ function saveDictConfig() {
     saveSettings();
 }
 
-function openDictModal() {
+function openSettingsSidebar() {
     const isPractice = (currentState === InputState.PRACTICE);
     const practiceTabBtn = document.getElementById("tab-btn-practice");
-    const modalTitle = document.querySelector("#dict-modal h3");
+    const sidebarTitle = document.querySelector("#settings-sidebar h3");
     
     // Only show practice tab when in practice mode
     if (practiceTabBtn) {
         practiceTabBtn.style.display = isPractice ? "block" : "none";
     }
 
-    if (modalTitle) {
-        modalTitle.textContent = isPractice ? "练习词典与章节" : "词典方案设置";
+    if (sidebarTitle) {
+        sidebarTitle.textContent = isPractice ? "练习词典与章节" : "词典方案设置";
     }
 
-    document.getElementById("dict-modal").style.display = "flex";
+    document.getElementById("settings-sidebar").classList.add("open");
+    document.getElementById("settings-sidebar-backdrop").classList.add("active");
     
     if (isPractice) {
         switchDictTab('practice');
@@ -48,12 +49,13 @@ function openDictModal() {
     }
 }
 
-function closeDictModal() {
-    document.getElementById("dict-modal").style.display = "none";
+function closeSettingsSidebar() {
+    document.getElementById("settings-sidebar").classList.remove("open");
+    document.getElementById("settings-sidebar-backdrop").classList.remove("active");
 }
 
 async function switchDictTab(tabName) {
-    document.querySelectorAll('.modal-tab').forEach(tab => {
+    document.querySelectorAll('.sidebar-tab').forEach(tab => {
         tab.classList.toggle('active', tab.dataset.tab === tabName);
     });
     document.querySelectorAll('.tab-content').forEach(content => {
@@ -253,7 +255,7 @@ function selectPracticeDict(path) {
     }
     
     if (currentState === InputState.PRACTICE) {
-        closeDictModal();
+        closeSettingsSidebar();
     }
 }
 

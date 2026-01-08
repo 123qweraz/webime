@@ -21,7 +21,7 @@
                 <div style="margin-left: auto; display: flex; gap: 10px;">
                     <button id="theme-toggle-btn" class="btn btn-toggle" onclick="toggleTheme()">深色模式</button>
                     <a href="https://github.com/123qweraz/webime" target="_blank" class="btn btn-github">GitHub Star</a>
-                    <button class="btn btn-toggle" onclick="openDictModal()">词典设置</button>
+                    <button class="btn btn-toggle" onclick="openSettingsSidebar()">词典设置</button>
                 </div>
             </div>
 
@@ -83,24 +83,25 @@
         </div>
         <div id="inputMethodToast" class="input-method-toast"></div>
 
-        <div id="dict-modal" class="modal-overlay" style="display: none">
-            <div class="modal-content">
-                <button class="modal-close-btn" onclick="closeDictModal()">&times;</button>
-                <div class="modal-header" style="margin-bottom: 25px; border-bottom: none; padding: 0;">
-                    <h3 style="font-size: 22px; font-weight: 800;">词典方案设置</h3>
-                </div>
-                <div class="modal-tabs">
-                    <div id="tab-btn-chinese" class="modal-tab active" data-tab="chinese" onclick="switchDictTab('chinese')">中文</div>
-                    <div id="tab-btn-japanese" class="modal-tab" data-tab="japanese" onclick="switchDictTab('japanese')">日语</div>
-                    <div id="tab-btn-user" class="modal-tab" data-tab="user" onclick="switchDictTab('user')">用户</div>
-                    <div id="tab-btn-practice" class="modal-tab" data-tab="practice" onclick="switchDictTab('practice')" style="display: none;">练习</div>
-                </div>
-                <div class="modal-body">
-                    <div id="tab-chinese" class="tab-content active"></div>
-                    <div id="tab-japanese" class="tab-content"></div>
-                    <div id="tab-user" class="tab-content"></div>
-                    <div id="tab-practice" class="tab-content"></div>
-                </div>
+        <div id="settings-sidebar-backdrop" class="sidebar-backdrop" onclick="closeSettingsSidebar()"></div>
+        <div id="settings-sidebar" class="settings-sidebar">
+            <div class="sidebar-header">
+                <h3>词典方案设置</h3>
+                <button class="sidebar-close-btn" onclick="closeSettingsSidebar()">&times;</button>
+            </div>
+            
+            <div class="sidebar-tabs">
+                <div id="tab-btn-chinese" class="sidebar-tab active" data-tab="chinese" onclick="switchDictTab('chinese')">中文</div>
+                <div id="tab-btn-japanese" class="sidebar-tab" data-tab="japanese" onclick="switchDictTab('japanese')">日语</div>
+                <div id="tab-btn-user" class="sidebar-tab" data-tab="user" onclick="switchDictTab('user')">用户</div>
+                <div id="tab-btn-practice" class="sidebar-tab" data-tab="practice" onclick="switchDictTab('practice')" style="display: none;">练习</div>
+            </div>
+            
+            <div class="sidebar-content">
+                <div id="tab-chinese" class="tab-content active"></div>
+                <div id="tab-japanese" class="tab-content"></div>
+                <div id="tab-user" class="tab-content"></div>
+                <div id="tab-practice" class="tab-content"></div>
             </div>
         </div>
 
