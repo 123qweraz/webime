@@ -239,10 +239,15 @@ function updatePracticeDictSelector() {
         selectEl.value = enabledDicts[0].path || enabledDicts[0].name;
     }
     
-    selectEl.onchange = () => {
+    selectEl.onchange = async () => {
         settings.practice_dict_path = selectEl.value;
         saveSettings();
         showToast(`练习词典已切换`, 'info');
+        
+        // If in practice mode, restart it with new dictionary
+        if (typeof currentState !== 'undefined' && currentState === 'practice') {
+            await startPracticeMode();
+        }
     };
     
     settings.practice_dict_path = selectEl.value;

@@ -40,9 +40,20 @@ function seededShuffle(array, seed) {
 }
 
 async function initPracticeModeData() {
-    const dictPath = settings.practice_dict_path;
+    let dictPath = settings.practice_dict_path;
+    
+    // If no practice dictionary is selected, try to find the first enabled one
     if (!dictPath) {
-        showErrorMessage("未选择练习词典!");
+        const firstEnabled = allDicts.find(d => d.enabled && (d.wordCount > 0 || d.type === 'built-in'));
+        if (firstEnabled) {
+            dictPath = firstEnabled.path || firstEnabled.name;
+            settings.practice_dict_path = dictPath;
+            saveSettings();
+        }
+    }
+
+    if (!dictPath) {
+        showErrorMessage("请先在词典设置中启用至少一个词典!");
         return false;
     }
 
@@ -69,13 +80,19 @@ async function initPracticeModeData() {
 
     const dictData = practiceDict.fetchedContent;
     practiceWords = [];
-    for (const pinyin in dictData) {
-        const pinyinData = dictData[pinyin];
-        if (Array.isArray(pinyinData)) {
-            pinyinData.forEach((hanzi) => {
+    if (dictData) {
+        for (const pinyin in dictData) {
+            const pinyinData = dictData[pinyin];
+            const hanziArray = Array.isArray(pinyinData) ? pinyinData : [pinyinData];
+            hanziArray.forEach((hanzi) => {
                 practiceWords.push({ pinyin, hanzi });
             });
         }
+    }
+
+    if (practiceWords.length === 0) {
+        showErrorMessage("该词典没有可练习的内容!");
+        return false;
     }
 
     seededShuffle(practiceWords, dictPath);
@@ -128,30 +145,6 @@ function updatePracticeProgress() {
         if (progressBar) progressBar.style.width = `${percent}%`;
         if (progressText) progressText.textContent = `${currentPracticeWordIndex + 1} / ${practiceWords.length}`;
     }
-}
-
-function jumpToWord(index) {
-    const idx = parseInt(index) - 1;
-    if (isNaN(idx) || idx < 0 || idx >= practiceWords.length) {
-        showToast("请输入有效的索引序号", "warning");
-        return;
-    }
-    
-    // Reset state before jumping
-    isPracticeAnimating = false;
-    currentPracticeWordIndex = idx;
-    localStorage.setItem(getPracticeProgressKey(), currentPracticeWordIndex);
-    
-    setBuffer(""); 
-    const hInput = document.getElementById("hidden-input");
-    if (hInput) hInput.value = "";
-    
-    loadCards();
-    updatePracticeProgress();
-    focusHiddenInput();
-    
-    const jumpInput = document.getElementById("practice-jump-input");
-    if (jumpInput) jumpInput.value = "";
 }
 
 function exitPracticeMode() {

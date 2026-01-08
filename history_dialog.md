@@ -1,5 +1,27 @@
 # History Dialog
 
+## 2026-01-08 01:25
+- **Task**: Remove Jump and Dictionary Selection from Practice Mode.
+- **Key Actions**:
+    1. **UI Removal**: Removed the dictionary selector and jump box from `index.html`.
+    2. **Code Cleanup**: Deleted the `jumpToWord` function and removed the jump-related logic from `js/practice.js`.
+    3. **Default Logic**: Updated `initPracticeModeData` to automatically select the first enabled dictionary if no practice dictionary is specified in settings.
+
+## 2026-01-08 01:20
+- **Task**: Critical bug fix for Practice Mode startup.
+- **Key Actions**:
+    1. **Fixed Startup Bug**: Restored the missing `return true` in `initPracticeModeData` which was preventing practice mode from initializing.
+    2. **Verified Pinyin Display**: Confirmed that the "Show Pinyin" logic is intact and functional.
+
+## 2026-01-08 01:15
+- **Task**: Fix dictionary selection and jump functionality.
+- **Key Actions**:
+    1. **Fixed Dictionary Selection**: Added logic to immediately reload practice data and restart practice mode when the dictionary is changed in the selector.
+    2. **Improved Jump UI**: Added a dedicated "Jump" button next to the input field for better usability.
+    3. **Bug Fix (Data Loading)**: Fixed a bug in `initPracticeModeData` where `practiceWords` were not correctly extracted if the dictionary data format was not an array.
+    4. **Improved Jump Logic**: Added better validation and error messaging for the jump input.
+    5. **Initialization Order**: Fixed a race condition where the dictionary selector might be populated before dictionaries are fully loaded.
+
 ## 2026-01-08 01:00
 - **Task**: Fix practice mode card layout, pinyin carry-over, and relocate toolbar functions.
 - **Key Actions**:
