@@ -179,7 +179,23 @@ function renderUserTab() {
         });
     }
 
-    html += `</div></div>`;
+    html += `</div>`;
+    
+    // Danger Zone
+    html += `
+        <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
+            <div class="practice-section-title" style="color: var(--danger);">危险区域</div>
+            <div class="dict-card" style="border-color: var(--danger); background: rgba(255, 59, 48, 0.05);">
+                <div style="flex: 1;">
+                    <h4 style="margin: 0; color: var(--danger);">重置应用</h4>
+                    <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">清除所有数据（词典、历史、设置）并刷新。</p>
+                </div>
+                <button class="btn btn-danger" onclick="resetApplication()">重置</button>
+            </div>
+        </div>
+    `;
+
+    html += `</div>`;
     container.innerHTML = html;
 }
 

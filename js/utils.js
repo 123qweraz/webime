@@ -117,3 +117,24 @@ function escapeHtml(text = "") {
 function saveSettings() {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
 }
+
+/**
+ * 重置应用数据
+ */
+function resetApplication() {
+    console.log("Reset application triggered");
+    if (confirm("确定要重置整个网站吗？\n这将删除所有用户词典、历史记录、练习进度和设置。\n此操作无法撤销。")) {
+        try {
+            localStorage.clear();
+            showToast("正在重置...", "info");
+            setTimeout(() => {
+                location.reload();
+            }, 500);
+        } catch (e) {
+            showErrorMessage("重置失败", e);
+        }
+    }
+}
+
+// Ensure global availability
+window.resetApplication = resetApplication;
