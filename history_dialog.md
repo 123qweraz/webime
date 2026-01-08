@@ -1,5 +1,13 @@
 # History Dialog
 
+## 2026-01-08 01:50
+- **Task**: Add Dictionary Selection for Practice Mode.
+- **Key Actions**:
+    1. **UI Update**: Added a hidden "Practice" tab to the dictionary modal in `index.html`.
+    2. **Modal Logic**: Updated `openDictModal` in `js/dict-manager.js` to show and automatically switch to the "Practice" tab when in Practice Mode.
+    3. **Selection Feature**: Implemented `renderPracticeTab` to list all enabled dictionaries for selection.
+    4. **Practice Restart**: Added `restartPracticeMode` in `js/practice.js` to immediately apply the selected dictionary and reset progress.
+
 ## 2026-01-08 01:40
 - **Task**: Remove Practice Info Bar and Progress Text.
 - **Key Actions**:

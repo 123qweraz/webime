@@ -96,14 +96,16 @@
                     <h3 style="font-size: 22px; font-weight: 800;">词典方案设置</h3>
                 </div>
                 <div class="modal-tabs">
-                    <div class="modal-tab active" data-tab="chinese" onclick="switchDictTab('chinese')">中文</div>
-                    <div class="modal-tab" data-tab="japanese" onclick="switchDictTab('japanese')">日语</div>
-                    <div class="modal-tab" data-tab="user" onclick="switchDictTab('user')">用户</div>
+                    <div id="tab-btn-chinese" class="modal-tab active" data-tab="chinese" onclick="switchDictTab('chinese')">中文</div>
+                    <div id="tab-btn-japanese" class="modal-tab" data-tab="japanese" onclick="switchDictTab('japanese')">日语</div>
+                    <div id="tab-btn-user" class="modal-tab" data-tab="user" onclick="switchDictTab('user')">用户</div>
+                    <div id="tab-btn-practice" class="modal-tab" data-tab="practice" onclick="switchDictTab('practice')" style="display: none;">练习</div>
                 </div>
                 <div class="modal-body">
                     <div id="tab-chinese" class="tab-content active"></div>
                     <div id="tab-japanese" class="tab-content"></div>
                     <div id="tab-user" class="tab-content"></div>
+                    <div id="tab-practice" class="tab-content"></div>
                 </div>
             </div>
         </div>

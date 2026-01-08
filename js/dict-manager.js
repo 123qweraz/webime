@@ -26,8 +26,20 @@ function saveDictConfig() {
 }
 
 function openDictModal() {
+    const isPractice = (currentState === InputState.PRACTICE);
+    const practiceTabBtn = document.getElementById("tab-btn-practice");
+    
+    if (practiceTabBtn) {
+        practiceTabBtn.style.display = isPractice ? "block" : "none";
+    }
+
     document.getElementById("dict-modal").style.display = "flex";
-    switchDictTab('chinese');
+    
+    if (isPractice) {
+        switchDictTab('practice');
+    } else {
+        switchDictTab('chinese');
+    }
 }
 
 function closeDictModal() {
@@ -46,6 +58,8 @@ async function switchDictTab(tabName) {
         renderLanguageTab(tabName);
     } else if (tabName === 'user') {
         renderUserTab();
+    } else if (tabName === 'practice') {
+        renderPracticeTab();
     }
 }
 
@@ -174,6 +188,45 @@ async function deleteDict(index) {
         saveDictConfig();
         await loadAllDicts();
         renderUserTab();
+    }
+}
+
+function renderPracticeTab() {
+    const container = document.getElementById('tab-practice');
+    const enabledDicts = allDicts.filter(d => d.enabled && (d.wordCount > 0 || d.type === 'built-in'));
+    const currentPath = settings.practice_dict_path;
+
+    let html = `
+        <div class="dict-sections">
+            <h4 style="margin-bottom: 10px;">选择练习词典</h4>
+            <div id="practice-dict-list" class="dict-list">
+    `;
+
+    if (enabledDicts.length === 0) {
+        html += `<p style="color: #999; text-align: center; padding: 20px;">请先在其他标签页中启用词典</p>`;
+    } else {
+        enabledDicts.forEach((dict) => {
+            const path = dict.path || dict.name;
+            const isActive = path === currentPath;
+            html += `
+                <div class="dict-card ${isActive ? 'enabled' : ''}" style="cursor: pointer;" onclick="selectPracticeDict('${path}')">
+                    <span class="dict-card-name">${dict.name} ${dict.wordCount ? `(${dict.wordCount} 词)` : ''}</span>
+                    ${isActive ? '<span style="color: var(--primary); font-weight: bold;">当前正在练习</span>' : ''}
+                </div>
+            `;
+        });
+    }
+
+    html += `</div></div>`;
+    container.innerHTML = html;
+}
+
+function selectPracticeDict(path) {
+    settings.practice_dict_path = path;
+    saveSettings();
+    renderPracticeTab();
+    if (typeof restartPracticeMode === 'function') {
+        restartPracticeMode();
     }
 }
 

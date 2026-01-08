@@ -131,6 +131,11 @@ async function startPracticeMode() {
     focusHiddenInput();
 }
 
+async function restartPracticeMode() {
+    currentPracticeWordIndex = 0;
+    await startPracticeMode();
+}
+
 function exitPracticeMode() {
     isPracticeAnimating = false;
     setState(InputState.NORMAL);
