@@ -96,8 +96,11 @@ async function initPracticeModeData() {
         return false;
     }
 
-    // Sort words to ensure chapter splitting is consistent
+    // Sort words to ensure consistent starting state before shuffling
     allWords.sort((a, b) => a.pinyin.localeCompare(b.pinyin));
+    
+    // CHANGE: Shuffle instead of sort, using dictPath as seed for consistency
+    seededShuffle(allWords, dictPath);
 
     const chapterSize = 20;
     const totalChapters = Math.ceil(allWords.length / chapterSize);
@@ -122,8 +125,41 @@ async function initPracticeModeData() {
         toolbar.innerHTML = "";
     }
 
-    seededShuffle(practiceWords, `${dictPath}_${chapterIndex}`);
+    // practiceWords are already "random" because allWords was shuffled. 
+    // But if we want to shuffle the chapter content itself *again* relative to how it was sliced?
+    // Actually, seededShuffle on allWords effectively randomizes the chapter content.
+    // The previous code shuffled practiceWords with `${dictPath}_${chapterIndex}`.
+    // We can keep it or remove it. Removing it is simpler as long as allWords shuffle is good.
+    // But let's keep it to be safe against "ordered chunks" if seededShuffle is weak.
+    // Actually, if we shuffle allWords, we don't strictly need to shuffle practiceWords again, 
+    // but doing so doesn't hurt.
+    // Let's remove the second shuffle to avoid confusion, trusting the first one.
+    // seededShuffle(practiceWords, `${dictPath}_${chapterIndex}`); 
+    
     return true;
+}
+
+function handlePracticeKeyDown(e) {
+    if (currentState !== InputState.PRACTICE) return;
+
+    // F2: Toggle Pinyin Hint
+    if (e.key === "F2") {
+        e.preventDefault();
+        togglePinyinHint();
+        return;
+    }
+
+    // Directory View Shortcuts
+    const dirView = document.getElementById("practice-directory");
+    if (dirView && dirView.style.display !== "none") {
+        if (e.key === "-" || e.key === "ArrowLeft") {
+            e.preventDefault();
+            changeDirectoryPage(-1);
+        } else if (e.key === "=" || e.key === "ArrowRight") {
+            e.preventDefault();
+            changeDirectoryPage(1);
+        }
+    }
 }
 
 async function startPracticeMode() {
@@ -134,6 +170,7 @@ async function startPracticeMode() {
     if (!success) return;
 
     setState(InputState.PRACTICE);
+    document.addEventListener("keydown", handlePracticeKeyDown);
 
     document.getElementById("output-card").style.display = "none";
     document.getElementById("practice-container").style.display = "flex";
@@ -178,6 +215,10 @@ function showPracticeDirectory() {
     dirView.style.display = "grid";
     if (footer) footer.style.display = "none"; // 目录模式隐藏底部控制栏
     
+    // Hide input container in directory view
+    const inputContainer = document.getElementById("input-container");
+    if (inputContainer) inputContainer.style.display = "none";
+
     renderDirectoryContent();
 }
 
@@ -191,7 +232,7 @@ function renderDirectoryContent() {
         return;
     }
 
-    // IMPORTANT: Sort words exactly like in initPracticeModeData to ensure consistency
+    // IMPORTANT: Shuffle words exactly like in initPracticeModeData
     const dictData = practiceDict.fetchedContent;
     let allWords = [];
     for (const pinyin in dictData) {
@@ -201,15 +242,22 @@ function renderDirectoryContent() {
             allWords.push({ pinyin, hanzi });
         });
     }
+    
+    // Sort words first to ensure consistent starting state before shuffling
     allWords.sort((a, b) => a.pinyin.localeCompare(b.pinyin));
+
+    // SHUFFLE instead of sort
+    seededShuffle(allWords, dictPath);
 
     const wordCount = allWords.length;
     const chapterSize = 20;
     const totalChapters = Math.ceil(wordCount / chapterSize);
     const totalPages = Math.ceil(totalChapters / directoryPageSize);
     
-    // Fix Bug: Ensure directoryPageIndex is within valid bounds after dictionary switch
-    if (directoryPageIndex >= totalPages) {
+    // Fix Bug: Ensure directoryPageIndex is within valid bounds
+    if (totalPages > 0) {
+        directoryPageIndex = Math.max(0, Math.min(directoryPageIndex, totalPages - 1));
+    } else {
         directoryPageIndex = 0;
     }
 
@@ -323,6 +371,11 @@ async function selectChapter(index) {
 
 function showChapterPractice() {
     document.getElementById("practice-directory").style.display = "none";
+    
+    // Show input container in practice view
+    const inputContainer = document.getElementById("input-container");
+    if (inputContainer) inputContainer.style.display = "flex";
+
     [cardLeft, cardCenter, cardRight].forEach(c => c.style.display = "flex");
     
     const footer = document.getElementById("practice-footer");
@@ -359,12 +412,17 @@ async function restartPracticeMode() {
 function exitPracticeMode() {
     isPracticeAnimating = false;
     setState(InputState.NORMAL);
+    document.removeEventListener("keydown", handlePracticeKeyDown);
 
     document.getElementById("output-card").style.display = "flex";
     document.getElementById("practice-container").style.display = "none";
     document.getElementById("practice-footer").style.display = "none";
     document.getElementById("toggle-pinyin-btn").style.display = "none";
     
+    // Restore input container visibility (just in case)
+    const inputContainer = document.getElementById("input-container");
+    if (inputContainer) inputContainer.style.display = "flex";
+
     const dirBtn = document.getElementById("back-to-dir-btn");
     if (dirBtn) dirBtn.style.display = "none";
     
@@ -406,7 +464,8 @@ function loadCards() {
         updatePracticeInputDisplay(); 
         cardCenter.classList.add("visible", "current");
     } else {
-        exitPracticeMode();
+        // Should not happen if check is done before calling loadCards, but safe guard
+        showNextPracticeWord();
         return;
     }
 
@@ -428,11 +487,59 @@ function loadCards() {
 
 function showNextPracticeWord() {
     if (currentPracticeWordIndex >= practiceWords.length) {
-        alert("练习完成! 🎉");
+        // Chapter Complete
         localStorage.removeItem(getPracticeProgressKey());
-        exitPracticeMode();
+        
+        // Hide other cards
+        cardLeft.style.display = "none";
+        cardRight.style.display = "none";
+        
+        // Show completion on center card
+        cardCenter.classList.add("visible", "current");
+        cardCenter.classList.remove("incorrect");
+        
+        const pyDisp = cardCenter.querySelector(".pinyin-display");
+        const hzDisp = cardCenter.querySelector(".hanzi-display");
+        
+        if (pyDisp) pyDisp.innerHTML = "";
+        if (hzDisp) {
+            hzDisp.innerHTML = `
+                <div style="font-size: 24px; margin-bottom: 20px;">🎉 章节完成!</div>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="btn btn-action" onclick="loadNextChapter()">下一章</button>
+                    <button class="btn" onclick="retryChapter()">重练</button>
+                    <button class="btn" onclick="showPracticeDirectory()">返回</button>
+                </div>
+            `;
+        }
         return;
     }
+    loadCards();
+    focusHiddenInput();
+}
+
+async function loadNextChapter() {
+    const currentChapter = parseInt(settings.practice_chapter, 10);
+    settings.practice_chapter = currentChapter + 1;
+    saveSettings();
+    showLoadingMessage("加载下一章...");
+    await initPracticeModeData();
+    hideLoadingMessage();
+    showChapterPractice();
+}
+
+async function retryChapter() {
+    const progressKey = getPracticeProgressKey();
+    localStorage.removeItem(progressKey);
+    currentPracticeWordIndex = 0;
+    
+    // Re-shuffle? The user might want the same words if they are retrying.
+    // But initPracticeModeData uses deterministic shuffle based on dictPath_chapterIndex.
+    // So re-calling it will give same order.
+    
+    // However, if we want to "Retry", we probably just want to reset index.
+    // We don't need to reload data if it's the same chapter.
+    // But to be safe and ensure clean state:
     loadCards();
     focusHiddenInput();
 }
