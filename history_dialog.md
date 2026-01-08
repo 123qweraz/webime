@@ -1,5 +1,35 @@
 # History Dialog
 
+## 2026-01-08 00:45
+- **Task**: Refine Practice Mode UI and fix critical bugs (Pinyin carry-over, Jump failure, Card roles).
+- **Completed Changes**:
+    1. **UI Layout Update**: Moved the "Jump to Word" box and "Show Pinyin (F2)" button from the top toolbar into the practice info bar area for better focus and cleaner UI.
+    2. **Card Role Swap**: Swapped the positions of side cards. Now the **Left** card shows the "Next" (preview) word, and the **Right** card shows the "Completed" (history) word.
+    3. **Completed Card Enhancement**: The Right (completed) card now displays both the **Hanzi and Pinyin** of the previously practiced word.
+    4. **Removed Pinyin Underscores**: Deleted the `_` placeholder and bottom border for untyped pinyin characters in the center card to meet the "no underscore" requirement.
+    5. **Fixed Pinyin Carry-over Bug**: Implemented immediate clearing of the `hidden-input` value and `buffer` when a word is completed correctly, preventing leftover characters from leaking into the next word.
+    6. **Fixed Jump Function**: Corrected `jumpToWord` to properly clear the input buffer and update the card display before focusing.
+    7. **UI Styling**: Updated `style.css` to handle the new horizontal layout of the practice info bar.
+
+## 2026-01-08 00:30
+- **Task**: Fix bugs in Practice Mode (Shuffle inconsistency, Card layout, Missing animations, Logic redundancy).
+- **Completed Changes**:
+    1. **Fixed Shuffle Bug**: Implemented a `seededShuffle` based on the dictionary path. This ensures that the practice word order remains consistent across page refreshes for the same dictionary, fixing the "random jump" issue when resuming progress.
+    2. **Dictionary-Specific Progress**: Updated practice progress tracking to use dictionary-specific keys in `localStorage`. Progress in one dictionary no longer affects others.
+    3. **Fixed Card Layout**: Corrected `loadCards` logic where `cardLeft` was incorrectly used for the next word. Now `cardRight` shows the next word and `cardLeft` shows the previous word.
+    4. **Added Shake Animation**: Implemented the missing CSS `@keyframes shake` and `.incorrect` class styling in `style.css` to provide visual feedback for typing errors.
+    5. **Consolidated Logic**: Moved practice-specific input handling from `main.js` to `practice.js` (`handlePracticeInput`) to reduce redundancy and improve encapsulation.
+    6. **Input Debouncing**: Used `isPracticeAnimating` to prevent rapid key presses from advancing multiple words simultaneously.
+    7. **Code Cleanup**: Removed redundant progress updates and fixed card element clearing in `exitPracticeMode`.
+
+## 2026-01-08 00:05
+- **Task**: Fix reported issues: `update` function refactoring, Tab mode display, dictionary switching, and practice mode invalid state.
+- **Completed Changes**:
+    1. **Refactored `update` Function**: Split `update` into `getActiveSegment`, `updateBufferDisplay`, and `lookupCandidates` for better readability and maintenance.
+    2. **Fixed Tab Mode Display**: Explicitly handled the rendering of the buffer, separator (`-`), and filter text in `updateBufferDisplay` to ensure they are visible.
+    3. **Improved Dictionary Switching**: Modified `toggleLanguageDicts` to implement a "switch" behavior. Enabling one language (Chinese/Japanese) now automatically disables the other, and the toggle logic is improved (enable all if any disabled).
+    4. **Practice Mode Fixes**: ensured `update` loop returns early when in `PRACTICE` state to prevent interference, and verified input handling logic.
+
 ## 2026-01-07 23:55
 - **Task**: Continue implementation of Practice Mode pinyin feedback and address new requirement for history logging.
 - **Context**: The last commit added CSS classes for pinyin feedback on the card itself but hasn't fully integrated them into the input logic.
@@ -10,11 +40,3 @@
     4. **Safety**: Added null checks for `currentInputDisplay` to prevent errors when `#practice-input-display` is missing from the HTML.
     5. **Error Feedback**: Added a shake animation to the card when incorrect pinyin is typed in Practice Mode.
     6. **History Logging**: Created `history_dialog.md` and started logging major changes.
-
-## 2026-01-08 00:05
-- **Task**: Fix reported issues: `update` function refactoring, Tab mode display, dictionary switching, and practice mode invalid state.
-- **Completed Changes**:
-    1. **Refactored `update` Function**: Split `update` into `getActiveSegment`, `updateBufferDisplay`, and `lookupCandidates` for better readability and maintenance.
-    2. **Fixed Tab Mode Display**: Explicitly handled the rendering of the buffer, separator (`-`), and filter text in `updateBufferDisplay` to ensure they are visible.
-    3. **Improved Dictionary Switching**: Modified `toggleLanguageDicts` to implement a "switch" behavior. Enabling one language (Chinese/Japanese) now automatically disables the other, and the toggle logic is improved (enable all if any disabled).
-    4. **Practice Mode Fixes**: ensured `update` loop returns early when in `PRACTICE` state to prevent interference, and verified input handling logic.

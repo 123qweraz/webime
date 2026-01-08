@@ -151,29 +151,7 @@ function handleKeyDown(e) {
 
 function handleInput(event) {
     if (currentState === InputState.PRACTICE) {
-        const val = event.target.value.replace(/[^a-zA-Z]/g, "");
-        setBuffer(val);
-        updatePracticeInputDisplay();
-
-        const currentWord = practiceWords[currentPracticeWordIndex];
-        if (!currentWord) return;
-        const targetPinyin = currentWord.pinyin.toLowerCase();
-        const typedPinyin = buffer.toLowerCase();
-
-        if (typedPinyin && !targetPinyin.startsWith(typedPinyin)) {
-            cardCenter.classList.remove("incorrect"); 
-            void cardCenter.offsetWidth;
-            cardCenter.classList.add("incorrect");
-        } else { 
-            cardCenter.classList.remove("incorrect"); 
-        }
-
-        if (typedPinyin === targetPinyin) {
-            currentPracticeWordIndex++;
-            localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
-            updatePracticeProgress();
-            setTimeout(() => { showNextPracticeWord(); }, 150);
-        }
+        handlePracticeInput(event);
         return;
     }
     if (currentState !== InputState.TAB && currentState !== InputState.EDIT) {

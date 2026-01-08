@@ -2,7 +2,6 @@ let practiceWords = [];
 let currentPracticeWordIndex = 0;
 let isPracticeAnimating = false;
 let cardLeft, cardCenter, cardRight;
-let currentInputDisplay;
 let practiceCards = [];
 let showPinyinHint = false;
 
@@ -11,6 +10,33 @@ function getHanziChar(hanziObject) {
         return hanziObject.char;
     }
     return hanziObject;
+}
+
+function getPracticeProgressKey() {
+    const dictPath = settings.practice_dict_path || "default";
+    return `${PRACTICE_PROGRESS_KEY}_${dictPath.replace(/[^a-zA-Z0-9]/g, '_')}`;
+}
+
+// Simple seeded shuffle to ensure consistency across refreshes for the same dictionary
+function seededShuffle(array, seed) {
+    let m = array.length, t, i;
+    const random = (s) => {
+        var x = Math.sin(s) * 10000;
+        return x - Math.floor(x);
+    };
+    
+    let s = 0;
+    for (let j = 0; j < seed.length; j++) {
+        s += seed.charCodeAt(j);
+    }
+
+    while (m) {
+        i = Math.floor(random(s++) * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+    return array;
 }
 
 async function initPracticeModeData() {
@@ -44,17 +70,15 @@ async function initPracticeModeData() {
     const dictData = practiceDict.fetchedContent;
     practiceWords = [];
     for (const pinyin in dictData) {
-        dictData[pinyin].forEach((hanzi) => {
-            practiceWords.push({ pinyin, hanzi });
-        });
+        const pinyinData = dictData[pinyin];
+        if (Array.isArray(pinyinData)) {
+            pinyinData.forEach((hanzi) => {
+                practiceWords.push({ pinyin, hanzi });
+            });
+        }
     }
 
-    // Shuffle
-    for (let i = practiceWords.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [practiceWords[i], practiceWords[j]] = [practiceWords[j], practiceWords[i]];
-    }
-
+    seededShuffle(practiceWords, dictPath);
     return true;
 }
 
@@ -67,16 +91,19 @@ async function startPracticeMode() {
 
     setState(InputState.PRACTICE);
 
-    const savedIndex = localStorage.getItem(PRACTICE_PROGRESS_KEY);
+    const progressKey = getPracticeProgressKey();
+    const savedIndex = localStorage.getItem(progressKey);
     currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
-    if (currentPracticeWordIndex >= practiceWords.length) currentPracticeWordIndex = 0;
+    
+    if (currentPracticeWordIndex >= practiceWords.length) {
+        currentPracticeWordIndex = 0;
+    }
 
     updatePracticeProgress();
 
     document.getElementById("output-card").style.display = "none";
     document.getElementById("practice-container").style.display = "flex";
     document.getElementById("practice-info-bar").style.display = "flex";
-    document.getElementById("practice-toolbar-left").style.display = "flex";
     document.getElementById("toggle-pinyin-btn").style.display = "inline-flex";
 
     cardLeft = document.getElementById("card-left");
@@ -88,6 +115,7 @@ async function startPracticeMode() {
     document.getElementById("exit-practice-mode-btn").style.display = "flex";
 
     loadCards();
+    setBuffer(""); // Clear buffer on start
     focusHiddenInput();
 }
 
@@ -108,10 +136,16 @@ function jumpToWord(index) {
         return;
     }
     currentPracticeWordIndex = idx;
-    localStorage.setItem(PRACTICE_PROGRESS_KEY, currentPracticeWordIndex);
+    localStorage.setItem(getPracticeProgressKey(), currentPracticeWordIndex);
+    
+    setBuffer(""); 
     loadCards();
     updatePracticeProgress();
-    setBuffer("");
+    
+    // Explicitly update hInput value to avoid carry-over
+    const hInput = document.getElementById("hidden-input");
+    if (hInput) hInput.value = "";
+    
     update();
     focusHiddenInput();
     document.getElementById("practice-jump-input").value = "";
@@ -124,13 +158,14 @@ function exitPracticeMode() {
     document.getElementById("output-card").style.display = "flex";
     document.getElementById("practice-container").style.display = "none";
     document.getElementById("practice-info-bar").style.display = "none";
-    document.getElementById("practice-toolbar-left").style.display = "none";
     document.getElementById("toggle-pinyin-btn").style.display = "none";
 
     practiceCards.forEach((card) => {
         card.classList.remove("visible", "current", "incorrect");
-        card.querySelector(".pinyin-display").textContent = "";
-        card.querySelector(".hanzi-display").textContent = "";
+        const pyDisp = card.querySelector(".pinyin-display");
+        const hzDisp = card.querySelector(".hanzi-display");
+        if (pyDisp) pyDisp.textContent = "";
+        if (hzDisp) hzDisp.textContent = "";
     });
 
     document.getElementById("practice-mode-btn").style.display = "flex";
@@ -147,8 +182,10 @@ function togglePinyinHint() {
 function loadCards() {
     practiceCards.forEach((card) => {
         card.classList.remove("visible", "current", "incorrect");
-        card.querySelector(".pinyin-display").textContent = "";
-        card.querySelector(".hanzi-display").textContent = "";
+        const pyDisp = card.querySelector(".pinyin-display");
+        const hzDisp = card.querySelector(".hanzi-display");
+        if (pyDisp) pyDisp.textContent = "";
+        if (hzDisp) hzDisp.textContent = "";
     });
 
     if (currentPracticeWordIndex < practiceWords.length) {
@@ -161,24 +198,31 @@ function loadCards() {
         return;
     }
 
+    // Next word on the LEFT (Preview)
     if (currentPracticeWordIndex + 1 < practiceWords.length) {
         const nextWord = practiceWords[currentPracticeWordIndex + 1];
         cardLeft.querySelector(".hanzi-display").textContent = getHanziChar(nextWord.hanzi);
         cardLeft.classList.add("visible");
+    }
+
+    // Completed word on the RIGHT (History)
+    if (currentPracticeWordIndex - 1 >= 0) {
+        const prevWord = practiceWords[currentPracticeWordIndex - 1];
+        cardRight.querySelector(".hanzi-display").textContent = getHanziChar(prevWord.hanzi);
+        cardRight.querySelector(".pinyin-display").textContent = prevWord.pinyin;
+        cardRight.classList.add("visible");
     }
 }
 
 function showNextPracticeWord() {
     if (currentPracticeWordIndex >= practiceWords.length) {
         alert("练习完成! 🎉");
-        localStorage.removeItem(PRACTICE_PROGRESS_KEY);
+        localStorage.removeItem(getPracticeProgressKey());
         exitPracticeMode();
         return;
     }
     updatePracticeProgress();
     loadCards();
-    setBuffer("");
-    update();
     focusHiddenInput();
 }
 
@@ -204,11 +248,51 @@ function updatePracticeInputDisplay() {
                         cardHTML += `<span class="char-incorrect">${typedPinyin[i]}</span>`;
                     }
                 } else {
-                    const placeholder = showPinyinHint ? char : "_";
+                    const placeholder = showPinyinHint ? char : ""; // Remove the underscore here
                     cardHTML += `<span class="char-placeholder">${placeholder}</span>`;
                 }
             }
             cardPinyinDisplay.innerHTML = cardHTML;
         }
+    }
+}
+
+function handlePracticeInput(event) {
+    if (currentState !== InputState.PRACTICE) return;
+    
+    const val = event.target.value.replace(/[^a-zA-Z]/g, "");
+    setBuffer(val);
+    updatePracticeInputDisplay();
+
+    const currentWord = practiceWords[currentPracticeWordIndex];
+    if (!currentWord) return;
+    
+    const targetPinyin = currentWord.pinyin.toLowerCase();
+    const typedPinyin = buffer.toLowerCase();
+
+    if (typedPinyin && !targetPinyin.startsWith(typedPinyin)) {
+        cardCenter.classList.remove("incorrect"); 
+        void cardCenter.offsetWidth; 
+        cardCenter.classList.add("incorrect");
+    } else { 
+        cardCenter.classList.remove("incorrect"); 
+    }
+
+    if (typedPinyin === targetPinyin && !isPracticeAnimating) {
+        isPracticeAnimating = true;
+        
+        // Clear buffer IMMEDIATELY to prevent leak to next card
+        setBuffer("");
+        const hInput = document.getElementById("hidden-input");
+        if (hInput) hInput.value = "";
+
+        currentPracticeWordIndex++;
+        localStorage.setItem(getPracticeProgressKey(), currentPracticeWordIndex);
+        updatePracticeProgress();
+        
+        setTimeout(() => { 
+            showNextPracticeWord(); 
+            isPracticeAnimating = false;
+        }, 150);
     }
 }

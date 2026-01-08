@@ -13,11 +13,6 @@
                 <a href="hanzi_explorer.html" class="btn btn-toggle" target="_blank">汉字浏览器</a>
                 
                 <div id="practice-toolbar-left" class="practice-toolbar">
-                    <select id="practice-dict-select" class="btn"></select>
-                    <div class="practice-jump-box">
-                        <span style="font-size: 12px; color: var(--text-sec);">跳转:</span>
-                        <input type="number" id="practice-jump-input" class="practice-jump-input" placeholder="序号" onkeydown="if(event.key==='Enter') jumpToWord(this.value)">
-                    </div>
                 </div>
 
                 <button id="practice-mode-btn" class="btn btn-toggle" onclick="startPracticeMode()">练习模式</button>
@@ -25,7 +20,6 @@
                 
                 <div style="margin-left: auto; display: flex; gap: 10px;">
                     <button id="theme-toggle-btn" class="btn btn-toggle" onclick="toggleTheme()">深色模式</button>
-                    <button id="toggle-pinyin-btn" class="btn btn-toggle" style="display: none;" onclick="togglePinyinHint()">显示拼音 (F2)</button>
                     <a href="https://github.com/123qweraz/webime" target="_blank" class="btn btn-github">GitHub Star</a>
                     <button class="btn btn-toggle" onclick="openDictModal()">词典设置</button>
                 </div>
@@ -51,8 +45,21 @@
 
                     <!-- Practice Progress Area -->
                     <div id="practice-info-bar">
-                        <span id="practice-progress-text">0 / 0</span>
-                        <div id="progress-container"><div id="progress-bar"></div></div>
+                        <div style="display: flex; align-items: center; gap: 20px; width: 100%; justify-content: center;">
+                            <select id="practice-dict-select" class="btn"></select>
+                            
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span id="practice-progress-text">0 / 0</span>
+                                <div id="progress-container" style="width: 200px;"><div id="progress-bar"></div></div>
+                            </div>
+
+                            <div class="practice-jump-box">
+                                <span style="font-size: 12px; color: var(--text-sec);">跳转:</span>
+                                <input type="number" id="practice-jump-input" class="practice-jump-input" placeholder="序号" onkeydown="if(event.key==='Enter') jumpToWord(this.value)">
+                            </div>
+
+                            <button id="toggle-pinyin-btn" class="btn btn-toggle" style="display: none;" onclick="togglePinyinHint()">显示拼音 (F2)</button>
+                        </div>
                     </div>
 
                     <div id="practice-container">
