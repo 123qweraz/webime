@@ -26,6 +26,7 @@ WebIME 严格遵循 `InputState` 状态管理：
 - **Git 状态检查**：在修改任何代码前，必须执行 `git status` 确保当前工作区是干净的。
 - **需求确认**：若用户指令涉及模糊状态变更，必须先通过对话确认需求。
 - **强制自测**：在向用户提交工作前，**必须**先自行执行测试逻辑（如运行测试脚本或模拟关键路径），确保功能符合预期且无回退。
+- **静态扫描 (Static Integrity)**：交付前**必须**运行 `python3 tests/static_scanner.py`。该工具用于校验 DOM ID 的一致性及基础函数引用，确保初始化不会因 Null 或 ReferenceError 崩溃。
 - **DOM 完整性检查**：若修改了 HTML 中的 ID 或结构，**必须**全量搜索 JS 代码，确保所有对应的 `getElementById` 或选择器已同步更新，严禁出现 Null 指针异常。
 - **Console-First 哲学**：在交付前，必须在脑中模拟浏览器控制台输出，预判可能出现的 ReferenceError 或 TypeError。
 
