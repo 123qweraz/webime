@@ -30,8 +30,9 @@ function openDictModal() {
     const practiceTabBtn = document.getElementById("tab-btn-practice");
     const modalTitle = document.querySelector("#dict-modal h3");
     
+    // Only show practice tab when in practice mode
     if (practiceTabBtn) {
-        practiceTabBtn.style.display = "block"; // Always show
+        practiceTabBtn.style.display = isPractice ? "block" : "none";
     }
 
     if (modalTitle) {
@@ -43,9 +44,6 @@ function openDictModal() {
     if (isPractice) {
         switchDictTab('practice');
     } else {
-        // If not in practice, maybe they want to see chinese dicts first, 
-        // but if they specifically clicked 'Practice' related button, we should show practice.
-        // For now, let's keep it defaulting to chinese unless we add a specific 'Practice settings' button.
         switchDictTab('chinese');
     }
 }
@@ -77,15 +75,18 @@ function renderLanguageTab(lang) {
     const isEnabled = mainDicts.some(d => d.enabled);
 
     let html = `
-        <div class="dict-card ${isEnabled ? 'enabled' : 'disabled'}">
+        <div class="dict-card ${isEnabled ? 'enabled' : 'disabled'}" style="border-left: 4px solid var(--primary); padding: 20px;">
             <div style="flex: 1;">
-                <h4>${lang === 'chinese' ? '中文输入方案' : '日文输入方案'}</h4>
-                <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">
-                    ${lang === 'chinese' ? '包含一级字、二级字、词组、三四字词语及标点。' : '包含 N1-N5 词汇及假名。'}
+                <h4 style="margin: 0; font-size: 18px;">${lang === 'chinese' ? '中文全能方案' : '日文语境方案'}</h4>
+                <p style="font-size: 13px; color: var(--text-sec); margin: 8px 0;">
+                    ${lang === 'chinese' ? '最完善的中文输入体验，支持词组与智能联想。' : '包含完整的假名与 N1-N5 级别常用词汇。'}
                 </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
+                    ${mainDicts.map(d => `<span style="font-size: 10px; background: var(--bg); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
+                </div>
             </div>
-            <button class="btn ${isEnabled ? '' : 'btn-action'}" onclick="toggleLanguageGroup('${lang}')">
-                ${isEnabled ? '禁用方案' : '启用方案'}
+            <button class="btn ${isEnabled ? '' : 'btn-action'}" onclick="toggleLanguageGroup('${lang}')" style="min-width: 100px; justify-content: center;">
+                ${isEnabled ? '已启用' : '启用方案'}
             </button>
         </div>
     `;
@@ -94,10 +95,11 @@ function renderLanguageTab(lang) {
         const rareDict = allDicts.find(d => d.name === "生僻字");
         const isRareEnabled = rareDict ? rareDict.enabled : false;
         html += `
-            <div class="dict-card ${isRareEnabled ? 'enabled' : 'disabled'}" style="margin-top: 10px;">
+            <div class="practice-section-title" style="margin-top: 25px;">扩展选项</div>
+            <div class="dict-card ${isRareEnabled ? 'enabled' : 'disabled'}">
                 <div style="flex: 1;">
-                    <h4>生僻字 (三级字库)</h4>
-                    <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">包含更多低频汉字，开启后可能影响候选词排序。</p>
+                    <h4 style="margin: 0;">生僻字库</h4>
+                    <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">包含三级字库等极低频汉字。</p>
                 </div>
                 <button class="btn ${isRareEnabled ? '' : 'btn-action'}" onclick="toggleRareDict()">
                     ${isRareEnabled ? '禁用' : '启用'}
@@ -106,7 +108,6 @@ function renderLanguageTab(lang) {
         `;
     }
 
-    html += `<p style="font-size: 12px; color: #999; text-align: center; margin-top: 20px;">内置词典已根据语义优先级自动排序</p>`;
     container.innerHTML = html;
 }
 
