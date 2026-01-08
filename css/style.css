@@ -541,6 +541,54 @@ body.dark-mode .history-header { background: #2c2c2e; }
     letter-spacing: -0.5px;
 }
 
+.directory-footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px;
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+    background: var(--card-bg);
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.page-info {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.page-jump {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#dir-page-input {
+    width: 70px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-main);
+    font-weight: 600;
+    outline: none;
+    text-align: center;
+}
+
+#dir-page-input:focus {
+    border-color: var(--primary);
+}
+
 /* Practice Mode */
 #practice-container {
     display: none;

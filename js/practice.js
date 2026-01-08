@@ -4,6 +4,8 @@ let isPracticeAnimating = false;
 let cardLeft, cardCenter, cardRight;
 let practiceCards = [];
 let showPinyinHint = false;
+let directoryPageIndex = 0;
+const directoryPageSize = 40;
 
 function getHanziChar(hanziObject) {
     if (typeof hanziObject === 'object' && hanziObject !== null && hanziObject.char) {
@@ -202,6 +204,11 @@ function renderDirectoryContent() {
     const wordCount = allWords.length;
     const chapterSize = 20;
     const totalChapters = Math.ceil(wordCount / chapterSize);
+    const totalPages = Math.ceil(totalChapters / directoryPageSize);
+    
+    // Ensure current page is valid
+    if (directoryPageIndex >= totalPages) directoryPageIndex = 0;
+
     const currentChapter = parseInt(settings.practice_chapter, 10);
 
     let html = `
@@ -209,19 +216,21 @@ function renderDirectoryContent() {
             <div style="display: flex; flex-direction: column; gap: 4px;">
                 <div class="directory-title">${practiceDict.name}</div>
                 <div style="font-size: 13px; color: var(--text-sec); font-weight: 500;">
-                    共 ${totalChapters} 个章节 • ${wordCount} 个词汇
+                    共 ${totalChapters} 个章节 • ${wordCount} 词 • 第 ${directoryPageIndex + 1}/${totalPages} 页
                 </div>
             </div>
             <button class="btn btn-action btn-sm" onclick="openDictModal()">更换词典</button>
         </div>
     `;
 
-    for (let i = 0; i < totalChapters; i++) {
+    const startChapter = directoryPageIndex * directoryPageSize;
+    const endChapter = Math.min(startChapter + directoryPageSize, totalChapters);
+
+    for (let i = startChapter; i < endChapter; i++) {
         const isActive = i === currentChapter;
         const start = i * chapterSize + 1;
         const end = Math.min((i + 1) * chapterSize, wordCount);
         
-        // Check if this chapter has saved progress
         const progressKey = `${PRACTICE_PROGRESS_KEY}_${dictPath.replace(/[^a-zA-Z0-9]/g, '_')}_ch${i}`;
         const savedProgress = localStorage.getItem(progressKey);
         const progressPercent = savedProgress ? Math.floor((parseInt(savedProgress, 10) / (end - start + 1)) * 100) : 0;
@@ -240,7 +249,45 @@ function renderDirectoryContent() {
         `;
     }
 
+    // Pagination Footer
+    html += `
+        <div class="directory-footer" style="grid-column: 1/-1;">
+            <div class="pagination-controls">
+                <button class="btn btn-sm" onclick="changeDirectoryPage(-1)" ${directoryPageIndex === 0 ? 'disabled' : ''}>上一页 (-)</button>
+                <div class="page-info">第 ${directoryPageIndex + 1} / ${totalPages} 页</div>
+                <button class="btn btn-sm" onclick="changeDirectoryPage(1)" ${directoryPageIndex === totalPages - 1 ? 'disabled' : ''}>下一页 (=)</button>
+            </div>
+            <div class="page-jump">
+                <input type="number" id="dir-page-input" min="1" max="${totalPages}" placeholder="跳转..." onkeydown="if(event.key==='Enter') jumpToDirectoryPage(this.value)">
+                <button class="btn btn-sm btn-action" onclick="jumpToDirectoryPage(document.getElementById('dir-page-input').value)">跳转</button>
+            </div>
+        </div>
+    `;
+
     dirView.innerHTML = html;
+}
+
+function changeDirectoryPage(delta) {
+    directoryPageIndex += delta;
+    renderDirectoryContent();
+}
+
+function jumpToDirectoryPage(val) {
+    const page = parseInt(val, 10);
+    if (!isNaN(page)) {
+        const dictPath = settings.practice_dict_path;
+        const practiceDict = allDicts.find((d) => (d.path || d.name) === dictPath && d.enabled);
+        if (practiceDict) {
+            let allWordsCount = 0;
+            for (const p in practiceDict.fetchedContent) {
+                const data = practiceDict.fetchedContent[p];
+                allWordsCount += Array.isArray(data) ? data.length : 1;
+            }
+            const totalPages = Math.ceil(Math.ceil(allWordsCount / 20) / directoryPageSize);
+            directoryPageIndex = Math.max(0, Math.min(page - 1, totalPages - 1));
+            renderDirectoryContent();
+        }
+    }
 }
 
 async function selectChapter(index) {

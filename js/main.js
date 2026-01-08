@@ -99,6 +99,12 @@ function handleKeyDown(e) {
                 updatePracticeInputDisplay();
             }, 0);
         }
+        // Add pagination support for directory view
+        const dirView = document.getElementById("practice-directory");
+        if (dirView && dirView.style.display !== "none") {
+            if (key === "=") { e.preventDefault(); changeDirectoryPage(1); return; }
+            if (key === "-") { e.preventDefault(); changeDirectoryPage(-1); return; }
+        }
         return;
     }
 
