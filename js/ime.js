@@ -272,6 +272,12 @@ function clearOutput() {
     focusHiddenInput();
 }
 
+function setBuffer(value) {
+    buffer = value;
+    const hInput = document.getElementById("hidden-input");
+    if (hInput) hInput.value = value;
+}
+
 function resetInput() {
     setBuffer("");
     currentPrecedingBuffer = "";
