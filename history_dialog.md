@@ -1,5 +1,11 @@
 # History Dialog
 
+## 2026-01-08 07:25
+- **Task**: Standardize Enter Key Behavior for Buffer Commitment.
+- **Key Actions**:
+    1. **Literal Buffer Commitment**: Updated the `Enter` key logic to directly commit the raw pinyin buffer (English letters) to the output area, following standard IME conventions. Previously, it would commit the first candidate if one existed.
+    2. **Line Break Consistency**: Maintained the behavior where `Enter` inserts a newline character (`\n`) if the buffer is empty.
+
 ## 2026-01-08 07:20
 - **Task**: Implement Cursor Position Memory for Tab Focus Cycling.
 - **Key Actions**:

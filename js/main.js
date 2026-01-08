@@ -116,9 +116,12 @@ function handleKeyDown(e) {
     } else if (key === "Enter") {
         e.preventDefault();
         if (buffer) {
-            if (combinedCandidates.length > 0) selectCandidate(combinedCandidates[0].text);
-            else { insertAtCursor(buffer); resetInput(); }
-        } else { insertAtCursor("\n"); }
+            // Enter 键直接上屏原始字母 (Literal Buffer)
+            insertAtCursor(buffer); 
+            resetInput();
+        } else { 
+            insertAtCursor("\n"); 
+        }
         update();
     } else if (key === "Backspace") {
         if (buffer) { e.preventDefault(); buffer = buffer.slice(0, -1); hInput.value = buffer; update(); } 
