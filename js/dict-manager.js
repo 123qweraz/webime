@@ -31,11 +31,11 @@ function openDictModal() {
     const modalTitle = document.querySelector("#dict-modal h3");
     
     if (practiceTabBtn) {
-        practiceTabBtn.style.display = isPractice ? "block" : "none";
+        practiceTabBtn.style.display = "block"; // Always show
     }
 
     if (modalTitle) {
-        modalTitle.textContent = isPractice ? "选择练习词典" : "词典方案设置";
+        modalTitle.textContent = isPractice ? "练习词典与章节" : "词典方案设置";
     }
 
     document.getElementById("dict-modal").style.display = "flex";
@@ -43,6 +43,9 @@ function openDictModal() {
     if (isPractice) {
         switchDictTab('practice');
     } else {
+        // If not in practice, maybe they want to see chinese dicts first, 
+        // but if they specifically clicked 'Practice' related button, we should show practice.
+        // For now, let's keep it defaulting to chinese unless we add a specific 'Practice settings' button.
         switchDictTab('chinese');
     }
 }
@@ -211,8 +214,20 @@ function renderPracticeTab() {
         return;
     }
 
-    let html = `<div class="dict-sections">`;
+    // Header with back button if a dictionary is selected
+    let html = `<div class="practice-tab-container">`;
 
+    if (settings.practice_dict_path && !settings.show_dict_list_only) {
+        const selectedDict = enabledDicts.find(d => (d.path || d.name) === settings.practice_dict_path);
+        if (selectedDict) {
+            html += renderChapterView(selectedDict);
+            html += `</div>`;
+            container.innerHTML = html;
+            return;
+        }
+    }
+
+    html += `<div class="dict-sections">`;
     const groups = [
         { tag: 'chinese', title: '中文词典' },
         { tag: 'japanese', title: '日文词典' },
@@ -238,17 +253,89 @@ function renderPracticeTab() {
         }
     });
 
-    html += `</div>`;
+    html += `</div></div>`;
     container.innerHTML = html;
+}
+
+function renderChapterView(dict) {
+    const wordCount = dict.wordCount || 0;
+    const pageSize = 20;
+    const totalChapters = Math.ceil(wordCount / pageSize);
+    const currentChapter = settings.practice_chapter || 0;
+
+    let html = `
+        <div style="display: flex; align-items: center; margin-bottom: 15px; gap: 10px;">
+            <button class="btn btn-sm" onclick="settings.show_dict_list_only = true; renderPracticeTab();" style="padding: 6px 10px;">
+                ← 返回词典列表
+            </button>
+            <div style="font-weight: 800; font-size: 16px;">${dict.name}</div>
+        </div>
+        <div class="practice-section-title">选择章节 (每 20 词)</div>
+        <div class="practice-chapter-grid">
+    `;
+
+    for (let i = 0; i < totalChapters; i++) {
+        const isActive = i === currentChapter;
+        const start = i * pageSize + 1;
+        const end = Math.min((i + 1) * pageSize, wordCount);
+        html += `
+            <div class="practice-chapter-item ${isActive ? 'active' : ''}" onclick="selectPracticeChapter(${i})">
+                <div class="chapter-num">${i + 1}</div>
+                <div class="chapter-range">${start}-${end}</div>
+            </div>
+        `;
+    }
+
+    if (totalChapters === 0) {
+        html += `<div style="grid-column: 1/-1; text-align: center; padding: 20px; color: var(--text-sec);">正在加载词典内容...</div>`;
+        // Trigger content load if not present
+        if (!dict.fetchedContent) {
+            loadDictContentForPractice(dict);
+        }
+    }
+
+    html += `</div>`;
+    return html;
+}
+
+async function loadDictContentForPractice(dict) {
+    try {
+        if (dict.type === 'built-in') {
+            const response = await fetch(dict.path);
+            dict.fetchedContent = await response.json();
+        } else {
+            dict.fetchedContent = JSON.parse(dict.content);
+        }
+        // Update word count if it was 0 or incorrect
+        let count = 0;
+        for (const key in dict.fetchedContent) {
+            const val = dict.fetchedContent[key];
+            count += Array.isArray(val) ? val.length : 1;
+        }
+        dict.wordCount = count;
+        saveDictConfig();
+        renderPracticeTab();
+    } catch (e) {
+        console.error("Failed to load dict content:", e);
+    }
 }
 
 function selectPracticeDict(path) {
     settings.practice_dict_path = path;
+    settings.practice_chapter = 0;
+    settings.show_dict_list_only = false;
+    saveSettings();
+    renderPracticeTab();
+}
+
+function selectPracticeChapter(chapterIndex) {
+    settings.practice_chapter = chapterIndex;
     saveSettings();
     renderPracticeTab();
     if (typeof restartPracticeMode === 'function') {
         restartPracticeMode();
     }
+    closeDictModal();
 }
 
 async function handleImport(input) {

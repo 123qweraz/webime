@@ -617,14 +617,14 @@ body.dark-mode .history-header { background: #2c2c2e; }
 }
 
 /* Practice Tab Grid */
-.practice-dict-grid {
+.practice-dict-grid, .practice-chapter-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 10px;
+    gap: 12px;
     margin-top: 5px;
 }
 
-.practice-dict-item {
+.practice-dict-item, .practice-chapter-item {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -641,34 +641,36 @@ body.dark-mode .history-header { background: #2c2c2e; }
     overflow: hidden;
 }
 
-.practice-dict-item:hover {
+.practice-dict-item:hover, .practice-chapter-item:hover {
     background: var(--primary-light);
     border-color: var(--primary);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
 }
 
-.practice-dict-item.active {
+.practice-dict-item.active, .practice-chapter-item.active {
     background: var(--primary);
     border-color: var(--primary);
-    color: white;
+    color: white !important;
     box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
 }
 
 .practice-dict-item.active .practice-dict-name,
-.practice-dict-item.active .practice-dict-count {
-    color: white;
+.practice-dict-item.active .practice-dict-count,
+.practice-chapter-item.active .chapter-num,
+.practice-chapter-item.active .chapter-range {
+    color: white !important;
 }
 
-.practice-dict-name {
-    font-size: 14px;
-    font-weight: 700;
+.practice-dict-name, .chapter-num {
+    font-size: 15px;
+    font-weight: 800;
     margin-bottom: 4px;
     color: var(--text-main);
 }
 
-.practice-dict-count {
-    font-size: 10px;
+.practice-dict-count, .chapter-range {
+    font-size: 11px;
     color: var(--text-sec);
     font-weight: 600;
 }

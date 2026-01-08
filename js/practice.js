@@ -14,7 +14,8 @@ function getHanziChar(hanziObject) {
 
 function getPracticeProgressKey() {
     const dictPath = settings.practice_dict_path || "default";
-    return `${PRACTICE_PROGRESS_KEY}_${dictPath.replace(/[^a-zA-Z0-9]/g, '_')}`;
+    const chapter = settings.practice_chapter || 0;
+    return `${PRACTICE_PROGRESS_KEY}_${dictPath.replace(/[^a-zA-Z0-9]/g, '_')}_ch${chapter}`;
 }
 
 // Simple seeded shuffle to ensure consistency across refreshes for the same dictionary
@@ -51,6 +52,7 @@ async function initPracticeModeData() {
         if (practiceDict) {
             dictPath = practiceDict.path || practiceDict.name;
             settings.practice_dict_path = dictPath;
+            settings.practice_chapter = 0;
             saveSettings();
         }
     }
@@ -76,23 +78,44 @@ async function initPracticeModeData() {
     }
 
     const dictData = practiceDict.fetchedContent;
-    practiceWords = [];
+    let allWords = [];
     if (dictData) {
         for (const pinyin in dictData) {
             const pinyinData = dictData[pinyin];
             const hanziArray = Array.isArray(pinyinData) ? pinyinData : [pinyinData];
             hanziArray.forEach((hanzi) => {
-                practiceWords.push({ pinyin, hanzi });
+                allWords.push({ pinyin, hanzi });
             });
         }
     }
 
-    if (practiceWords.length === 0) {
+    if (allWords.length === 0) {
         showErrorMessage("该词典没有可练习的内容!");
         return false;
     }
 
-    seededShuffle(practiceWords, dictPath);
+    // Sort words to ensure chapter splitting is consistent
+    allWords.sort((a, b) => a.pinyin.localeCompare(b.pinyin));
+
+    const chapterSize = 20;
+    const chapterIndex = settings.practice_chapter || 0;
+    const startIdx = chapterIndex * chapterSize;
+    const endIdx = Math.min(startIdx + chapterSize, allWords.length);
+    
+    practiceWords = allWords.slice(startIdx, endIdx);
+    
+    // Update the dictionary name and chapter info in UI
+    const toolbar = document.getElementById("practice-toolbar-left");
+    if (toolbar) {
+        toolbar.style.display = "flex";
+        toolbar.innerHTML = `
+            <div style="font-weight: 800; font-size: 14px; background: var(--primary-light); color: var(--primary); padding: 4px 12px; border-radius: 8px;">
+                ${practiceDict.name} - 第 ${chapterIndex + 1} 章 (${practiceWords.length} 词)
+            </div>
+        `;
+    }
+
+    seededShuffle(practiceWords, `${dictPath}_${chapterIndex}`);
     return true;
 }
 
@@ -144,6 +167,9 @@ function exitPracticeMode() {
     document.getElementById("practice-container").style.display = "none";
     document.getElementById("practice-footer").style.display = "none";
     document.getElementById("toggle-pinyin-btn").style.display = "none";
+    
+    const toolbar = document.getElementById("practice-toolbar-left");
+    if (toolbar) toolbar.style.display = "none";
 
     practiceCards.forEach((card) => {
         card.classList.remove("visible", "current", "incorrect");

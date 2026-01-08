@@ -1,5 +1,16 @@
 # History Dialog
 
+## 2026-01-08 04:00
+- **Task**: Implement Dictionary Selection and Chapter Splitting for Practice Mode.
+- **Key Actions**:
+    1. **Dictionary Selection**: Redesigned the "Practice" tab in the dictionary modal to allow users to select from all enabled dictionaries.
+    2. **Chapter Splitting**: Implemented logic to divide dictionaries into "Chapters" of 20 words each, allowing for focused, manageable practice sessions.
+    3. **Chapter Navigation**: Added a chapter selection grid that appears after a dictionary is chosen, displaying word ranges (e.g., 1-20, 21-40).
+    4. **Practice UI Enhancement**: Added a persistent header in practice mode that shows the current dictionary and chapter name.
+    5. **Improved Modal Accessibility**: Ensured the practice tab is always accessible from the dictionary settings, not just when in practice mode.
+    6. **Seeded Shuffle per Chapter**: Updated the shuffle logic to be specific to each chapter, ensuring a consistent but randomized order for every session.
+    7. **Style Improvements**: Added modern, responsive grid layouts for both dictionary and chapter selection with active state highlighting.
+
 ## 2026-01-08 03:35
 - **Task**: Refine Rolling Window Hiding Logic.
 - **Key Actions**:
