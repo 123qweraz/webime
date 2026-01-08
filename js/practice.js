@@ -104,6 +104,7 @@ async function startPracticeMode() {
     document.getElementById("output-card").style.display = "none";
     document.getElementById("practice-container").style.display = "flex";
     document.getElementById("practice-info-bar").style.display = "flex";
+    document.getElementById("practice-footer").style.display = "flex";
     document.getElementById("toggle-pinyin-btn").style.display = "inline-flex";
 
     cardLeft = document.getElementById("card-left");
@@ -135,20 +136,22 @@ function jumpToWord(index) {
         showToast("请输入有效的索引序号", "warning");
         return;
     }
+    
+    // Reset state before jumping
+    isPracticeAnimating = false;
     currentPracticeWordIndex = idx;
     localStorage.setItem(getPracticeProgressKey(), currentPracticeWordIndex);
     
     setBuffer(""); 
-    loadCards();
-    updatePracticeProgress();
-    
-    // Explicitly update hInput value to avoid carry-over
     const hInput = document.getElementById("hidden-input");
     if (hInput) hInput.value = "";
     
-    update();
+    loadCards();
+    updatePracticeProgress();
     focusHiddenInput();
-    document.getElementById("practice-jump-input").value = "";
+    
+    const jumpInput = document.getElementById("practice-jump-input");
+    if (jumpInput) jumpInput.value = "";
 }
 
 function exitPracticeMode() {
@@ -158,6 +161,7 @@ function exitPracticeMode() {
     document.getElementById("output-card").style.display = "flex";
     document.getElementById("practice-container").style.display = "none";
     document.getElementById("practice-info-bar").style.display = "none";
+    document.getElementById("practice-footer").style.display = "none";
     document.getElementById("toggle-pinyin-btn").style.display = "none";
 
     practiceCards.forEach((card) => {
@@ -285,6 +289,12 @@ function handlePracticeInput(event) {
         setBuffer("");
         const hInput = document.getElementById("hidden-input");
         if (hInput) hInput.value = "";
+        
+        // Clear current card's pinyin display immediately
+        if (cardCenter) {
+            const cardPinyinDisplay = cardCenter.querySelector(".pinyin-display");
+            if (cardPinyinDisplay) cardPinyinDisplay.innerHTML = "";
+        }
 
         currentPracticeWordIndex++;
         localStorage.setItem(getPracticeProgressKey(), currentPracticeWordIndex);

@@ -182,7 +182,7 @@ body.dark-mode .history-header { background: #2c2c2e; }
     flex-direction: column;
     gap: 20px;
     min-width: 400px;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -416,7 +416,7 @@ body.dark-mode .history-header { background: #2c2c2e; }
 
 .char-placeholder { color: var(--text-sec); min-width: 12px; margin: 0 2px; border-bottom: none; }
 .char-correct { color: var(--success); font-weight: bold; }
-.char-incorrect { color: var(--danger); border-bottom: 2px solid var(--danger); }
+.char-incorrect { color: var(--danger); }
 
 .hanzi-display { font-size: 64px; font-weight: 800; color: var(--text-main); }
 

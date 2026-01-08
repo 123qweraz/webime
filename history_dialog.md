@@ -1,5 +1,14 @@
 # History Dialog
 
+## 2026-01-08 01:00
+- **Task**: Fix practice mode card layout, pinyin carry-over, and relocate toolbar functions.
+- **Key Actions**:
+    1. **Fixed Card Visibility**: Increased `center-container` max-width to 1200px to ensure all three cards are visible.
+    2. **UI Relocation**: Moved Jump and Show Pinyin functions from the top bar to a new footer below the cards.
+    3. **Bug Fix (Pinyin Leak)**: Corrected issue where the previous word's pinyin would persist on the new card by immediately clearing the display.
+    4. **Jump Function Fixed**: Improved `jumpToWord` reliability by resetting animation state and clearing inputs properly.
+    5. **Style Update**: Removed red underline from incorrect pinyin characters.
+
 ## 2026-01-08 00:45
 - **Task**: Refine Practice Mode UI and fix critical bugs (Pinyin carry-over, Jump failure, Card roles).
 - **Completed Changes**:
