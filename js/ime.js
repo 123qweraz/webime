@@ -203,27 +203,43 @@ function render() {
 
 
 
-        const totalPages = Math.ceil(display.length / pageSize);
+                const totalPages = Math.ceil(display.length / pageSize);
 
-        const pageData = display.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
 
-        
 
-        const row = document.createElement("div");
+                const pageData = display.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
 
-        row.className = "candidate-row";
 
-        row.innerHTML = `<div class="correction-seg-label">${currentProcessedSegment}:</div>`;
 
-        
+                
 
-        const listContainer = document.createElement("div");
 
-        listContainer.className = "candidate-list";
 
-        
+                const row = document.createElement("div");
 
-        pageData.forEach((item, i) => {
+
+
+                row.className = "candidate-row";
+
+
+
+                
+
+
+
+                const listContainer = document.createElement("div");
+
+
+
+                listContainer.className = "candidate-list";
+
+
+
+                
+
+
+
+                pageData.forEach((item, i) => {
 
             const div = document.createElement("div");
 
