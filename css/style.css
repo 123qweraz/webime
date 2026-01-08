@@ -386,31 +386,10 @@ body.dark-mode .history-header { background: #2c2c2e; }
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* Tab Mode: Dedicated Left-Right Layout */
-.tab-mode .candidate-list {
-    flex-direction: column;
-    gap: 2px;
-}
-
-.tab-mode .candidate-item {
-    width: 100%;
-    max-width: none; 
-    justify-content: flex-start;
-    padding: 6px 12px;
-    gap: 15px;
-}
-
-.tab-mode .cand-text {
-    font-size: 18px;
-    min-width: 50px;
-}
-
+/* Tab Mode: Keep grid, just refine alignment if needed */
 .tab-mode .cand-desc {
-    margin-left: auto; 
-    max-width: 70%; 
     font-style: italic;
     color: var(--text-sec);
-    text-align: right;
 }
 
 .tab-mode .candidate-item.active .cand-desc {
