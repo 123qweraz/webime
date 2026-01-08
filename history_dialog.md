@@ -1,5 +1,11 @@
 # History Dialog
 
+## 2026-01-08 07:35
+- **Task**: Fix Dark Mode Toggle and GitHub Button Styling.
+- **Key Actions**:
+    1. **Implemented `toggleTheme`**: Added the missing `toggleTheme` function in `js/main.js` to correctly persist and apply theme settings.
+    2. **Enhanced GitHub Button**: Added explicit `:hover` and `:active` states for `.btn-github` in `css/style.css` to prevent it from turning gray and ensure it stays black as intended.
+
 ## 2026-01-08 07:25
 - **Task**: Standardize Enter Key Behavior for Buffer Commitment.
 - **Key Actions**:

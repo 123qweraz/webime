@@ -33,6 +33,13 @@ function saveSettings() {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
 }
 
+function toggleTheme() {
+    settings.theme = settings.theme === 'dark' ? 'light' : 'dark';
+    saveSettings();
+    applySettings();
+    showToast(`已切换至${settings.theme === 'dark' ? '深色' : '浅色'}模式`, "info");
+}
+
 function initEventListeners() {
     const hInput = document.getElementById("hidden-input");
     const outputArea = document.getElementById("output-area");

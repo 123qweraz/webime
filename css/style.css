@@ -120,6 +120,8 @@ body {
 .btn-action { background: var(--success); color: white; }
 .btn-danger { background: var(--danger); color: white; }
 .btn-github { background: #24292e; color: white; text-decoration: none; margin-left: auto; }
+.btn-github:hover { background: #1b1f23; color: white; transform: translateY(-1px); }
+.btn-github:active { background: #16191c; transform: translateY(0); }
 
 /* Sidebar & Content Area */
 .content-area {
