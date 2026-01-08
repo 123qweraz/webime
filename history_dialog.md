@@ -1,14 +1,19 @@
 # History Dialog
 
-## 2026-01-08 06:00
-- **Task**: Deep Refactoring - Unified "Immersive" Mode & UI Unification.
+## 2026-01-08 06:30
+- **Task**: UI Polishing, Stability, and Performance Optimization.
 - **Key Actions**:
-    1. **Mode Fusion**: Merged Standard, Edit, and Correction modes into a unified "Immersive" experience. `outputArea` is now always `contentEditable`, allowing direct mouse-based cursor positioning and text modification without explicit mode switching.
-    2. **Candidate UI Redesign**: Adopted a compact, row-based layout for candidates (inspired by correction mode) to save space. The active pinyin segment is now displayed as a label next to its candidates.
-    3. **Tab Mode Optimization**: Redesigned Tab mode with a horizontal (left-right) layout for Hanzi and English descriptions, improving readability and space efficiency.
-    4. **Cursor-Aware Insertion**: Implemented `insertAtCursor` to ensure candidates and history items are inserted at the current cursor position within the `outputArea`.
-    5. **Correction Integration**: Typing with spaces now naturally triggers a multi-segment "correction-style" view in the main candidate area, removing the need for a separate correction modal.
-    6. **Clean Cleanup**: Removed redundant buttons ("Edit Mode", "Lock Mode") and obsolete code (correction-wrapper, specific correction handlers) for a leaner codebase.
+    1. **Grid-based Candidate UI**: Enforced a strict 5-column grid layout for candidates using `calc(20%)` and `flex-wrap`, ensuring a perfectly aligned board-like appearance regardless of content length.
+    2. **Aggressive Truncation**: Implemented strict width limits and ellipsis truncation for candidate descriptions, preventing long English text from breaking the UI.
+    3. **Performance Boost**: Pruned Trie lookup depth and limited collection to 200 items to eliminate lag during high-frequency typing.
+    4. **Focus & Selection Logic**:
+        - Implemented "Ghost Caret" (visual fake-caret) to show the insertion point when the output area is blurred.
+        - Adopted `document.execCommand` for all text manipulations (insert/delete), preserving browser undo history and fixing space rendering issues.
+        - Refactored focus management to provide clear visual cues (Blue for IME, Orange for Direct Edit) and reliable focus relay.
+    5. **Robustness**: Eliminated all global DOM variable dependencies in favor of immediate `getElementById` calls, fixing the "Nothing to Archive" bug.
+    6. **Integrated Action**: Merged "Archive", "Copy", and "Clear" into a single atomic operation for a leaner workflow.
+    7. **Automated Guard**: Deployed a Python-based static integrity scanner to catch missing DOM IDs or broken function references before delivery.
+
 
 
 
