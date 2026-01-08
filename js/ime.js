@@ -34,7 +34,6 @@ function restoreSelection() {
     const selection = window.getSelection();
     const area = getOutputArea();
     if (!area) return;
-
     if (savedRange) {
         selection.removeAllRanges();
         selection.addRange(savedRange);
@@ -88,19 +87,15 @@ function updateFakeCaret() {
     if (!area) return;
     const existingCaret = area.querySelector(".fake-caret");
     if (existingCaret) existingCaret.remove();
-    
     if (!buffer && document.activeElement === document.getElementById("hidden-input")) {
         const caret = document.createElement("span");
         caret.className = "fake-caret";
         caret.contentEditable = false;
-        
         const selection = window.getSelection();
         if (selection.rangeCount > 0) {
             try {
                 const range = selection.getRangeAt(0);
-                if (area.contains(range.commonAncestorContainer)) {
-                    range.insertNode(caret);
-                } else { area.appendChild(caret); }
+                if (area.contains(range.commonAncestorContainer)) { range.insertNode(caret); } else { area.appendChild(caret); }
             } catch(e) { area.appendChild(caret); }
         } else { area.appendChild(caret); }
     }
@@ -139,138 +134,58 @@ function update() {
     currentProcessedSegment = activeSegment;
     currentPrecedingBuffer = precedingBuffer;
     updateBufferDisplay(buffer, activeSegment, precedingBuffer);
+    
     if (buffer) {
         let list = lookupCandidates(activeSegment);
         const seen = new Set();
-        combinedCandidates = list.sort((a, b) => b.w - a.w).filter((x) => !seen.has(x.text) && seen.add(x.text)).slice(0, 100);
+        let results = list.sort((a, b) => b.w - a.w).filter((x) => !seen.has(x.text) && seen.add(x.text));
+        
+        // 关键修复：Tab 模式下的过滤应该在数据层生效
+        if (currentState === InputState.TAB && enFilter) {
+            results = results.filter(i => i.desc && i.desc.toLowerCase().startsWith(enFilter.toLowerCase()));
+            // 如果只剩一个，自动上屏
+            if (results.length === 1) {
+                setTimeout(() => selectCandidate(results[0].text), 0);
+                return;
+            }
+        }
+        combinedCandidates = results.slice(0, 100);
     } else { combinedCandidates = []; }
     render();
 }
 
 function render() {
-
     const container = document.getElementById("main-candidates");
-
     const inputCard = document.getElementById("input-container");
-
-    if (!container) return;
-
+    if (!container || !inputCard) return;
     container.innerHTML = "";
-
     
-
-    // 状态样式切换
-
-    if (currentState === InputState.TAB) {
-
-        inputCard.classList.add("tab-mode");
-
-    } else {
-
-        inputCard.classList.remove("tab-mode");
-
-    }
-
-
+    if (currentState === InputState.TAB) { inputCard.classList.add("tab-mode"); } 
+    else { inputCard.classList.remove("tab-mode"); }
 
     if (buffer) {
-
-        let display = combinedCandidates;
-
-        
-
-        // Tab 模式过滤逻辑
-
-        if (currentState === InputState.TAB && enFilter) {
-
-            display = combinedCandidates.filter((i) => 
-
-                i.desc && i.desc.toLowerCase().startsWith(enFilter.toLowerCase())
-
-            );
-
-            // 自动上屏逻辑
-
-            if (display.length === 1) {
-
-                selectCandidate(display[0].text);
-
-                return;
-
-            }
-
-        }
-
-
-
-                const totalPages = Math.ceil(display.length / pageSize);
-
-
-
-                const pageData = display.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
-
-
-
-                
-
-
-
-                const row = document.createElement("div");
-
-
-
-                row.className = "candidate-row";
-
-
-
-                
-
-
-
-                const listContainer = document.createElement("div");
-
-
-
-                listContainer.className = "candidate-list";
-
-
-
-                
-
-
-
-                pageData.forEach((item, i) => {
-
+        const pageData = combinedCandidates.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+        const row = document.createElement("div");
+        row.className = "candidate-row";
+        const listContainer = document.createElement("div");
+        listContainer.className = "candidate-list";
+        pageData.forEach((item, i) => {
             const div = document.createElement("div");
-
             div.className = "candidate-item" + (i === 0 ? " active" : "");
-
             div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.text)}</span>${item.desc ? `<span class="cand-desc">${escapeHtml(item.desc)}</span>` : ""}`;
-
             div.onclick = (e) => { e.stopPropagation(); selectCandidate(item.text); };
-
             listContainer.appendChild(div);
-
         });
-
         row.appendChild(listContainer);
-
         container.appendChild(row);
-
         
-
+        const totalPages = Math.ceil(combinedCandidates.length / pageSize);
         const counter = document.getElementById("page-counter");
-
         if (counter) counter.innerText = `${pageIndex + 1} / ${totalPages || 1}`;
-
     } else {
-
         const counter = document.getElementById("page-counter");
-
         if (counter) counter.innerText = "";
-
     }
-
 }
 
 function selectCandidate(selectedText) {

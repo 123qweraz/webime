@@ -73,7 +73,8 @@ function handleKeyDown(e) {
 
     if (currentState === InputState.PRACTICE) return;
 
-    if (buffer && currentState !== InputState.TAB) {
+    // 翻页逻辑
+    if (buffer) {
         if (key === "=") { e.preventDefault(); if ((pageIndex + 1) * pageSize < combinedCandidates.length) { pageIndex++; render(); } return; }
         if (key === "-") { e.preventDefault(); if (pageIndex > 0) { pageIndex--; render(); } return; }
     }
@@ -87,17 +88,22 @@ function handleKeyDown(e) {
         return;
     }
 
+    // Tab 模式下的字母过滤
     if (currentState === InputState.TAB && buffer) {
         if (/^[a-zA-Z]$/.test(key)) { e.preventDefault(); enFilter += key; pageIndex = 0; update(); return; }
-        if (key === "Backspace") { e.preventDefault(); if (enFilter) { enFilter = enFilter.slice(0, -1); update(); } else { setState(InputState.NORMAL); update(); } return; }
+        if (key === "Backspace") { 
+            e.preventDefault(); 
+            if (enFilter) { enFilter = enFilter.slice(0, -1); update(); } 
+            else { setState(InputState.NORMAL); update(); } 
+            return; 
+        }
     }
 
+    // 数字选词逻辑：统一使用过滤后的 combinedCandidates
     if (/^[0-9]$/.test(key)) {
         if (buffer && combinedCandidates.length > 0) {
             const idx = key === "0" ? 9 : parseInt(key) - 1;
-            const list = currentState === InputState.TAB ? combinedCandidates.filter(c => c.desc && c.desc.startsWith(enFilter)) : combinedCandidates;
-            const pageData = list.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
-            if (pageData[idx]) { e.preventDefault(); selectCandidate(pageData[idx].text); return; }
+            if (combinedCandidates[idx]) { e.preventDefault(); selectCandidate(combinedCandidates[idx].text); return; }
         }
     } else if (key === "Enter") {
         e.preventDefault();
@@ -135,7 +141,8 @@ function handleInput(event) {
     const hInput = document.getElementById("hidden-input");
     if (!hInput) return;
     if (currentState === InputState.PRACTICE) { handlePracticeInput(event); return; }
-    if (currentState !== InputState.TAB) { setBuffer(hInput.value); pageIndex = 0; update(); }
+    // 即使在 TAB 模式下也允许同步 buffer 变化
+    setBuffer(hInput.value); pageIndex = 0; update();
 }
 
 function handleGlobalKeyDown(e) {
@@ -143,7 +150,10 @@ function handleGlobalKeyDown(e) {
     const outputArea = document.getElementById("output-area");
     if (!outputArea) return;
     if (e.ctrlKey && key === "e") { e.preventDefault(); outputArea.focus(); return; }
-    if (e.ctrlKey && key === "c") { e.preventDefault(); archiveAndCopy(); return; }
+    if (e.ctrlKey && key === "c") {
+        if (currentState !== InputState.EDIT) { e.preventDefault(); archiveAndCopy(); }
+        return;
+    }
     if (e.key === "Escape" && buffer) { resetInput(); update(); }
 }
 
