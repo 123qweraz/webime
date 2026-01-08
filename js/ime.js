@@ -111,7 +111,7 @@ function lookupCandidates(activeSegment) {
                     list.push({
                         text: i.char || i,
                         desc: i.en || (typeof i === "object" ? i.en : ""),
-                        w: weight,
+                        w: weight + (i.priority || 0),
                     }),
                 );
             }

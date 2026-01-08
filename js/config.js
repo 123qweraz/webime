@@ -5,6 +5,7 @@ const BUILT_IN_DICTS = [
         enabled: true,
         type: "built-in",
         tag: "chinese",
+        priority: 100,
     },
     {
         name: "词组词典",
@@ -12,6 +13,7 @@ const BUILT_IN_DICTS = [
         enabled: true,
         type: "built-in",
         tag: "chinese",
+        priority: 90,
     },
     {
         name: "二级字",
@@ -19,6 +21,7 @@ const BUILT_IN_DICTS = [
         enabled: true,
         type: "built-in",
         tag: "chinese",
+        priority: 80,
     },
     {
         name: "生僻字",
@@ -26,6 +29,7 @@ const BUILT_IN_DICTS = [
         enabled: false,
         type: "built-in",
         tag: "chinese",
+        priority: 70,
     },
     {
         name: "三字词语",
@@ -33,6 +37,7 @@ const BUILT_IN_DICTS = [
         enabled: true,
         type: "built-in",
         tag: "chinese",
+        priority: 60,
     },
     {
         name: "四字词语",
@@ -40,6 +45,7 @@ const BUILT_IN_DICTS = [
         enabled: true,
         type: "built-in",
         tag: "chinese",
+        priority: 50,
     },
     {
         name: "标点符号",
@@ -47,6 +53,7 @@ const BUILT_IN_DICTS = [
         enabled: true,
         type: "built-in",
         tag: "chinese",
+        priority: 40,
     },
     {
         name: "N5",
@@ -54,6 +61,7 @@ const BUILT_IN_DICTS = [
         enabled: false,
         type: "built-in",
         tag: "japanese",
+        priority: 10,
     },
     {
         name: "N4",
@@ -61,6 +69,7 @@ const BUILT_IN_DICTS = [
         enabled: false,
         type: "built-in",
         tag: "japanese",
+        priority: 10,
     },
     {
         name: "N3",
@@ -68,6 +77,7 @@ const BUILT_IN_DICTS = [
         enabled: false,
         type: "built-in",
         tag: "japanese",
+        priority: 10,
     },
     {
         name: "N2",
@@ -75,6 +85,7 @@ const BUILT_IN_DICTS = [
         enabled: false,
         type: "built-in",
         tag: "japanese",
+        priority: 10,
     },
     {
         name: "N1",
@@ -82,6 +93,7 @@ const BUILT_IN_DICTS = [
         enabled: false,
         type: "built-in",
         tag: "japanese",
+        priority: 10,
     },
     {
         name: "kana",
@@ -89,6 +101,7 @@ const BUILT_IN_DICTS = [
         enabled: false,
         type: "built-in",
         tag: "japanese",
+        priority: 10,
     },
 ];
 

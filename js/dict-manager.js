@@ -28,9 +28,14 @@ function saveDictConfig() {
 function openDictModal() {
     const isPractice = (currentState === InputState.PRACTICE);
     const practiceTabBtn = document.getElementById("tab-btn-practice");
+    const modalTitle = document.querySelector("#dict-modal h3");
     
     if (practiceTabBtn) {
         practiceTabBtn.style.display = isPractice ? "block" : "none";
+    }
+
+    if (modalTitle) {
+        modalTitle.textContent = isPractice ? "选择练习词典" : "词典方案设置";
     }
 
     document.getElementById("dict-modal").style.display = "flex";
@@ -196,28 +201,44 @@ function renderPracticeTab() {
     const enabledDicts = allDicts.filter(d => d.enabled && (d.wordCount > 0 || d.type === 'built-in'));
     const currentPath = settings.practice_dict_path;
 
-    let html = `
-        <div class="dict-sections">
-            <h4 style="margin-bottom: 10px;">选择练习词典</h4>
-            <div id="practice-dict-list" class="dict-list">
-    `;
-
     if (enabledDicts.length === 0) {
-        html += `<p style="color: #999; text-align: center; padding: 20px;">请先在其他标签页中启用词典</p>`;
-    } else {
-        enabledDicts.forEach((dict) => {
-            const path = dict.path || dict.name;
-            const isActive = path === currentPath;
-            html += `
-                <div class="dict-card ${isActive ? 'enabled' : ''}" style="cursor: pointer;" onclick="selectPracticeDict('${path}')">
-                    <span class="dict-card-name">${dict.name} ${dict.wordCount ? `(${dict.wordCount} 词)` : ''}</span>
-                    ${isActive ? '<span style="color: var(--primary); font-weight: bold;">当前正在练习</span>' : ''}
-                </div>
-            `;
-        });
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px;">
+                <p style="color: var(--text-sec); margin-bottom: 20px;">请先在“中文”、“日语”或“用户”标签页中启用需要练习的词典</p>
+                <button class="btn" onclick="switchDictTab('chinese')">前往启用词典</button>
+            </div>
+        `;
+        return;
     }
 
-    html += `</div></div>`;
+    let html = `<div class="dict-sections">`;
+
+    const groups = [
+        { tag: 'chinese', title: '中文词典' },
+        { tag: 'japanese', title: '日文词典' },
+        { tag: 'user', title: '用户词典' }
+    ];
+
+    groups.forEach(group => {
+        const dictsInGroup = enabledDicts.filter(d => d.tag === group.tag);
+        if (dictsInGroup.length > 0) {
+            html += `<div class="practice-section-title">${group.title}</div>`;
+            html += `<div class="practice-dict-grid">`;
+            dictsInGroup.forEach(dict => {
+                const path = dict.path || dict.name;
+                const isActive = path === currentPath;
+                html += `
+                    <div class="practice-dict-item ${isActive ? 'active' : ''}" onclick="selectPracticeDict('${path}')">
+                        <div class="practice-dict-name">${dict.name}</div>
+                        <div class="practice-dict-count">${dict.wordCount || 0} 词</div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        }
+    });
+
+    html += `</div>`;
     container.innerHTML = html;
 }
 

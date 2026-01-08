@@ -1,5 +1,15 @@
 # History Dialog
 
+## 2026-01-08 02:10
+- **Task**: Fix Candidate Sorting and Redesign Practice Dictionary Selection.
+- **Key Actions**:
+    1. **Candidate Priority**: Added a `priority` field to `BUILT_IN_DICTS` in `js/config.js` (Level-1 > Phrases > Level-2 > Rare).
+    2. **Sequential Loading**: Modified `js/trie.js` to load dictionaries sequentially instead of in parallel, ensuring deterministic insertion order in the Trie.
+    3. **Weighted Sorting**: Updated Trie items to store their dictionary's priority and incorporated this priority into the weight calculation in `js/ime.js` `lookupCandidates`. This ensures commonly used Level-1 characters appear first and prevents "jumping" candidates.
+    4. **Practice UI Redesign**: Completely redesigned the practice dictionary selection tab in `js/dict-manager.js` using a grid-based layout grouped by language.
+    5. **Context-Aware Modal**: Updated `openDictModal` to change its title to "选择练习词典" and focus exclusively on the Practice tab when triggered from Practice Mode.
+    6. **Style Enhancements**: Added new CSS for `.practice-dict-grid` and `.practice-dict-item` in `css/style.css` for a modern, touch-friendly UI.
+
 ## 2026-01-08 01:50
 - **Task**: Add Dictionary Selection for Practice Mode.
 - **Key Actions**:

@@ -33,48 +33,56 @@ async function loadAllDicts() {
     PUNCTUATION_KEYS = new Set();
     console.log("加载词典中...");
 
-    const loadPromises = allDicts
-        .filter((d) => d.enabled)
-        .map((dict) => {
-            return new Promise(async (resolve) => {
-                try {
-                    let dictData;
-                    if (dict.type === "built-in") {
-                        const response = await fetch(dict.path);
-                        if (!response.ok) {
-                            console.error(`无法加载内置词典 ${dict.name}: ${response.status}`);
-                            return resolve();
-                        }
-                        dictData = await response.json();
-                        dict.fetchedContent = dictData;
-                    } else if (dict.type === "user" && dict.content) {
-                        dictData = JSON.parse(dict.content);
-                    }
-
-                    if (dictData) {
-                        let currentWordCount = 0;
-                        for (const k in dictData) {
-                            let processedKey = k;
-                            if (dict.name !== "标点符号") {
-                                processedKey = k.toLowerCase();
-                            } else {
-                                PUNCTUATION_KEYS.add(k);
-                            }
-
-                            const items = Array.isArray(dictData[k])
-                                ? dictData[k]
-                                : [dictData[k]];
-                            DB.insert(processedKey, items);
-                            currentWordCount += items.length;
-                        }
-                        dict.wordCount = currentWordCount;
-                    }
-                } catch (e) {
-                    console.error("Failed to load or parse dict:", dict.name, e);
+    // Filter enabled dicts
+    const enabledDicts = allDicts.filter((d) => d.enabled);
+    
+    // Load dictionaries sequentially to ensure insertion order (priority)
+    for (const dict of enabledDicts) {
+        try {
+            let dictData;
+            if (dict.type === "built-in") {
+                const response = await fetch(dict.path);
+                if (!response.ok) {
+                    console.error(`无法加载内置词典 ${dict.name}: ${response.status}`);
+                    continue;
                 }
-                resolve();
-            });
-        });
-    await Promise.all(loadPromises);
+                dictData = await response.json();
+                dict.fetchedContent = dictData;
+            } else if (dict.type === "user" && dict.content) {
+                dictData = JSON.parse(dict.content);
+            }
+
+            if (dictData) {
+                let currentWordCount = 0;
+                const priority = dict.priority || 0;
+                for (const k in dictData) {
+                    let processedKey = k;
+                    if (dict.name !== "标点符号") {
+                        processedKey = k.toLowerCase();
+                    } else {
+                        PUNCTUATION_KEYS.add(k);
+                    }
+
+                    const items = Array.isArray(dictData[k])
+                        ? dictData[k]
+                        : [dictData[k]];
+                    
+                    const weightedItems = items.map(item => {
+                        if (typeof item === 'string') {
+                            return { char: item, priority: priority };
+                        } else {
+                            return { ...item, priority: priority || 0 };
+                        }
+                    });
+
+                    DB.insert(processedKey, weightedItems);
+                    currentWordCount += weightedItems.length;
+                }
+                dict.wordCount = currentWordCount;
+            }
+        } catch (e) {
+            console.error("Failed to load or parse dict:", dict.name, e);
+        }
+    }
     console.log("所有启用的词典加载完成。");
 }
