@@ -5,6 +5,10 @@ let currentProcessedSegment = "";
 let currentPrecedingBuffer = "";
 let savedRange = null;
 
+function getOutputArea() {
+    return document.getElementById("output-area");
+}
+
 function setState(newState) {
     currentState = newState;
     updateFocus();
@@ -19,7 +23,8 @@ function saveSelection() {
     const selection = window.getSelection();
     if (selection.rangeCount > 0) {
         const range = selection.getRangeAt(0);
-        if (outputArea.contains(range.commonAncestorContainer)) {
+        const area = getOutputArea();
+        if (area && area.contains(range.commonAncestorContainer)) {
             savedRange = range.cloneRange();
         }
     }
@@ -27,12 +32,15 @@ function saveSelection() {
 
 function restoreSelection() {
     const selection = window.getSelection();
+    const area = getOutputArea();
+    if (!area) return;
+
     if (savedRange) {
         selection.removeAllRanges();
         selection.addRange(savedRange);
     } else {
         const range = document.createRange();
-        range.selectNodeContents(outputArea);
+        range.selectNodeContents(area);
         range.collapse(false);
         selection.removeAllRanges();
         selection.addRange(range);
@@ -72,13 +80,13 @@ function updateBufferDisplay(buffer, activeSegment, precedingBuffer) {
     } else {
         bufferDisplay.innerHTML = `<span style="color: var(--text-sec); font-size: 12px;">直接点击文字编辑 | 输入拼音开始</span>`;
     }
-    
-    // 只有在 buffer 为空时才显示虚拟光标，且不进行昂贵的选区恢复
     updateFakeCaret();
 }
 
 function updateFakeCaret() {
-    const existingCaret = outputArea.querySelector(".fake-caret");
+    const area = getOutputArea();
+    if (!area) return;
+    const existingCaret = area.querySelector(".fake-caret");
     if (existingCaret) existingCaret.remove();
     
     if (!buffer && document.activeElement === document.getElementById("hidden-input")) {
@@ -86,16 +94,15 @@ function updateFakeCaret() {
         caret.className = "fake-caret";
         caret.contentEditable = false;
         
-        // 简化：直接插入到当前选区或末尾，不强制 restoreSelection
         const selection = window.getSelection();
         if (selection.rangeCount > 0) {
             try {
                 const range = selection.getRangeAt(0);
-                if (outputArea.contains(range.commonAncestorContainer)) {
+                if (area.contains(range.commonAncestorContainer)) {
                     range.insertNode(caret);
-                } else { outputArea.appendChild(caret); }
-            } catch(e) { outputArea.appendChild(caret); }
-        } else { outputArea.appendChild(caret); }
+                } else { area.appendChild(caret); }
+            } catch(e) { area.appendChild(caret); }
+        } else { area.appendChild(caret); }
     }
 }
 
@@ -104,14 +111,11 @@ function lookupCandidates(activeSegment) {
     const b_segment_for_lookup = activeSegment.toLowerCase();
     const isAllVowels = /^[aeiou]+$/.test(b_segment_for_lookup);
     let useExactMatch = (b_segment_for_lookup.length <= 1) || ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels);
-    
     const prefixNode = DB.getNode(b_segment_for_lookup);
     if (!prefixNode) return [];
-
     let list = [];
     let count = 0;
-    const MAX_COLLECT = 200; // 限制检索数量，防止卡顿
-
+    const MAX_COLLECT = 200;
     const collect = (node, path) => {
         if (count > MAX_COLLECT) return;
         if (useExactMatch && path !== b_segment_for_lookup) return; 
@@ -123,9 +127,7 @@ function lookupCandidates(activeSegment) {
                 count++;
             });
         }
-        if (!useExactMatch) {
-            for (const char in node.children) { collect(node.children[char], path + char); }
-        }
+        if (!useExactMatch) { for (const char in node.children) { collect(node.children[char], path + char); } }
     };
     collect(prefixNode, b_segment_for_lookup);
     return list;
@@ -137,7 +139,6 @@ function update() {
     currentProcessedSegment = activeSegment;
     currentPrecedingBuffer = precedingBuffer;
     updateBufferDisplay(buffer, activeSegment, precedingBuffer);
-    
     if (buffer) {
         let list = lookupCandidates(activeSegment);
         const seen = new Set();
@@ -150,7 +151,6 @@ function render() {
     const container = document.getElementById("main-candidates");
     if (!container) return;
     container.innerHTML = "";
-    
     if (buffer) {
         const pageData = combinedCandidates.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
         const row = document.createElement("div");
@@ -167,11 +167,12 @@ function render() {
         });
         row.appendChild(listContainer);
         container.appendChild(row);
-        
         const totalPages = Math.ceil(combinedCandidates.length / pageSize);
-        document.getElementById("page-counter").innerText = `${pageIndex + 1} / ${totalPages || 1}`;
+        const counter = document.getElementById("page-counter");
+        if (counter) counter.innerText = `${pageIndex + 1} / ${totalPages || 1}`;
     } else {
-        document.getElementById("page-counter").innerText = "";
+        const counter = document.getElementById("page-counter");
+        if (counter) counter.innerText = "";
     }
 }
 
@@ -182,19 +183,20 @@ function selectCandidate(selectedText) {
 }
 
 function insertAtCursor(text) {
-    const existingCaret = outputArea.querySelector(".fake-caret");
+    const area = getOutputArea();
+    if (!area) return;
+    const existingCaret = area.querySelector(".fake-caret");
     if (existingCaret) existingCaret.remove();
-    
     restoreSelection();
-    outputArea.focus();
+    area.focus();
     document.execCommand("insertText", false, text);
     saveSelection();
-    
     setTimeout(() => focusHiddenInput(), 0);
 }
 
 function clearOutput() {
-    if (outputArea) outputArea.innerHTML = "";
+    const area = getOutputArea();
+    if (area) area.innerHTML = "";
     resetInput();
     update();
 }

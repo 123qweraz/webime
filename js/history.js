@@ -91,8 +91,8 @@ function toggleHistoryPanel() {
 
 function archiveAndCopy() {
     try {
-        // 关键：直接从 DOM 获取最新内容，解决变量同步延迟问题
-        const textToArchive = outputArea.innerText.trim();
+        const area = document.getElementById("output-area");
+        const textToArchive = area ? area.innerText.trim() : "";
         
         if (textToArchive) {
             HISTORY.unshift({
@@ -103,7 +103,6 @@ function archiveAndCopy() {
 
             navigator.clipboard.writeText(textToArchive)
                 .then(() => {
-                    // 三合一：归档、复制、清空
                     clearOutput();
                     showToast("已归档并复制", "success");
                 })

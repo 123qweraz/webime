@@ -1,6 +1,4 @@
 let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
-const hInput = document.getElementById("hidden-input");
-const outputArea = document.getElementById("output-area");
 
 async function init() {
     try {
@@ -31,18 +29,26 @@ function saveSettings() {
 }
 
 function initEventListeners() {
+    const hInput = document.getElementById("hidden-input");
+    const outputArea = document.getElementById("output-area");
+    if (!hInput || !outputArea) return;
+
     hInput.addEventListener("keydown", handleKeyDown);
     hInput.addEventListener("input", handleInput);
     
     hInput.addEventListener("focus", () => {
-        document.getElementById("input-container").classList.add("focused");
-        document.getElementById("output-card").classList.remove("focused");
+        const container = document.getElementById("input-container");
+        if (container) container.classList.add("focused");
+        const card = document.getElementById("output-card");
+        if (card) card.classList.remove("focused");
         updateFakeCaret();
     });
     
     outputArea.addEventListener("focus", () => {
-        document.getElementById("output-card").classList.add("focused");
-        document.getElementById("input-container").classList.remove("focused");
+        const card = document.getElementById("output-card");
+        if (card) card.classList.add("focused");
+        const container = document.getElementById("input-container");
+        if (container) container.classList.remove("focused");
     });
 
     outputArea.addEventListener("mouseup", saveSelection);
@@ -55,11 +61,16 @@ function initEventListeners() {
 }
 
 function focusHiddenInput() {
+    const hInput = document.getElementById("hidden-input");
     if (hInput && document.activeElement !== hInput) hInput.focus();
 }
 
 function handleKeyDown(e) {
     const key = e.key;
+    const hInput = document.getElementById("hidden-input");
+    const outputArea = document.getElementById("output-area");
+    if (!hInput || !outputArea) return;
+
     if (currentState === InputState.PRACTICE) return;
 
     if (buffer && currentState !== InputState.TAB) {
@@ -121,18 +132,24 @@ function handleKeyDown(e) {
 }
 
 function handleInput(event) {
+    const hInput = document.getElementById("hidden-input");
+    if (!hInput) return;
     if (currentState === InputState.PRACTICE) { handlePracticeInput(event); return; }
     if (currentState !== InputState.TAB) { setBuffer(hInput.value); pageIndex = 0; update(); }
 }
 
 function handleGlobalKeyDown(e) {
     const key = e.key.toLowerCase();
+    const outputArea = document.getElementById("output-area");
+    if (!outputArea) return;
     if (e.ctrlKey && key === "e") { e.preventDefault(); outputArea.focus(); return; }
     if (e.ctrlKey && key === "c") { e.preventDefault(); archiveAndCopy(); return; }
     if (e.key === "Escape" && buffer) { resetInput(); update(); }
 }
 
 function handleGlobalClick(e) {
+    const outputArea = document.getElementById("output-area");
+    if (!outputArea) return;
     if (outputArea.contains(e.target) || e.target.closest(".candidate-item")) return;
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON" || e.target.isContentEditable) return;
     focusHiddenInput();
