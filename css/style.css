@@ -320,22 +320,23 @@ body.dark-mode .history-header { background: #2c2c2e; }
 
 .candidate-list {
     display: flex;
-    flex-wrap: wrap; /* 允许横向流式排布，如果一行放不下会自动换行，但保持横向感 */
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 4px;
     flex: 1;
 }
 
 .candidate-item {
     position: relative;
-    padding: 4px 10px;
+    padding: 4px 8px;
     cursor: pointer;
     transition: all 0.1s;
     display: flex;
-    align-items: baseline;
+    align-items: center; /* 改为垂直居中，更美观 */
     gap: 6px;
     border-radius: 6px;
-    max-width: 180px; /* 激进限制：单个词最大宽度 */
-    flex-shrink: 0;
+    width: calc(20% - 5px); /* 强制一行 5 个 */
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .candidate-item:hover, .candidate-item.active {
@@ -348,11 +349,12 @@ body.dark-mode .history-header { background: #2c2c2e; }
 }
 
 .cand-key {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-sec);
     font-weight: 700;
     font-family: monospace;
     flex-shrink: 0;
+    width: 8px;
 }
 
 .candidate-item.active .cand-key {
@@ -360,7 +362,7 @@ body.dark-mode .history-header { background: #2c2c2e; }
 }
 
 .cand-text {
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 500;
     color: var(--text-main);
     flex-shrink: 0;
@@ -371,12 +373,13 @@ body.dark-mode .history-header { background: #2c2c2e; }
 }
 
 .cand-desc {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-sec);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 80px; /* 激进限制：描述部分最大宽度 */
+    flex: 1; /* 占据剩余所有空间 */
+    min-width: 0;
 }
 
 .candidate-item.active .cand-desc {
