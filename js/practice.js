@@ -171,10 +171,12 @@ async function startPracticeMode() {
 
 function showPracticeDirectory() {
     const dirView = document.getElementById("practice-directory");
+    const footer = document.getElementById("practice-footer");
     const cards = [cardLeft, cardCenter, cardRight];
     
     cards.forEach(c => c.style.display = "none");
     dirView.style.display = "grid";
+    if (footer) footer.style.display = "none"; // 目录模式隐藏底部控制栏
     
     renderDirectoryContent();
 }
@@ -323,6 +325,18 @@ function showChapterPractice() {
     document.getElementById("practice-directory").style.display = "none";
     [cardLeft, cardCenter, cardRight].forEach(c => c.style.display = "flex");
     
+    const footer = document.getElementById("practice-footer");
+    if (footer) {
+        footer.style.display = "flex";
+        const chapterIndex = parseInt(settings.practice_chapter, 10);
+        // 清空并重新构建底部控制栏，确保“第 X 章”与按钮同级
+        footer.innerHTML = `
+            <div class="footer-chapter-label">第 ${chapterIndex + 1} 章</div>
+            <button id="back-to-dir-btn" class="btn btn-toggle" onclick="showPracticeDirectory()">章节目录</button>
+            <button id="toggle-pinyin-btn" class="btn btn-toggle ${showPinyinHint ? 'active' : ''}" onclick="togglePinyinHint()">显示拼音 (F2)</button>
+        `;
+    }
+
     const progressKey = getPracticeProgressKey();
     const savedIndex = localStorage.getItem(progressKey);
     currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;

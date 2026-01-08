@@ -636,7 +636,25 @@ body.dark-mode .history-header { background: #2c2c2e; }
     gap: 30px;
 }
 
-.practice-card-slot {
+#practice-footer {
+    display: none; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 15px; 
+    margin-top: 25px;
+    padding: 10px;
+    border-top: 1px solid var(--border);
+}
+
+.footer-chapter-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-sec);
+    background: var(--bg);
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin-right: 10px;
+}
     width: 340px;
     height: 200px;
     background: var(--card-bg);
