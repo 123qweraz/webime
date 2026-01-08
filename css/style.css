@@ -775,6 +775,10 @@ body {
     75% { transform: translateX(8px) scale(1); }
 }
 
+.practice-card-content {
+    position: relative;
+}
+
 .pinyin-display {
     font-size: 28px;
     height: 1.2em;

@@ -48,19 +48,30 @@
                         </div>
 
                         <div id="card-left" class="practice-card-slot">
-                            <div class="practice-card-content"><div class="pinyin-display"></div><div class="hanzi-display"></div></div>
+                            <div class="practice-card-content">
+                                <div class="pinyin-display"></div>
+                                <div class="hanzi-display"></div>
+                            </div>
                         </div>
                         <div id="card-center" class="practice-card-slot">
-                            <div class="practice-card-content"><div class="pinyin-display"></div><div class="hanzi-display"></div></div>
+                            <div class="practice-card-content">
+                                <div class="pinyin-display"></div>
+                                <div class="hanzi-display"></div>
+                            </div>
                         </div>
                         <div id="card-right" class="practice-card-slot">
-                            <div class="practice-card-content"><div class="pinyin-display"></div><div class="hanzi-display"></div></div>
+                            <div class="practice-card-content">
+                                <div class="pinyin-display"></div>
+                                <div class="hanzi-display"></div>
+                            </div>
                         </div>
                     </div>
 
                     <div id="practice-footer" style="display: none; justify-content: center; align-items: center; gap: 20px; margin-top: 20px;">
                         <button id="back-to-dir-btn" class="btn btn-toggle" onclick="showPracticeDirectory()">章节目录</button>
                         <button id="toggle-pinyin-btn" class="btn btn-toggle" onclick="togglePinyinHint()">显示拼音 (F2)</button>
+                        <button id="play-sound-btn" class="btn btn-toggle" onclick="speakCurrentWord()">朗读 (F3)</button>
+                        <button id="toggle-tts-btn" class="btn btn-toggle" onclick="toggleAutoTTS()">自动朗读</button>
                     </div>
 
                     <div class="resizer-v" id="center-v-resizer"></div>

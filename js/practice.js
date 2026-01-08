@@ -4,6 +4,7 @@ let isPracticeAnimating = false;
 let cardLeft, cardCenter, cardRight;
 let practiceCards = [];
 let showPinyinHint = false;
+let autoTTS = false;
 let directoryPageIndex = 0;
 const directoryPageSize = 20; // 减小页大小，确保不滚动也能看到底部
 
@@ -18,6 +19,41 @@ function getPracticeProgressKey() {
     const dictPath = settings.practice_dict_path || "default";
     const chapter = settings.practice_chapter || 0;
     return `${PRACTICE_PROGRESS_KEY}_${dictPath.replace(/[^a-zA-Z0-9]/g, '_')}_ch${chapter}`;
+}
+
+function speakCurrentWord(e) {
+    if (e) {
+        e.stopPropagation(); 
+        // Refocus input if button clicked
+        focusHiddenInput();
+    }
+    
+    if (currentPracticeWordIndex >= practiceWords.length) return;
+    const word = practiceWords[currentPracticeWordIndex];
+    if (!word) return;
+
+    // Use Netease Youdao API
+    const hanzi = getHanziChar(word.hanzi);
+    const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(hanzi)}&le=zh`;
+    const audio = new Audio(audioUrl);
+    audio.play().catch(err => {
+        console.error("Play audio failed:", err);
+        showToast("播放音频失败", "error");
+    });
+}
+
+function toggleAutoTTS() {
+    autoTTS = !autoTTS;
+    const btn = document.getElementById("toggle-tts-btn");
+    if (btn) btn.classList.toggle("active", autoTTS);
+    
+    if (autoTTS) {
+        speakCurrentWord();
+        showToast("自动朗读已开启", "info");
+    } else {
+        showToast("自动朗读已关闭", "info");
+    }
+    focusHiddenInput();
 }
 
 // Simple seeded shuffle to ensure consistency across refreshes for the same dictionary
@@ -146,6 +182,13 @@ function handlePracticeKeyDown(e) {
     if (e.key === "F2") {
         e.preventDefault();
         togglePinyinHint();
+        return;
+    }
+
+    // F3: Speak Current Word
+    if (e.key === "F3") {
+        e.preventDefault();
+        speakCurrentWord();
         return;
     }
 
@@ -387,6 +430,8 @@ function showChapterPractice() {
             <div class="footer-chapter-label">第 ${chapterIndex + 1} 章</div>
             <button id="back-to-dir-btn" class="btn btn-toggle" onclick="showPracticeDirectory()">章节目录</button>
             <button id="toggle-pinyin-btn" class="btn btn-toggle ${showPinyinHint ? 'active' : ''}" onclick="togglePinyinHint()">显示拼音 (F2)</button>
+            <button id="play-sound-btn" class="btn btn-toggle" onclick="speakCurrentWord()">朗读 (F3)</button>
+            <button id="toggle-tts-btn" class="btn btn-toggle ${autoTTS ? 'active' : ''}" onclick="toggleAutoTTS()">自动朗读</button>
         `;
     }
 
@@ -463,9 +508,14 @@ function loadCards() {
         cardCenter.querySelector(".hanzi-display").textContent = getHanziChar(word.hanzi);
         updatePracticeInputDisplay(); 
         cardCenter.classList.add("visible", "current");
+        
+        // Auto-speak if enabled
+        if (autoTTS) {
+            // Small delay to allow transition
+            setTimeout(() => speakCurrentWord(), 300);
+        }
     } else {
-        // Should not happen if check is done before calling loadCards, but safe guard
-        showNextPracticeWord();
+        exitPracticeMode();
         return;
     }
 
