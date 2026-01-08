@@ -1,4 +1,27 @@
-# History Dialog
+## 2026-01-08 03:05
+- **Task**: Revert Long Sentence Mode Candidate Limit.
+- **Key Actions**:
+    1. **Limit Adjustment**: Reduced the number of candidates displayed per segment from 20 back to 5 based on user preference for a cleaner UI.
+
+## 2026-01-08 03:00
+- **Task**: Enhance Long Sentence Mode with Interactive Candidate Selection.
+- **Key Actions**:
+    1. **Increased Capacity**: Expanded the candidate display from 5 to 20 words per segment, providing more choices for complex pinyin.
+    2. **Interactive Selection**: Candidates are now clickable. Clicking a candidate replaces its pinyin segment in the textarea with the selected Hanzi.
+    3. **Selection Logic**: Implemented `selectCorrectionCandidate` to handle segment replacement while maintaining overall sentence structure.
+    4. **Visual Feedback**: 
+        - Added hover effects to candidates to indicate interactivity.
+        - Selected Hanzi segments are now marked with a green "fixed" style to distinguish them from remaining pinyin segments.
+    5. **UX Improvements**: The textarea automatically regains focus after a selection, allowing for continuous typing or further corrections.
+
+## 2026-01-08 02:50
+- **Task**: Add Real-time Candidate Display to Long Sentence Mode.
+- **Key Actions**:
+    1. **UI Enhancement**: Added a `#correction-candidates` container below the textarea in `index.html`.
+    2. **Real-time Logic**: Implemented `updateCorrectionCandidates` in `js/ime.js` to parse the pinyin input into segments and display the top 5 candidates for each.
+    3. **Visual Feedback**: Added styling in `css/style.css` to highlight the primary candidate (which will be used upon submission) in light blue.
+    4. **Event Handling**: Linked the `input` event of the correction textarea to the update logic in `js/main.js`.
+    5. **Smart Parsing**: Added basic validation to distinguish between pinyin segments and literal text during candidate lookup.
 
 ## 2026-01-08 02:40
 - **Task**: Upgrade Correction Mode to "Long Sentence Mode" (长句模式).

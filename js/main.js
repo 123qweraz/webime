@@ -63,6 +63,7 @@ function initEventListeners() {
     hInput.addEventListener("keydown", handleKeyDown);
     hInput.addEventListener("input", handleInput);
     correctionInput.addEventListener("keydown", handleCorrectionKeyDown);
+    correctionInput.addEventListener("input", handleCorrectionInput);
     document.addEventListener("keydown", handleGlobalKeyDown);
     document.addEventListener("click", handleGlobalClick);
     window.addEventListener("visibilitychange", () => { if (!document.hidden) updateFocus(); });
@@ -195,6 +196,10 @@ function handleCorrectionKeyDown(e) {
         e.preventDefault();
         exitCorrectionMode("sync_out_buffer");
     }
+}
+
+function handleCorrectionInput() {
+    updateCorrectionCandidates();
 }
 
 function handleGlobalClick(e) {

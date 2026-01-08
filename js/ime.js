@@ -217,6 +217,73 @@ function enterCorrectionMode() {
     wrapper.style.display = "block";
     input.value = buffer;
     input.focus();
+    updateCorrectionCandidates();
+}
+
+function updateCorrectionCandidates() {
+    const input = document.getElementById("correction-input");
+    const candidatesContainer = document.getElementById("correction-candidates");
+    if (!input || !candidatesContainer) return;
+
+    const text = input.value;
+    const segments = text.trim().split(/\s+/).filter(s => s.length > 0);
+    
+    if (segments.length === 0) {
+        candidatesContainer.innerHTML = "";
+        return;
+    }
+
+    candidatesContainer.innerHTML = segments.map((seg, segIndex) => {
+        if (!/^[a-zA-Z']+$/.test(seg)) {
+            return `
+                <div class="correction-candidate-row">
+                    <span class="correction-seg-label">已选:</span>
+                    <div class="correction-seg-candidates">
+                        <span class="correction-cand fixed">${escapeHtml(seg)}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        const candidates = lookupCandidates(seg).slice(0, 5);
+        if (candidates.length === 0) {
+             return `
+                <div class="correction-candidate-row">
+                    <span class="correction-seg-label">${escapeHtml(seg)}:</span>
+                    <div class="correction-seg-candidates">
+                        <span class="correction-cand" style="color: var(--text-sec); font-style: italic; cursor: default;">无结果</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        return `
+            <div class="correction-candidate-row">
+                <span class="correction-seg-label">${escapeHtml(seg)}:</span>
+                <div class="correction-seg-candidates">
+                    ${candidates.map((c, i) => `
+                        <span class="correction-cand ${i === 0 ? 'active' : ''}" 
+                              onclick="selectCorrectionCandidate(${segIndex}, '${c.text.replace(/'/g, "\\'")}')">
+                            ${escapeHtml(c.text)}
+                        </span>`).join('')}
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function selectCorrectionCandidate(segIndex, candidateText) {
+    const input = document.getElementById("correction-input");
+    if (!input) return;
+    
+    // Split by whitespace but preserve segments
+    const segments = input.value.trim().split(/\s+/);
+    if (segments[segIndex]) {
+        segments[segIndex] = candidateText;
+        input.value = segments.join(" ");
+        updateCorrectionCandidates();
+        input.focus();
+    }
 }
 
 function exitCorrectionMode(action) {
