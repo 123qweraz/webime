@@ -1,5 +1,17 @@
 # History Dialog
 
+## 2026-01-08 05:00
+- **Task**: Standardized Testing and Quality Assurance.
+- **Key Actions**:
+    1. **Test Design**: Developed a comprehensive test suite covering IME input, Practice Mode, Dictionary Management, and Edge Cases.
+    2. **Automated Logic Testing**: Created a Node.js-based simulation script (`tests/logic_test.js`) to verify the Trie lookup and candidate weighting logic.
+    3. **Functional Verification**: 
+        - Verified "Long Sentence Mode" segmenting and conversion logic.
+        - Confirmed Practice Mode's race condition protection and input filtering.
+        - Validated persistence of user settings and practice progress in `localStorage`.
+    4. **Robustness Testing**: Tested with extreme pinyin lengths and non-pinyin characters in various modes.
+    5. **Documentation**: Compiled a detailed `test-report.md` summarizing findings and providing optimization suggestions.
+
 ## 2026-01-08 04:15
 - **Task**: Implement Integrated Practice Directory View.
 - **Key Actions**:
