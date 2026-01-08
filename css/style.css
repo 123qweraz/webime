@@ -25,6 +25,26 @@ body.dark-mode {
     --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
+body.dark-mode .history-header { background: #1c1c1e !important; }
+body.dark-mode .toolbar { border-color: var(--border); }
+body.dark-mode .btn { background: rgba(255, 255, 255, 0.1); color: #f5f5f7; }
+body.dark-mode .btn:hover { background: rgba(255, 255, 255, 0.15); }
+
+body.dark-mode ::-webkit-scrollbar-thumb { background: #3a3a3c; }
+body.dark-mode ::-webkit-scrollbar-thumb:hover { background: #48484a; }
+
+body.dark-mode .dict-card,
+body.dark-mode .practice-dict-item, 
+body.dark-mode .practice-chapter-item,
+body.dark-mode .pagination-bar {
+    background: #2c2c2e !important;
+}
+
+body.dark-mode .page-jump-group,
+body.dark-mode .correction-cand {
+    background: #3a3a3c !important;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
     background: var(--bg);
@@ -101,12 +121,6 @@ body {
 .btn-danger { background: var(--danger); color: white; }
 .btn-github { background: #24292e; color: white; text-decoration: none; margin-left: auto; }
 
-body.dark-mode .btn { 
-    background: rgba(255, 255, 255, 0.1); 
-    color: #f5f5f7; 
-}
-body.dark-mode .btn:hover { background: rgba(255, 255, 255, 0.15); }
-
 /* Sidebar & Content Area */
 .content-area {
     flex: 1;
@@ -137,8 +151,6 @@ body.dark-mode .btn:hover { background: rgba(255, 255, 255, 0.15); }
     justify-content: space-between;
     align-items: center;
 }
-
-body.dark-mode .history-header { background: rgba(255, 255, 255, 0.02); }
 
 .history-list {
     list-style: none;

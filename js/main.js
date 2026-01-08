@@ -10,6 +10,11 @@ async function init() {
         setState(InputState.NORMAL);
         update();
         hideLoadingMessage();
+        
+        // Ensure focus after everything is rendered
+        window.addEventListener('load', () => setTimeout(focusHiddenInput, 100));
+        setTimeout(focusHiddenInput, 100);
+        setTimeout(focusHiddenInput, 500); // Back-up focus
     } catch (error) {
         showErrorMessage("初始化失败");
         hideLoadingMessage();
@@ -83,11 +88,12 @@ function handleKeyDown(e) {
     }
 
     if (key === "Tab") {
-        e.preventDefault();
         if (buffer) {
+            e.preventDefault();
             setState(currentState === InputState.TAB ? InputState.NORMAL : InputState.TAB);
             enFilter = ""; pageIndex = 0; update();
         }
+        // If no buffer, let handleGlobalKeyDown handle focus cycling
         return;
     }
 
@@ -147,6 +153,19 @@ function handleGlobalKeyDown(e) {
     const key = e.key.toLowerCase();
     const outputArea = document.getElementById("output-area");
     if (!outputArea) return;
+    
+    // Global Tab handler for cycling focus when not typing
+    if (e.key === "Tab" && !buffer) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (document.activeElement === outputArea) {
+            focusHiddenInput();
+        } else {
+            outputArea.focus();
+        }
+        return;
+    }
+
     if (e.ctrlKey && key === "e") { e.preventDefault(); outputArea.focus(); return; }
     if (e.ctrlKey && key === "c") {
         if (currentState !== InputState.EDIT) { e.preventDefault(); archiveAndCopy(); }

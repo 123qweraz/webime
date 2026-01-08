@@ -1,5 +1,19 @@
 # History Dialog
 
+## 2026-01-08 07:15
+- **Task**: Fix Dark Mode, Initial Focus, and Tab Focus Cycling.
+- **Key Actions**:
+    1. **Dark Mode Consolidation**: 
+        - Centralized dark mode overrides at the top of `css/style.css` for better reliability.
+        - Fixed visibility issues for scrollbars, pagination bars, dictionary cards, and correction candidates in dark theme.
+        - Ensured consistent background colors for `history-header` and `toolbar` in dark mode.
+    2. **Reliable Initial Focus**: 
+        - Implemented a multi-stage focus strategy using `window.onload` and staggered `setTimeout` calls to ensure the `hidden-input` is focused immediately after page initialization and dictionary loading.
+    3. **Bidirectional Tab Cycling**:
+        - Refactored `Tab` key logic into a global handler to allow seamless focus cycling between the `output-area` (text area) and `hidden-input` (input area) when the buffer is empty.
+        - Ensured the `Tab` key still triggers IME internal state switching (e.g., Tab filter mode) when a buffer exists.
+    4. **Code Cleanup**: Removed redundant and conflicting dark mode style blocks from the CSS file.
+
 ## 2026-01-08 07:00
 - **Task**: Comprehensive UI Optimization and Virtual Cursor Removal.
 - **Key Actions**:
