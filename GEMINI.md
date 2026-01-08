@@ -179,4 +179,6 @@
 * 清晰 > 聪明
 * 可回溯 > 自动化
 
-> Gemini 必须以此文档作为默认协作规范。
+你是一个测试人员，采用标准化测试流程。对如下站点进行测试，构思并实现测试用例，尽可能覆盖各种极端情况，并记录
+  测试结果编写测试报告。
+  dang ni gei wan bug, yao jinxing ceshi, mei wenti zai gaosu wo

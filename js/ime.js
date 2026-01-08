@@ -88,10 +88,12 @@ function lookupCandidates(activeSegment) {
     const isAllVowels = /^[aeiou]+$/.test(b_segment_for_lookup);
     
     let useExactMatch = false;
+    // 修改：放宽限制，允许 1-2 位的拼音前缀搜索，除非是纯元音的短拼音（通常是独立音节）
     if (
-        b_segment_for_lookup.length <= 2 ||
+        (b_segment_for_lookup.length <= 1) ||
         ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels)
     ) {
+        // 依然保留极短或特定模式的精确匹配以减少干扰，但 2 位如 'sh' 不再强制精确匹配
         useExactMatch = true;
     }
 
@@ -100,7 +102,7 @@ function lookupCandidates(activeSegment) {
 
     if (prefixNode) {
         const collect = (node, path) => {
-            if (useExactMatch && path !== b_segment_for_lookup) return;
+            if (useExactMatch && path !== b_segment_for_lookup) return; 
             
             if (node.values.length > 0) {
                 let weight = 1000;
@@ -173,19 +175,32 @@ function render() {
         buffer && display.length > 0
             ? `${pageIndex + 1} / ${totalPages || 1}`
             : "";
+    
+    // 修复：确保 pageIndex 在结果减少时不会越界
+    if (pageIndex >= totalPages && totalPages > 0) {
+        pageIndex = totalPages - 1;
+    }
+
     const pageData = display.slice(
         pageIndex * pageSize,
         (pageIndex + 1) * pageSize,
     );
-    document.getElementById("main-candidates").innerHTML = pageData
-        .map(
-            (item, i) => `
-        <div class="candidate-item" onclick="selectCandidate('${item.text}')">
-            <span class="cand-key">${(i + 1) % 10}</span><div class="cand-text">${item.text}</div>
-            ${item.desc ? `<div class="cand-desc">${item.desc}</div>` : ""}
-        </div>`,
-        )
-        .join("");
+    
+    const container = document.getElementById("main-candidates");
+    container.innerHTML = "";
+    
+    pageData.forEach((item, i) => {
+        const div = document.createElement("div");
+        div.className = "candidate-item";
+        // 修改：使用 DOM 绑定避免引号转义问题，同时修复 XSS 风险
+        div.innerHTML = `
+            <span class="cand-key">${(i + 1) % 10}</span>
+            <div class="cand-text">${escapeHtml(item.text)}</div>
+            ${item.desc ? `<div class="cand-desc">${escapeHtml(item.desc)}</div>` : ""}
+        `;
+        div.onclick = () => selectCandidate(item.text);
+        container.appendChild(div);
+    });
 }
 
 function selectCandidate(selectedText) {
@@ -258,71 +273,69 @@ function updateCorrectionCandidates() {
         return;
     }
 
-    // Rolling Window: Show 5 segments. 
-    // Only starts hiding the "front" after the active index exceeds 4.
     const displayCount = 5;
     const startDisplay = Math.max(0, activeSegIndex - (displayCount - 1));
     const displaySegments = segments.slice(startDisplay, startDisplay + displayCount);
 
-    let html = "";
+    candidatesContainer.innerHTML = "";
     if (startDisplay > 0) {
-        html += `<div style="font-size: 10px; color: var(--text-sec); padding-left: 10px; margin-bottom: 4px;">... 已隐藏前文</div>`;
+        const msg = document.createElement("div");
+        msg.style = "font-size: 10px; color: var(--text-sec); padding-left: 10px; margin-bottom: 4px;";
+        msg.textContent = "... 已隐藏前文";
+        candidatesContainer.appendChild(msg);
     }
 
-    html += displaySegments.map((segObj, i) => {
+    displaySegments.forEach((segObj, i) => {
         const segIndex = startDisplay + i;
         const seg = segObj.text;
         const isActiveRow = segIndex === activeSegIndex;
         
+        const row = document.createElement("div");
+        row.className = `correction-candidate-row ${isActiveRow ? 'active-row' : ''}`;
+        row.dataset.segIndex = segIndex;
+
+        const label = document.createElement("span");
+        label.className = "correction-seg-label";
+        
+        const candWrapper = document.createElement("div");
+        candWrapper.className = "correction-seg-candidates";
+
         if (!/^[a-zA-Z']+$/.test(seg)) {
-            return `
-                <div class="correction-candidate-row ${isActiveRow ? 'active-row' : ''}" data-seg-index="${segIndex}">
-                    <span class="correction-seg-label">已选:</span>
-                    <div class="correction-seg-candidates">
-                        <span class="correction-cand fixed">${escapeHtml(seg)}</span>
-                    </div>
-                </div>
-            `;
+            label.textContent = "已选:";
+            candWrapper.innerHTML = `<span class="correction-cand fixed">${escapeHtml(seg)}</span>`;
+        } else {
+            label.textContent = `${seg}:`;
+            const candidates = lookupCandidates(seg).slice(0, 5);
+            if (candidates.length === 0) {
+                candWrapper.innerHTML = `<span class="correction-cand" style="color: var(--text-sec); font-style: italic; cursor: default;">无结果</span>`;
+            } else {
+                candidates.forEach((c, ci) => {
+                    const span = document.createElement("span");
+                    span.className = `correction-cand ${ci === 0 ? 'active' : ''}`;
+                    span.textContent = c.text;
+                    span.onclick = () => selectCorrectionCandidate(segIndex, c.text);
+                    candWrapper.appendChild(span);
+                });
+            }
         }
         
-        const candidates = lookupCandidates(seg).slice(0, 5);
-        if (candidates.length === 0) {
-             return `
-                <div class="correction-candidate-row ${isActiveRow ? 'active-row' : ''}" data-seg-index="${segIndex}">
-                    <span class="correction-seg-label">${escapeHtml(seg)}:</span>
-                    <div class="correction-seg-candidates">
-                        <span class="correction-cand" style="color: var(--text-sec); font-style: italic; cursor: default;">无结果</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        return `
-            <div class="correction-candidate-row ${isActiveRow ? 'active-row' : ''}" data-seg-index="${segIndex}">
-                <span class="correction-seg-label">${escapeHtml(seg)}:</span>
-                <div class="correction-seg-candidates">
-                    ${candidates.map((c, i) => `
-                        <span class="correction-cand ${i === 0 ? 'active' : ''}" 
-                              onclick="selectCorrectionCandidate(${segIndex}, '${c.text.replace(/'/g, "\\'")}')">
-                            ${escapeHtml(c.text)}
-                        </span>`).join('')}
-                </div>
-            </div>
-        `;
-    }).join("");
+        row.appendChild(label);
+        row.appendChild(candWrapper);
+        candidatesContainer.appendChild(row);
+    });
 
     if (startDisplay + displayCount < segments.length) {
-        html += `<div style="font-size: 10px; color: var(--text-sec); padding-left: 10px; margin-top: 4px;">... 后面还有 ${segments.length - (startDisplay + displayCount)} 组</div>`;
+        const msg = document.createElement("div");
+        msg.style = "font-size: 10px; color: var(--text-sec); padding-left: 10px; margin-top: 4px;";
+        msg.textContent = `... 后面还有 ${segments.length - (startDisplay + displayCount)} 组`;
+        candidatesContainer.appendChild(msg);
     }
-
-    candidatesContainer.innerHTML = html;
 }
 
 function selectCorrectionCandidate(segIndex, candidateText) {
     const input = document.getElementById("correction-input");
     if (!input) return;
     
-    // Split by whitespace but preserve segments
     const segments = input.value.trim().split(/\s+/);
     if (segments[segIndex]) {
         segments[segIndex] = candidateText;

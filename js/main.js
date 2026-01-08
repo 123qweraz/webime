@@ -112,6 +112,7 @@ function handleKeyDown(e) {
         if (buffer) {
             setState(currentState === InputState.TAB ? InputState.NORMAL : InputState.TAB);
             enFilter = "";
+            pageIndex = 0; // 修复：进入 Tab 模式重置页码
             update();
         }
         return;

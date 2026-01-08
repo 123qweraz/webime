@@ -244,7 +244,8 @@ function updatePracticeInputDisplay() {
 function handlePracticeInput(event) {
     if (currentState !== InputState.PRACTICE) return;
     
-    const val = event.target.value.replace(/[^a-zA-Z]/g, "");
+    // 修改：允许单引号，支持 xi'an 等拼音
+    const val = event.target.value.replace(/[^a-zA-Z']/g, "");
     setBuffer(val);
     updatePracticeInputDisplay();
 
