@@ -1,23 +1,40 @@
 let allDicts = [];
 
 function loadDictConfig() {
-    const storedDicts = JSON.parse(localStorage.getItem(DICTS_CONFIG_KEY));
-    if (storedDicts && storedDicts.length > 0) {
-        allDicts = storedDicts;
-        BUILT_IN_DICTS.forEach((builtInDict) => {
-            const existing = allDicts.find((d) => d.path === builtInDict.path && d.type === builtInDict.type);
-            if (!existing) {
-                allDicts.push(builtInDict);
-            } else {
-                existing.tag = builtInDict.tag;
-                if (builtInDict.name === "三级字" || builtInDict.name === "生僻字") {
-                    existing.name = "生僻字";
-                }
-            }
-        });
-    } else {
-        allDicts = JSON.parse(JSON.stringify(BUILT_IN_DICTS));
-    }
+    const storedDicts = JSON.parse(localStorage.getItem(DICTS_CONFIG_KEY)) || [];
+    
+    // Separate user dicts (preserve them always)
+    const userDicts = storedDicts.filter(d => d.type === 'user');
+    
+    // Rebuild built-in dicts from the latest config (source of truth for paths/names)
+    // but try to restore 'enabled' state from storage if name matches.
+    const mergedBuiltIns = BUILT_IN_DICTS.map(builtIn => {
+        // Try to find a matching entry in stored dicts to restore preference
+        // We match by Name, because Path might have changed (e.g. English case fix)
+        const match = storedDicts.find(d => 
+            d.type === 'built-in' && 
+            (d.name === builtIn.name || 
+             // Legacy support for renamed dicts
+             (builtIn.name === "生僻字" && d.name === "三级字"))
+        );
+
+        if (match) {
+            // Keep the new configuration (path, priority, etc.) but restore enabled state
+            return {
+                ...builtIn,
+                enabled: match.enabled
+            };
+        } else {
+            // New dictionary found in config
+            return { ...builtIn };
+        }
+    });
+
+    // Combine and save
+    allDicts = [...mergedBuiltIns, ...userDicts];
+    
+    // Always save to clean up obsolete built-ins (zombies) from storage
+    saveDictConfig();
 }
 
 function saveDictConfig() {
@@ -62,7 +79,7 @@ async function switchDictTab(tabName) {
         content.classList.toggle('active', content.id === `tab-${tabName}`);
     });
 
-    if (tabName === 'chinese' || tabName === 'japanese') {
+    if (tabName === 'chinese' || tabName === 'japanese' || tabName === 'english') {
         renderLanguageTab(tabName);
     } else if (tabName === 'user') {
         renderUserTab();
@@ -76,12 +93,25 @@ function renderLanguageTab(lang) {
     const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字");
     const isEnabled = mainDicts.some(d => d.enabled);
 
+    let title = '';
+    let desc = '';
+    if (lang === 'chinese') {
+        title = '中文全能方案';
+        desc = '最完善的中文输入体验，支持词组与智能联想。';
+    } else if (lang === 'japanese') {
+        title = '日文语境方案';
+        desc = '包含完整的假名与 N1-N5 级别常用词汇。';
+    } else if (lang === 'english') {
+        title = '英语辅助方案';
+        desc = '提供常用英语单词提示，支持按长度筛选练习。';
+    }
+
     let html = `
         <div class="dict-card ${isEnabled ? 'enabled' : 'disabled'}" style="border-left: 4px solid var(--primary); padding: 20px;">
             <div style="flex: 1;">
-                <h4 style="margin: 0; font-size: 18px;">${lang === 'chinese' ? '中文全能方案' : '日文语境方案'}</h4>
+                <h4 style="margin: 0; font-size: 18px;">${title}</h4>
                 <p style="font-size: 13px; color: var(--text-sec); margin: 8px 0;">
-                    ${lang === 'chinese' ? '最完善的中文输入体验，支持词组与智能联想。' : '包含完整的假名与 N1-N5 级别常用词汇。'}
+                    ${desc}
                 </p>
                 <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
                     ${mainDicts.map(d => `<span style="font-size: 10px; background: var(--bg); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
@@ -124,8 +154,12 @@ async function toggleLanguageGroup(lang) {
         }
     });
 
+    let langName = '中文';
+    if (lang === 'japanese') langName = '日文';
+    if (lang === 'english') langName = '英文';
+
     saveDictConfig();
-    showLoadingMessage(`正在${targetState ? '开启' : '关闭'}${lang === 'chinese' ? '中文' : '日文'}方案...`);
+    showLoadingMessage(`正在${targetState ? '开启' : '关闭'}${langName}方案...`);
     await loadAllDicts();
     hideLoadingMessage();
     

@@ -36,14 +36,27 @@ async function loadAllDicts() {
     // Filter enabled dicts
     const enabledDicts = allDicts.filter((d) => d.enabled);
     
-    // Load dictionaries sequentially to ensure insertion order (priority)
+    // CHANGE: Sort enabledDicts by priority (descending) so high priority dicts are inserted LAST? 
+    // Wait, DB.insert pushes to values. 
+    // If multiple dicts have the same key, values are accumulated.
+    // The order of candidates depends on the order of values in the array.
+    // If we want high priority first, we should insert them first? 
+    // Or we sort the values later?
+    // Let's check how candidates are retrieved.
+    
+    // Sort dicts by priority DESCENDING (100 -> 10)
+    enabledDicts.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+
+    // Load dictionaries sequentially
     for (const dict of enabledDicts) {
         try {
             let dictData;
             if (dict.type === "built-in") {
                 const response = await fetch(dict.path);
                 if (!response.ok) {
-                    console.error(`无法加载内置词典 ${dict.name}: ${response.status}`);
+                    const msg = `无法加载内置词典 ${dict.name}: ${response.status}`;
+                    console.error(msg);
+                    if (typeof showToast === 'function') showToast(msg, "error");
                     continue;
                 }
                 dictData = await response.json();

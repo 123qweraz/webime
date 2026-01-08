@@ -48,6 +48,14 @@ const BUILT_IN_DICTS = [
         priority: 50,
     },
     {
+        name: "长词组",
+        path: "dicts/chinese/second_dict/longer_pharases.json",
+        enabled: true,
+        type: "built-in",
+        tag: "chinese",
+        priority: 50,
+    },
+    {
         name: "标点符号",
         path: "dicts/chinese/punctuation.json",
         enabled: true,
@@ -102,6 +110,22 @@ const BUILT_IN_DICTS = [
         type: "built-in",
         tag: "japanese",
         priority: 10,
+    },
+    {
+        name: "常用英语 (短)",
+        path: "dicts/english/dict_enlt5s.json",
+        enabled: false,
+        type: "built-in",
+        tag: "english",
+        priority: 20,
+    },
+    {
+        name: "常用英语 (长)",
+        path: "dicts/english/dict_5_10s.json",
+        enabled: false,
+        type: "built-in",
+        tag: "english",
+        priority: 20,
     },
 ];
 

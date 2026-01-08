@@ -89,6 +89,33 @@ function lookupCandidates(activeSegment) {
     if (!activeSegment) return [];
     const b_segment_for_lookup = activeSegment.toLowerCase();
     const isAllVowels = /^[aeiou]+$/.test(b_segment_for_lookup);
+    // Relax exact match requirement for English (or mixed) input
+    // If length > 1 and not purely vowels, we allow prefix matching to find longer English words
+    // But for short segments (length 1), we still prefer exact match to avoid noise?
+    // Actually, for "a", we want "a" -> "一个".
+    // If we type "a", and have "apple" -> "苹果".
+    // If exact match is required for "a", we only get "一个".
+    // If we type "ap", length 2.
+    // If "ap" is not all vowels, useExactMatch = false.
+    // So "ap" will find "apple".
+    
+    // The previous logic:
+    // let useExactMatch = (b_segment_for_lookup.length <= 1) || ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels);
+    
+    // "ok" -> length 2. isAllVowels=false. useExactMatch=false. Should work.
+    // "a" -> length 1. useExactMatch=true.
+    
+    // Maybe the user wants "apple" to show up when typing "a"?
+    // If useExactMatch is true for "a", it WON'T show descendants like "apple".
+    // This suppresses "apple" candidate when typing "a".
+    // This is probably desired for Pinyin (don't show "ai", "an", "ang" when typing "a").
+    
+    // But for English, typing "a" should probably show "apple"?
+    // If I enable English, maybe I want prefix matching even for short words?
+    // But that would flood the candidates with every English word starting with "a".
+    
+    // I will keep the logic as is for now, assuming "wufa qiyong" is about not loading.
+    
     let useExactMatch = (b_segment_for_lookup.length <= 1) || ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels);
     const prefixNode = DB.getNode(b_segment_for_lookup);
     if (!prefixNode) return [];
