@@ -872,6 +872,13 @@ function handlePracticeInput(event) {
     
     // Auto-delete logic: If the new input doesn't match the prefix, revert to old buffer
     if (val && !targetPinyin.startsWith(val)) {
+        // Trigger shake animation
+        if (cardCenter) {
+            cardCenter.classList.remove("incorrect"); 
+            void cardCenter.offsetWidth; // Force reflow
+            cardCenter.classList.add("incorrect");
+        }
+
         // Find the maximum valid prefix length
         let validVal = val;
         while(validVal.length > 0 && !targetPinyin.startsWith(validVal)) {
@@ -879,15 +886,15 @@ function handlePracticeInput(event) {
         }
         val = validVal;
         event.target.value = val;
+    } else {
+        // Clear incorrect state if input is valid prefix
+        if (cardCenter) cardCenter.classList.remove("incorrect");
     }
 
     setBuffer(val);
     updatePracticeInputDisplay();
 
     const typedPinyin = buffer.toLowerCase();
-
-    // Remove incorrect visual feedback since we block it now
-    cardCenter.classList.remove("incorrect"); 
 
     if (typedPinyin === targetPinyin && !isPracticeAnimating) {
         isPracticeAnimating = true;
