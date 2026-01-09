@@ -441,6 +441,11 @@ async function startPracticeMode() {
     cardLeft = document.getElementById("card-left");
     cardCenter = document.getElementById("card-center");
     cardRight = document.getElementById("card-right");
+
+    if (!cardLeft || !cardCenter || !cardRight) {
+        showErrorMessage("练习模式卡片元素初始化失败");
+        return;
+    }
     practiceCards = [cardLeft, cardCenter, cardRight];
 
     initSwipeHandlers();
@@ -602,9 +607,16 @@ async function selectChapter(index) {
     settings.practice_chapter = index;
     saveSettings();
     showLoadingMessage("加载章节...");
-    await initPracticeModeData();
-    hideLoadingMessage();
-    showChapterPractice();
+    try {
+        const success = await initPracticeModeData();
+        hideLoadingMessage();
+        if (success) {
+            showChapterPractice();
+        }
+    } catch (error) {
+        hideLoadingMessage();
+        showErrorMessage("加载章节失败", error);
+    }
 }
 
 function showChapterPractice() {

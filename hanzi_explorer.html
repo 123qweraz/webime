@@ -260,7 +260,7 @@
                         ondragover="event.preventDefault()"
                         ondrop="dropHandler(event)"
                     >
-                        <span style="color: var(--subtext-color)"
+                        <span style="color: var(--text-sec)"
                             >点击或拖拽汉字到此处进行组合</span
                         >
                     </div>
@@ -689,7 +689,7 @@
                 const combinationArea =
                     document.getElementById("combination-area");
                 combinationArea.innerHTML =
-                    '<span style="color: var(--subtext-color);">点击或拖拽汉字到此处进行组合</span>';
+                    '<span style="color: var(--text-sec);">点击或拖拽汉字到此处进行组合</span>';
                 combinationArea.classList.remove("valid", "invalid");
             }
 
