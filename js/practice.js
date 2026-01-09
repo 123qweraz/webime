@@ -262,6 +262,13 @@ function handlePracticeKeyDown(e) {
         }
     }
 
+    // New: Enter key to load next chapter when complete
+    if (e.key === "Enter" && currentPracticeWordIndex >= practiceWords.length) {
+        e.preventDefault();
+        loadNextChapter();
+        return;
+    }
+
     const dirView = document.getElementById("practice-directory");
     if (dirView && dirView.style.display !== "none") {
         if (e.key === "-" || e.key === "ArrowLeft") {
@@ -777,7 +784,7 @@ function showNextPracticeWord() {
             hzDisp.innerHTML = `
                 <div style="font-size: 24px; margin-bottom: 20px;">🎉 章节完成!</div>
                 <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button class="btn btn-action" onclick="loadNextChapter()">下一章</button>
+                    <button class="btn btn-action" style="background: var(--primary);" onclick="loadNextChapter()">下一章 (Enter)</button>
                     <button class="btn" onclick="retryChapter()">重练</button>
                     <button class="btn" onclick="showPracticeDirectory()">返回</button>
                 </div>
