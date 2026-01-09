@@ -99,6 +99,13 @@ function handleKeyDown(e) {
         if (buffer) {
             e.preventDefault();
 
+            if (e.shiftKey) {
+                insertAtCursor(buffer + "\t");
+                resetInput();
+                update();
+                return;
+            }
+
             const now = Date.now();
             if ((currentState === InputState.TAB || currentState === InputState.TAB_EN) && (now - lastTabTime < 500)) {
                 e.preventDefault();
