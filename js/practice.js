@@ -803,8 +803,13 @@ async function retryChapter() {
     const progressKey = getPracticeProgressKey();
     localStorage.removeItem(progressKey);
     currentPracticeWordIndex = 0;
-    loadCards();
-    focusHiddenInput();
+    isPracticeAnimating = false;
+    
+    // Reshuffle current chapter words for variety
+    seededShuffle(practiceWords, Date.now().toString());
+    
+    // showChapterPractice handles layout restoration (display: flex) and loadCards
+    showChapterPractice();
 }
 
 function updatePracticeInputDisplay() {
