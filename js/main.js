@@ -189,6 +189,7 @@ function handleGlobalKeyDown(e) {
 }
 
 function searchGoogle() {
+    console.log("searchGoogle triggered, state:", currentState);
     let query = "";
     if (currentState === InputState.PRACTICE) {
         if (typeof practiceWords !== 'undefined' && currentPracticeWordIndex < practiceWords.length) {
@@ -198,7 +199,8 @@ function searchGoogle() {
     } else {
         const outputArea = document.getElementById("output-area");
         if (outputArea) {
-            query = outputArea.innerText.trim();
+            query = outputArea.textContent.trim();
+            console.log("Query from output area:", query);
             if (query) {
                 outputArea.innerHTML = "";
                 if (typeof resetInput === 'function') resetInput();
@@ -210,8 +212,10 @@ function searchGoogle() {
     }
 
     if (query) {
+        console.log("Opening search for:", query);
         window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
     } else {
+        console.log("No query found to search");
         showToast("没有内容可搜索", "warning");
     }
 }
