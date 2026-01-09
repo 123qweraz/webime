@@ -341,7 +341,7 @@ function initSwipeHandlers() {
         cardLeft.onclick = (e) => {
             if (isBrowseMode) {
                 e.stopPropagation();
-                navigateBrowse(-1);
+                navigateBrowse(1); // Left Card = Next Word (User Preference)
             }
         };
     }
@@ -350,7 +350,7 @@ function initSwipeHandlers() {
         cardRight.onclick = (e) => {
             if (isBrowseMode) {
                 e.stopPropagation();
-                navigateBrowse(1);
+                navigateBrowse(-1); // Right Card = Previous Word
             }
         };
     }
@@ -693,24 +693,21 @@ function loadCards() {
         return;
     }
 
-    // Previous word (Left) - Corrected Direction
-    if (currentPracticeWordIndex - 1 >= 0) {
-        const prevWord = practiceWords[currentPracticeWordIndex - 1];
-        const card = populateCard(cardLeft, prevWord);
-        // Left side now shows Previous (History)
-        // Optionally show pinyin for review? Yes.
-        card.querySelector(".pinyin-display").textContent = prevWord.pinyin;
+    // Previous word (Left) - REVERTED: Left shows Next
+    if (currentPracticeWordIndex + 1 < practiceWords.length) {
+        const nextWord = practiceWords[currentPracticeWordIndex + 1];
+        const card = populateCard(cardLeft, nextWord);
+        // Left side now shows Next (User Preference)
+        // Optionally show pinyin for review? No, upcoming.
         card.classList.add("visible");
     }
 
-    // Next word (Right) - Corrected Direction
-    if (currentPracticeWordIndex + 1 < practiceWords.length) {
-        const nextWord = practiceWords[currentPracticeWordIndex + 1];
-        const card = populateCard(cardRight, nextWord);
-        // Right side is upcoming, usually hidden or just Hanzi?
-        // Let's show Hanzi only, no pinyin, to keep challenge? 
-        // Or consistency? Let's hide pinyin for upcoming.
-        // Actually, just keep it clean.
+    // Next word (Right) - REVERTED: Right shows Previous
+    if (currentPracticeWordIndex - 1 >= 0) {
+        const prevWord = practiceWords[currentPracticeWordIndex - 1];
+        const card = populateCard(cardRight, prevWord);
+        // Right side is history
+        card.querySelector(".pinyin-display").textContent = prevWord.pinyin;
         card.classList.add("visible");
     }
 }
