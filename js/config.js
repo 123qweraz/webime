@@ -223,6 +223,8 @@ const InputState = {
     EDIT: "edit",
     CORRECTION: "correction",
     TAB: "tab",
+    EN: "en",
+    TAB_EN: "tab_en",
 };
 
 const PRACTICE_PROGRESS_KEY = "webime_practice_progress";

@@ -100,35 +100,84 @@ function handleKeyDown(e) {
             e.preventDefault();
 
             const now = Date.now();
-            if (currentState === InputState.TAB && (now - lastTabTime < 500)) {
+            if ((currentState === InputState.TAB || currentState === InputState.TAB_EN) && (now - lastTabTime < 500)) {
                 e.preventDefault();
-                selectCandidateEnglish();
+                if (combinedCandidates.length > 0) {
+                    const candidate = combinedCandidates[0];
+                    if (candidate.desc) {
+                        insertAtCursor(candidate.desc);
+                        resetInput();
+                        update();
+                    } else {
+                        showToast("当前候选词无英文释义", "warning");
+                    }
+                }
                 lastTabTime = 0;
                 return;
             }
 
             lastTabTime = now;
-            setState(currentState === InputState.TAB ? InputState.NORMAL : InputState.TAB);
+            if (currentState === InputState.TAB) {
+                setState(InputState.NORMAL);
+            } else if (currentState === InputState.TAB_EN) {
+                setState(InputState.EN);
+            } else if (currentState === InputState.EN) {
+                setState(InputState.TAB_EN);
+            } else {
+                setState(InputState.TAB);
+            }
             enFilter = ""; pageIndex = 0; update();
         }
         // If no buffer, let handleGlobalKeyDown handle focus cycling
         return;
     }
 
-    if (currentState === InputState.TAB && buffer) {
+    if (key === "Shift") {
+        if (buffer) {
+            e.preventDefault();
+            if (currentState === InputState.EN) {
+                setState(InputState.NORMAL);
+            } else if (currentState === InputState.TAB_EN) {
+                setState(InputState.TAB);
+            } else {
+                const isTabMode = currentState === InputState.TAB;
+                setState(isTabMode ? InputState.TAB_EN : InputState.EN);
+            }
+            enFilter = ""; pageIndex = 0; update();
+        }
+        return;
+    }
+
+    if ((currentState === InputState.TAB || currentState === InputState.TAB_EN) && buffer) {
         if (/^[a-zA-Z]$/.test(key)) { e.preventDefault(); enFilter += key; pageIndex = 0; update(); return; }
-        if (key === "Backspace") { 
-            e.preventDefault(); 
-            if (enFilter) { enFilter = enFilter.slice(0, -1); update(); } 
-            else { setState(InputState.NORMAL); update(); } 
-            return; 
+        if (key === "Backspace") {
+            e.preventDefault();
+            if (enFilter) { enFilter = enFilter.slice(0, -1); update(); }
+            else {
+                if (currentState === InputState.TAB_EN) {
+                    setState(InputState.EN);
+                } else {
+                    setState(InputState.NORMAL);
+                }
+                update();
+            }
+            return;
         }
     }
 
     if (/^[0-9]$/.test(key)) {
         if (buffer && combinedCandidates.length > 0) {
             const idx = key === "0" ? 9 : parseInt(key) - 1;
-            if (combinedCandidates[idx]) { e.preventDefault(); selectCandidate(combinedCandidates[idx].text); return; }
+            if (combinedCandidates[idx]) {
+                e.preventDefault();
+                const isEnglishMode = currentState === InputState.EN || currentState === InputState.TAB_EN;
+                if (isEnglishMode && combinedCandidates[idx].desc) {
+                    selectCandidate(combinedCandidates[idx].desc);
+                } else {
+                    selectCandidate(combinedCandidates[idx].text);
+                }
+                return;
+            }
         }
     } else if (key === "Enter") {
         e.preventDefault();

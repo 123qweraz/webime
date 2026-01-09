@@ -77,7 +77,11 @@ function getActiveSegment(buffer) {
 function updateBufferDisplay(buffer, activeSegment, precedingBuffer) {
     const bufferDisplay = document.getElementById("buffer-display");
     if (!bufferDisplay) return;
-    if (currentState === InputState.TAB) {
+    if (currentState === InputState.EN) {
+        bufferDisplay.innerHTML = `<span style="color: var(--text-sec);">EN: </span>${escapeHtml(buffer)}${enFilter ? ` <span style="color: #ff9500;">[${escapeHtml(enFilter)}]</span>` : ""}`;
+    } else if (currentState === InputState.TAB_EN) {
+        bufferDisplay.innerHTML = `<span style="color: var(--text-sec);">TAB+EN: </span>${escapeHtml(buffer)}${enFilter ? ` <span style="color: #ff9500;">[${escapeHtml(enFilter)}]</span>` : ""}`;
+    } else if (currentState === InputState.TAB) {
         bufferDisplay.innerHTML = `<span style="color: var(--text-sec);">TAB: </span>${escapeHtml(buffer)}${enFilter ? ` <span style="color: #ff9500;">[${escapeHtml(enFilter)}]</span>` : ""}`;
     } else if (buffer) {
         bufferDisplay.innerHTML = escapeHtml(precedingBuffer) + `<span class="active-buffer-segment">${escapeHtml(activeSegment)}</span>`;
@@ -150,10 +154,25 @@ function update() {
         let list = lookupCandidates(activeSegment);
         const seen = new Set();
         let results = list.sort((a, b) => b.w - a.w).filter((x) => !seen.has(x.text) && seen.add(x.text));
-        if (currentState === InputState.TAB && enFilter) {
+
+        if ((currentState === InputState.TAB || currentState === InputState.TAB_EN) && enFilter) {
             results = results.filter(i => i.desc && i.desc.toLowerCase().startsWith(enFilter.toLowerCase()));
-            if (results.length === 1) { setTimeout(() => selectCandidate(results[0].text), 0); return; }
+            if (results.length === 1) {
+                setTimeout(() => selectCandidate(results[0].desc || results[0].text), 0);
+                return;
+            }
         }
+
+        if (currentState === InputState.EN || currentState === InputState.TAB_EN) {
+            results = results.sort((a, b) => {
+                const aHasEn = a.desc && a.desc.trim() !== "";
+                const bHasEn = b.desc && b.desc.trim() !== "";
+                if (aHasEn && !bHasEn) return -1;
+                if (!aHasEn && bHasEn) return 1;
+                return b.w - a.w;
+            });
+        }
+
         combinedCandidates = results.slice(0, 100);
     } else { combinedCandidates = []; }
     render();
@@ -164,7 +183,7 @@ function render() {
     const inputCard = document.getElementById("input-container");
     if (!container || !inputCard) return;
     container.innerHTML = "";
-    if (currentState === InputState.TAB) { inputCard.classList.add("tab-mode"); } 
+    if (currentState === InputState.TAB || currentState === InputState.TAB_EN) { inputCard.classList.add("tab-mode"); }
     else { inputCard.classList.remove("tab-mode"); }
     if (buffer) {
         const pageData = combinedCandidates.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
@@ -175,8 +194,18 @@ function render() {
         pageData.forEach((item, i) => {
             const div = document.createElement("div");
             div.className = "candidate-item" + (i === 0 ? " active" : "");
-            div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.text)}</span>${item.desc ? `<span class="cand-desc">${escapeHtml(item.desc)}</span>` : ""}`;
-            div.onclick = (e) => { e.stopPropagation(); selectCandidate(item.text); };
+            const isEnglishMode = currentState === InputState.EN || currentState === InputState.TAB_EN;
+            if (isEnglishMode && item.desc) {
+                div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.desc)}</span><span class="cand-desc">${escapeHtml(item.text)}</span>`;
+            } else {
+                div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.text)}</span>${item.desc ? `<span class="cand-desc">${escapeHtml(item.desc)}</span>` : ""}`;
+            }
+            const isEnglishModeClick = currentState === InputState.EN || currentState === InputState.TAB_EN;
+            if (isEnglishModeClick && item.desc) {
+                div.onclick = (e) => { e.stopPropagation(); selectCandidate(item.desc); };
+            } else {
+                div.onclick = (e) => { e.stopPropagation(); selectCandidate(item.text); };
+            }
             listContainer.appendChild(div);
         });
         row.appendChild(listContainer);
