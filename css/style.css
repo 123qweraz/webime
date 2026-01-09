@@ -1208,3 +1208,11 @@ body.dark-mode #loading-overlay { background: rgba(0, 0, 0, 0.8); }
 }
 
 @keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* Hanzi on Back Face */
+.card-back .hanzi-display {
+    font-size: 32px; /* Smaller than front face (64px) */
+    margin-bottom: 16px;
+    opacity: 0.6; /* Slightly faded to not distract too much */
+    color: var(--text-main);
+}

@@ -738,7 +738,13 @@ function loadCards() {
     });
 
     const populateCard = (card, word) => {
-        card.querySelector(".hanzi-display").textContent = getHanziChar(word.hanzi);
+        const hanziText = getHanziChar(word.hanzi);
+        const frontHanzi = card.querySelector(".card-front .hanzi-display");
+        const backHanzi = card.querySelector(".card-back .hanzi-display");
+        
+        if (frontHanzi) frontHanzi.textContent = hanziText;
+        if (backHanzi) backHanzi.textContent = hanziText;
+
         const enDisp = card.querySelector(".en-display");
         if (enDisp) enDisp.textContent = getHanziEn(word.hanzi);
         return card;
