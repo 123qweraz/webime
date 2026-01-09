@@ -844,11 +844,8 @@ function updatePracticeInputDisplay() {
             for (let i = 0; i < targetPinyin.length; i++) {
                 const char = targetPinyin[i];
                 if (i < typedPinyin.length) {
-                    if (typedPinyin[i] === char) {
-                        cardHTML += `<span class="char-correct">${char}</span>`;
-                    } else {
-                        cardHTML += `<span class="char-incorrect">${typedPinyin[i]}</span>`;
-                    }
+                    // Typed characters: use same style as placeholder but darker/consistent grey
+                    cardHTML += `<span class="char-placeholder" style="color: var(--text-main); opacity: 0.8;">${typedPinyin[i]}</span>`;
                 } else {
                     const placeholder = showPinyinHint ? char : "_"; 
                     cardHTML += `<span class="char-placeholder">${placeholder}</span>`;
@@ -867,23 +864,30 @@ function handlePracticeInput(event) {
         return;
     }
 
-    const val = event.target.value.replace(/[^a-zA-Z']/g, "");
+    const currentWord = practiceWords[currentPracticeWordIndex];
+    if (!currentWord) return;
+    const targetPinyin = currentWord.pinyin.toLowerCase();
+
+    let val = event.target.value.replace(/[^a-zA-Z']/g, "").toLowerCase();
+    
+    // Auto-delete logic: If the new input doesn't match the prefix, revert to old buffer
+    if (val && !targetPinyin.startsWith(val)) {
+        // Find the maximum valid prefix length
+        let validVal = val;
+        while(validVal.length > 0 && !targetPinyin.startsWith(validVal)) {
+            validVal = validVal.substring(0, validVal.length - 1);
+        }
+        val = validVal;
+        event.target.value = val;
+    }
+
     setBuffer(val);
     updatePracticeInputDisplay();
 
-    const currentWord = practiceWords[currentPracticeWordIndex];
-    if (!currentWord) return;
-    
-    const targetPinyin = currentWord.pinyin.toLowerCase();
     const typedPinyin = buffer.toLowerCase();
 
-    if (typedPinyin && !targetPinyin.startsWith(typedPinyin)) {
-        cardCenter.classList.remove("incorrect"); 
-        void cardCenter.offsetWidth; 
-        cardCenter.classList.add("incorrect");
-    } else { 
-        cardCenter.classList.remove("incorrect"); 
-    }
+    // Remove incorrect visual feedback since we block it now
+    cardCenter.classList.remove("incorrect"); 
 
     if (typedPinyin === targetPinyin && !isPracticeAnimating) {
         isPracticeAnimating = true;
