@@ -781,6 +781,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transform: rotateY(var(--flip-angle, 0deg)) rotateZ(var(--rot-angle, 0deg));
 }
 
 .practice-card-slot.current .practice-card-content { 
@@ -794,7 +795,45 @@ body {
 
 /* Flip Transform */
 .practice-card-content.flipped {
-    transform: rotateY(180deg);
+    --flip-angle: 180deg;
+}
+
+.card-rotate-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+    color: var(--text-sec);
+    transition: all 0.2s;
+    user-select: none;
+    -webkit-backface-visibility: hidden; /* Ensure visible on both sides if parent preserves 3d */
+    backface-visibility: hidden; /* Actually, we want it visible? */
+}
+/* Wait, if backface-visibility is hidden, it disappears when flipped? 
+   No, it's inside content. If content rotates 180Y, this button rotates too.
+   It will be "backwards" on the back side?
+   Yes.
+   If we want it readable, we might need one on front and one on back.
+   But a simple circle icon is symmetrical-ish. ↻ backwards is still recognized.
+   Let's keep it simple for now. 
+*/
+.card-rotate-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    transform: scale(1.1);
+}
+
+.card-rotate-btn:active {
+    transform: scale(0.95);
 }
 
 /* Faces */

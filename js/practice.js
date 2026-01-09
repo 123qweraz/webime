@@ -6,6 +6,7 @@ let practiceCards = [];
 let showPinyinHint = false;
 let autoTTS = false;
 let isBrowseMode = false;
+let currentRotationAngle = 0; // New: Track rotation
 let directoryPageIndex = 0;
 const directoryPageSize = 20;
 
@@ -93,6 +94,17 @@ function flipCurrentCard() {
     }
 }
 
+// New: Rotate Current Card
+function rotateCurrentCard(e) {
+    if (e) e.stopPropagation();
+    if (!cardCenter) return;
+    const content = cardCenter.querySelector(".practice-card-content");
+    if (content) {
+        currentRotationAngle += 45;
+        content.style.setProperty("--rot-angle", `${currentRotationAngle}deg`);
+    }
+}
+
 function navigateBrowse(delta) {
     if (!isBrowseMode || isPracticeAnimating) return;
     
@@ -102,6 +114,14 @@ function navigateBrowse(delta) {
         currentPracticeWordIndex = nextIndex;
         
         resetCardFlips();
+        
+        // Also reset rotation when navigating
+        currentRotationAngle = 0;
+        if (cardCenter) {
+            const content = cardCenter.querySelector(".practice-card-content");
+            if (content) content.style.setProperty("--rot-angle", "0deg");
+        }
+
         loadCards();
         setTimeout(() => { isPracticeAnimating = false; }, 300);
         
@@ -310,13 +330,9 @@ function initSwipeHandlers() {
         container.addEventListener('click', (e) => {
             if (!isBrowseMode) return;
             // Only trigger if clicking directly on container or slot (not content which handles its own click)
-            // But content click propagates... so we need to be careful.
-            // Cards have their own onclick.
             if (e.target === container || e.target.classList.contains("practice-card-slot")) {
                 const width = container.clientWidth;
                 const x = e.offsetX;
-                // If clicked on slot but slot onclick didn't handle it? Slot has onclick.
-                // So this is for clicks *between* cards.
                 if (x < width * 0.2) {
                     navigateBrowse(-1);
                 } else if (x > width * 0.8) {
@@ -335,6 +351,9 @@ function initSwipeHandlers() {
                  flipCurrentCard();
             }
         };
+        // Add rotation button click handler
+        const rotBtn = cardCenter.querySelector(".card-rotate-btn");
+        if (rotBtn) rotBtn.onclick = rotateCurrentCard;
     }
 
     if (cardLeft) {
@@ -344,6 +363,15 @@ function initSwipeHandlers() {
                 navigateBrowse(1); // Left Card = Next Word (User Preference)
             }
         };
+        const rotBtn = cardLeft.querySelector(".card-rotate-btn");
+        if (rotBtn) rotBtn.onclick = (e) => {
+             e.stopPropagation();
+             const content = cardLeft.querySelector(".practice-card-content");
+             if (content) {
+                 const current = parseInt(content.style.getPropertyValue("--rot-angle") || 0);
+                 content.style.setProperty("--rot-angle", `${current + 45}deg`);
+             }
+        };
     }
 
     if (cardRight) {
@@ -352,6 +380,15 @@ function initSwipeHandlers() {
                 e.stopPropagation();
                 navigateBrowse(-1); // Right Card = Previous Word
             }
+        };
+        const rotBtn = cardRight.querySelector(".card-rotate-btn");
+        if (rotBtn) rotBtn.onclick = (e) => {
+             e.stopPropagation();
+             const content = cardRight.querySelector(".practice-card-content");
+             if (content) {
+                 const current = parseInt(content.style.getPropertyValue("--rot-angle") || 0);
+                 content.style.setProperty("--rot-angle", `${current + 45}deg`);
+             }
         };
     }
 }
@@ -645,7 +682,10 @@ function exitPracticeMode() {
         if (pyDisp) pyDisp.textContent = "";
         if (hzDisp) hzDisp.textContent = "";
         if (enDisp) enDisp.textContent = "";
-        if (content) content.classList.remove("flipped");
+        if (content) {
+            content.classList.remove("flipped");
+            content.style.setProperty("--rot-angle", "0deg");
+        }
     });
 
     document.getElementById("practice-mode-btn").style.display = "flex";
@@ -666,9 +706,16 @@ function loadCards() {
         const pyDisp = card.querySelector(".pinyin-display");
         const hzDisp = card.querySelector(".hanzi-display");
         const enDisp = card.querySelector(".en-display");
+        const content = card.querySelector(".practice-card-content");
         if (pyDisp) pyDisp.textContent = "";
         if (hzDisp) hzDisp.textContent = "";
         if (enDisp) enDisp.textContent = "";
+        
+        // Reset rotation visually for all cards when loading
+        if (content) {
+            content.style.setProperty("--rot-angle", "0deg");
+            if (card === cardCenter) currentRotationAngle = 0;
+        }
     });
 
     const populateCard = (card, word) => {
@@ -693,7 +740,7 @@ function loadCards() {
         return;
     }
 
-    // Previous word (Left) - REVERTED: Left shows Next
+    // Next word (Left) - REVERTED: Left shows Next
     if (currentPracticeWordIndex + 1 < practiceWords.length) {
         const nextWord = practiceWords[currentPracticeWordIndex + 1];
         const card = populateCard(cardLeft, nextWord);
@@ -702,7 +749,7 @@ function loadCards() {
         card.classList.add("visible");
     }
 
-    // Next word (Right) - REVERTED: Right shows Previous
+    // Previous word (Right) - REVERTED: Right shows Previous
     if (currentPracticeWordIndex - 1 >= 0) {
         const prevWord = practiceWords[currentPracticeWordIndex - 1];
         const card = populateCard(cardRight, prevWord);
