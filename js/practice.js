@@ -5,7 +5,7 @@ let cardLeft, cardCenter, cardRight;
 let practiceCards = [];
 let showPinyinHint = false;
 let autoTTS = false;
-let isBrowseMode = false; // New: Browse Mode State
+let isBrowseMode = false;
 let directoryPageIndex = 0;
 const directoryPageSize = 20;
 
@@ -16,7 +16,6 @@ function getHanziChar(hanziObject) {
     return hanziObject;
 }
 
-// New: Get English definition
 function getHanziEn(hanziObject) {
     if (typeof hanziObject === 'object' && hanziObject !== null && hanziObject.en) {
         return hanziObject.en;
@@ -63,28 +62,19 @@ function toggleAutoTTS() {
     focusHiddenInput();
 }
 
-// New: Toggle Browse Mode
 function toggleBrowseMode() {
     isBrowseMode = !isBrowseMode;
     
     const btn = document.getElementById("toggle-browse-btn");
     if (btn) btn.classList.toggle("active", isBrowseMode);
     
-    // Toggle Input Container visibility
     const inputContainer = document.getElementById("input-container");
     if (inputContainer) {
-        // Use opacity to preserve layout if needed, or display none. 
-        // Display none is better if we want to remove distraction.
         inputContainer.style.visibility = isBrowseMode ? "hidden" : "visible";
     }
 
-    // Reset flips when switching modes
     resetCardFlips();
-    
-    // If entering Browse Mode, make sure we show the current card cleanly
-    // (loadCards will populate En/Hanzi fields)
     loadCards();
-
     showToast(isBrowseMode ? "已进入浏览模式 (点击/滚轮/滑动)" : "已退出浏览模式", "info");
 }
 
@@ -111,17 +101,12 @@ function navigateBrowse(delta) {
         isPracticeAnimating = true;
         currentPracticeWordIndex = nextIndex;
         
-        // Reset flip before moving
         resetCardFlips();
-        
-        // Short delay to allow flip reset visual
-        // Or just move immediately? Moving immediately is snappier.
         loadCards();
         setTimeout(() => { isPracticeAnimating = false; }, 300);
         
-        // Auto-speak? Maybe not in browse mode unless requested
     } else if (nextIndex >= practiceWords.length) {
-         showNextPracticeWord(); // Will show completion screen
+         showNextPracticeWord();
     }
 }
 
@@ -239,20 +224,17 @@ function handlePracticeKeyDown(e) {
         return;
     }
 
-    // New: Browse Mode Navigation
     if (isBrowseMode) {
         if (e.key === " " || e.key === "Enter") {
              e.preventDefault();
              flipCurrentCard();
              return;
         }
-        // Right Arrow or = : Next
         if (e.key === "ArrowRight" || e.key === "=") {
              e.preventDefault();
              navigateBrowse(1);
              return;
         }
-        // Left Arrow or - : Previous
         if (e.key === "ArrowLeft" || e.key === "-") {
              e.preventDefault();
              navigateBrowse(-1);
@@ -272,62 +254,83 @@ function handlePracticeKeyDown(e) {
     }
 }
 
-// New: Swipe and Interaction Logic
+// Swipe and Interaction Logic
 let touchStartX = 0;
 let touchEndX = 0;
-let lastWheelTime = 0; // Throttle for wheel
+let lastWheelTime = 0;
 
 function initSwipeHandlers() {
     const container = document.getElementById("practice-container");
-    if (!container || container.dataset.swipeInitialized) return;
+    if (!container) return;
     
-    container.dataset.swipeInitialized = "true";
+    // Only add listeners once for event listeners, but we can re-assign onclicks
+    if (!container.dataset.swipeInitialized) {
+        container.dataset.swipeInitialized = "true";
 
-    // Touch Swipe
-    container.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
+        container.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
 
-    container.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
+        container.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
 
-    // Mouse Drag Swipe
-    let isMouseDown = false;
-    container.addEventListener('mousedown', e => {
-        isMouseDown = true;
-        touchStartX = e.screenX;
-        touchEndX = e.screenX;
-    });
-    
-    container.addEventListener('mouseup', e => {
-        if (!isMouseDown) return;
-        isMouseDown = false;
-        touchEndX = e.screenX;
-        handleSwipe();
-    });
-
-    // Mouse Wheel Navigation
-    container.addEventListener('wheel', e => {
-        if (!isBrowseMode) return;
-        e.preventDefault(); // Prevent page scrolling
+        let isMouseDown = false;
+        container.addEventListener('mousedown', e => {
+            isMouseDown = true;
+            touchStartX = e.screenX;
+            touchEndX = e.screenX;
+        });
         
-        const now = Date.now();
-        if (now - lastWheelTime < 300) return; // 300ms throttle
-        lastWheelTime = now;
+        container.addEventListener('mouseup', e => {
+            if (!isMouseDown) return;
+            isMouseDown = false;
+            touchEndX = e.screenX;
+            handleSwipe();
+        });
 
-        if (e.deltaY > 0 || e.deltaX > 0) {
-            navigateBrowse(1); // Scroll Down/Right -> Next
-        } else {
-            navigateBrowse(-1); // Scroll Up/Left -> Previous
-        }
-    }, { passive: false });
-    
-    // Click Handlers for Cards
+        // Mouse Wheel
+        container.addEventListener('wheel', e => {
+            if (!isBrowseMode) return;
+            e.preventDefault();
+            
+            const now = Date.now();
+            if (now - lastWheelTime < 300) return;
+            lastWheelTime = now;
+
+            if (e.deltaY > 0 || e.deltaX > 0) {
+                navigateBrowse(1); // Next
+            } else {
+                navigateBrowse(-1); // Previous
+            }
+        }, { passive: false });
+        
+        // Background clicks
+        container.addEventListener('click', (e) => {
+            if (!isBrowseMode) return;
+            // Only trigger if clicking directly on container or slot (not content which handles its own click)
+            // But content click propagates... so we need to be careful.
+            // Cards have their own onclick.
+            if (e.target === container || e.target.classList.contains("practice-card-slot")) {
+                const width = container.clientWidth;
+                const x = e.offsetX;
+                // If clicked on slot but slot onclick didn't handle it? Slot has onclick.
+                // So this is for clicks *between* cards.
+                if (x < width * 0.2) {
+                    navigateBrowse(-1);
+                } else if (x > width * 0.8) {
+                    navigateBrowse(1);
+                }
+            }
+        });
+    }
+
+    // Re-assign onclick handlers every time to ensure they use current scope/logic
+    // AND ensure we use the global variables cardLeft/Center/Right which are updated in startPracticeMode
     if (cardCenter) {
         cardCenter.onclick = (e) => {
-            // Only flip if it wasn't a drag/swipe
+            e.stopPropagation();
             if (isBrowseMode && Math.abs(touchEndX - touchStartX) < 10) {
                  flipCurrentCard();
             }
@@ -337,7 +340,7 @@ function initSwipeHandlers() {
     if (cardLeft) {
         cardLeft.onclick = (e) => {
             if (isBrowseMode) {
-                e.stopPropagation(); // Prevent triggering container swipe logic if any
+                e.stopPropagation();
                 navigateBrowse(-1);
             }
         };
@@ -351,31 +354,16 @@ function initSwipeHandlers() {
             }
         };
     }
-    
-    // Optional: Click on background areas (left 20% / right 20%)
-    container.addEventListener('click', (e) => {
-        if (!isBrowseMode) return;
-        // If target is container itself (not a card)
-        if (e.target === container) {
-            const width = container.clientWidth;
-            const x = e.offsetX;
-            if (x < width * 0.2) {
-                navigateBrowse(-1);
-            } else if (x > width * 0.8) {
-                navigateBrowse(1);
-            }
-        }
-    });
 }
 
 function handleSwipe() {
     if (!isBrowseMode) return;
     const threshold = 50;
     if (touchEndX < touchStartX - threshold) {
-        navigateBrowse(1);
+        navigateBrowse(1); // Drag left -> Next
     }
     if (touchEndX > touchStartX + threshold) {
-        navigateBrowse(-1);
+        navigateBrowse(-1); // Drag right -> Previous
     }
 }
 
@@ -411,7 +399,6 @@ async function startPracticeMode() {
     cardRight = document.getElementById("card-right");
     practiceCards = [cardLeft, cardCenter, cardRight];
 
-    // Initialize Swipe Handlers
     initSwipeHandlers();
 
     document.getElementById("practice-mode-btn").style.display = "none";
@@ -597,7 +584,6 @@ function showChapterPractice() {
     if (footer) {
         footer.style.display = "flex";
         const chapterIndex = parseInt(settings.practice_chapter, 10);
-        // Add Browse Mode Button here
         footer.innerHTML = `
             <div class="footer-chapter-label">第 ${chapterIndex + 1} 章</div>
             <button id="back-to-dir-btn" class="btn btn-toggle" onclick="showPracticeDirectory()">章节目录</button>
@@ -685,13 +671,10 @@ function loadCards() {
         if (enDisp) enDisp.textContent = "";
     });
 
-    // Helper to populate a card
     const populateCard = (card, word) => {
         card.querySelector(".hanzi-display").textContent = getHanziChar(word.hanzi);
         const enDisp = card.querySelector(".en-display");
         if (enDisp) enDisp.textContent = getHanziEn(word.hanzi);
-        // Note: Pinyin display logic is handled by updatePracticeInputDisplay for Center Card
-        // For side cards, we just show raw pinyin
         return card;
     };
 
@@ -702,7 +685,7 @@ function loadCards() {
         updatePracticeInputDisplay(); 
         cardCenter.classList.add("visible", "current");
         
-        if (autoTTS && !isBrowseMode) { // Disable auto-tts in browse mode to avoid noise? Or keep it?
+        if (autoTTS && !isBrowseMode) { 
             setTimeout(() => speakCurrentWord(), 300);
         }
     } else {
@@ -710,19 +693,24 @@ function loadCards() {
         return;
     }
 
-    // Next word (Left)
-    if (currentPracticeWordIndex + 1 < practiceWords.length) {
-        const nextWord = practiceWords[currentPracticeWordIndex + 1];
-        const card = populateCard(cardLeft, nextWord);
+    // Previous word (Left) - Corrected Direction
+    if (currentPracticeWordIndex - 1 >= 0) {
+        const prevWord = practiceWords[currentPracticeWordIndex - 1];
+        const card = populateCard(cardLeft, prevWord);
+        // Left side now shows Previous (History)
+        // Optionally show pinyin for review? Yes.
+        card.querySelector(".pinyin-display").textContent = prevWord.pinyin;
         card.classList.add("visible");
     }
 
-    // Previous word (Right)
-    if (currentPracticeWordIndex - 1 >= 0) {
-        const prevWord = practiceWords[currentPracticeWordIndex - 1];
-        const card = populateCard(cardRight, prevWord);
-        // Side cards always show simple pinyin
-        card.querySelector(".pinyin-display").textContent = prevWord.pinyin;
+    // Next word (Right) - Corrected Direction
+    if (currentPracticeWordIndex + 1 < practiceWords.length) {
+        const nextWord = practiceWords[currentPracticeWordIndex + 1];
+        const card = populateCard(cardRight, nextWord);
+        // Right side is upcoming, usually hidden or just Hanzi?
+        // Let's show Hanzi only, no pinyin, to keep challenge? 
+        // Or consistency? Let's hide pinyin for upcoming.
+        // Actually, just keep it clean.
         card.classList.add("visible");
     }
 }
@@ -787,22 +775,10 @@ function updatePracticeInputDisplay() {
     if (cardCenter) {
         const cardPinyinDisplay = cardCenter.querySelector(".pinyin-display");
         if (cardPinyinDisplay) {
-            // In Browse Mode, we might want to just show the Pinyin if requested, 
-            // without input validation colors.
-            // But if we want to support "Typing to verify" even in Browse Mode, we keep this.
-            // If Browse Mode hides input, buffer is likely empty.
             if (isBrowseMode && !buffer) {
-                 // Show full Pinyin if hint is on, or if we decide to show it always in Browse Mode?
-                 // Let's stick to hint logic.
                  if (showPinyinHint) {
                      cardPinyinDisplay.textContent = targetPinyin;
                  } else {
-                     cardPinyinDisplay.textContent = targetPinyin.replace(/./g, "_"); // Or empty?
-                     // In Browse mode, usually you want to see the question (Hanzi) and guess Pinyin/English.
-                     // So hiding Pinyin is correct until flip?
-                     // But if we flip, we see English.
-                     // Maybe Front should have Pinyin?
-                     // Let's assume standard behavior: Hidden Pinyin unless Hint is On.
                      cardPinyinDisplay.innerHTML = targetPinyin.split('').map(c => `<span class="char-placeholder">${showPinyinHint ? c : "_"}</span>`).join('');
                  }
                  return;
@@ -830,9 +806,7 @@ function updatePracticeInputDisplay() {
 function handlePracticeInput(event) {
     if (currentState !== InputState.PRACTICE) return;
     
-    // Disable input in Browse Mode?
     if (isBrowseMode) {
-        // Clear input to prevent buffer accumulation
         event.target.value = "";
         return;
     }
