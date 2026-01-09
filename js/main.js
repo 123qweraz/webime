@@ -150,7 +150,7 @@ function handleKeyDown(e) {
                 const isTabMode = currentState === InputState.TAB;
                 setState(isTabMode ? InputState.TAB_EN : InputState.EN);
             }
-            enFilter = ""; pageIndex = 0; update();
+            pageIndex = 0; update();
         }
         return;
     }
