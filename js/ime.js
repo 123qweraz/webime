@@ -221,7 +221,8 @@ function render() {
 }
 
 function selectCandidate(selectedText) {
-    insertAtCursor(selectedText);
+    const isEnglishMode = currentState === InputState.EN || currentState === InputState.TAB_EN;
+    insertAtCursor(selectedText + (isEnglishMode ? " " : ""));
     resetInput();
     update();
 }
@@ -230,9 +231,7 @@ function selectCandidateEnglish() {
     if (combinedCandidates.length > 0) {
         const candidate = combinedCandidates[0];
         if (candidate.desc) {
-            insertAtCursor(candidate.desc);
-            resetInput();
-            update();
+            selectCandidate(candidate.desc);
         } else {
             showToast("当前候选词无英文释义", "warning");
         }

@@ -112,9 +112,7 @@ function handleKeyDown(e) {
                 if (combinedCandidates.length > 0) {
                     const candidate = combinedCandidates[0];
                     if (candidate.desc) {
-                        insertAtCursor(candidate.desc);
-                        resetInput();
-                        update();
+                        selectCandidate(candidate.desc);
                     } else {
                         showToast("当前候选词无英文释义", "warning");
                     }
