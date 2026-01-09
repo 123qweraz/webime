@@ -209,7 +209,15 @@ function handleKeyDown(e) {
     } else if (key === " ") {
         e.preventDefault();
         if (buffer) {
-            if (combinedCandidates.length > 0) selectCandidate(combinedCandidates[0].text);
+            if (combinedCandidates.length > 0) {
+                const isEnglishMode = currentState === InputState.EN || currentState === InputState.TAB_EN;
+                const candidate = combinedCandidates[0];
+                if (isEnglishMode && candidate.desc) {
+                    selectCandidate(candidate.desc);
+                } else {
+                    selectCandidate(candidate.text);
+                }
+            }
         } else { insertAtCursor(" "); update(); }
     } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
         e.preventDefault();
