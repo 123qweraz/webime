@@ -16,6 +16,14 @@ const BUILT_IN_DICTS = [
         priority: 90,
     },
     {
+        name: "AI 核心词",
+        path: "dicts/chinese/first_dict/dict_ai.json",
+        enabled: true,
+        type: "built-in",
+        tag: "chinese",
+        priority: 85,
+    },
+    {
         name: "二级字",
         path: "dicts/chinese/second_dict/level-2_char_en.json",
         enabled: true,
