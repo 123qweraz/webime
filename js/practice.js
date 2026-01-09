@@ -85,7 +85,7 @@ function toggleBrowseMode() {
     // (loadCards will populate En/Hanzi fields)
     loadCards();
 
-    showToast(isBrowseMode ? "已进入浏览模式 (Left/Right/Space/Swipe)" : "已退出浏览模式", "info");
+    showToast(isBrowseMode ? "已进入浏览模式 (点击/滚轮/滑动)" : "已退出浏览模式", "info");
 }
 
 function resetCardFlips() {
@@ -272,9 +272,10 @@ function handlePracticeKeyDown(e) {
     }
 }
 
-// New: Swipe Logic
+// New: Swipe and Interaction Logic
 let touchStartX = 0;
 let touchEndX = 0;
+let lastWheelTime = 0; // Throttle for wheel
 
 function initSwipeHandlers() {
     const container = document.getElementById("practice-container");
@@ -282,6 +283,7 @@ function initSwipeHandlers() {
     
     container.dataset.swipeInitialized = "true";
 
+    // Touch Swipe
     container.addEventListener('touchstart', e => {
         touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
@@ -291,11 +293,12 @@ function initSwipeHandlers() {
         handleSwipe();
     }, { passive: true });
 
+    // Mouse Drag Swipe
     let isMouseDown = false;
     container.addEventListener('mousedown', e => {
         isMouseDown = true;
         touchStartX = e.screenX;
-        touchEndX = e.screenX; // Reset end to start on new press
+        touchEndX = e.screenX;
     });
     
     container.addEventListener('mouseup', e => {
@@ -304,30 +307,74 @@ function initSwipeHandlers() {
         touchEndX = e.screenX;
         handleSwipe();
     });
+
+    // Mouse Wheel Navigation
+    container.addEventListener('wheel', e => {
+        if (!isBrowseMode) return;
+        e.preventDefault(); // Prevent page scrolling
+        
+        const now = Date.now();
+        if (now - lastWheelTime < 300) return; // 300ms throttle
+        lastWheelTime = now;
+
+        if (e.deltaY > 0 || e.deltaX > 0) {
+            navigateBrowse(1); // Scroll Down/Right -> Next
+        } else {
+            navigateBrowse(-1); // Scroll Up/Left -> Previous
+        }
+    }, { passive: false });
     
-    // Add Click handler to Center Card for Flip
-    // Note: We use the slot to catch clicks, but we must check if it's a swipe
+    // Click Handlers for Cards
     if (cardCenter) {
         cardCenter.onclick = (e) => {
+            // Only flip if it wasn't a drag/swipe
             if (isBrowseMode && Math.abs(touchEndX - touchStartX) < 10) {
                  flipCurrentCard();
             }
         };
     }
+
+    if (cardLeft) {
+        cardLeft.onclick = (e) => {
+            if (isBrowseMode) {
+                e.stopPropagation(); // Prevent triggering container swipe logic if any
+                navigateBrowse(-1);
+            }
+        };
+    }
+
+    if (cardRight) {
+        cardRight.onclick = (e) => {
+            if (isBrowseMode) {
+                e.stopPropagation();
+                navigateBrowse(1);
+            }
+        };
+    }
+    
+    // Optional: Click on background areas (left 20% / right 20%)
+    container.addEventListener('click', (e) => {
+        if (!isBrowseMode) return;
+        // If target is container itself (not a card)
+        if (e.target === container) {
+            const width = container.clientWidth;
+            const x = e.offsetX;
+            if (x < width * 0.2) {
+                navigateBrowse(-1);
+            } else if (x > width * 0.8) {
+                navigateBrowse(1);
+            }
+        }
+    });
 }
 
 function handleSwipe() {
     if (!isBrowseMode) return;
     const threshold = 50;
     if (touchEndX < touchStartX - threshold) {
-        // Swiped Left -> Next (Drag card left to see next)
-        // Wait, standard convention:
-        // Drag Left -> Pulling next content from right? Or Pushing current content to left?
-        // Pushing current to left means Next.
         navigateBrowse(1);
     }
     if (touchEndX > touchStartX + threshold) {
-        // Swiped Right -> Previous
         navigateBrowse(-1);
     }
 }
