@@ -158,7 +158,8 @@ function update() {
         if ((currentState === InputState.TAB || currentState === InputState.TAB_EN) && enFilter) {
             results = results.filter(i => i.desc && i.desc.toLowerCase().startsWith(enFilter.toLowerCase()));
             if (results.length === 1) {
-                setTimeout(() => selectCandidate(results[0].desc || results[0].text), 0);
+                const autoSelectText = (currentState === InputState.TAB_EN && results[0].desc) ? results[0].desc : results[0].text;
+                setTimeout(() => selectCandidate(autoSelectText), 0);
                 return;
             }
         }
