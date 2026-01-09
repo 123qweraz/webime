@@ -5,14 +5,23 @@ let cardLeft, cardCenter, cardRight;
 let practiceCards = [];
 let showPinyinHint = false;
 let autoTTS = false;
+let isBrowseMode = false; // New: Browse Mode State
 let directoryPageIndex = 0;
-const directoryPageSize = 20; // 减小页大小，确保不滚动也能看到底部
+const directoryPageSize = 20;
 
 function getHanziChar(hanziObject) {
     if (typeof hanziObject === 'object' && hanziObject !== null && hanziObject.char) {
         return hanziObject.char;
     }
     return hanziObject;
+}
+
+// New: Get English definition
+function getHanziEn(hanziObject) {
+    if (typeof hanziObject === 'object' && hanziObject !== null && hanziObject.en) {
+        return hanziObject.en;
+    }
+    return "";
 }
 
 function getPracticeProgressKey() {
@@ -24,7 +33,6 @@ function getPracticeProgressKey() {
 function speakCurrentWord(e) {
     if (e) {
         e.stopPropagation(); 
-        // Refocus input if button clicked
         focusHiddenInput();
     }
     
@@ -32,7 +40,6 @@ function speakCurrentWord(e) {
     const word = practiceWords[currentPracticeWordIndex];
     if (!word) return;
 
-    // Use Netease Youdao API
     const hanzi = getHanziChar(word.hanzi);
     const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(hanzi)}&le=zh`;
     const audio = new Audio(audioUrl);
@@ -56,7 +63,68 @@ function toggleAutoTTS() {
     focusHiddenInput();
 }
 
-// Simple seeded shuffle to ensure consistency across refreshes for the same dictionary
+// New: Toggle Browse Mode
+function toggleBrowseMode() {
+    isBrowseMode = !isBrowseMode;
+    
+    const btn = document.getElementById("toggle-browse-btn");
+    if (btn) btn.classList.toggle("active", isBrowseMode);
+    
+    // Toggle Input Container visibility
+    const inputContainer = document.getElementById("input-container");
+    if (inputContainer) {
+        // Use opacity to preserve layout if needed, or display none. 
+        // Display none is better if we want to remove distraction.
+        inputContainer.style.visibility = isBrowseMode ? "hidden" : "visible";
+    }
+
+    // Reset flips when switching modes
+    resetCardFlips();
+    
+    // If entering Browse Mode, make sure we show the current card cleanly
+    // (loadCards will populate En/Hanzi fields)
+    loadCards();
+
+    showToast(isBrowseMode ? "已进入浏览模式 (Left/Right/Space/Swipe)" : "已退出浏览模式", "info");
+}
+
+function resetCardFlips() {
+    practiceCards.forEach(c => {
+        const content = c.querySelector(".practice-card-content");
+        if (content) content.classList.remove("flipped");
+    });
+}
+
+function flipCurrentCard() {
+    if (!cardCenter) return;
+    const content = cardCenter.querySelector(".practice-card-content");
+    if (content) {
+        content.classList.toggle("flipped");
+    }
+}
+
+function navigateBrowse(delta) {
+    if (!isBrowseMode || isPracticeAnimating) return;
+    
+    const nextIndex = currentPracticeWordIndex + delta;
+    if (nextIndex >= 0 && nextIndex < practiceWords.length) {
+        isPracticeAnimating = true;
+        currentPracticeWordIndex = nextIndex;
+        
+        // Reset flip before moving
+        resetCardFlips();
+        
+        // Short delay to allow flip reset visual
+        // Or just move immediately? Moving immediately is snappier.
+        loadCards();
+        setTimeout(() => { isPracticeAnimating = false; }, 300);
+        
+        // Auto-speak? Maybe not in browse mode unless requested
+    } else if (nextIndex >= practiceWords.length) {
+         showNextPracticeWord(); // Will show completion screen
+    }
+}
+
 function seededShuffle(array, seed) {
     let m = array.length, t, i;
     const random = (s) => {
@@ -80,11 +148,8 @@ function seededShuffle(array, seed) {
 
 async function initPracticeModeData() {
     let dictPath = settings.practice_dict_path;
-    
-    // Find the current dictionary, ensuring it exists and is enabled
     let practiceDict = allDicts.find((d) => (d.path || d.name) === dictPath && d.enabled);
     
-    // If not found or disabled, fallback to the first enabled dictionary
     if (!practiceDict) {
         practiceDict = allDicts.find(d => d.enabled && (d.wordCount > 0 || d.type === 'built-in'));
         if (practiceDict) {
@@ -132,17 +197,13 @@ async function initPracticeModeData() {
         return false;
     }
 
-    // Sort words to ensure consistent starting state before shuffling
     allWords.sort((a, b) => a.pinyin.localeCompare(b.pinyin));
-    
-    // CHANGE: Shuffle instead of sort, using dictPath as seed for consistency
     seededShuffle(allWords, dictPath);
 
     const chapterSize = 20;
     const totalChapters = Math.ceil(allWords.length / chapterSize);
     let chapterIndex = parseInt(settings.practice_chapter, 10);
     
-    // Validate chapterIndex
     if (isNaN(chapterIndex) || chapterIndex < 0 || chapterIndex >= totalChapters) {
         chapterIndex = 0;
         settings.practice_chapter = 0;
@@ -154,45 +215,51 @@ async function initPracticeModeData() {
     
     practiceWords = allWords.slice(startIdx, endIdx);
     
-    // 移除：不再向顶部工具栏注入繁杂信息，保持工具栏简洁
     const toolbar = document.getElementById("practice-toolbar-left");
     if (toolbar) {
         toolbar.style.display = "none";
         toolbar.innerHTML = "";
     }
 
-    // practiceWords are already "random" because allWords was shuffled. 
-    // But if we want to shuffle the chapter content itself *again* relative to how it was sliced?
-    // Actually, seededShuffle on allWords effectively randomizes the chapter content.
-    // The previous code shuffled practiceWords with `${dictPath}_${chapterIndex}`.
-    // We can keep it or remove it. Removing it is simpler as long as allWords shuffle is good.
-    // But let's keep it to be safe against "ordered chunks" if seededShuffle is weak.
-    // Actually, if we shuffle allWords, we don't strictly need to shuffle practiceWords again, 
-    // but doing so doesn't hurt.
-    // Let's remove the second shuffle to avoid confusion, trusting the first one.
-    // seededShuffle(practiceWords, `${dictPath}_${chapterIndex}`); 
-    
     return true;
 }
 
 function handlePracticeKeyDown(e) {
     if (currentState !== InputState.PRACTICE) return;
 
-    // F2: Toggle Pinyin Hint
     if (e.key === "F2") {
         e.preventDefault();
         togglePinyinHint();
         return;
     }
 
-    // F3: Speak Current Word
     if (e.key === "F3") {
         e.preventDefault();
         speakCurrentWord();
         return;
     }
 
-    // Directory View Shortcuts
+    // New: Browse Mode Navigation
+    if (isBrowseMode) {
+        if (e.key === " " || e.key === "Enter") {
+             e.preventDefault();
+             flipCurrentCard();
+             return;
+        }
+        // Right Arrow or = : Next
+        if (e.key === "ArrowRight" || e.key === "=") {
+             e.preventDefault();
+             navigateBrowse(1);
+             return;
+        }
+        // Left Arrow or - : Previous
+        if (e.key === "ArrowLeft" || e.key === "-") {
+             e.preventDefault();
+             navigateBrowse(-1);
+             return;
+        }
+    }
+
     const dirView = document.getElementById("practice-directory");
     if (dirView && dirView.style.display !== "none") {
         if (e.key === "-" || e.key === "ArrowLeft") {
@@ -202,6 +269,64 @@ function handlePracticeKeyDown(e) {
             e.preventDefault();
             changeDirectoryPage(1);
         }
+    }
+}
+
+// New: Swipe Logic
+let touchStartX = 0;
+let touchEndX = 0;
+
+function initSwipeHandlers() {
+    const container = document.getElementById("practice-container");
+    if (!container) return;
+    
+    container.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    let isMouseDown = false;
+    container.addEventListener('mousedown', e => {
+        isMouseDown = true;
+        touchStartX = e.screenX;
+    });
+    
+    container.addEventListener('mouseup', e => {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        touchEndX = e.screenX;
+        handleSwipe();
+    });
+    
+    // Add Click handler to Center Card for Flip
+    if (cardCenter) {
+        // Remove old listener if exists? Hard to do without reference.
+        // Assuming this function called once or idempotent-ish logic.
+        cardCenter.onclick = (e) => {
+            if (isBrowseMode && Math.abs(touchEndX - touchStartX) < 10) {
+                 flipCurrentCard();
+            }
+        };
+    }
+}
+
+function handleSwipe() {
+    if (!isBrowseMode) return;
+    const threshold = 50;
+    if (touchEndX < touchStartX - threshold) {
+        // Swiped Left -> Next (Drag card left to see next)
+        // Wait, standard convention:
+        // Drag Left -> Pulling next content from right? Or Pushing current content to left?
+        // Pushing current to left means Next.
+        navigateBrowse(1);
+    }
+    if (touchEndX > touchStartX + threshold) {
+        // Swiped Right -> Previous
+        navigateBrowse(-1);
     }
 }
 
@@ -220,7 +345,6 @@ async function startPracticeMode() {
     document.getElementById("practice-footer").style.display = "flex";
     document.getElementById("toggle-pinyin-btn").style.display = "inline-flex";
 
-    // Add Directory Button to footer if not exists
     let dirBtn = document.getElementById("back-to-dir-btn");
     if (!dirBtn) {
         const footer = document.getElementById("practice-footer");
@@ -238,10 +362,12 @@ async function startPracticeMode() {
     cardRight = document.getElementById("card-right");
     practiceCards = [cardLeft, cardCenter, cardRight];
 
+    // Initialize Swipe Handlers
+    initSwipeHandlers();
+
     document.getElementById("practice-mode-btn").style.display = "none";
     document.getElementById("exit-practice-mode-btn").style.display = "flex";
 
-    // If a chapter is already selected in settings, load cards, otherwise show directory
     if (typeof settings.practice_chapter !== 'undefined' && settings.practice_chapter !== null) {
         showChapterPractice();
     } else {
@@ -256,9 +382,8 @@ function showPracticeDirectory() {
     
     cards.forEach(c => c.style.display = "none");
     dirView.style.display = "grid";
-    if (footer) footer.style.display = "none"; // 目录模式隐藏底部控制栏
+    if (footer) footer.style.display = "none"; 
     
-    // Hide input container in directory view
     const inputContainer = document.getElementById("input-container");
     if (inputContainer) inputContainer.style.display = "none";
 
@@ -275,7 +400,6 @@ function renderDirectoryContent() {
         return;
     }
 
-    // IMPORTANT: Shuffle words exactly like in initPracticeModeData
     const dictData = practiceDict.fetchedContent;
     let allWords = [];
     for (const pinyin in dictData) {
@@ -286,18 +410,13 @@ function renderDirectoryContent() {
         });
     }
     
-    // Sort words first to ensure consistent starting state before shuffling
     allWords.sort((a, b) => a.pinyin.localeCompare(b.pinyin));
-
-    // SHUFFLE instead of sort
     seededShuffle(allWords, dictPath);
 
     const wordCount = allWords.length;
-    const chapterSize = 20;
-    const totalChapters = Math.ceil(wordCount / chapterSize);
+    const totalChapters = Math.ceil(wordCount / directoryPageSize);
     const totalPages = Math.ceil(totalChapters / directoryPageSize);
     
-    // Fix Bug: Ensure directoryPageIndex is within valid bounds
     if (totalPages > 0) {
         directoryPageIndex = Math.max(0, Math.min(directoryPageIndex, totalPages - 1));
     } else {
@@ -305,10 +424,8 @@ function renderDirectoryContent() {
     }
 
     const currentChapter = parseInt(settings.practice_chapter, 10);
-    // Auto-detect page index if coming from a specific chapter for the first time
     if (!isNaN(currentChapter) && currentChapter >= 0) {
         const targetPage = Math.floor(currentChapter / directoryPageSize);
-        // Only jump if we are at page 0 or the current page would be empty
         if (directoryPageIndex === 0 || directoryPageIndex >= totalPages) {
             directoryPageIndex = targetPage;
         }
@@ -347,14 +464,13 @@ function renderDirectoryContent() {
 
     for (let i = startChapter; i < endChapter; i++) {
         const isActive = i === currentChapter;
-        const start = i * chapterSize + 1;
-        const end = Math.min((i + 1) * chapterSize, wordCount);
+        const start = i * directoryPageSize + 1;
+        const end = Math.min((i + 1) * directoryPageSize, wordCount);
         
         const progressKey = `${PRACTICE_PROGRESS_KEY}_${dictPath.replace(/[^a-zA-Z0-9]/g, '_')}_ch${i}`;
         const savedProgress = localStorage.getItem(progressKey);
         const progressPercent = savedProgress ? Math.floor((parseInt(savedProgress, 10) / (end - start + 1)) * 100) : 0;
 
-        // Optionally show word range hint (pinyin of first and last word)
         const firstWordPy = allWords[start-1].pinyin;
         const lastWordPy = allWords[end-1].pinyin;
 
@@ -376,7 +492,6 @@ function renderDirectoryContent() {
     html += `<div style="grid-column: 1/-1; margin-top: 20px;">${paginationHtml}</div>`;
 
     dirView.innerHTML = html;
-    // Scroll to top of directory view after page change
     dirView.scrollTop = 0;
 }
 
@@ -415,9 +530,17 @@ async function selectChapter(index) {
 function showChapterPractice() {
     document.getElementById("practice-directory").style.display = "none";
     
-    // Show input container in practice view
     const inputContainer = document.getElementById("input-container");
-    if (inputContainer) inputContainer.style.display = "flex";
+    if (inputContainer) {
+        inputContainer.style.display = "flex";
+        // Reset visibility if needed
+        inputContainer.style.visibility = "visible";
+    }
+    
+    // Reset browse mode
+    isBrowseMode = false;
+    const browseBtn = document.getElementById("toggle-browse-btn");
+    if (browseBtn) browseBtn.classList.remove("active");
 
     [cardLeft, cardCenter, cardRight].forEach(c => c.style.display = "flex");
     
@@ -425,10 +548,11 @@ function showChapterPractice() {
     if (footer) {
         footer.style.display = "flex";
         const chapterIndex = parseInt(settings.practice_chapter, 10);
-        // 清空并重新构建底部控制栏，确保“第 X 章”与按钮同级
+        // Add Browse Mode Button here
         footer.innerHTML = `
             <div class="footer-chapter-label">第 ${chapterIndex + 1} 章</div>
             <button id="back-to-dir-btn" class="btn btn-toggle" onclick="showPracticeDirectory()">章节目录</button>
+            <button id="toggle-browse-btn" class="btn btn-toggle" onclick="toggleBrowseMode()">浏览模式</button>
             <button id="toggle-pinyin-btn" class="btn btn-toggle ${showPinyinHint ? 'active' : ''}" onclick="togglePinyinHint()">显示拼音 (F2)</button>
             <button id="play-sound-btn" class="btn btn-toggle" onclick="speakCurrentWord()">朗读 (F3)</button>
             <button id="toggle-tts-btn" class="btn btn-toggle ${autoTTS ? 'active' : ''}" onclick="toggleAutoTTS()">自动朗读</button>
@@ -448,14 +572,13 @@ function showChapterPractice() {
 }
 
 async function restartPracticeMode() {
-    // This is called when dictionary changes or user explicitly restarts
-    // We want to show the directory first to let them pick a chapter
     await initPracticeModeData();
     showPracticeDirectory();
 }
 
 function exitPracticeMode() {
     isPracticeAnimating = false;
+    isBrowseMode = false;
     setState(InputState.NORMAL);
     document.removeEventListener("keydown", handlePracticeKeyDown);
 
@@ -464,9 +587,11 @@ function exitPracticeMode() {
     document.getElementById("practice-footer").style.display = "none";
     document.getElementById("toggle-pinyin-btn").style.display = "none";
     
-    // Restore input container visibility (just in case)
     const inputContainer = document.getElementById("input-container");
-    if (inputContainer) inputContainer.style.display = "flex";
+    if (inputContainer) {
+        inputContainer.style.display = "flex";
+        inputContainer.style.visibility = "visible";
+    }
 
     const dirBtn = document.getElementById("back-to-dir-btn");
     if (dirBtn) dirBtn.style.display = "none";
@@ -475,12 +600,17 @@ function exitPracticeMode() {
     if (toolbar) toolbar.style.display = "none";
 
     practiceCards.forEach((card) => {
-        card.style.display = "flex"; // Reset for next time
+        card.style.display = "flex"; 
         card.classList.remove("visible", "current", "incorrect");
         const pyDisp = card.querySelector(".pinyin-display");
         const hzDisp = card.querySelector(".hanzi-display");
+        const enDisp = card.querySelector(".en-display");
+        const content = card.querySelector(".practice-card-content");
+        
         if (pyDisp) pyDisp.textContent = "";
         if (hzDisp) hzDisp.textContent = "";
+        if (enDisp) enDisp.textContent = "";
+        if (content) content.classList.remove("flipped");
     });
 
     document.getElementById("practice-mode-btn").style.display = "flex";
@@ -495,23 +625,35 @@ function togglePinyinHint() {
 }
 
 function loadCards() {
+    // Reset visuals
     practiceCards.forEach((card) => {
         card.classList.remove("visible", "current", "incorrect");
         const pyDisp = card.querySelector(".pinyin-display");
         const hzDisp = card.querySelector(".hanzi-display");
+        const enDisp = card.querySelector(".en-display");
         if (pyDisp) pyDisp.textContent = "";
         if (hzDisp) hzDisp.textContent = "";
+        if (enDisp) enDisp.textContent = "";
     });
+
+    // Helper to populate a card
+    const populateCard = (card, word) => {
+        card.querySelector(".hanzi-display").textContent = getHanziChar(word.hanzi);
+        const enDisp = card.querySelector(".en-display");
+        if (enDisp) enDisp.textContent = getHanziEn(word.hanzi);
+        // Note: Pinyin display logic is handled by updatePracticeInputDisplay for Center Card
+        // For side cards, we just show raw pinyin
+        return card;
+    };
 
     if (currentPracticeWordIndex < practiceWords.length) {
         const word = practiceWords[currentPracticeWordIndex];
-        cardCenter.querySelector(".hanzi-display").textContent = getHanziChar(word.hanzi);
+        populateCard(cardCenter, word);
+        
         updatePracticeInputDisplay(); 
         cardCenter.classList.add("visible", "current");
         
-        // Auto-speak if enabled
-        if (autoTTS) {
-            // Small delay to allow transition
+        if (autoTTS && !isBrowseMode) { // Disable auto-tts in browse mode to avoid noise? Or keep it?
             setTimeout(() => speakCurrentWord(), 300);
         }
     } else {
@@ -519,39 +661,37 @@ function loadCards() {
         return;
     }
 
-    // Next word on the LEFT (Preview)
+    // Next word (Left)
     if (currentPracticeWordIndex + 1 < practiceWords.length) {
         const nextWord = practiceWords[currentPracticeWordIndex + 1];
-        cardLeft.querySelector(".hanzi-display").textContent = getHanziChar(nextWord.hanzi);
-        cardLeft.classList.add("visible");
+        const card = populateCard(cardLeft, nextWord);
+        card.classList.add("visible");
     }
 
-    // Completed word on the RIGHT (History)
+    // Previous word (Right)
     if (currentPracticeWordIndex - 1 >= 0) {
         const prevWord = practiceWords[currentPracticeWordIndex - 1];
-        cardRight.querySelector(".hanzi-display").textContent = getHanziChar(prevWord.hanzi);
-        cardRight.querySelector(".pinyin-display").textContent = prevWord.pinyin;
-        cardRight.classList.add("visible");
+        const card = populateCard(cardRight, prevWord);
+        // Side cards always show simple pinyin
+        card.querySelector(".pinyin-display").textContent = prevWord.pinyin;
+        card.classList.add("visible");
     }
 }
 
 function showNextPracticeWord() {
     if (currentPracticeWordIndex >= practiceWords.length) {
-        // Chapter Complete
         localStorage.removeItem(getPracticeProgressKey());
-        
-        // Hide other cards
         cardLeft.style.display = "none";
         cardRight.style.display = "none";
-        
-        // Show completion on center card
         cardCenter.classList.add("visible", "current");
         cardCenter.classList.remove("incorrect");
         
         const pyDisp = cardCenter.querySelector(".pinyin-display");
         const hzDisp = cardCenter.querySelector(".hanzi-display");
+        const enDisp = cardCenter.querySelector(".en-display");
         
         if (pyDisp) pyDisp.innerHTML = "";
+        if (enDisp) enDisp.innerHTML = "";
         if (hzDisp) {
             hzDisp.innerHTML = `
                 <div style="font-size: 24px; margin-bottom: 20px;">🎉 章节完成!</div>
@@ -582,14 +722,6 @@ async function retryChapter() {
     const progressKey = getPracticeProgressKey();
     localStorage.removeItem(progressKey);
     currentPracticeWordIndex = 0;
-    
-    // Re-shuffle? The user might want the same words if they are retrying.
-    // But initPracticeModeData uses deterministic shuffle based on dictPath_chapterIndex.
-    // So re-calling it will give same order.
-    
-    // However, if we want to "Retry", we probably just want to reset index.
-    // We don't need to reload data if it's the same chapter.
-    // But to be safe and ensure clean state:
     loadCards();
     focusHiddenInput();
 }
@@ -606,6 +738,27 @@ function updatePracticeInputDisplay() {
     if (cardCenter) {
         const cardPinyinDisplay = cardCenter.querySelector(".pinyin-display");
         if (cardPinyinDisplay) {
+            // In Browse Mode, we might want to just show the Pinyin if requested, 
+            // without input validation colors.
+            // But if we want to support "Typing to verify" even in Browse Mode, we keep this.
+            // If Browse Mode hides input, buffer is likely empty.
+            if (isBrowseMode && !buffer) {
+                 // Show full Pinyin if hint is on, or if we decide to show it always in Browse Mode?
+                 // Let's stick to hint logic.
+                 if (showPinyinHint) {
+                     cardPinyinDisplay.textContent = targetPinyin;
+                 } else {
+                     cardPinyinDisplay.textContent = targetPinyin.replace(/./g, "_"); // Or empty?
+                     // In Browse mode, usually you want to see the question (Hanzi) and guess Pinyin/English.
+                     // So hiding Pinyin is correct until flip?
+                     // But if we flip, we see English.
+                     // Maybe Front should have Pinyin?
+                     // Let's assume standard behavior: Hidden Pinyin unless Hint is On.
+                     cardPinyinDisplay.innerHTML = targetPinyin.split('').map(c => `<span class="char-placeholder">${showPinyinHint ? c : "_"}</span>`).join('');
+                 }
+                 return;
+            }
+
             let cardHTML = "";
             for (let i = 0; i < targetPinyin.length; i++) {
                 const char = targetPinyin[i];
@@ -628,7 +781,13 @@ function updatePracticeInputDisplay() {
 function handlePracticeInput(event) {
     if (currentState !== InputState.PRACTICE) return;
     
-    // 修改：允许单引号，支持 xi'an 等拼音
+    // Disable input in Browse Mode?
+    if (isBrowseMode) {
+        // Clear input to prevent buffer accumulation
+        event.target.value = "";
+        return;
+    }
+
     const val = event.target.value.replace(/[^a-zA-Z']/g, "");
     setBuffer(val);
     updatePracticeInputDisplay();
@@ -650,12 +809,10 @@ function handlePracticeInput(event) {
     if (typedPinyin === targetPinyin && !isPracticeAnimating) {
         isPracticeAnimating = true;
         
-        // Clear buffer IMMEDIATELY to prevent leak to next card
         setBuffer("");
         const hInput = document.getElementById("hidden-input");
         if (hInput) hInput.value = "";
         
-        // Clear current card's pinyin display immediately
         if (cardCenter) {
             const cardPinyinDisplay = cardCenter.querySelector(".pinyin-display");
             if (cardPinyinDisplay) cardPinyinDisplay.innerHTML = "";
