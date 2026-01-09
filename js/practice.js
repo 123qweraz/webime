@@ -278,8 +278,10 @@ let touchEndX = 0;
 
 function initSwipeHandlers() {
     const container = document.getElementById("practice-container");
-    if (!container) return;
+    if (!container || container.dataset.swipeInitialized) return;
     
+    container.dataset.swipeInitialized = "true";
+
     container.addEventListener('touchstart', e => {
         touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
@@ -293,6 +295,7 @@ function initSwipeHandlers() {
     container.addEventListener('mousedown', e => {
         isMouseDown = true;
         touchStartX = e.screenX;
+        touchEndX = e.screenX; // Reset end to start on new press
     });
     
     container.addEventListener('mouseup', e => {
@@ -303,9 +306,8 @@ function initSwipeHandlers() {
     });
     
     // Add Click handler to Center Card for Flip
+    // Note: We use the slot to catch clicks, but we must check if it's a swipe
     if (cardCenter) {
-        // Remove old listener if exists? Hard to do without reference.
-        // Assuming this function called once or idempotent-ish logic.
         cardCenter.onclick = (e) => {
             if (isBrowseMode && Math.abs(touchEndX - touchStartX) < 10) {
                  flipCurrentCard();

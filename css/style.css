@@ -813,16 +813,14 @@ body {
 }
 
 .card-front {
-    background: var(--card-bg);
     z-index: 2;
 }
 
 .card-back {
-    background: var(--card-bg);
     transform: rotateY(180deg);
-    padding: 20px;
-    text-align: center;
     z-index: 1;
+    padding: 24px;
+    box-sizing: border-box;
 }
 
 .pinyin-display {
@@ -831,6 +829,9 @@ body {
     margin-bottom: 10px;
     letter-spacing: 4px;
     color: var(--text-sec);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .pinyin-display span { text-decoration: none !important; display: inline-block; }
@@ -839,13 +840,24 @@ body {
 .char-correct { color: var(--success); font-weight: bold; }
 .char-incorrect { color: var(--danger); }
 
-.hanzi-display { font-size: 64px; font-weight: 800; color: var(--text-main); }
+.hanzi-display { 
+    font-size: 64px; 
+    font-weight: 800; 
+    color: var(--text-main); 
+    line-height: 1;
+}
 
 .en-display {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 600;
     color: var(--text-main);
     line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .practice-toolbar {
