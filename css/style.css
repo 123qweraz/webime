@@ -765,6 +765,9 @@ body {
 }
 
 .practice-card-slot.visible { opacity: 1; transform: scale(1) translateY(0); }
+.practice-card-slot.incorrect {
+    animation: shake 0.2s ease-in-out 0s 2;
+}
 
 /* Practice Card Content - Flipper/Face-Wrapper */
 .practice-card-content {
@@ -787,10 +790,6 @@ body {
 .practice-card-slot.current .practice-card-content { 
     border: 2px solid var(--primary); 
     box-shadow: 0 12px 40px rgba(0, 122, 255, 0.2); 
-}
-
-.practice-card-slot.incorrect .practice-card-content {
-    border-color: var(--danger) !important;
 }
 
 /* Flip Transform */
