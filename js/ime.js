@@ -4,6 +4,7 @@ let combinedCandidates = [], pageIndex = 0;
 let currentProcessedSegment = "";
 let currentPrecedingBuffer = "";
 let savedRange = null;
+let lastTabTime = 0;
 
 function getOutputArea() {
     return document.getElementById("output-area");
@@ -144,7 +145,7 @@ function update() {
     const { activeSegment, precedingBuffer } = getActiveSegment(buffer);
     currentProcessedSegment = activeSegment;
     currentPrecedingBuffer = precedingBuffer;
-    updateBufferDisplay(buffer, activeSegment, precedingBuffer);
+    updateBufferDisplay(buffer, activeSegment, currentPrecedingBuffer);
     if (buffer) {
         let list = lookupCandidates(activeSegment);
         const seen = new Set();
@@ -193,6 +194,19 @@ function selectCandidate(selectedText) {
     insertAtCursor(selectedText);
     resetInput();
     update();
+}
+
+function selectCandidateEnglish() {
+    if (combinedCandidates.length > 0) {
+        const candidate = combinedCandidates[0];
+        if (candidate.desc) {
+            insertAtCursor(candidate.desc);
+            resetInput();
+            update();
+        } else {
+            showToast("当前候选词无英文释义", "warning");
+        }
+    }
 }
 
 function insertAtCursor(text) {

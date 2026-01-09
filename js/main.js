@@ -98,6 +98,16 @@ function handleKeyDown(e) {
     if (key === "Tab") {
         if (buffer) {
             e.preventDefault();
+
+            const now = Date.now();
+            if (currentState === InputState.TAB && (now - lastTabTime < 500)) {
+                e.preventDefault();
+                selectCandidateEnglish();
+                lastTabTime = 0;
+                return;
+            }
+
+            lastTabTime = now;
             setState(currentState === InputState.TAB ? InputState.NORMAL : InputState.TAB);
             enFilter = ""; pageIndex = 0; update();
         }
