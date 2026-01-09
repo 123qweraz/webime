@@ -16,6 +16,14 @@ const BUILT_IN_DICTS = [
         priority: 90,
     },
     {
+        name: "简拼词典",
+        path: "dicts/chinese/first_dict/dict_jianbin.json",
+        enabled: true,
+        type: "built-in",
+        tag: "chinese",
+        priority: 88,
+    },
+    {
         name: "AI 核心词",
         path: "dicts/chinese/first_dict/dict_ai.json",
         enabled: true,
