@@ -188,38 +188,6 @@ function handleGlobalKeyDown(e) {
     if (e.key === "Escape" && buffer) { resetInput(); update(); }
 }
 
-function searchGoogle() {
-    console.log("searchGoogle triggered, state:", currentState);
-    let query = "";
-    if (currentState === InputState.PRACTICE) {
-        if (typeof practiceWords !== 'undefined' && currentPracticeWordIndex < practiceWords.length) {
-            const word = practiceWords[currentPracticeWordIndex];
-            query = typeof getHanziChar === 'function' ? getHanziChar(word.hanzi) : (word.hanzi.char || word.hanzi);
-        }
-    } else {
-        const outputArea = document.getElementById("output-area");
-        if (outputArea) {
-            query = outputArea.textContent.trim();
-            console.log("Query from output area:", query);
-            if (query) {
-                outputArea.innerHTML = "";
-                if (typeof resetInput === 'function') resetInput();
-                if (typeof update === 'function') update();
-                if (typeof saveSelection === 'function') saveSelection();
-                if (typeof focusHiddenInput === 'function') focusHiddenInput();
-            }
-        }
-    }
-
-    if (query) {
-        console.log("Opening search for:", query);
-        window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
-    } else {
-        console.log("No query found to search");
-        showToast("没有内容可搜索", "warning");
-    }
-}
-
 function handleGlobalClick(e) {
     const outputArea = document.getElementById("output-area");
     if (!outputArea) return;

@@ -138,3 +138,48 @@ function resetApplication() {
 
 // Ensure global availability
 window.resetApplication = resetApplication;
+
+/**
+ * 搜索当前内容或练习单词
+ */
+function searchGoogle() {
+    console.log("searchGoogle triggered, state:", typeof currentState !== 'undefined' ? currentState : 'unknown');
+    let query = "";
+    
+    // Check if we are in practice mode
+    const isPractice = typeof currentState !== 'undefined' && typeof InputState !== 'undefined' && currentState === InputState.PRACTICE;
+    
+    if (isPractice) {
+        if (typeof practiceWords !== 'undefined' && typeof currentPracticeWordIndex !== 'undefined' && currentPracticeWordIndex < practiceWords.length) {
+            const word = practiceWords[currentPracticeWordIndex];
+            if (word && word.hanzi) {
+                query = typeof getHanziChar === 'function' ? getHanziChar(word.hanzi) : (word.hanzi.char || word.hanzi);
+            }
+        }
+    } else {
+        const outputArea = document.getElementById("output-area");
+        if (outputArea) {
+            query = outputArea.textContent.trim();
+            console.log("Query from output area:", query);
+            if (query) {
+                // Clear the screen as requested
+                outputArea.innerHTML = "";
+                // Reset IME buffer if possible
+                if (typeof resetInput === 'function') resetInput();
+                if (typeof update === 'function') update();
+                if (typeof saveSelection === 'function') saveSelection();
+                if (typeof focusHiddenInput === 'function') focusHiddenInput();
+            }
+        }
+    }
+
+    if (query) {
+        console.log("Opening search for:", query);
+        window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+    } else {
+        console.log("No query found to search");
+        showToast("没有内容可搜索", "warning");
+    }
+}
+
+window.searchGoogle = searchGoogle;
