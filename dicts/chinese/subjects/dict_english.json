@@ -1,0 +1,554 @@
+{
+  "beidongyutai": [
+    {
+      "char": "被动语态",
+      "en": "Passive Voice"
+    }
+  ],
+  "biaoyu": [
+    {
+      "char": "表语",
+      "en": "Predicative"
+    }
+  ],
+  "biaoyucongju": [
+    {
+      "char": "表语从句",
+      "en": "Predicative Clause"
+    }
+  ],
+  "bijiaozhuangyucongju": [
+    {
+      "char": "比较状语从句",
+      "en": "Adverbial Clause of Comparison"
+    }
+  ],
+  "binglielianci": [
+    {
+      "char": "并列连词",
+      "en": "Coordinating Conjunction"
+    }
+  ],
+  "binyu": [
+    {
+      "char": "宾语",
+      "en": "Object"
+    }
+  ],
+  "binyubuzuyu": [
+    {
+      "char": "宾语补足语",
+      "en": "Object Complement"
+    }
+  ],
+  "binyucongju": [
+    {
+      "char": "宾语从句",
+      "en": "Object Clause"
+    }
+  ],
+  "budingdaici": [
+    {
+      "char": "不定代词",
+      "en": "Indefinite Pronoun"
+    }
+  ],
+  "budingguanci": [
+    {
+      "char": "不定冠词",
+      "en": "Indefinite Article"
+    }
+  ],
+  "bufendaozhuang": [
+    {
+      "char": "部分倒装",
+      "en": "Partial Inversion"
+    }
+  ],
+  "bujiwudongci": [
+    {
+      "char": "不及物动词",
+      "en": "Intransitive Verb"
+    }
+  ],
+  "bukeshumingci": [
+    {
+      "char": "不可数名词",
+      "en": "Uncountable Noun"
+    }
+  ],
+  "buyu": [
+    {
+      "char": "补语",
+      "en": "Complement"
+    }
+  ],
+  "chenshuju": [
+    {
+      "char": "陈述句",
+      "en": "Declarative Sentence"
+    }
+  ],
+  "congshulianci": [
+    {
+      "char": "从属连词",
+      "en": "Subordinating Conjunction"
+    }
+  ],
+  "daici": [
+    {
+      "char": "代词",
+      "en": "Pronoun"
+    }
+  ],
+  "daozhuangju": [
+    {
+      "char": "倒装句",
+      "en": "Inverted Sentence"
+    }
+  ],
+  "didianzhuangyucongju": [
+    {
+      "char": "地点状语从句",
+      "en": "Adverbial Clause of Place"
+    }
+  ],
+  "dingguanci": [
+    {
+      "char": "定冠词",
+      "en": "Definite Article"
+    }
+  ],
+  "dingyu": [
+    {
+      "char": "定语",
+      "en": "Attribute"
+    }
+  ],
+  "dingyucongju": [
+    {
+      "char": "定语从句",
+      "en": "Attributive Clause"
+    }
+  ],
+  "dongci": [
+    {
+      "char": "动词",
+      "en": "Verb"
+    }
+  ],
+  "dongcibudingshi": [
+    {
+      "char": "动词不定式",
+      "en": "Infinitive"
+    }
+  ],
+  "dongmingci": [
+    {
+      "char": "动名词",
+      "en": "Gerund"
+    }
+  ],
+  "fangshizhuangyucongju": [
+    {
+      "char": "方式状语从句",
+      "en": "Adverbial Clause of Manner"
+    }
+  ],
+  "fanshendaici": [
+    {
+      "char": "反身代词",
+      "en": "Reflexive Pronoun"
+    }
+  ],
+  "fanyiyiwenju": [
+    {
+      "char": "反意疑问句",
+      "en": "Tag Question"
+    }
+  ],
+  "feiweiyudongci": [
+    {
+      "char": "非谓语动词",
+      "en": "Non-finite Verb"
+    }
+  ],
+  "feixianzhixingdingyucongju": [
+    {
+      "char": "非限制性定语从句",
+      "en": "Non-restrictive Attributive Clause"
+    }
+  ],
+  "fuci": [
+    {
+      "char": "副词",
+      "en": "Adverb"
+    }
+  ],
+  "gantanci": [
+    {
+      "char": "感叹词",
+      "en": "Interjection"
+    }
+  ],
+  "gantanju": [
+    {
+      "char": "感叹句",
+      "en": "Exclamatory Sentence"
+    }
+  ],
+  "guanci": [
+    {
+      "char": "冠词",
+      "en": "Article"
+    }
+  ],
+  "guanxidaici": [
+    {
+      "char": "关系代词",
+      "en": "Relative Pronoun"
+    }
+  ],
+  "guoqufenci": [
+    {
+      "char": "过去分词",
+      "en": "Past Participle"
+    }
+  ],
+  "guoqujinxingshi": [
+    {
+      "char": "过去进行时",
+      "en": "Past Continuous Tense"
+    }
+  ],
+  "guoquwanchengjinxingshi": [
+    {
+      "char": "过去完成进行时",
+      "en": "Past Perfect Continuous Tense"
+    }
+  ],
+  "guoquwanchengshi": [
+    {
+      "char": "过去完成时",
+      "en": "Past Perfect Tense"
+    }
+  ],
+  "jianglaijinxingshi": [
+    {
+      "char": "将来进行时",
+      "en": "Future Continuous Tense"
+    }
+  ],
+  "jianglaiwanchengshi": [
+    {
+      "char": "将来完成时",
+      "en": "Future Perfect Tense"
+    }
+  ],
+  "jianjiebinyu": [
+    {
+      "char": "间接宾语",
+      "en": "Indirect Object"
+    }
+  ],
+  "jieci": [
+    {
+      "char": "介词",
+      "en": "Preposition"
+    }
+  ],
+  "jieguozhuangyucongju": [
+    {
+      "char": "结果状语从句",
+      "en": "Adverbial Clause of Result"
+    }
+  ],
+  "jiwudongci": [
+    {
+      "char": "及物动词",
+      "en": "Transitive Verb"
+    }
+  ],
+  "keshumingci": [
+    {
+      "char": "可数名词",
+      "en": "Countable Noun"
+    }
+  ],
+  "lianci": [
+    {
+      "char": "连词",
+      "en": "Conjunction"
+    }
+  ],
+  "mingci": [
+    {
+      "char": "名词",
+      "en": "Noun"
+    }
+  ],
+  "mingcixingcongju": [
+    {
+      "char": "名词性从句",
+      "en": "Nominal Clause"
+    }
+  ],
+  "mudizhuangyucongju": [
+    {
+      "char": "目的状语从句",
+      "en": "Adverbial Clause of Purpose"
+    }
+  ],
+  "putongmingci": [
+    {
+      "char": "普通名词",
+      "en": "Common Noun"
+    }
+  ],
+  "qiangdiaoju": [
+    {
+      "char": "强调句",
+      "en": "Emphatic Sentence"
+    }
+  ],
+  "qingtaidongci": [
+    {
+      "char": "情态动词",
+      "en": "Modal Verb"
+    }
+  ],
+  "qishiju": [
+    {
+      "char": "祈使句",
+      "en": "Imperative Sentence"
+    }
+  ],
+  "rangbuzhuangyucongju": [
+    {
+      "char": "让步状语从句",
+      "en": "Adverbial Clause of Concession"
+    }
+  ],
+  "renchengdaici": [
+    {
+      "char": "人称代词",
+      "en": "Personal Pronoun"
+    }
+  ],
+  "shenglveju": [
+    {
+      "char": "省略句",
+      "en": "Elliptical Sentence"
+    }
+  ],
+  "shijianzhuangyucongju": [
+    {
+      "char": "时间状语从句",
+      "en": "Adverbial Clause of Time"
+    }
+  ],
+  "shiyidongci": [
+    {
+      "char": "实义动词",
+      "en": "Notional Verb"
+    }
+  ],
+  "teshuyiwenju": [
+    {
+      "char": "特殊疑问句",
+      "en": "Special Question"
+    }
+  ],
+  "tiaojianzhuangyucongju": [
+    {
+      "char": "条件状语从句",
+      "en": "Adverbial Clause of Condition"
+    }
+  ],
+  "tongweiyucongju": [
+    {
+      "char": "同位语从句",
+      "en": "Appositive Clause"
+    }
+  ],
+  "wanquandaozhuang": [
+    {
+      "char": "完全倒装",
+      "en": "Full Inversion"
+    }
+  ],
+  "weiyu": [
+    {
+      "char": "谓语",
+      "en": "Predicate"
+    }
+  ],
+  "wuzhudaici": [
+    {
+      "char": "物主代词",
+      "en": "Possessive Pronoun"
+    }
+  ],
+  "xianzaifenci": [
+    {
+      "char": "现在分词",
+      "en": "Present Participle"
+    }
+  ],
+  "xianzaijinxingshi": [
+    {
+      "char": "现在进行时",
+      "en": "Present Continuous Tense"
+    }
+  ],
+  "xianzaiwanchengjinxingshi": [
+    {
+      "char": "现在完成进行时",
+      "en": "Present Perfect Continuous Tense"
+    }
+  ],
+  "xianzaiwanchengshi": [
+    {
+      "char": "现在完成时",
+      "en": "Present Perfect Tense"
+    }
+  ],
+  "xianzhixingdingyucongju": [
+    {
+      "char": "限制性定语从句",
+      "en": "Restrictive Attributive Clause"
+    }
+  ],
+  "xidongci": [
+    {
+      "char": "系动词",
+      "en": "Linking Verb"
+    }
+  ],
+  "xingrongci": [
+    {
+      "char": "形容词",
+      "en": "Adjective"
+    }
+  ],
+  "xuanzeyiwenju": [
+    {
+      "char": "选择疑问句",
+      "en": "Alternative Question"
+    }
+  ],
+  "xuniyuqi": [
+    {
+      "char": "虚拟语气",
+      "en": "Subjunctive Mood"
+    }
+  ],
+  "yibanguoqushi": [
+    {
+      "char": "一般过去时",
+      "en": "Simple Past Tense"
+    }
+  ],
+  "yibanjianglaishi": [
+    {
+      "char": "一般将来时",
+      "en": "Simple Future Tense"
+    }
+  ],
+  "yibanxianzaishi": [
+    {
+      "char": "一般现在时",
+      "en": "Simple Present Tense"
+    }
+  ],
+  "yibanyiwenju": [
+    {
+      "char": "一般疑问句",
+      "en": "General Question"
+    }
+  ],
+  "yiwendaici": [
+    {
+      "char": "疑问代词",
+      "en": "Interrogative Pronoun"
+    }
+  ],
+  "yiwenju": [
+    {
+      "char": "疑问句",
+      "en": "Interrogative Sentence"
+    }
+  ],
+  "yuanyinzhuangyucongju": [
+    {
+      "char": "原因状语从句",
+      "en": "Adverbial Clause of Cause"
+    }
+  ],
+  "zhijiebinyu": [
+    {
+      "char": "直接宾语",
+      "en": "Direct Object"
+    }
+  ],
+  "zhishidaici": [
+    {
+      "char": "指示代词",
+      "en": "Demonstrative Pronoun"
+    }
+  ],
+  "zhuangyu": [
+    {
+      "char": "状语",
+      "en": "Adverbial"
+    }
+  ],
+  "zhuangyucongju": [
+    {
+      "char": "状语从句",
+      "en": "Adverbial Clause"
+    }
+  ],
+  "zhuanyoumingci": [
+    {
+      "char": "专有名词",
+      "en": "Proper Noun"
+    }
+  ],
+  "zhudongci": [
+    {
+      "char": "助动词",
+      "en": "Auxiliary Verb"
+    }
+  ],
+  "zhudongyutai": [
+    {
+      "char": "主动语态",
+      "en": "Active Voice"
+    }
+  ],
+  "zhuweiyizhi": [
+    {
+      "char": "主谓一致",
+      "en": "Subject-verb Agreement"
+    }
+  ],
+  "zhuyu": [
+    {
+      "char": "主语",
+      "en": "Subject"
+    }
+  ],
+  "zhuyubuzuyu": [
+    {
+      "char": "主语补足语",
+      "en": "Subject Complement"
+    }
+  ],
+  "zhuyucongju": [
+    {
+      "char": "主语从句",
+      "en": "Subject Clause"
+    }
+  ]
+}

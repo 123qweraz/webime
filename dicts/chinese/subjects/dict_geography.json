@@ -1,0 +1,1298 @@
+{
+  "banyan": [
+    {
+      "char": "板岩",
+      "en": "Slate"
+    }
+  ],
+  "banyunzuoyong": [
+    {
+      "char": "搬运作用",
+      "en": "Transportation"
+    }
+  ],
+  "beixie": [
+    {
+      "char": "背斜",
+      "en": "Anticline"
+    }
+  ],
+  "benchuziwuxian": [
+    {
+      "char": "本初子午线",
+      "en": "Prime Meridian"
+    }
+  ],
+  "bianzhiyan": [
+    {
+      "char": "变质岩",
+      "en": "Metamorphic Rock"
+    }
+  ],
+  "bilichi": [
+    {
+      "char": "比例尺",
+      "en": "Scale"
+    }
+  ],
+  "bingchuan": [
+    {
+      "char": "冰川",
+      "en": "Glacier"
+    }
+  ],
+  "bingchuandimao": [
+    {
+      "char": "冰川地貌",
+      "en": "Glacial Landform"
+    }
+  ],
+  "cengligouzao": [
+    {
+      "char": "层理构造",
+      "en": "Bedding Structure"
+    }
+  ],
+  "chaoxi": [
+    {
+      "char": "潮汐",
+      "en": "Tide"
+    }
+  ],
+  "chayixing": [
+    {
+      "char": "差异性",
+      "en": "Difference"
+    }
+  ],
+  "chengshi": [
+    {
+      "char": "城市",
+      "en": "City"
+    }
+  ],
+  "chengshidengji": [
+    {
+      "char": "城市等级",
+      "en": "Urban Hierarchy"
+    }
+  ],
+  "chengshigongnengqu": [
+    {
+      "char": "城市功能区",
+      "en": "Urban Functional Zone"
+    }
+  ],
+  "chengshihua": [
+    {
+      "char": "城市化",
+      "en": "Urbanization"
+    }
+  ],
+  "chengshikongjianjiegou": [
+    {
+      "char": "城市空间结构",
+      "en": "Urban Spatial Structure"
+    }
+  ],
+  "chengshitixi": [
+    {
+      "char": "城市体系",
+      "en": "Urban System"
+    }
+  ],
+  "chenjiyan": [
+    {
+      "char": "沉积岩",
+      "en": "Sedimentary Rock"
+    }
+  ],
+  "chenjizuoyong": [
+    {
+      "char": "沉积作用",
+      "en": "Deposition"
+    }
+  ],
+  "chidao": [
+    {
+      "char": "赤道",
+      "en": "Equator"
+    }
+  ],
+  "chuizhididaixing": [
+    {
+      "char": "垂直地带性",
+      "en": "Vertical Zonality"
+    }
+  ],
+  "chuizhiyundong": [
+    {
+      "char": "垂直运动",
+      "en": "Vertical Movement"
+    }
+  ],
+  "daliyan": [
+    {
+      "char": "大理岩",
+      "en": "Marble"
+    }
+  ],
+  "damuchangfangmuye": [
+    {
+      "char": "大牧场放牧业",
+      "en": "Ranching"
+    }
+  ],
+  "danxiadimao": [
+    {
+      "char": "丹霞地貌",
+      "en": "Danxia Landform"
+    }
+  ],
+  "daqideshoureguocheng": [
+    {
+      "char": "大气的受热过程",
+      "en": "Atmospheric Heating Process"
+    }
+  ],
+  "daqinifushe": [
+    {
+      "char": "大气逆辐射",
+      "en": "Atmospheric Counter Radiation"
+    }
+  ],
+  "daqiquan": [
+    {
+      "char": "大气圈",
+      "en": "Atmosphere"
+    }
+  ],
+  "denggaoxian": [
+    {
+      "char": "等高线",
+      "en": "Contour Line"
+    }
+  ],
+  "denggaoxiandixingtu": [
+    {
+      "char": "等高线地形图",
+      "en": "Contour Topographic Map"
+    }
+  ],
+  "dengshenxian": [
+    {
+      "char": "等深线",
+      "en": "Isobath"
+    }
+  ],
+  "dianxintongxin": [
+    {
+      "char": "电信通信",
+      "en": "Telecommunication"
+    }
+  ],
+  "dibiaojingliu": [
+    {
+      "char": "地表径流",
+      "en": "Surface Runoff"
+    }
+  ],
+  "diceng": [
+    {
+      "char": "地层",
+      "en": "Stratum"
+    }
+  ],
+  "dihe": [
+    {
+      "char": "地核",
+      "en": "Core"
+    }
+  ],
+  "dilei": [
+    {
+      "char": "地垒",
+      "en": "Horst"
+    }
+  ],
+  "diman": [
+    {
+      "char": "地幔",
+      "en": "Mantle"
+    }
+  ],
+  "dimianfushe": [
+    {
+      "char": "地面辐射",
+      "en": "Terrestrial Radiation"
+    }
+  ],
+  "diqian": [
+    {
+      "char": "地堑",
+      "en": "Graben"
+    }
+  ],
+  "diqiao": [
+    {
+      "char": "地壳",
+      "en": "Crust"
+    }
+  ],
+  "diqiaoyundong": [
+    {
+      "char": "地壳运动",
+      "en": "Crustal Movement"
+    }
+  ],
+  "diqiu": [
+    {
+      "char": "地球",
+      "en": "Earth"
+    }
+  ],
+  "ditu": [
+    {
+      "char": "地图",
+      "en": "Map"
+    }
+  ],
+  "dixiajingliu": [
+    {
+      "char": "地下径流",
+      "en": "Groundwater Runoff"
+    }
+  ],
+  "dixiashui": [
+    {
+      "char": "地下水",
+      "en": "Groundwater"
+    }
+  ],
+  "dixingpoumiantu": [
+    {
+      "char": "地形剖面图",
+      "en": "Topographic Profile"
+    }
+  ],
+  "dizhen": [
+    {
+      "char": "地震",
+      "en": "Earthquake"
+    }
+  ],
+  "dizhigouzao": [
+    {
+      "char": "地质构造",
+      "en": "Geological Structure"
+    }
+  ],
+  "dizhiniandai": [
+    {
+      "char": "地质年代",
+      "en": "Geological Time"
+    }
+  ],
+  "dizhou": [
+    {
+      "char": "地轴",
+      "en": "Earth's Axis"
+    }
+  ],
+  "dizhuanpianxiangli": [
+    {
+      "char": "地转偏向力",
+      "en": "Coriolis Force"
+    }
+  ],
+  "donglidaoxiangxinggongye": [
+    {
+      "char": "动力导向型工业",
+      "en": "Power-oriented Industry"
+    }
+  ],
+  "duanceng": [
+    {
+      "char": "断层",
+      "en": "Fault"
+    }
+  ],
+  "duijizuoyong": [
+    {
+      "char": "堆积作用",
+      "en": "Deposition"
+    }
+  ],
+  "duiliuceng": [
+    {
+      "char": "对流层",
+      "en": "Troposphere"
+    }
+  ],
+  "eerninuo": [
+    {
+      "char": "厄尔尼诺",
+      "en": "El Niño"
+    }
+  ],
+  "fangxiang": [
+    {
+      "char": "方向",
+      "en": "Direction"
+    }
+  ],
+  "fanqixuan": [
+    {
+      "char": "反气旋",
+      "en": "Anticyclone"
+    }
+  ],
+  "feididaixing": [
+    {
+      "char": "非地带性",
+      "en": "Non-zonality"
+    }
+  ],
+  "feng": [
+    {
+      "char": "风",
+      "en": "Wind"
+    }
+  ],
+  "fengdai": [
+    {
+      "char": "风带",
+      "en": "Wind Belt"
+    }
+  ],
+  "fenghuazuoyong": [
+    {
+      "char": "风化作用",
+      "en": "Weathering"
+    }
+  ],
+  "fenglidimao": [
+    {
+      "char": "风力地貌",
+      "en": "Aeolian Landform"
+    }
+  ],
+  "gaocengdaqi": [
+    {
+      "char": "高层大气",
+      "en": "Upper Atmosphere"
+    }
+  ],
+  "gongluyunshu": [
+    {
+      "char": "公路运输",
+      "en": "Highway Transportation"
+    }
+  ],
+  "gongye": [
+    {
+      "char": "工业",
+      "en": "Industry"
+    }
+  ],
+  "gongyediyu": [
+    {
+      "char": "工业地域",
+      "en": "Industrial Area"
+    }
+  ],
+  "gongyefensan": [
+    {
+      "char": "工业分散",
+      "en": "Industrial Dispersion"
+    }
+  ],
+  "gongyejiju": [
+    {
+      "char": "工业集聚",
+      "en": "Industrial Agglomeration"
+    }
+  ],
+  "gongyequ": [
+    {
+      "char": "工业区",
+      "en": "Industrial Area"
+    }
+  ],
+  "gongyequweiyinsu": [
+    {
+      "char": "工业区位因素",
+      "en": "Industrial Location Factors"
+    }
+  ],
+  "gongzhuan": [
+    {
+      "char": "公转",
+      "en": "Revolution"
+    }
+  ],
+  "guandaoyunshu": [
+    {
+      "char": "管道运输",
+      "en": "Pipeline Transportation"
+    }
+  ],
+  "gujiechengyanzuoyong": [
+    {
+      "char": "固结成岩作用",
+      "en": "Lithification"
+    }
+  ],
+  "guojiriqibiangengxian": [
+    {
+      "char": "国际日期变更线",
+      "en": "International Date Line"
+    }
+  ],
+  "gushengdai": [
+    {
+      "char": "古生代",
+      "en": "Paleozoic Era"
+    }
+  ],
+  "haiandimao": [
+    {
+      "char": "海岸地貌",
+      "en": "Coastal Landform"
+    }
+  ],
+  "haiba": [
+    {
+      "char": "海拔",
+      "en": "Altitude"
+    }
+  ],
+  "hailujianxunhuan": [
+    {
+      "char": "海陆间循环",
+      "en": "Ocean-continent Cycle"
+    }
+  ],
+  "haishangneixunhuan": [
+    {
+      "char": "海上内循环",
+      "en": "Oceanic Cycle"
+    }
+  ],
+  "haixiao": [
+    {
+      "char": "海啸",
+      "en": "Tsunami"
+    }
+  ],
+  "hangkongyunshu": [
+    {
+      "char": "航空运输",
+      "en": "Air Transportation"
+    }
+  ],
+  "hanliu": [
+    {
+      "char": "寒流",
+      "en": "Cold Current"
+    }
+  ],
+  "heliu": [
+    {
+      "char": "河流",
+      "en": "River"
+    }
+  ],
+  "heliudimao": [
+    {
+      "char": "河流地貌",
+      "en": "Fluvial Landform"
+    }
+  ],
+  "hengxingnian": [
+    {
+      "char": "恒星年",
+      "en": "Sidereal Year"
+    }
+  ],
+  "hengxingri": [
+    {
+      "char": "恒星日",
+      "en": "Sidereal Day"
+    }
+  ],
+  "huangchijiaojiao": [
+    {
+      "char": "黄赤交角",
+      "en": "Obliquity of the Ecliptic"
+    }
+  ],
+  "huanjingchengzaili": [
+    {
+      "char": "环境承载力",
+      "en": "Environmental Carrying Capacity"
+    }
+  ],
+  "huanjingwuran": [
+    {
+      "char": "环境污染",
+      "en": "Environmental Pollution"
+    }
+  ],
+  "huashi": [
+    {
+      "char": "化石",
+      "en": "Fossil"
+    }
+  ],
+  "huaxuechenjiyan": [
+    {
+      "char": "化学沉积岩",
+      "en": "Chemical Sedimentary Rock"
+    }
+  ],
+  "huiguinian": [
+    {
+      "char": "回归年",
+      "en": "Tropical Year"
+    }
+  ],
+  "hunhenongye": [
+    {
+      "char": "混合农业",
+      "en": "Mixed Farming"
+    }
+  ],
+  "huoshan": [
+    {
+      "char": "火山",
+      "en": "Volcano"
+    }
+  ],
+  "huoshanzuoyong": [
+    {
+      "char": "火山作用",
+      "en": "Volcanism"
+    }
+  ],
+  "hupo": [
+    {
+      "char": "湖泊",
+      "en": "Lake"
+    }
+  ],
+  "jiangshui": [
+    {
+      "char": "降水",
+      "en": "Precipitation"
+    }
+  ],
+  "jiaotongyunshu": [
+    {
+      "char": "交通运输",
+      "en": "Transportation"
+    }
+  ],
+  "jiaotongyunshubuju": [
+    {
+      "char": "交通运输布局",
+      "en": "Transportation Layout"
+    }
+  ],
+  "jiaotongyunshufangshi": [
+    {
+      "char": "交通运输方式",
+      "en": "Transportation Mode"
+    }
+  ],
+  "jifeng": [
+    {
+      "char": "季风",
+      "en": "Monsoon"
+    }
+  ],
+  "jifengshuitiannongye": [
+    {
+      "char": "季风水田农业",
+      "en": "Monsoon Rice Farming"
+    }
+  ],
+  "jingdu": [
+    {
+      "char": "经度",
+      "en": "Longitude"
+    }
+  ],
+  "jingdudidaixing": [
+    {
+      "char": "经度地带性",
+      "en": "Longitudinal Zonality"
+    }
+  ],
+  "jingti": [
+    {
+      "char": "晶体",
+      "en": "Crystal"
+    }
+  ],
+  "jingweiwang": [
+    {
+      "char": "经纬网",
+      "en": "Graticule"
+    }
+  ],
+  "jingxian": [
+    {
+      "char": "经线",
+      "en": "Meridian"
+    }
+  ],
+  "jishudaoxiangxinggongye": [
+    {
+      "char": "技术导向型工业",
+      "en": "Technology-oriented Industry"
+    }
+  ],
+  "jiye": [
+    {
+      "char": "极夜",
+      "en": "Polar Night"
+    }
+  ],
+  "jizhou": [
+    {
+      "char": "极昼",
+      "en": "Polar Day"
+    }
+  ],
+  "kasitedimao": [
+    {
+      "char": "喀斯特地貌",
+      "en": "Karst Landform"
+    }
+  ],
+  "kechixufazhan": [
+    {
+      "char": "可持续发展",
+      "en": "Sustainable Development"
+    }
+  ],
+  "kuangwu": [
+    {
+      "char": "矿物",
+      "en": "Mineral"
+    }
+  ],
+  "lanina": [
+    {
+      "char": "拉尼娜",
+      "en": "La Niña"
+    }
+  ],
+  "laodonglidaoxiangxinggongye": [
+    {
+      "char": "劳动力导向型工业",
+      "en": "Labor-oriented Industry"
+    }
+  ],
+  "lengfeng": [
+    {
+      "char": "冷锋",
+      "en": "Cold Front"
+    }
+  ],
+  "liangji": [
+    {
+      "char": "两极",
+      "en": "Poles"
+    }
+  ],
+  "linye": [
+    {
+      "char": "林业",
+      "en": "Forestry"
+    }
+  ],
+  "liushuidimao": [
+    {
+      "char": "流水地貌",
+      "en": "Fluvial Landform"
+    }
+  ],
+  "liuyu": [
+    {
+      "char": "流域",
+      "en": "Drainage Basin"
+    }
+  ],
+  "ludineixunhuan": [
+    {
+      "char": "陆地内循环",
+      "en": "Continental Cycle"
+    }
+  ],
+  "mocali": [
+    {
+      "char": "摩擦力",
+      "en": "Friction Force"
+    }
+  ],
+  "nanbeihuiguixian": [
+    {
+      "char": "南北回归线",
+      "en": "Tropic of Cancer and Tropic of Capricorn"
+    }
+  ],
+  "nanbeijiquan": [
+    {
+      "char": "南北极圈",
+      "en": "Arctic Circle and Antarctic Circle"
+    }
+  ],
+  "neilizuoyong": [
+    {
+      "char": "内力作用",
+      "en": "Endogenic Process"
+    }
+  ],
+  "nengyuan": [
+    {
+      "char": "能源",
+      "en": "Energy"
+    }
+  ],
+  "nongye": [
+    {
+      "char": "农业",
+      "en": "Agriculture"
+    }
+  ],
+  "nongyequweiyinsu": [
+    {
+      "char": "农业区位因素",
+      "en": "Agricultural Location Factors"
+    }
+  ],
+  "nuanfeng": [
+    {
+      "char": "暖锋",
+      "en": "Warm Front"
+    }
+  ],
+  "nuanliu": [
+    {
+      "char": "暖流",
+      "en": "Warm Current"
+    }
+  ],
+  "penchuyan": [
+    {
+      "char": "喷出岩",
+      "en": "Extrusive Rock"
+    }
+  ],
+  "pianmayan": [
+    {
+      "char": "片麻岩",
+      "en": "Gneiss"
+    }
+  ],
+  "pingliuceng": [
+    {
+      "char": "平流层",
+      "en": "Stratosphere"
+    }
+  ],
+  "qihou": [
+    {
+      "char": "气候",
+      "en": "Climate"
+    }
+  ],
+  "qihouleixing": [
+    {
+      "char": "气候类型",
+      "en": "Climate Type"
+    }
+  ],
+  "qihouzhifangtu": [
+    {
+      "char": "气候直方图",
+      "en": "Climate Histogram"
+    }
+  ],
+  "qinruyan": [
+    {
+      "char": "侵入岩",
+      "en": "Intrusive Rock"
+    }
+  ],
+  "qinshizuoyong": [
+    {
+      "char": "侵蚀作用",
+      "en": "Erosion"
+    }
+  ],
+  "qiwen": [
+    {
+      "char": "气温",
+      "en": "Temperature"
+    }
+  ],
+  "qixuan": [
+    {
+      "char": "气旋",
+      "en": "Cyclone"
+    }
+  ],
+  "qiyadai": [
+    {
+      "char": "气压带",
+      "en": "Pressure Belt"
+    }
+  ],
+  "quanqiuqihoubiannuan": [
+    {
+      "char": "全球气候变暖",
+      "en": "Global Warming"
+    }
+  ],
+  "qushi": [
+    {
+      "char": "区时",
+      "en": "Zone Time"
+    }
+  ],
+  "relihuanliu": [
+    {
+      "char": "热力环流",
+      "en": "Thermal Circulation"
+    }
+  ],
+  "rendiguanxi": [
+    {
+      "char": "人地关系",
+      "en": "Man-land Relationship"
+    }
+  ],
+  "renkou": [
+    {
+      "char": "人口",
+      "en": "Population"
+    }
+  ],
+  "renkoufenbu": [
+    {
+      "char": "人口分布",
+      "en": "Population Distribution"
+    }
+  ],
+  "renkouhelirongliang": [
+    {
+      "char": "人口合理容量",
+      "en": "Optimum Population"
+    }
+  ],
+  "renkouqianyi": [
+    {
+      "char": "人口迁移",
+      "en": "Population Migration"
+    }
+  ],
+  "renkourongliang": [
+    {
+      "char": "人口容量",
+      "en": "Population Capacity"
+    }
+  ],
+  "renkoushuliang": [
+    {
+      "char": "人口数量",
+      "en": "Population Size"
+    }
+  ],
+  "renkouzengzhang": [
+    {
+      "char": "人口增长",
+      "en": "Population Growth"
+    }
+  ],
+  "renkouziranzengzhanglv": [
+    {
+      "char": "人口自然增长率",
+      "en": "Natural Population Growth Rate"
+    }
+  ],
+  "ruanliuceng": [
+    {
+      "char": "软流层",
+      "en": "Asthenosphere"
+    }
+  ],
+  "ruchuye": [
+    {
+      "char": "乳畜业",
+      "en": "Dairy Farming"
+    }
+  ],
+  "shangpinguwunongye": [
+    {
+      "char": "商品谷物农业",
+      "en": "Commercial Grain Farming"
+    }
+  ],
+  "shangyequ": [
+    {
+      "char": "商业区",
+      "en": "Commercial Area"
+    }
+  ],
+  "shengtaipohuai": [
+    {
+      "char": "生态破坏",
+      "en": "Ecological Destruction"
+    }
+  ],
+  "shengwuquan": [
+    {
+      "char": "生物圈",
+      "en": "Biosphere"
+    }
+  ],
+  "shichangdaoxiangxinggongye": [
+    {
+      "char": "市场导向型工业",
+      "en": "Market-oriented Industry"
+    }
+  ],
+  "shiqu": [
+    {
+      "char": "时区",
+      "en": "Time Zone"
+    }
+  ],
+  "shuiluyunshu": [
+    {
+      "char": "水路运输",
+      "en": "Waterway Transportation"
+    }
+  ],
+  "shuipingqiyatiduli": [
+    {
+      "char": "水平气压梯度力",
+      "en": "Horizontal Pressure Gradient Force"
+    }
+  ],
+  "shuipingyundong": [
+    {
+      "char": "水平运动",
+      "en": "Horizontal Movement"
+    }
+  ],
+  "shuiqishusong": [
+    {
+      "char": "水汽输送",
+      "en": "Water Vapor Transport"
+    }
+  ],
+  "shuiquan": [
+    {
+      "char": "水圈",
+      "en": "Hydrosphere"
+    }
+  ],
+  "shuixi": [
+    {
+      "char": "水系",
+      "en": "River System"
+    }
+  ],
+  "shuixunhuan": [
+    {
+      "char": "水循环",
+      "en": "Water Cycle"
+    }
+  ],
+  "sijigengti": [
+    {
+      "char": "四季更替",
+      "en": "Seasons Change"
+    }
+  ],
+  "suixieyan": [
+    {
+      "char": "碎屑岩",
+      "en": "Clastic Rock"
+    }
+  ],
+  "taigudai": [
+    {
+      "char": "太古代",
+      "en": "Archaean Eon"
+    }
+  ],
+  "taiyangfushe": [
+    {
+      "char": "太阳辐射",
+      "en": "Solar Radiation"
+    }
+  ],
+  "taiyangri": [
+    {
+      "char": "太阳日",
+      "en": "Solar Day"
+    }
+  ],
+  "taiyangzhishedian": [
+    {
+      "char": "太阳直射点",
+      "en": "Direct Solar Point"
+    }
+  ],
+  "tieluyunshu": [
+    {
+      "char": "铁路运输",
+      "en": "Railway Transportation"
+    }
+  ],
+  "tongxin": [
+    {
+      "char": "通信",
+      "en": "Communication"
+    }
+  ],
+  "tuli": [
+    {
+      "char": "图例",
+      "en": "Legend"
+    }
+  ],
+  "turang": [
+    {
+      "char": "土壤",
+      "en": "Soil"
+    }
+  ],
+  "wailizuoyong": [
+    {
+      "char": "外力作用",
+      "en": "Exogenic Process"
+    }
+  ],
+  "weidu": [
+    {
+      "char": "纬度",
+      "en": "Latitude"
+    }
+  ],
+  "weidudidaixing": [
+    {
+      "char": "纬度地带性",
+      "en": "Latitudinal Zonality"
+    }
+  ],
+  "weixian": [
+    {
+      "char": "纬线",
+      "en": "Parallel"
+    }
+  ],
+  "wudai": [
+    {
+      "char": "五带",
+      "en": "Five Zones"
+    }
+  ],
+  "xiangduigaodu": [
+    {
+      "char": "相对高度",
+      "en": "Relative Height"
+    }
+  ],
+  "xiangxie": [
+    {
+      "char": "向斜",
+      "en": "Syncline"
+    }
+  ],
+  "xinshengdai": [
+    {
+      "char": "新生代",
+      "en": "Cenozoic Era"
+    }
+  ],
+  "xumuye": [
+    {
+      "char": "畜牧业",
+      "en": "Animal Husbandry"
+    }
+  ],
+  "yadandimao": [
+    {
+      "char": "雅丹地貌",
+      "en": "Yardang Landform"
+    }
+  ],
+  "yangliu": [
+    {
+      "char": "洋流",
+      "en": "Ocean Current"
+    }
+  ],
+  "yanjiangyan": [
+    {
+      "char": "岩浆岩",
+      "en": "Igneous Rock"
+    }
+  ],
+  "yanshi": [
+    {
+      "char": "岩石",
+      "en": "Rock"
+    }
+  ],
+  "yanshiquan": [
+    {
+      "char": "岩石圈",
+      "en": "Lithosphere"
+    }
+  ],
+  "yanshiquanwuzhixunhuan": [
+    {
+      "char": "岩石圈物质循环",
+      "en": "Lithospheric Material Cycle"
+    }
+  ],
+  "youzhengtongxin": [
+    {
+      "char": "邮政通信",
+      "en": "Postal Communication"
+    }
+  ],
+  "yuangudai": [
+    {
+      "char": "元古代",
+      "en": "Proterozoic Eon"
+    }
+  ],
+  "yuanliaodaoxiangxinggongye": [
+    {
+      "char": "原料导向型工业",
+      "en": "Raw Material-oriented Industry"
+    }
+  ],
+  "yuye": [
+    {
+      "char": "渔业",
+      "en": "Fishery"
+    }
+  ],
+  "zhengfa": [
+    {
+      "char": "蒸发",
+      "en": "Evaporation"
+    }
+  ],
+  "zhengtixing": [
+    {
+      "char": "整体性",
+      "en": "Integrity"
+    }
+  ],
+  "zhenyuan": [
+    {
+      "char": "震源",
+      "en": "Hypocenter"
+    }
+  ],
+  "zhenzhong": [
+    {
+      "char": "震中",
+      "en": "Epicenter"
+    }
+  ],
+  "zhezhou": [
+    {
+      "char": "褶皱",
+      "en": "Fold"
+    }
+  ],
+  "zhibei": [
+    {
+      "char": "植被",
+      "en": "Vegetation"
+    }
+  ],
+  "zhongshengdai": [
+    {
+      "char": "中生代",
+      "en": "Mesozoic Era"
+    }
+  ],
+  "zhongzhiye": [
+    {
+      "char": "种植业",
+      "en": "Planting Industry"
+    }
+  ],
+  "zhouyechangduan": [
+    {
+      "char": "昼夜长短",
+      "en": "Day and Night Length"
+    }
+  ],
+  "zhouyejiaoti": [
+    {
+      "char": "昼夜交替",
+      "en": "Day-night Alternation"
+    }
+  ],
+  "zhuji": [
+    {
+      "char": "注记",
+      "en": "Annotation"
+    }
+  ],
+  "zhunjingzhifeng": [
+    {
+      "char": "准静止锋",
+      "en": "Stationary Front"
+    }
+  ],
+  "zhuzhaiqu": [
+    {
+      "char": "住宅区",
+      "en": "Residential Area"
+    }
+  ],
+  "zirandai": [
+    {
+      "char": "自然带",
+      "en": "Natural Zone"
+    }
+  ],
+  "zirandilihuanjing": [
+    {
+      "char": "自然地理环境",
+      "en": "Physical Geographic Environment"
+    }
+  ],
+  "ziranziyuan": [
+    {
+      "char": "自然资源",
+      "en": "Natural Resource"
+    }
+  ],
+  "ziyuan": [
+    {
+      "char": "资源",
+      "en": "Resource"
+    }
+  ],
+  "zizhuan": [
+    {
+      "char": "自转",
+      "en": "Rotation"
+    }
+  ]
+}

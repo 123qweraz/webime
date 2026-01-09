@@ -1,0 +1,596 @@
+{
+  "beijihanshu": [
+    {
+      "char": "被积函数",
+      "en": "Integrand"
+    }
+  ],
+  "budengshi": [
+    {
+      "char": "不等式",
+      "en": "Inequality"
+    }
+  ],
+  "budingjifen": [
+    {
+      "char": "不定积分",
+      "en": "Indefinite Integral"
+    }
+  ],
+  "changjianhanshudaoshu": [
+    {
+      "char": "常见函数导数",
+      "en": "Derivatives of Common Functions"
+    }
+  ],
+  "chengjifaze": [
+    {
+      "char": "乘积法则",
+      "en": "Product Rule"
+    }
+  ],
+  "daishuyuzishi": [
+    {
+      "char": "代数余子式",
+      "en": "Algebraic Minor"
+    }
+  ],
+  "dandiaoxing": [
+    {
+      "char": "单调性",
+      "en": "Monotonicity"
+    }
+  ],
+  "danweijuzhen": [
+    {
+      "char": "单位矩阵",
+      "en": "Identity Matrix"
+    }
+  ],
+  "daohanshu": [
+    {
+      "char": "导函数",
+      "en": "Derived Function"
+    }
+  ],
+  "daoshu": [
+    {
+      "char": "导数",
+      "en": "Derivative"
+    }
+  ],
+  "daoshudeyingyong": [
+    {
+      "char": "导数的应用",
+      "en": "Application of Derivatives"
+    }
+  ],
+  "dingjifen": [
+    {
+      "char": "定积分",
+      "en": "Definite Integral"
+    }
+  ],
+  "dingjifendejiheyiyi": [
+    {
+      "char": "定积分的几何意义",
+      "en": "Geometric Meaning of Definite Integral"
+    }
+  ],
+  "erjiedaoshu": [
+    {
+      "char": "二阶导数",
+      "en": "Second Derivative"
+    }
+  ],
+  "erjiehanglieshi": [
+    {
+      "char": "二阶行列式",
+      "en": "Second-order Determinant"
+    }
+  ],
+  "eryuanxianxingfangchengzu": [
+    {
+      "char": "二元线性方程组",
+      "en": "System of Linear Equations with Two Variables"
+    }
+  ],
+  "fangchengshi": [
+    {
+      "char": "方程式",
+      "en": "Equation"
+    }
+  ],
+  "fangzhen": [
+    {
+      "char": "方阵",
+      "en": "Square Matrix"
+    }
+  ],
+  "faxian": [
+    {
+      "char": "法线",
+      "en": "Normal Line"
+    }
+  ],
+  "fenbujifenfa": [
+    {
+      "char": "分部积分法",
+      "en": "Integration by Parts"
+    }
+  ],
+  "fuhehanshuqiudaofaze": [
+    {
+      "char": "复合函数求导法则",
+      "en": "Chain Rule"
+    }
+  ],
+  "gailv": [
+    {
+      "char": "概率",
+      "en": "Probability"
+    }
+  ],
+  "gaojiedaoshu": [
+    {
+      "char": "高阶导数",
+      "en": "Higher-order Derivative"
+    }
+  ],
+  "guaidian": [
+    {
+      "char": "拐点",
+      "en": "Inflection Point"
+    }
+  ],
+  "hanglieshi": [
+    {
+      "char": "行列式",
+      "en": "Determinant"
+    }
+  ],
+  "hanshu": [
+    {
+      "char": "函数",
+      "en": "Function"
+    }
+  ],
+  "hanshudejixian": [
+    {
+      "char": "函数的极限",
+      "en": "Limit of a Function"
+    }
+  ],
+  "hechafaze": [
+    {
+      "char": "和差法则",
+      "en": "Sum and Difference Rule"
+    }
+  ],
+  "huanyuanjifenfa": [
+    {
+      "char": "换元积分法",
+      "en": "Integration by Substitution"
+    }
+  ],
+  "jianduandian": [
+    {
+      "char": "间断点",
+      "en": "Discontinuity Point"
+    }
+  ],
+  "jidazhi": [
+    {
+      "char": "极大值",
+      "en": "Local Maximum"
+    }
+  ],
+  "jie": [
+    {
+      "char": "解",
+      "en": "Solution"
+    }
+  ],
+  "jifen": [
+    {
+      "char": "积分",
+      "en": "Integral"
+    }
+  ],
+  "jifenbianliang": [
+    {
+      "char": "积分变量",
+      "en": "Variable of Integration"
+    }
+  ],
+  "jifenchangshu": [
+    {
+      "char": "积分常数",
+      "en": "Constant of Integration"
+    }
+  ],
+  "jifenfaze": [
+    {
+      "char": "积分法则",
+      "en": "Integration Rule"
+    }
+  ],
+  "jifenqujian": [
+    {
+      "char": "积分区间",
+      "en": "Interval of Integration"
+    }
+  ],
+  "jihe": [
+    {
+      "char": "几何",
+      "en": "Geometry"
+    }
+  ],
+  "jixian": [
+    {
+      "char": "极限",
+      "en": "Limit"
+    }
+  ],
+  "jixiaozhi": [
+    {
+      "char": "极小值",
+      "en": "Local Minimum"
+    }
+  ],
+  "jizhidian": [
+    {
+      "char": "极值点",
+      "en": "Extreme Point"
+    }
+  ],
+  "juzhen": [
+    {
+      "char": "矩阵",
+      "en": "Matrix"
+    }
+  ],
+  "juzhendezhi": [
+    {
+      "char": "矩阵的秩",
+      "en": "Rank of a Matrix"
+    }
+  ],
+  "kequjianduandian": [
+    {
+      "char": "可去间断点",
+      "en": "Removable Discontinuity"
+    }
+  ],
+  "kewei": [
+    {
+      "char": "可微",
+      "en": "Differentiable"
+    }
+  ],
+  "lianxuhanshu": [
+    {
+      "char": "连续函数",
+      "en": "Continuous Function"
+    }
+  ],
+  "lianxuxing": [
+    {
+      "char": "连续性",
+      "en": "Continuity"
+    }
+  ],
+  "liejuzhen": [
+    {
+      "char": "列矩阵",
+      "en": "Column Matrix"
+    }
+  ],
+  "liexiangliang": [
+    {
+      "char": "列向量",
+      "en": "Column Vector"
+    }
+  ],
+  "lingjuzhen": [
+    {
+      "char": "零矩阵",
+      "en": "Zero Matrix"
+    }
+  ],
+  "lingxiangliang": [
+    {
+      "char": "零向量",
+      "en": "Zero Vector"
+    }
+  ],
+  "nijuzhen": [
+    {
+      "char": "逆矩阵",
+      "en": "Inverse Matrix"
+    }
+  ],
+  "niudunlaibunicigongshi": [
+    {
+      "char": "牛顿-莱布尼茨公式",
+      "en": "Newton-Leibniz Formula"
+    }
+  ],
+  "pingjunbianhualv": [
+    {
+      "char": "平均变化率",
+      "en": "Average Rate of Change"
+    }
+  ],
+  "qiexian": [
+    {
+      "char": "切线",
+      "en": "Tangent Line"
+    }
+  ],
+  "qiexianxielv": [
+    {
+      "char": "切线斜率",
+      "en": "Slope of the Tangent Line"
+    }
+  ],
+  "qiudaofaze": [
+    {
+      "char": "求导法则",
+      "en": "Differentiation Rule"
+    }
+  ],
+  "qubiantixingmianji": [
+    {
+      "char": "曲边梯形面积",
+      "en": "Area of Curved Trapezoid"
+    }
+  ],
+  "sanjiaohanshu": [
+    {
+      "char": "三角函数",
+      "en": "Trigonometric Function"
+    }
+  ],
+  "sanjiehanglieshi": [
+    {
+      "char": "三阶行列式",
+      "en": "Third-order Determinant"
+    }
+  ],
+  "sanyuanxianxingfangchengzu": [
+    {
+      "char": "三元线性方程组",
+      "en": "System of Linear Equations with Three Variables"
+    }
+  ],
+  "shangfaze": [
+    {
+      "char": "商法则",
+      "en": "Quotient Rule"
+    }
+  ],
+  "shuchengxiangliang": [
+    {
+      "char": "数乘向量",
+      "en": "Scalar Multiplication of Vector"
+    }
+  ],
+  "shuliedejixian": [
+    {
+      "char": "数列的极限",
+      "en": "Limit of a Sequence"
+    }
+  ],
+  "shunshibianhualv": [
+    {
+      "char": "瞬时变化率",
+      "en": "Instantaneous Rate of Change"
+    }
+  ],
+  "tiaoyuejianduandian": [
+    {
+      "char": "跳跃间断点",
+      "en": "Jump Discontinuity"
+    }
+  ],
+  "tongji": [
+    {
+      "char": "统计",
+      "en": "Statistics"
+    }
+  ],
+  "weifen": [
+    {
+      "char": "微分",
+      "en": "Differential"
+    }
+  ],
+  "weiyijie": [
+    {
+      "char": "唯一解",
+      "en": "Unique Solution"
+    }
+  ],
+  "wujie": [
+    {
+      "char": "无解",
+      "en": "No Solution"
+    }
+  ],
+  "wuqiongdaliang": [
+    {
+      "char": "无穷大量",
+      "en": "Infinity"
+    }
+  ],
+  "wuqiongduojie": [
+    {
+      "char": "无穷多解",
+      "en": "Infinitely Many Solutions"
+    }
+  ],
+  "wuqiongxiaoliang": [
+    {
+      "char": "无穷小量",
+      "en": "Infinitesimal"
+    }
+  ],
+  "xiangliang": [
+    {
+      "char": "向量",
+      "en": "Vector"
+    }
+  ],
+  "xiangliangdejiajiao": [
+    {
+      "char": "向量的夹角",
+      "en": "Angle Between Vectors"
+    }
+  ],
+  "xiangliangdemo": [
+    {
+      "char": "向量的模",
+      "en": "Norm of Vector"
+    }
+  ],
+  "xiangliangdeneiji": [
+    {
+      "char": "向量的内积",
+      "en": "Inner Product of Vectors"
+    }
+  ],
+  "xiangliangjiafa": [
+    {
+      "char": "向量加法",
+      "en": "Vector Addition"
+    }
+  ],
+  "xiangliangjianfa": [
+    {
+      "char": "向量减法",
+      "en": "Vector Subtraction"
+    }
+  ],
+  "xiangliangzu": [
+    {
+      "char": "向量组",
+      "en": "Vector Group"
+    }
+  ],
+  "xianxingbiaoshi": [
+    {
+      "char": "线性表示",
+      "en": "Linear Representation"
+    }
+  ],
+  "xianxingfangchengzu": [
+    {
+      "char": "线性方程组",
+      "en": "System of Linear Equations"
+    }
+  ],
+  "xianxingwuguan": [
+    {
+      "char": "线性无关",
+      "en": "Linear Independence"
+    }
+  ],
+  "xianxingxiangguan": [
+    {
+      "char": "线性相关",
+      "en": "Linear Dependence"
+    }
+  ],
+  "xianxingzuhe": [
+    {
+      "char": "线性组合",
+      "en": "Linear Combination"
+    }
+  ],
+  "xingjuzhen": [
+    {
+      "char": "行矩阵",
+      "en": "Row Matrix"
+    }
+  ],
+  "xingxiangliang": [
+    {
+      "char": "行向量",
+      "en": "Row Vector"
+    }
+  ],
+  "xishujuzhen": [
+    {
+      "char": "系数矩阵",
+      "en": "Coefficient Matrix"
+    }
+  ],
+  "yijiedaoshu": [
+    {
+      "char": "一阶导数",
+      "en": "First Derivative"
+    }
+  ],
+  "yinhanshuqiudao": [
+    {
+      "char": "隐函数求导",
+      "en": "Implicit Function Differentiation"
+    }
+  ],
+  "youjixian": [
+    {
+      "char": "右极限",
+      "en": "Right-hand Limit"
+    }
+  ],
+  "yuanhanshu": [
+    {
+      "char": "原函数",
+      "en": "Antiderivative"
+    }
+  ],
+  "yuzishi": [
+    {
+      "char": "余子式",
+      "en": "Minor"
+    }
+  ],
+  "zengguangjuzhen": [
+    {
+      "char": "增广矩阵",
+      "en": "Augmented Matrix"
+    }
+  ],
+  "zhuanzhijuzhen": [
+    {
+      "char": "转置矩阵",
+      "en": "Transposed Matrix"
+    }
+  ],
+  "zhudian": [
+    {
+      "char": "驻点",
+      "en": "Stationary Point"
+    }
+  ],
+  "zuidazhi": [
+    {
+      "char": "最大值",
+      "en": "Maximum Value"
+    }
+  ],
+  "zuixiaozhi": [
+    {
+      "char": "最小值",
+      "en": "Minimum Value"
+    }
+  ],
+  "zuojixian": [
+    {
+      "char": "左极限",
+      "en": "Left-hand Limit"
+    }
+  ]
+}

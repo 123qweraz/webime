@@ -1,0 +1,788 @@
+{
+  "adperlinsuanxiangan": [
+    {
+      "char": "ADP（二磷酸腺苷）",
+      "en": "Adenosine Diphosphate"
+    }
+  ],
+  "anfanying": [
+    {
+      "char": "暗反应",
+      "en": "Dark Reaction"
+    }
+  ],
+  "atpsanlinsuanxiangan": [
+    {
+      "char": "ATP（三磷酸腺苷）",
+      "en": "Adenosine Triphosphate"
+    }
+  ],
+  "banxingyichuan": [
+    {
+      "char": "伴性遗传",
+      "en": "Sex-linked Inheritance"
+    }
+  ],
+  "bianyi": [
+    {
+      "char": "变异",
+      "en": "Variation"
+    }
+  ],
+  "biaoxianxing": [
+    {
+      "char": "表现型",
+      "en": "Phenotype"
+    }
+  ],
+  "bingdu": [
+    {
+      "char": "病毒",
+      "en": "Virus"
+    }
+  ],
+  "cejiao": [
+    {
+      "char": "测交",
+      "en": "Test Cross"
+    }
+  ],
+  "chimeisu": [
+    {
+      "char": "赤霉素",
+      "en": "Gibberellin"
+    }
+  ],
+  "chuanchushenjing": [
+    {
+      "char": "传出神经",
+      "en": "Efferent Nerve"
+    }
+  ],
+  "chuanrushenjing": [
+    {
+      "char": "传入神经",
+      "en": "Afferent Nerve"
+    }
+  ],
+  "chunhezi": [
+    {
+      "char": "纯合子",
+      "en": "Homozygote"
+    }
+  ],
+  "danxunhuan": [
+    {
+      "char": "氮循环",
+      "en": "Nitrogen Cycle"
+    }
+  ],
+  "dengweijiyin": [
+    {
+      "char": "等位基因",
+      "en": "Allele"
+    }
+  ],
+  "dnalianjiemei": [
+    {
+      "char": "DNA连接酶",
+      "en": "DNA Ligase"
+    }
+  ],
+  "dnatuoyanghetanghesuan": [
+    {
+      "char": "DNA（脱氧核糖核酸）",
+      "en": "Deoxyribonucleic Acid"
+    }
+  ],
+  "fajiao": [
+    {
+      "char": "发酵",
+      "en": "Fermentation"
+    }
+  ],
+  "fanshe": [
+    {
+      "char": "反射",
+      "en": "Reflex"
+    }
+  ],
+  "fanshehu": [
+    {
+      "char": "反射弧",
+      "en": "Reflex Arc"
+    }
+  ],
+  "fanyi": [
+    {
+      "char": "翻译",
+      "en": "Translation"
+    }
+  ],
+  "feiteyixingmianyi": [
+    {
+      "char": "非特异性免疫",
+      "en": "Non-specific Immunity"
+    }
+  ],
+  "fenjiezhe": [
+    {
+      "char": "分解者",
+      "en": "Decomposer"
+    }
+  ],
+  "ganshouqi": [
+    {
+      "char": "感受器",
+      "en": "Receptor"
+    }
+  ],
+  "gaoerjiti": [
+    {
+      "char": "高尔基体",
+      "en": "Golgi Apparatus"
+    }
+  ],
+  "geti": [
+    {
+      "char": "个体",
+      "en": "Individual"
+    }
+  ],
+  "gongtongjinhua": [
+    {
+      "char": "共同进化",
+      "en": "Coevolution"
+    }
+  ],
+  "guangfanying": [
+    {
+      "char": "光反应",
+      "en": "Light Reaction"
+    }
+  ],
+  "guanghezuoyong": [
+    {
+      "char": "光合作用",
+      "en": "Photosynthesis"
+    }
+  ],
+  "hegansuan": [
+    {
+      "char": "核苷酸",
+      "en": "Nucleotide"
+    }
+  ],
+  "hetangti": [
+    {
+      "char": "核糖体",
+      "en": "Ribosome"
+    }
+  ],
+  "huxizuoyong": [
+    {
+      "char": "呼吸作用",
+      "en": "Respiration"
+    }
+  ],
+  "jianji": [
+    {
+      "char": "碱基",
+      "en": "Base"
+    }
+  ],
+  "jianshufenlie": [
+    {
+      "char": "减数分裂",
+      "en": "Meiosis"
+    }
+  ],
+  "jiazhuangxianjisu": [
+    {
+      "char": "甲状腺激素",
+      "en": "Thyroid Hormone"
+    }
+  ],
+  "jisutiaojie": [
+    {
+      "char": "激素调节",
+      "en": "Hormonal Regulation"
+    }
+  ],
+  "jiyin": [
+    {
+      "char": "基因",
+      "en": "Gene"
+    }
+  ],
+  "jiyinchongzu": [
+    {
+      "char": "基因重组",
+      "en": "Genetic Recombination"
+    }
+  ],
+  "jiyingongcheng": [
+    {
+      "char": "基因工程",
+      "en": "Genetic Engineering"
+    }
+  ],
+  "jiyintubian": [
+    {
+      "char": "基因突变",
+      "en": "Gene Mutation"
+    }
+  ],
+  "jiyinxing": [
+    {
+      "char": "基因型",
+      "en": "Genotype"
+    }
+  ],
+  "junzhongxuanyu": [
+    {
+      "char": "菌种选育",
+      "en": "Strain Selection"
+    }
+  ],
+  "kangti": [
+    {
+      "char": "抗体",
+      "en": "Antibody"
+    }
+  ],
+  "kangyuan": [
+    {
+      "char": "抗原",
+      "en": "Antigen"
+    }
+  ],
+  "linbaxibao": [
+    {
+      "char": "淋巴细胞",
+      "en": "Lymphocyte"
+    }
+  ],
+  "mei": [
+    {
+      "char": "酶",
+      "en": "Enzyme"
+    }
+  ],
+  "mianyitiaojie": [
+    {
+      "char": "免疫调节",
+      "en": "Immune Regulation"
+    }
+  ],
+  "miejun": [
+    {
+      "char": "灭菌",
+      "en": "Sterilization"
+    }
+  ],
+  "neizhiwang": [
+    {
+      "char": "内质网",
+      "en": "Endoplasmic Reticulum"
+    }
+  ],
+  "nengliangliudong": [
+    {
+      "char": "能量流动",
+      "en": "Energy Flow"
+    }
+  ],
+  "paixie": [
+    {
+      "char": "排泄",
+      "en": "Excretion"
+    }
+  ],
+  "peiyangji": [
+    {
+      "char": "培养基",
+      "en": "Culture Medium"
+    }
+  ],
+  "qiguan": [
+    {
+      "char": "器官",
+      "en": "Organ"
+    }
+  ],
+  "qunluo": [
+    {
+      "char": "群落",
+      "en": "Community"
+    }
+  ],
+  "ranseti": [
+    {
+      "char": "染色体",
+      "en": "Chromosome"
+    }
+  ],
+  "ransetibianyi": [
+    {
+      "char": "染色体变异",
+      "en": "Chromosomal Variation"
+    }
+  ],
+  "rengongxuanze": [
+    {
+      "char": "人工选择",
+      "en": "Artificial Selection"
+    }
+  ],
+  "rnahetanghesuan": [
+    {
+      "char": "RNA（核糖核酸）",
+      "en": "Ribonucleic Acid"
+    }
+  ],
+  "rongmeiti": [
+    {
+      "char": "溶酶体",
+      "en": "Lysosome"
+    }
+  ],
+  "shengchanzhe": [
+    {
+      "char": "生产者",
+      "en": "Producer"
+    }
+  ],
+  "shengtaipingheng": [
+    {
+      "char": "生态平衡",
+      "en": "Ecological Balance"
+    }
+  ],
+  "shengtaixitong": [
+    {
+      "char": "生态系统",
+      "en": "Ecosystem"
+    }
+  ],
+  "shengwuduoyangxing": [
+    {
+      "char": "生物多样性",
+      "en": "Biodiversity"
+    }
+  ],
+  "shengwufuji": [
+    {
+      "char": "生物富集",
+      "en": "Biological Magnification"
+    }
+  ],
+  "shengzhangjisu": [
+    {
+      "char": "生长激素",
+      "en": "Growth Hormone"
+    }
+  ],
+  "shengzhangsu": [
+    {
+      "char": "生长素",
+      "en": "Auxin"
+    }
+  ],
+  "shenjingtiaojie": [
+    {
+      "char": "神经调节",
+      "en": "Neural Regulation"
+    }
+  ],
+  "shenjingzhongshu": [
+    {
+      "char": "神经中枢",
+      "en": "Neural Center"
+    }
+  ],
+  "shiwulian": [
+    {
+      "char": "食物链",
+      "en": "Food Chain"
+    }
+  ],
+  "shiwuwang": [
+    {
+      "char": "食物网",
+      "en": "Food Web"
+    }
+  ],
+  "shiyingxing": [
+    {
+      "char": "适应性",
+      "en": "Adaptability"
+    }
+  ],
+  "tanxunhuan": [
+    {
+      "char": "碳循环",
+      "en": "Carbon Cycle"
+    }
+  ],
+  "teyixingmianyi": [
+    {
+      "char": "特异性免疫",
+      "en": "Specific Immunity"
+    }
+  ],
+  "tonghuazuoyong": [
+    {
+      "char": "同化作用",
+      "en": "Assimilation"
+    }
+  ],
+  "tunshixibao": [
+    {
+      "char": "吞噬细胞",
+      "en": "Phagocyte"
+    }
+  ],
+  "tuoluosuan": [
+    {
+      "char": "脱落酸",
+      "en": "Abscisic Acid"
+    }
+  ],
+  "wuyangfajiao": [
+    {
+      "char": "无氧发酵",
+      "en": "Anaerobic Fermentation"
+    }
+  ],
+  "wuyanghuxi": [
+    {
+      "char": "无氧呼吸",
+      "en": "Anaerobic Respiration"
+    }
+  ],
+  "wuzhixunhuan": [
+    {
+      "char": "物质循环",
+      "en": "Material Cycle"
+    }
+  ],
+  "xiangfeixing": [
+    {
+      "char": "向肥性",
+      "en": "Chemotropism"
+    }
+  ],
+  "xiangguangxing": [
+    {
+      "char": "向光性",
+      "en": "Phototropism"
+    }
+  ],
+  "xiangshuixing": [
+    {
+      "char": "向水性",
+      "en": "Hydrotropism"
+    }
+  ],
+  "xiangzhonglixing": [
+    {
+      "char": "向重力性",
+      "en": "Gravitropism"
+    }
+  ],
+  "xianliti": [
+    {
+      "char": "线粒体",
+      "en": "Mitochondrion"
+    }
+  ],
+  "xianxingjiyin": [
+    {
+      "char": "显性基因",
+      "en": "Dominant Gene"
+    }
+  ],
+  "xianzhixinghesuanneiqiemei": [
+    {
+      "char": "限制性核酸内切酶",
+      "en": "Restriction Endonuclease"
+    }
+  ],
+  "xiaodu": [
+    {
+      "char": "消毒",
+      "en": "Disinfection"
+    }
+  ],
+  "xiaofeizhe": [
+    {
+      "char": "消费者",
+      "en": "Consumer"
+    }
+  ],
+  "xiaohuazuoyong": [
+    {
+      "char": "消化作用",
+      "en": "Digestion"
+    }
+  ],
+  "xiaoyingqi": [
+    {
+      "char": "效应器",
+      "en": "Effector"
+    }
+  ],
+  "xibao": [
+    {
+      "char": "细胞",
+      "en": "Cell"
+    }
+  ],
+  "xibaobi": [
+    {
+      "char": "细胞壁",
+      "en": "Cell Wall"
+    }
+  ],
+  "xibaodiaowang": [
+    {
+      "char": "细胞凋亡",
+      "en": "Apoptosis"
+    }
+  ],
+  "xibaofenhua": [
+    {
+      "char": "细胞分化",
+      "en": "Cell Differentiation"
+    }
+  ],
+  "xibaofenlie": [
+    {
+      "char": "细胞分裂",
+      "en": "Cell Division"
+    }
+  ],
+  "xibaofenliesu": [
+    {
+      "char": "细胞分裂素",
+      "en": "Cytokinin"
+    }
+  ],
+  "xibaogujia": [
+    {
+      "char": "细胞骨架",
+      "en": "Cytoskeleton"
+    }
+  ],
+  "xibaohe": [
+    {
+      "char": "细胞核",
+      "en": "Nucleus"
+    }
+  ],
+  "xibaomo": [
+    {
+      "char": "细胞膜",
+      "en": "Cell Membrane"
+    }
+  ],
+  "xibaoshuailao": [
+    {
+      "char": "细胞衰老",
+      "en": "Cell Senescence"
+    }
+  ],
+  "xibaozhi": [
+    {
+      "char": "细胞质",
+      "en": "Cytoplasm"
+    }
+  ],
+  "xijun": [
+    {
+      "char": "细菌",
+      "en": "Bacterium"
+    }
+  ],
+  "xinchendaixie": [
+    {
+      "char": "新陈代谢",
+      "en": "Metabolism"
+    }
+  ],
+  "xishouzuoyong": [
+    {
+      "char": "吸收作用",
+      "en": "Absorption"
+    }
+  ],
+  "xitong": [
+    {
+      "char": "系统",
+      "en": "System"
+    }
+  ],
+  "xuetang": [
+    {
+      "char": "血糖",
+      "en": "Blood Glucose"
+    }
+  ],
+  "yelvti": [
+    {
+      "char": "叶绿体",
+      "en": "Chloroplast"
+    }
+  ],
+  "yepao": [
+    {
+      "char": "液泡",
+      "en": "Vacuole"
+    }
+  ],
+  "yichuan": [
+    {
+      "char": "遗传",
+      "en": "Heredity"
+    }
+  ],
+  "yichuanbing": [
+    {
+      "char": "遗传病",
+      "en": "Genetic Disease"
+    }
+  ],
+  "yidaosu": [
+    {
+      "char": "胰岛素",
+      "en": "Insulin"
+    }
+  ],
+  "yihuazuoyong": [
+    {
+      "char": "异化作用",
+      "en": "Dissimilation"
+    }
+  ],
+  "yingjixing": [
+    {
+      "char": "应激性",
+      "en": "Irritability"
+    }
+  ],
+  "yinxingjiyin": [
+    {
+      "char": "隐性基因",
+      "en": "Recessive Gene"
+    }
+  ],
+  "yixi": [
+    {
+      "char": "乙烯",
+      "en": "Ethylene"
+    }
+  ],
+  "yousifenlie": [
+    {
+      "char": "有丝分裂",
+      "en": "Mitosis"
+    }
+  ],
+  "youyangfajiao": [
+    {
+      "char": "有氧发酵",
+      "en": "Aerobic Fermentation"
+    }
+  ],
+  "youyanghuxi": [
+    {
+      "char": "有氧呼吸",
+      "en": "Aerobic Respiration"
+    }
+  ],
+  "yuanhexibao": [
+    {
+      "char": "原核细胞",
+      "en": "Prokaryotic Cell"
+    }
+  ],
+  "yunzaiti": [
+    {
+      "char": "运载体",
+      "en": "Vector"
+    }
+  ],
+  "zahezi": [
+    {
+      "char": "杂合子",
+      "en": "Heterozygote"
+    }
+  ],
+  "zajiao": [
+    {
+      "char": "杂交",
+      "en": "Hybridization"
+    }
+  ],
+  "zhengtengzuoyong": [
+    {
+      "char": "蒸腾作用",
+      "en": "Transpiration"
+    }
+  ],
+  "zhenhexibao": [
+    {
+      "char": "真核细胞",
+      "en": "Eukaryotic Cell"
+    }
+  ],
+  "zhenjun": [
+    {
+      "char": "真菌",
+      "en": "Fungus"
+    }
+  ],
+  "zhiwujisu": [
+    {
+      "char": "植物激素",
+      "en": "Plant Hormone"
+    }
+  ],
+  "zhongqun": [
+    {
+      "char": "种群",
+      "en": "Population"
+    }
+  ],
+  "zhongxinti": [
+    {
+      "char": "中心体",
+      "en": "Centrosome"
+    }
+  ],
+  "zhuanlu": [
+    {
+      "char": "转录",
+      "en": "Transcription"
+    }
+  ],
+  "zijiao": [
+    {
+      "char": "自交",
+      "en": "Self-pollination/Selfing"
+    }
+  ],
+  "ziranxuanze": [
+    {
+      "char": "自然选择",
+      "en": "Natural Selection"
+    }
+  ],
+  "zuzhi": [
+    {
+      "char": "组织",
+      "en": "Tissue"
+    }
+  ]
+}
