@@ -33,7 +33,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "数学名词",
-        path: "dicts/chinese/subjects/dict_math.json",
+        path: "dicts/chinese/second_dict/subjects/dict_math.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -41,7 +41,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "物理名词",
-        path: "dicts/chinese/subjects/dict_physics.json",
+        path: "dicts/chinese/second_dict/subjects/dict_physics.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -49,7 +49,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "化学名词",
-        path: "dicts/chinese/subjects/dict_chemistry.json",
+        path: "dicts/chinese/second_dict/subjects/dict_chemistry.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -57,7 +57,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "生物名词",
-        path: "dicts/chinese/subjects/dict_biology.json",
+        path: "dicts/chinese/second_dict/subjects/dict_biology.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -65,7 +65,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "历史名词",
-        path: "dicts/chinese/subjects/dict_history.json",
+        path: "dicts/chinese/second_dict/subjects/dict_history.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -73,7 +73,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "地理名词",
-        path: "dicts/chinese/subjects/dict_geography.json",
+        path: "dicts/chinese/second_dict/subjects/dict_geography.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -81,7 +81,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "政治经济",
-        path: "dicts/chinese/subjects/dict_politics.json",
+        path: "dicts/chinese/second_dict/subjects/dict_politics.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -89,7 +89,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "英语语法",
-        path: "dicts/chinese/subjects/dict_english.json",
+        path: "dicts/chinese/second_dict/subjects/dict_english.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -97,7 +97,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "计算机名词",
-        path: "dicts/chinese/subjects/dict_cs.json",
+        path: "dicts/chinese/second_dict/subjects/dict_cs.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",

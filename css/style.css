@@ -1077,6 +1077,27 @@ body {
 body.dark-mode .dict-card { background: rgba(255, 255, 255, 0.02); }
 
 .dict-card:hover {
+
+/* Dict card state styles - enabled: blue, disabled: gray */
+.dict-card.enabled {
+    border-left: 4px solid var(--primary);
+}
+
+.dict-card.disabled {
+    border-left: 4px solid #999;
+    opacity: 0.7;
+}
+
+/* Button state styles for dict cards */
+.dict-card.enabled .btn {
+    background: var(--primary);
+    color: white;
+}
+
+.dict-card.disabled .btn {
+    background: #999;
+    color: white;
+}
     border-color: var(--primary);
 }
 

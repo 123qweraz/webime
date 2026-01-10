@@ -6,7 +6,7 @@ function loadDictConfig() {
     // Separate user dicts (preserve them always)
     const userDicts = storedDicts.filter(d => d.type === 'user');
     
-    // Rebuild built-in dicts from the latest config (source of truth for paths/names)
+    // Rebuild built-in dicts from latest config (source of truth for paths/names)
     // but try to restore 'enabled' state from storage if name matches.
     const mergedBuiltIns = BUILT_IN_DICTS.map(builtIn => {
         // Try to find a matching entry in stored dicts to restore preference
@@ -17,7 +17,7 @@ function loadDictConfig() {
              // Legacy support for renamed dicts
              (builtIn.name === "生僻字" && d.name === "三级字"))
         );
-
+        
         if (match) {
             // Keep the new configuration (path, priority, etc.) but restore enabled state
             return {
@@ -29,7 +29,7 @@ function loadDictConfig() {
             return { ...builtIn };
         }
     });
-
+    
     // Combine and save
     allDicts = [...mergedBuiltIns, ...userDicts];
     
@@ -51,11 +51,11 @@ function openSettingsSidebar() {
     if (practiceTabBtn) {
         practiceTabBtn.style.display = isPractice ? "block" : "none";
     }
-
+    
     if (sidebarTitle) {
         sidebarTitle.textContent = isPractice ? "练习词典与章节" : "词典方案设置";
     }
-
+    
     document.getElementById("settings-sidebar").classList.add("open");
     document.getElementById("settings-sidebar-backdrop").classList.add("active");
     
@@ -78,7 +78,7 @@ async function switchDictTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.toggle('active', content.id === `tab-${tabName}`);
     });
-
+    
     if (tabName === 'chinese' || tabName === 'japanese' || tabName === 'english') {
         renderLanguageTab(tabName);
     } else if (tabName === 'user') {
@@ -88,11 +88,17 @@ async function switchDictTab(tabName) {
     }
 }
 
+// Helper function to check if a dictionary is a subject dict
+function isSubjectDict(d) {
+    const subjectNames = ["数学名词", "物理名词", "化学名词", "生物名词", "历史名词", "地理名词", "政治经济", "英语语法", "计算机名词"];
+    return subjectNames.includes(d.name);
+}
+
 function renderLanguageTab(lang) {
     const container = document.getElementById(`tab-${lang}`);
-    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字");
+    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字" && !isSubjectDict(d));
     const isEnabled = mainDicts.some(d => d.enabled);
-
+    
     let title = '';
     let desc = '';
     if (lang === 'chinese') {
@@ -105,7 +111,7 @@ function renderLanguageTab(lang) {
         title = '英语辅助方案';
         desc = '提供常用英语单词提示，支持按长度筛选练习。';
     }
-
+    
     let html = `
         <div class="dict-card ${isEnabled ? 'enabled' : 'disabled'}" style="border-left: 4px solid var(--primary); padding: 20px;">
             <div style="flex: 1;">
@@ -122,10 +128,12 @@ function renderLanguageTab(lang) {
             </button>
         </div>
     `;
-
+    
     if (lang === 'chinese') {
         const rareDict = allDicts.find(d => d.name === "生僻字");
         const isRareEnabled = rareDict ? rareDict.enabled : false;
+        const subjectDicts = allDicts.filter(d => isSubjectDict(d));
+        
         html += `
             <div class="practice-section-title" style="margin-top: 25px;">扩展选项</div>
             <div class="dict-card ${isRareEnabled ? 'enabled' : 'disabled'}">
@@ -138,26 +146,42 @@ function renderLanguageTab(lang) {
                 </button>
             </div>
         `;
+        
+        // Add all subject dictionaries to extended options
+        subjectDicts.forEach(d => {
+            const isEnabled = d.enabled ? true : false;
+            html += `
+                <div class="dict-card ${isEnabled ? 'enabled' : 'disabled'}">
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0;">${d.name}</h4>
+                        <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">学科专业词汇扩展。</p>
+                    </div>
+                    <button class="btn ${isEnabled ? '' : 'btn-action'}" onclick="toggleSingleDict('${d.path}')">
+                        ${isEnabled ? '禁用' : '启用'}
+                    </button>
+                </div>
+            `;
+        });
     }
-
+    
     container.innerHTML = html;
 }
 
 async function toggleLanguageGroup(lang) {
-    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字");
+    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字" && !isSubjectDict(d));
     const currentlyEnabled = mainDicts.some(d => d.enabled);
     const targetState = !currentlyEnabled;
-
+    
     allDicts.forEach(dict => {
-        if (dict.tag === lang && dict.name !== "生僻字") {
+        if (dict.tag === lang && dict.name !== "生僻字" && !isSubjectDict(dict)) {
             dict.enabled = targetState;
         }
     });
-
+    
     let langName = '中文';
     if (lang === 'japanese') langName = '日文';
     if (lang === 'english') langName = '英文';
-
+    
     saveDictConfig();
     showLoadingMessage(`正在${targetState ? '开启' : '关闭'}${langName}方案...`);
     await loadAllDicts();
@@ -172,6 +196,19 @@ async function toggleRareDict() {
         rareDict.enabled = !rareDict.enabled;
         saveDictConfig();
         showLoadingMessage(`正在${rareDict.enabled ? '开启' : '关闭'}生僻字库...`);
+        await loadAllDicts();
+        hideLoadingMessage();
+        renderLanguageTab('chinese');
+    }
+}
+
+// Function to toggle a single dictionary
+async function toggleSingleDict(path) {
+    const dict = allDicts.find(d => d.path === path);
+    if (dict) {
+        dict.enabled = !dict.enabled;
+        saveDictConfig();
+        showLoadingMessage(`正在${dict.enabled ? '开启' : '关闭'}${dict.name}...`);
         await loadAllDicts();
         hideLoadingMessage();
         renderLanguageTab('chinese');
@@ -193,7 +230,7 @@ function renderUserTab() {
             <h4 style="margin-bottom: 10px;">用户词典</h4>
             <div id="user-dict-list" class="dict-list">
     `;
-
+    
     if (userDicts.length === 0) {
         html += `<p style="color: #999; text-align: center; padding: 20px;">暂无用户词典</p>`;
     } else {
@@ -212,7 +249,7 @@ function renderUserTab() {
             `;
         });
     }
-
+    
     html += `</div>`;
     
     // Danger Zone
@@ -228,7 +265,7 @@ function renderUserTab() {
             </div>
         </div>
     `;
-
+    
     html += `</div>`;
     container.innerHTML = html;
 }
@@ -256,29 +293,29 @@ function renderPracticeTab() {
     const container = document.getElementById('tab-practice');
     const enabledDicts = allDicts.filter(d => d.enabled && (d.wordCount > 0 || d.type === 'built-in'));
     const currentPath = settings.practice_dict_path;
-
+    
     if (enabledDicts.length === 0) {
         container.innerHTML = `
             <div style="text-align: center; padding: 40px 20px;">
-                <p style="color: var(--text-sec); margin-bottom: 20px;">请先在“中文”、“日语”或“用户”标签页中启用需要练习的词典</p>
+                <p style="color: var(--text-sec); margin-bottom: 20px;">请先在"中文"、"日语"或"用户"标签页中启用需要练习的词典</p>
                 <button class="btn" onclick="switchDictTab('chinese')">前往启用词典</button>
             </div>
         `;
         return;
     }
-
+    
     let html = `
         <div class="practice-tab-container">
             <div class="practice-section-title">选择练习方案</div>
             <div class="practice-dict-grid">
     `;
-
+    
     const groups = [
         { tag: 'chinese', title: '中文词典' },
         { tag: 'japanese', title: '日文词典' },
         { tag: 'user', title: '用户词典' }
     ];
-
+    
     enabledDicts.forEach(dict => {
         const path = dict.path || dict.name;
         const isActive = path === currentPath;
@@ -289,7 +326,7 @@ function renderPracticeTab() {
             </div>
         `;
     });
-
+    
     html += `</div></div>`;
     container.innerHTML = html;
 }
@@ -312,7 +349,7 @@ function selectPracticeDict(path) {
 async function handleImport(input) {
     const file = input.files[0];
     if (!file) return;
-
+    
     const reader = new FileReader();
     reader.onload = async (e) => {
         try {
