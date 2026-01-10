@@ -32,6 +32,14 @@ const BUILT_IN_DICTS = [
         priority: 85,
     },
     {
+        name: "世界国家与城市",
+        path: "dicts/chinese/first_dict/dict_world.json",
+        enabled: true,
+        type: "built-in",
+        tag: "chinese",
+        priority: 82,
+    },
+    {
         name: "词组词典",
         path: "dicts/chinese/first_dict/dict_cizu.json",
         enabled: true,
