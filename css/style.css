@@ -1089,15 +1089,15 @@ body.dark-mode .dict-card { background: rgba(255, 255, 255, 0.02); }
     border-left: 4px solid #999;
 }
 
-/* Button state styles for dict cards */
+/* Button state styles for dict cards - Must override generic .btn styles */
 .dict-card.enabled .btn {
-    background: var(--primary);
-    color: white;
+    background: var(--primary) !important;
+    color: white !important;
 }
 
 .dict-card.disabled .btn {
-    background: #999;
-    color: white;
+    background: #999 !important;
+    color: white !important;
 }
 
 /* Practice Tab Grid */
