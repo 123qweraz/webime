@@ -92,56 +92,96 @@ function updateBufferDisplay(buffer, activeSegment, precedingBuffer) {
 
 function lookupCandidates(activeSegment) {
     if (!activeSegment) return [];
-    const b_segment_for_lookup = activeSegment.toLowerCase();
-    const isAllVowels = /^[aeiou]+$/.test(b_segment_for_lookup);
-    // Relax exact match requirement for English (or mixed) input
-    // If length > 1 and not purely vowels, we allow prefix matching to find longer English words
-    // But for short segments (length 1), we still prefer exact match to avoid noise?
-    // Actually, for "a", we want "a" -> "一个".
-    // If we type "a", and have "apple" -> "苹果".
-    // If exact match is required for "a", we only get "一个".
-    // If we type "ap", length 2.
-    // If "ap" is not all vowels, useExactMatch = false.
-    // So "ap" will find "apple".
     
-    // The previous logic:
-    // let useExactMatch = (b_segment_for_lookup.length <= 1) || ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels);
-    
-    // "ok" -> length 2. isAllVowels=false. useExactMatch=false. Should work.
-    // "a" -> length 1. useExactMatch=true.
-    
-    // Maybe the user wants "apple" to show up when typing "a"?
-    // If useExactMatch is true for "a", it WON'T show descendants like "apple".
-    // This suppresses "apple" candidate when typing "a".
-    // This is probably desired for Pinyin (don't show "ai", "an", "ang" when typing "a").
-    
-    // But for English, typing "a" should probably show "apple"?
-    // If I enable English, maybe I want prefix matching even for short words?
-    // But that would flood the candidates with every English word starting with "a".
-    
-    // I will keep the logic as is for now, assuming "wufa qiyong" is about not loading.
-    
-    let useExactMatch = (b_segment_for_lookup.length <= 1) || ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels);
-    const prefixNode = DB.getNode(b_segment_for_lookup);
-    if (!prefixNode) return [];
+    // Fuzzy expansion
+    let segmentVariants = [activeSegment.toLowerCase()];
+    if (typeof settings !== 'undefined' && settings.fuzzy) {
+        segmentVariants = expandFuzzy(activeSegment.toLowerCase());
+    }
+
     let list = [];
     let count = 0;
-    const MAX_COLLECT = 200;
-    const collect = (node, path) => {
-        if (count > MAX_COLLECT) return;
-        if (useExactMatch && path !== b_segment_for_lookup) return; 
-        if (node.values.length > 0) {
-            let baseW = (path === b_segment_for_lookup) ? 10000 : 1000;
-            baseW -= (path.length - b_segment_for_lookup.length) * 100;
-            node.values.forEach((i) => {
-                list.push({ text: i.char || i, desc: i.en || (typeof i === "object" ? i.en : ""), w: baseW + (i.priority || 0) });
-                count++;
-            });
-        }
-        if (!useExactMatch) { for (const char in node.children) { collect(node.children[char], path + char); } }
-    };
-    collect(prefixNode, b_segment_for_lookup);
+    const MAX_COLLECT = 500;
+    const originalSegment = activeSegment.toLowerCase();
+
+    for (const variant of segmentVariants) {
+        const isExactVariant = (variant === originalSegment);
+        
+        // Relax exact match requirement for English (or mixed) input
+        const b_segment_for_lookup = variant;
+        const isAllVowels = /^[aeiou]+$/.test(b_segment_for_lookup);
+        let useExactMatch = (b_segment_for_lookup.length <= 1) || ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels);
+        
+        const prefixNode = DB.getNode(b_segment_for_lookup);
+        if (!prefixNode) continue;
+        
+        const collect = (node, path) => {
+            if (count > MAX_COLLECT) return;
+            if (useExactMatch && path !== b_segment_for_lookup) return; 
+            if (node.values.length > 0) {
+                let baseW = (path === originalSegment) ? 10000 : 1000;
+                // If fuzzy variant match
+                if (path !== originalSegment) {
+                     // Prefer exact matches of the variant (e.g. "zha" for "zha") over prefixes ("zhang" for "zha")
+                     // But penalize relative to original input
+                     baseW = (path === variant) ? 9000 : 900;
+                }
+                
+                baseW -= (path.length - originalSegment.length) * 100;
+                if (!isExactVariant) baseW -= 500; // Fuzzy penalty
+
+                node.values.forEach((i) => {
+                    list.push({ text: i.char || i, desc: i.en || (typeof i === "object" ? i.en : ""), w: baseW + (i.priority || 0) });
+                    count++;
+                });
+            }
+            if (!useExactMatch) { for (const char in node.children) { collect(node.children[char], path + char); } }
+        };
+        collect(prefixNode, b_segment_for_lookup);
+    }
     return list;
+}
+
+function expandFuzzy(segment) {
+    if (!settings.fuzzy) return [segment];
+    let variants = new Set([segment]);
+    const add = (v) => variants.add(v);
+
+    if (settings.fuzzy.z_zh) {
+        Array.from(variants).forEach(v => {
+            if (v.startsWith("zh")) add("z" + v.substring(2));
+            else if (v.startsWith("z")) add("zh" + v.substring(1));
+        });
+    }
+
+    if (settings.fuzzy.c_ch) {
+        Array.from(variants).forEach(v => {
+            if (v.startsWith("ch")) add("c" + v.substring(2));
+            else if (v.startsWith("c")) add("ch" + v.substring(1));
+        });
+    }
+
+    if (settings.fuzzy.s_sh) {
+        Array.from(variants).forEach(v => {
+            if (v.startsWith("sh")) add("s" + v.substring(2));
+            else if (v.startsWith("s")) add("sh" + v.substring(1));
+        });
+    }
+
+    if (settings.fuzzy.n_ng) {
+        Array.from(variants).forEach(v => {
+            if (v.endsWith("ang")) add(v.substring(0, v.length - 1));
+            else if (v.endsWith("an")) add(v + "g");
+            
+            if (v.endsWith("eng")) add(v.substring(0, v.length - 1));
+            else if (v.endsWith("en")) add(v + "g");
+            
+            if (v.endsWith("ing")) add(v.substring(0, v.length - 1));
+            else if (v.endsWith("in")) add(v + "g");
+        });
+    }
+    
+    return Array.from(variants);
 }
 
 function update() {

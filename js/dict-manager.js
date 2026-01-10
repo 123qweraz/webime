@@ -83,6 +83,8 @@ async function switchDictTab(tabName) {
         renderLanguageTab(tabName);
     } else if (tabName === 'user') {
         renderUserTab();
+    } else if (tabName === 'settings') {
+        renderSettingsTab();
     } else if (tabName === 'practice') {
         renderPracticeTab();
     }
@@ -416,4 +418,46 @@ async function handleImport(input) {
     };
     reader.readAsText(file);
     input.value = "";
+}
+
+function renderSettingsTab() {
+    const container = document.getElementById('tab-settings');
+    
+    let html = `
+        <div class="practice-section-title">模糊音设置 (Fuzzy Pinyin)</div>
+        <div class="dict-card" style="display: block;">
+            <div style="padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px;">
+                <p style="font-size: 13px; color: var(--text-sec);">启用模糊音后，输入声母或韵母时会自动匹配相似发音。例如启用 "z-zh" 后，输入 "z" 也会匹配 "zh"。</p>
+            </div>
+    `;
+
+    const fuzzyOptions = [
+        { key: 'z_zh', label: 'z ↔ zh' },
+        { key: 'c_ch', label: 'c ↔ ch' },
+        { key: 's_sh', label: 's ↔ sh' },
+        { key: 'n_ng', label: 'n ↔ ng' } // This usually means an/ang, en/eng, in/ing
+    ];
+
+    fuzzyOptions.forEach(opt => {
+        const isEnabled = settings.fuzzy && settings.fuzzy[opt.key];
+        html += `
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0;">
+                <span style="font-weight: 500;">${opt.label}</span>
+                <label class="switch">
+                    <input type="checkbox" ${isEnabled ? 'checked' : ''} onchange="toggleFuzzy('${opt.key}')">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        `;
+    });
+
+    html += `</div>`;
+    container.innerHTML = html;
+}
+
+function toggleFuzzy(key) {
+    if (!settings.fuzzy) settings.fuzzy = {};
+    settings.fuzzy[key] = !settings.fuzzy[key];
+    saveSettings();
+    renderSettingsTab();
 }

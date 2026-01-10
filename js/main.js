@@ -2,6 +2,14 @@ let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
 
 async function init() {
     try {
+        if (!settings.fuzzy) {
+            settings.fuzzy = {
+                z_zh: false,
+                c_ch: false,
+                s_sh: false,
+                n_ng: false
+            };
+        }
         loadDictConfig();
         await loadAllDicts();
         applySettings();
