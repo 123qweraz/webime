@@ -894,11 +894,29 @@ function loadCards() {
         if (Array.isArray(hanziText)) hanziText = hanziText.join("，");
         
         const enText = getHanziEn(word.hanzi);
+        const pinyinText = word.pinyin || "";
         
         const frontHanzi = card.querySelector(".card-front .hanzi-display");
         const backHanzi = card.querySelector(".card-back .hanzi-display");
         const frontEn = card.querySelector(".card-front .en-display");
         const backEn = card.querySelector(".card-back .en-display");
+        const pinyinDisp = card.querySelector(".pinyin-display");
+
+        // Dynamic Font Scaling
+        const adjustFontSize = (el, text, baseSize, thresholds) => {
+            if (!el) return;
+            let size = baseSize;
+            for (const t of thresholds) {
+                if (text.length > t.len) size = t.size;
+            }
+            el.style.fontSize = size + "px";
+        };
+
+        // Adjust Hanzi Size: Default 64px, >4 chars -> 40px, >8 chars -> 28px
+        const hanziThresholds = [{len: 4, size: 40}, {len: 8, size: 28}];
+        
+        // Adjust Pinyin Size: Default 22px, >12 chars -> 18px, >20 chars -> 14px
+        const pinyinThresholds = [{len: 12, size: 18}, {len: 20, size: 14}];
 
         if (hideHanzi) {
             // Blind Mode
@@ -911,7 +929,6 @@ function loadCards() {
                 if (enText) {
                     frontEn.textContent = enText;
                 } else {
-                    // Fallback if no English definition
                     frontEn.innerHTML = `<span style="font-size:16px; color:var(--text-sec);">(无英文释义)</span>`;
                 }
             }
@@ -920,6 +937,7 @@ function loadCards() {
             if (frontHanzi) {
                 frontHanzi.style.display = ""; 
                 frontHanzi.textContent = hanziText;
+                adjustFontSize(frontHanzi, hanziText, 64, hanziThresholds);
             }
             if (frontEn) {
                 frontEn.style.display = "none";
@@ -927,8 +945,19 @@ function loadCards() {
         }
 
         // Back always has full info
-        if (backHanzi) backHanzi.textContent = hanziText;
+        if (backHanzi) {
+            backHanzi.textContent = hanziText;
+            adjustFontSize(backHanzi, hanziText, 32, [{len: 6, size: 24}, {len: 12, size: 18}]);
+        }
         if (backEn) backEn.textContent = enText;
+        
+        // Adjust Pinyin display if it exists (for history card)
+        if (pinyinDisp && card === cardRight) {
+            adjustFontSize(pinyinDisp, pinyinText, 22, pinyinThresholds);
+        } else if (pinyinDisp && card === cardCenter) {
+            // For center card, we also want the placeholder font to be smaller if pinyin is long
+            adjustFontSize(pinyinDisp, pinyinText, 22, pinyinThresholds);
+        }
 
         return card;
     };
