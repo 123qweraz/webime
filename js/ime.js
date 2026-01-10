@@ -4,7 +4,7 @@ let combinedCandidates = [], pageIndex = 0;
 let currentProcessedSegment = "";
 let currentPrecedingBuffer = "";
 let savedRange = null;
-let lastTabTime = 0;
+let lastModeSwitchTime = 0;
 
 function getOutputArea() {
     return document.getElementById("output-area");

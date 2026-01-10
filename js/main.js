@@ -106,8 +106,26 @@ function handleKeyDown(e) {
                 return;
             }
 
+            if (currentState === InputState.EN) {
+                setState(InputState.NORMAL);
+            } else if (currentState === InputState.TAB_EN) {
+                setState(InputState.TAB);
+            } else {
+                const isTabMode = currentState === InputState.TAB;
+                setState(isTabMode ? InputState.TAB_EN : InputState.EN);
+            }
+            pageIndex = 0; update();
+        }
+        // If no buffer, let handleGlobalKeyDown handle focus cycling
+        return;
+    }
+
+    if (key === "Shift") {
+        if (buffer) {
+            e.preventDefault();
+
             const now = Date.now();
-            if ((currentState === InputState.TAB || currentState === InputState.TAB_EN) && (now - lastTabTime < 500)) {
+            if ((currentState === InputState.TAB || currentState === InputState.TAB_EN) && (now - lastModeSwitchTime < 500)) {
                 e.preventDefault();
                 if (combinedCandidates.length > 0) {
                     const candidate = combinedCandidates[0];
@@ -117,11 +135,11 @@ function handleKeyDown(e) {
                         showToast("当前候选词无英文释义", "warning");
                     }
                 }
-                lastTabTime = 0;
+                lastModeSwitchTime = 0;
                 return;
             }
 
-            lastTabTime = now;
+            lastModeSwitchTime = now;
             if (currentState === InputState.TAB) {
                 setState(InputState.NORMAL);
             } else if (currentState === InputState.TAB_EN) {
@@ -132,23 +150,6 @@ function handleKeyDown(e) {
                 setState(InputState.TAB);
             }
             enFilter = ""; pageIndex = 0; update();
-        }
-        // If no buffer, let handleGlobalKeyDown handle focus cycling
-        return;
-    }
-
-    if (key === "Shift") {
-        if (buffer) {
-            e.preventDefault();
-            if (currentState === InputState.EN) {
-                setState(InputState.NORMAL);
-            } else if (currentState === InputState.TAB_EN) {
-                setState(InputState.TAB);
-            } else {
-                const isTabMode = currentState === InputState.TAB;
-                setState(isTabMode ? InputState.TAB_EN : InputState.EN);
-            }
-            pageIndex = 0; update();
         }
         return;
     }
