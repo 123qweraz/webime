@@ -24,6 +24,14 @@ const BUILT_IN_DICTS = [
         priority: 92,
     },
     {
+        name: "Emoji 表情",
+        path: "dicts/chinese/first_dict/dict_emoji.json",
+        enabled: true,
+        type: "built-in",
+        tag: "chinese",
+        priority: 85,
+    },
+    {
         name: "词组词典",
         path: "dicts/chinese/first_dict/dict_cizu.json",
         enabled: true,
