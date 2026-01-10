@@ -24,7 +24,8 @@ async function init() {
         setTimeout(focusHiddenInput, 100);
         setTimeout(focusHiddenInput, 500); // Back-up focus
     } catch (error) {
-        showErrorMessage("初始化失败");
+        console.error("Init failed:", error);
+        showErrorMessage("初始化失败", error);
         hideLoadingMessage();
     }
 }
