@@ -16,6 +16,14 @@ const BUILT_IN_DICTS = [
         priority: 95,
     },
     {
+        name: "百家姓与复姓",
+        path: "dicts/chinese/first_dict/dict_surnames.json",
+        enabled: true,
+        type: "built-in",
+        tag: "chinese",
+        priority: 92,
+    },
+    {
         name: "词组词典",
         path: "dicts/chinese/first_dict/dict_cizu.json",
         enabled: true,
