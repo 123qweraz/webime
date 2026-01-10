@@ -156,6 +156,9 @@ function renderLanguageTab(lang) {
                 <div style="flex: 1;">
                     <h4 style="margin: 0;">专业学科词库</h4>
                     <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">包含数学、物理、计算机等学科名词。</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px;">
+                        ${subjectDicts.map(d => `<span style="font-size: 9px; background: var(--bg); padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
+                    </div>
                 </div>
                 <button class="btn ${isSubjectEnabled ? '' : 'btn-action'}" onclick="toggleSubjectGroup()">
                     ${isSubjectEnabled ? '禁用' : '启用'}
@@ -166,6 +169,9 @@ function renderLanguageTab(lang) {
                 <div style="flex: 1;">
                     <h4 style="margin: 0;">英语词汇提示</h4>
                     <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">在中文输入模式下提供英语单词补全。</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px;">
+                        ${englishDicts.map(d => `<span style="font-size: 9px; background: var(--bg); padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
+                    </div>
                 </div>
                 <button class="btn ${isEnglishEnabled ? '' : 'btn-action'}" onclick="toggleEnglishGroup()">
                     ${isEnglishEnabled ? '禁用' : '启用'}
