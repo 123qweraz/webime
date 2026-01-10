@@ -201,18 +201,18 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "常用英语 (短)",
-        path: "dicts/english/dict_enlt5s.json",
+        path: "dicts/chinese/english/dict_enlt5s.json",
         enabled: false,
         type: "built-in",
-        tag: "english",
+        tag: "chinese",
         priority: 20,
     },
     {
         name: "常用英语 (长)",
-        path: "dicts/english/dict_5_10s.json",
+        path: "dicts/chinese/english/dict_5_10s.json",
         enabled: false,
         type: "built-in",
-        tag: "english",
+        tag: "chinese",
         priority: 20,
     },
 ];

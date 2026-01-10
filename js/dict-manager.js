@@ -79,7 +79,7 @@ async function switchDictTab(tabName) {
         content.classList.toggle('active', content.id === `tab-${tabName}`);
     });
     
-    if (tabName === 'chinese' || tabName === 'japanese' || tabName === 'english') {
+    if (tabName === 'chinese' || tabName === 'japanese') {
         renderLanguageTab(tabName);
     } else if (tabName === 'user') {
         renderUserTab();
@@ -94,9 +94,13 @@ function isSubjectDict(d) {
     return subjectNames.includes(d.name);
 }
 
+function isEnglishDict(d) {
+    return d.name === "常用英语 (短)" || d.name === "常用英语 (长)";
+}
+
 function renderLanguageTab(lang) {
     const container = document.getElementById(`tab-${lang}`);
-    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字" && !isSubjectDict(d));
+    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字" && !isSubjectDict(d) && !isEnglishDict(d));
     const isEnabled = mainDicts.some(d => d.enabled);
     
     let title = '';
@@ -107,9 +111,6 @@ function renderLanguageTab(lang) {
     } else if (lang === 'japanese') {
         title = '日文语境方案';
         desc = '包含完整的假名与 N1-N5 级别常用词汇。';
-    } else if (lang === 'english') {
-        title = '英语辅助方案';
-        desc = '提供常用英语单词提示，支持按长度筛选练习。';
     }
     
     let html = `
@@ -132,7 +133,12 @@ function renderLanguageTab(lang) {
     if (lang === 'chinese') {
         const rareDict = allDicts.find(d => d.name === "生僻字");
         const isRareEnabled = rareDict ? rareDict.enabled : false;
+        
         const subjectDicts = allDicts.filter(d => isSubjectDict(d));
+        const isSubjectEnabled = subjectDicts.some(d => d.enabled);
+        
+        const englishDicts = allDicts.filter(d => isEnglishDict(d));
+        const isEnglishEnabled = englishDicts.some(d => d.enabled);
         
         html += `
             <div class="practice-section-title" style="margin-top: 25px;">扩展选项</div>
@@ -145,42 +151,45 @@ function renderLanguageTab(lang) {
                     ${isRareEnabled ? '禁用' : '启用'}
                 </button>
             </div>
-        `;
-        
-        // Add all subject dictionaries to extended options
-        subjectDicts.forEach(d => {
-            const isEnabled = d.enabled ? true : false;
-            html += `
-                <div class="dict-card ${isEnabled ? 'enabled' : 'disabled'}">
-                    <div style="flex: 1;">
-                        <h4 style="margin: 0;">${d.name}</h4>
-                        <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">学科专业词汇扩展。</p>
-                    </div>
-                    <button class="btn ${isEnabled ? '' : 'btn-action'}" onclick="toggleSingleDict('${d.path}')">
-                        ${isEnabled ? '禁用' : '启用'}
-                    </button>
+            
+            <div class="dict-card ${isSubjectEnabled ? 'enabled' : 'disabled'}">
+                <div style="flex: 1;">
+                    <h4 style="margin: 0;">专业学科词库</h4>
+                    <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">包含数学、物理、计算机等学科名词。</p>
                 </div>
-            `;
-        });
+                <button class="btn ${isSubjectEnabled ? '' : 'btn-action'}" onclick="toggleSubjectGroup()">
+                    ${isSubjectEnabled ? '禁用' : '启用'}
+                </button>
+            </div>
+            
+            <div class="dict-card ${isEnglishEnabled ? 'enabled' : 'disabled'}">
+                <div style="flex: 1;">
+                    <h4 style="margin: 0;">英语词汇提示</h4>
+                    <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">在中文输入模式下提供英语单词补全。</p>
+                </div>
+                <button class="btn ${isEnglishEnabled ? '' : 'btn-action'}" onclick="toggleEnglishGroup()">
+                    ${isEnglishEnabled ? '禁用' : '启用'}
+                </button>
+            </div>
+        `;
     }
     
     container.innerHTML = html;
 }
 
 async function toggleLanguageGroup(lang) {
-    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字" && !isSubjectDict(d));
+    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字" && !isSubjectDict(d) && !isEnglishDict(d));
     const currentlyEnabled = mainDicts.some(d => d.enabled);
     const targetState = !currentlyEnabled;
     
     allDicts.forEach(dict => {
-        if (dict.tag === lang && dict.name !== "生僻字" && !isSubjectDict(dict)) {
+        if (dict.tag === lang && dict.name !== "生僻字" && !isSubjectDict(dict) && !isEnglishDict(dict)) {
             dict.enabled = targetState;
         }
     });
     
     let langName = '中文';
     if (lang === 'japanese') langName = '日文';
-    if (lang === 'english') langName = '英文';
     
     saveDictConfig();
     showLoadingMessage(`正在${targetState ? '开启' : '关闭'}${langName}方案...`);
@@ -200,6 +209,34 @@ async function toggleRareDict() {
         hideLoadingMessage();
         renderLanguageTab('chinese');
     }
+}
+
+async function toggleSubjectGroup() {
+    const subjectDicts = allDicts.filter(d => isSubjectDict(d));
+    const currentlyEnabled = subjectDicts.some(d => d.enabled);
+    const targetState = !currentlyEnabled;
+    
+    subjectDicts.forEach(d => d.enabled = targetState);
+    
+    saveDictConfig();
+    showLoadingMessage(`正在${targetState ? '开启' : '关闭'}专业学科词库...`);
+    await loadAllDicts();
+    hideLoadingMessage();
+    renderLanguageTab('chinese');
+}
+
+async function toggleEnglishGroup() {
+    const englishDicts = allDicts.filter(d => isEnglishDict(d));
+    const currentlyEnabled = englishDicts.some(d => d.enabled);
+    const targetState = !currentlyEnabled;
+    
+    englishDicts.forEach(d => d.enabled = targetState);
+    
+    saveDictConfig();
+    showLoadingMessage(`正在${targetState ? '开启' : '关闭'}英语词汇提示...`);
+    await loadAllDicts();
+    hideLoadingMessage();
+    renderLanguageTab('chinese');
 }
 
 // Function to toggle a single dictionary
