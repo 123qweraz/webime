@@ -10,6 +10,9 @@ async function init() {
                 n_ng: false
             };
         }
+        if (typeof settings.dynamicFreq === 'undefined') {
+            settings.dynamicFreq = true;
+        }
         loadDictConfig();
         await loadAllDicts();
         applySettings();

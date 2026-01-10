@@ -424,6 +424,20 @@ function renderSettingsTab() {
     const container = document.getElementById('tab-settings');
     
     let html = `
+        <div class="practice-section-title">常规设置</div>
+        <div class="dict-card" style="display: block;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0;">
+                <div style="flex: 1; padding-right: 10px;">
+                    <div style="font-weight: 500;">动态词频</div>
+                    <div style="font-size: 11px; color: var(--text-sec); margin-top: 2px;">根据使用习惯自动调整候选词顺序</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" ${settings.dynamicFreq ? 'checked' : ''} onchange="toggleSetting('dynamicFreq')">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
         <div class="practice-section-title">模糊音设置 (Fuzzy Pinyin)</div>
         <div class="dict-card" style="display: block;">
             <div style="padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px;">
@@ -458,6 +472,12 @@ function renderSettingsTab() {
 function toggleFuzzy(key) {
     if (!settings.fuzzy) settings.fuzzy = {};
     settings.fuzzy[key] = !settings.fuzzy[key];
+    saveSettings();
+    renderSettingsTab();
+}
+
+function toggleSetting(key) {
+    settings[key] = !settings[key];
     saveSettings();
     renderSettingsTab();
 }

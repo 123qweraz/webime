@@ -5,6 +5,7 @@ let currentProcessedSegment = "";
 let currentPrecedingBuffer = "";
 let savedRange = null;
 let lastModeSwitchTime = 0;
+let userFreq = JSON.parse(localStorage.getItem("ime_user_freq") || "{}");
 
 function getOutputArea() {
     return document.getElementById("output-area");
@@ -103,6 +104,8 @@ function lookupCandidates(activeSegment) {
     let count = 0;
     const MAX_COLLECT = 500;
     const originalSegment = activeSegment.toLowerCase();
+    
+    const isDynamic = typeof settings !== 'undefined' && settings.dynamicFreq;
 
     for (const variant of segmentVariants) {
         const isExactVariant = (variant === originalSegment);
@@ -131,7 +134,24 @@ function lookupCandidates(activeSegment) {
                 if (!isExactVariant) baseW -= 500; // Fuzzy penalty
 
                 node.values.forEach((i) => {
-                    list.push({ text: i.char || i, desc: i.en || (typeof i === "object" ? i.en : ""), w: baseW + (i.priority || 0) });
+                    let w = baseW + (i.priority || 0);
+                    const text = i.char || i;
+                    
+                    if (isDynamic) {
+                        // Check usage frequency
+                        // Key: originalSegment + "_" + text (bind to what user actually typed)
+                        // Or bind to the variant? 
+                        // If I type "z", select "在" (freq++). Next time I type "z", "在" should be higher.
+                        // If I type "zai", "在" matches exactly.
+                        // I think binding to originalSegment is better.
+                        const key = originalSegment + "_" + text;
+                        const freq = userFreq[key] || 0;
+                        if (freq > 0) {
+                            w += Math.min(freq * 500, 20000); // Boost! Max 20000 to override most things
+                        }
+                    }
+                    
+                    list.push({ text: text, desc: i.en || (typeof i === "object" ? i.en : ""), w: w });
                     count++;
                 });
             }
@@ -261,6 +281,12 @@ function render() {
 }
 
 function selectCandidate(selectedText) {
+    if (typeof settings !== 'undefined' && settings.dynamicFreq) {
+        const key = currentProcessedSegment.toLowerCase() + "_" + selectedText;
+        userFreq[key] = (userFreq[key] || 0) + 1;
+        localStorage.setItem("ime_user_freq", JSON.stringify(userFreq));
+    }
+
     const isEnglishMode = currentState === InputState.EN || currentState === InputState.TAB_EN;
     insertAtCursor(selectedText + (isEnglishMode ? " " : ""));
     resetInput();
