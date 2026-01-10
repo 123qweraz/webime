@@ -297,6 +297,25 @@ function renderUserTab() {
     
     html += `</div>`;
     
+    // Data Backup Section
+    html += `
+        <div style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px;">
+            <div class="practice-section-title">数据备份与恢复</div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-action" onclick="exportBackup()" style="flex: 1; justify-content: center;">
+                    📤 导出备份
+                </button>
+                <button class="btn" onclick="document.getElementById('backup-file-input').click()" style="flex: 1; justify-content: center; background: var(--bg); border: 1px solid var(--border);">
+                    📥 恢复备份
+                </button>
+                <input type="file" id="backup-file-input" style="display: none" onchange="importBackup(this)" />
+            </div>
+            <p style="font-size: 11px; color: var(--text-sec); margin-top: 8px;">
+                包含：设置、用户词典、词频数据、历史记录及练习进度。
+            </p>
+        </div>
+    `;
+
     // Danger Zone
     html += `
         <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
@@ -480,4 +499,56 @@ function toggleSetting(key) {
     settings[key] = !settings[key];
     saveSettings();
     renderSettingsTab();
+}
+
+function exportBackup() {
+    const backup = {
+        settings: JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}"),
+        dictsConfig: JSON.parse(localStorage.getItem(DICTS_CONFIG_KEY) || "[]"),
+        userFreq: JSON.parse(localStorage.getItem("ime_user_freq") || "{}"),
+        history: JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]"),
+        practiceProgress: JSON.parse(localStorage.getItem(PRACTICE_PROGRESS_KEY) || "{}"),
+        timestamp: Date.now()
+    };
+    
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `webime_backup_${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("备份已导出", "success");
+}
+
+function importBackup(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    if (!confirm("恢复备份将覆盖当前的设置、词典配置和历史记录。\n确定要继续吗？")) {
+        input.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const backup = JSON.parse(e.target.result);
+            if (backup.settings) localStorage.setItem(SETTINGS_KEY, JSON.stringify(backup.settings));
+            if (backup.dictsConfig) localStorage.setItem(DICTS_CONFIG_KEY, JSON.stringify(backup.dictsConfig));
+            if (backup.userFreq) localStorage.setItem("ime_user_freq", JSON.stringify(backup.userFreq));
+            if (backup.history) localStorage.setItem(HISTORY_KEY, JSON.stringify(backup.history));
+            if (backup.practiceProgress) localStorage.setItem(PRACTICE_PROGRESS_KEY, JSON.stringify(backup.practiceProgress));
+            
+            showToast("备份恢复成功，即将刷新...", "success");
+            setTimeout(() => location.reload(), 1000);
+        } catch (error) {
+            console.error("恢复备份失败:", error);
+            showToast("恢复失败，文件格式错误", "error");
+        }
+    };
+    reader.readAsText(file);
+    input.value = "";
 }
