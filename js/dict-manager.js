@@ -124,7 +124,7 @@ function renderLanguageTab(lang) {
                     ${mainDicts.map(d => `<span style="font-size: 10px; background: var(--bg); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
                 </div>
             </div>
-            <button class="btn ${isEnabled ? '' : 'btn-action'}" onclick="toggleLanguageGroup('${lang}')" style="min-width: 100px; justify-content: center;">
+            <button class="btn btn-action" onclick="toggleLanguageGroup('${lang}')" style="min-width: 100px; justify-content: center;">
                 ${isEnabled ? '已启用' : '启用方案'}
             </button>
         </div>
@@ -147,7 +147,7 @@ function renderLanguageTab(lang) {
                     <h4 style="margin: 0;">生僻字库</h4>
                     <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">包含三级字库等极低频汉字。</p>
                 </div>
-                <button class="btn ${isRareEnabled ? '' : 'btn-action'}" onclick="toggleRareDict()">
+                <button class="btn btn-action" onclick="toggleRareDict()">
                     ${isRareEnabled ? '禁用' : '启用'}
                 </button>
             </div>
@@ -160,7 +160,7 @@ function renderLanguageTab(lang) {
                         ${subjectDicts.map(d => `<span style="font-size: 9px; background: var(--bg); padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
                     </div>
                 </div>
-                <button class="btn ${isSubjectEnabled ? '' : 'btn-action'}" onclick="toggleSubjectGroup()">
+                <button class="btn btn-action" onclick="toggleSubjectGroup()">
                     ${isSubjectEnabled ? '禁用' : '启用'}
                 </button>
             </div>
@@ -173,7 +173,7 @@ function renderLanguageTab(lang) {
                         ${englishDicts.map(d => `<span style="font-size: 9px; background: var(--bg); padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
                     </div>
                 </div>
-                <button class="btn ${isEnglishEnabled ? '' : 'btn-action'}" onclick="toggleEnglishGroup()">
+                <button class="btn btn-action" onclick="toggleEnglishGroup()">
                     ${isEnglishEnabled ? '禁用' : '启用'}
                 </button>
             </div>
@@ -283,7 +283,7 @@ function renderUserTab() {
                 <div class="dict-card ${dict.enabled ? 'enabled' : 'disabled'}">
                     <span class="dict-card-name">${dict.name} (${dict.wordCount || 0} 词)</span>
                     <div class="dict-card-actions">
-                        <button class="btn btn-sm" onclick="toggleDictStatus(${actualIndex})">
+                        <button class="btn btn-sm btn-action" onclick="toggleDictStatus(${actualIndex})">
                             ${dict.enabled ? '禁用' : '启用'}
                         </button>
                         <button class="btn btn-sm btn-danger" onclick="deleteDict(${actualIndex})">删除</button>
