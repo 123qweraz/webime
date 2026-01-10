@@ -1,48 +1,58 @@
 {
-  "li": [
-    { "char": "李", "en": "Li (Surname)" },
-    { "char": "刘", "en": "Liu (Surname)" },
-    { "char": "林", "en": "Lin (Surname)" },
-    { "char": "罗", "en": "Luo (Surname)" },
-    { "char": "梁", "en": "Liang (Surname)" },
-    { "char": "吕", "en": "Lv (Surname)" }
+  "Li": [
+    { "char": "李", "en": "Li" }
   ],
-  "wang": [
-    { "char": "王", "en": "Wang (Surname)" },
-    { "char": "汪", "en": "Wang (Surname)" }
+  "Liu": [
+    { "char": "刘", "en": "Liu" }
   ],
-  "zhang": [
-    { "char": "张", "en": "Zhang (Surname)" },
-    { "char": "章", "en": "Zhang (Surname)" }
+  "Lin": [
+    { "char": "林", "en": "Lin" }
   ],
-  "chen": [{ "char": "陈", "en": "Chen (Surname)" }],
-  "yang": [{ "char": "杨", "en": "Yang (Surname)" }],
-  "huang": [{ "char": "黄", "en": "Huang (Surname)" }],
-  "zhao": [{ "char": "赵", "en": "Zhao (Surname)" }],
-  "wu": [
-    { "char": "吴", "en": "Wu (Surname)" },
-    { "char": "武", "en": "Wu (Surname)" }
+  "Luo": [
+    { "char": "罗", "en": "Luo" }
   ],
-  "zhou": [{ "char": "周", "en": "Zhou (Surname)" }],
-  "xu": [
-    { "char": "徐", "en": "Xu (Surname)" },
-    { "char": "许", "en": "Xu (Surname)" }
+  "Liang": [
+    { "char": "梁", "en": "Liang" }
   ],
-  "sun": [{ "char": "孙", "en": "Sun (Surname)" }],
-  "ma": [{ "char": "马", "en": "Ma (Surname)" }],
-  "zhu": [{ "char": "朱", "en": "Zhu (Surname)" }],
-  "hu": [{ "char": "胡", "en": "Hu (Surname)" }],
-  "guo": [{ "char": "郭", "en": "Guo (Surname)" }],
-  "he": [{ "char": "何", "en": "He (Surname)" }],
-  "gao": [{ "char": "高", "en": "Gao (Surname)" }],
-  "zhuge": [{ "char": "诸葛", "en": "Zhuge (Compound Surname)" }],
-  "ouyang": [{ "char": "欧阳", "en": "Ouyang (Compound Surname)" }],
-  "sima": [{ "char": "司马", "en": "Sima (Compound Surname)" }],
-  "shangguan": [{ "char": "上官", "en": "Shangguan (Compound Surname)" }],
-  "gongsun": [{ "char": "公孙", "en": "Gongsun (Compound Surname)" }],
-  "dongfang": [{ "char": "东方", "en": "Dongfang (Compound Surname)" }],
-  "dugu": [{ "char": "独孤", "en": "Dugu (Compound Surname)" }],
-  "murong": [{ "char": "慕容", "en": "Murong (Compound Surname)" }],
-  "yuchi": [{ "char": "尉迟", "en": "Yuchi (Compound Surname)" }],
-  "xiahou": [{ "char": "夏侯", "en": "Xiahou (Compound Surname)" }]
+  "Lv": [
+    { "char": "吕", "en": "Lv" }
+  ],
+  "Wang": [
+    { "char": "王", "en": "Wang" },
+    { "char": "汪", "en": "Wang" }
+  ],
+  "Zhang": [
+    { "char": "张", "en": "Zhang" },
+    { "char": "章", "en": "Zhang" }
+  ],
+  "Chen": [{ "char": "陈", "en": "Chen" }],
+  "Yang": [{ "char": "杨", "en": "Yang" }],
+  "Huang": [{ "char": "黄", "en": "Huang" }],
+  "Zhao": [{ "char": "赵", "en": "Zhao" }],
+  "Wu": [
+    { "char": "吴", "en": "Wu" },
+    { "char": "武", "en": "Wu" }
+  ],
+  "Zhou": [{ "char": "周", "en": "Zhou" }],
+  "Xu": [
+    { "char": "徐", "en": "Xu" },
+    { "char": "许", "en": "Xu" }
+  ],
+  "Sun": [{ "char": "孙", "en": "Sun" }],
+  "Ma": [{ "char": "马", "en": "Ma" }],
+  "Zhu": [{ "char": "朱", "en": "Zhu" }],
+  "Hu": [{ "char": "胡", "en": "Hu" }],
+  "Guo": [{ "char": "郭", "en": "Guo" }],
+  "He": [{ "char": "何", "en": "He" }],
+  "Gao": [{ "char": "高", "en": "Gao" }],
+  "Zhuge": [{ "char": "诸葛", "en": "Zhuge" }],
+  "Ouyang": [{ "char": "欧阳", "en": "Ouyang" }],
+  "Sima": [{ "char": "司马", "en": "Sima" }],
+  "Shangguan": [{ "char": "上官", "en": "Shangguan" }],
+  "Gongsun": [{ "char": "公孙", "en": "Gongsun" }],
+  "Dongfang": [{ "char": "东方", "en": "Dongfang" }],
+  "Dugu": [{ "char": "独孤", "en": "Dugu" }],
+  "Murong": [{ "char": "慕容", "en": "Murong" }],
+  "Yuchi": [{ "char": "尉迟", "en": "Yuchi" }],
+  "Xiahou": [{ "char": "夏侯", "en": "Xiahou" }]
 }
