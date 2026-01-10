@@ -78,6 +78,10 @@ body {
     gap: 12px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .toolbar-divider {
