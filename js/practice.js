@@ -37,16 +37,25 @@ function speakCurrentWord(e) {
         focusHiddenInput();
     }
     
-    if (currentPracticeWordIndex >= practiceWords.length) return;
+    if (currentPracticeWordIndex >= practiceWords.length) return Promise.resolve();
     const word = practiceWords[currentPracticeWordIndex];
-    if (!word) return;
+    if (!word) return Promise.resolve();
 
     const hanzi = getHanziChar(word.hanzi);
-    const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(hanzi)}&le=zh`;
+    // If it's an array (like in English dicts), join them or pick first
+    const text = Array.isArray(hanzi) ? hanzi.join("，") : hanzi;
+    
+    const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(text)}&le=zh`;
     const audio = new Audio(audioUrl);
-    audio.play().catch(err => {
-        console.error("Play audio failed:", err);
-        showToast("播放音频失败", "error");
+    
+    return new Promise((resolve) => {
+        audio.onended = resolve;
+        audio.onerror = resolve; // Resolve on error too so chain continues
+        audio.play().catch(err => {
+            console.error("Play audio failed:", err);
+            // showToast("播放音频失败", "error"); // Suppress toast for auto-play flow to avoid spam
+            resolve();
+        });
     });
 }
 
@@ -56,29 +65,38 @@ function speakCurrentEnglish(e) {
         focusHiddenInput();
     }
     
-    if (currentPracticeWordIndex >= practiceWords.length) return;
+    if (currentPracticeWordIndex >= practiceWords.length) return Promise.resolve();
     const word = practiceWords[currentPracticeWordIndex];
-    if (!word) return;
+    if (!word) return Promise.resolve();
 
     let textToRead = "";
     const en = getHanziEn(word.hanzi);
     if (en) {
         textToRead = en;
-    } else if (typeof word.hanzi === 'string') {
-        // Fallback for English dicts or simple KV pairs
-        textToRead = word.pinyin;
+    } else {
+        // Fallback: If pinyin looks like English (and no explicit EN definition), read pinyin
+        // This covers English dictionaries where pinyin="April"
+        if (/^[a-zA-Z\s']+$/.test(word.pinyin)) {
+            textToRead = word.pinyin;
+        }
     }
 
     if (!textToRead) {
-        showToast("无英语内容可朗读", "warning");
-        return;
+        if (e) showToast("无英语内容可朗读", "warning");
+        return Promise.resolve();
     }
 
     const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(textToRead)}&le=en`;
     const audio = new Audio(audioUrl);
-    audio.play().catch(err => {
-        console.error("Play English audio failed:", err);
-        showToast("播放失败", "error");
+    
+    return new Promise((resolve) => {
+        audio.onended = resolve;
+        audio.onerror = resolve;
+        audio.play().catch(err => {
+            console.error("Play English audio failed:", err);
+            if (e) showToast("播放失败", "error");
+            resolve();
+        });
     });
 }
 
@@ -88,12 +106,22 @@ function toggleAutoTTS() {
     if (btn) btn.classList.toggle("active", autoTTS);
     
     if (autoTTS) {
-        speakCurrentWord();
-        showToast("自动朗读已开启", "info");
+        triggerAutoTTS();
+        showToast("自动朗读已开启 (中+英)", "info");
     } else {
         showToast("自动朗读已关闭", "info");
     }
     focusHiddenInput();
+}
+
+function triggerAutoTTS() {
+    if (!autoTTS || isBrowseMode) return;
+    // Chain: Chinese -> English
+    speakCurrentWord().then(() => {
+        setTimeout(() => {
+            speakCurrentEnglish();
+        }, 200); // Small pause between
+    });
 }
 
 function toggleBrowseMode() {
@@ -800,7 +828,9 @@ function loadCards() {
     });
 
     const populateCard = (card, word) => {
-        const hanziText = getHanziChar(word.hanzi);
+        let hanziText = getHanziChar(word.hanzi);
+        if (Array.isArray(hanziText)) hanziText = hanziText.join("，");
+        
         const enText = getHanziEn(word.hanzi);
         
         const frontHanzi = card.querySelector(".card-front .hanzi-display");
@@ -809,19 +839,24 @@ function loadCards() {
         const backEn = card.querySelector(".card-back .en-display");
 
         if (hideHanzi) {
-            // Blind Mode: Hide Hanzi on Front, Show English on Front (if available)
+            // Blind Mode
             if (frontHanzi) {
                 frontHanzi.style.display = "none";
                 frontHanzi.textContent = hanziText;
             }
             if (frontEn) {
-                frontEn.style.display = "block"; // Show En on Front
-                frontEn.textContent = enText;
+                frontEn.style.display = "block"; 
+                if (enText) {
+                    frontEn.textContent = enText;
+                } else {
+                    // Fallback if no English definition
+                    frontEn.innerHTML = `<span style="font-size:16px; color:var(--text-sec);">(无英文释义)</span>`;
+                }
             }
         } else {
-            // Normal Mode: Show Hanzi on Front
+            // Normal Mode
             if (frontHanzi) {
-                frontHanzi.style.display = ""; // Reset to CSS default (block)
+                frontHanzi.style.display = ""; 
                 frontHanzi.textContent = hanziText;
             }
             if (frontEn) {
@@ -844,7 +879,7 @@ function loadCards() {
         cardCenter.classList.add("visible", "current");
         
         if (autoTTS && !isBrowseMode) { 
-            setTimeout(() => speakCurrentWord(), 300);
+            setTimeout(() => triggerAutoTTS(), 300);
         }
     } else {
         exitPracticeMode();
