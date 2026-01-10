@@ -4,6 +4,7 @@ let isPracticeAnimating = false;
 let cardLeft, cardCenter, cardRight;
 let practiceCards = [];
 let showPinyinHint = false;
+let hideHanzi = false;
 let autoTTS = false;
 let isBrowseMode = false;
 let currentRotationAngle = 0; // New: Track rotation
@@ -241,6 +242,12 @@ function handlePracticeKeyDown(e) {
     if (e.key === "F3") {
         e.preventDefault();
         speakCurrentWord();
+        return;
+    }
+
+    if (e.key === "F4") {
+        e.preventDefault();
+        toggleHanziPrompt();
         return;
     }
 
@@ -645,6 +652,7 @@ function showChapterPractice() {
             <button id="back-to-dir-btn" class="btn btn-toggle" onclick="showPracticeDirectory()">章节目录</button>
             <button id="toggle-browse-btn" class="btn btn-toggle" onclick="toggleBrowseMode()">浏览模式</button>
             <button id="toggle-pinyin-btn" class="btn btn-toggle ${showPinyinHint ? 'active' : ''}" onclick="togglePinyinHint()">显示拼音 (F2)</button>
+            <button id="toggle-hanzi-btn" class="btn btn-toggle ${hideHanzi ? 'active' : ''}" onclick="toggleHanziPrompt()">隐藏汉字 (F4)</button>
             <button id="play-sound-btn" class="btn btn-toggle" onclick="speakCurrentWord()">朗读 (F3)</button>
             <button id="toggle-tts-btn" class="btn btn-toggle ${autoTTS ? 'active' : ''}" onclick="toggleAutoTTS()">自动朗读</button>
         `;
@@ -718,17 +726,32 @@ function togglePinyinHint() {
     updatePracticeInputDisplay();
 }
 
+function toggleHanziPrompt() {
+    hideHanzi = !hideHanzi;
+    const btn = document.getElementById("toggle-hanzi-btn");
+    if (btn) btn.classList.toggle("active", hideHanzi);
+    if (hideHanzi) {
+        showToast("已隐藏汉字提示 (盲打/释义模式)", "info");
+    } else {
+        showToast("已显示汉字提示", "info");
+    }
+    loadCards();
+}
+
 function loadCards() {
     // Reset visuals
     practiceCards.forEach((card) => {
         card.classList.remove("visible", "current", "incorrect");
         const pyDisp = card.querySelector(".pinyin-display");
         const hzDisp = card.querySelector(".hanzi-display");
-        const enDisp = card.querySelector(".en-display");
+        const enDisp = card.querySelector(".card-back .en-display");
+        const frontEnDisp = card.querySelector(".card-front .en-display");
+        
         const content = card.querySelector(".practice-card-content");
         if (pyDisp) pyDisp.textContent = "";
         if (hzDisp) hzDisp.textContent = "";
         if (enDisp) enDisp.textContent = "";
+        if (frontEnDisp) frontEnDisp.textContent = "";
         
         // Reset rotation visually for all cards when loading
         if (content) {
@@ -739,14 +762,38 @@ function loadCards() {
 
     const populateCard = (card, word) => {
         const hanziText = getHanziChar(word.hanzi);
+        const enText = getHanziEn(word.hanzi);
+        
         const frontHanzi = card.querySelector(".card-front .hanzi-display");
         const backHanzi = card.querySelector(".card-back .hanzi-display");
-        
-        if (frontHanzi) frontHanzi.textContent = hanziText;
-        if (backHanzi) backHanzi.textContent = hanziText;
+        const frontEn = card.querySelector(".card-front .en-display");
+        const backEn = card.querySelector(".card-back .en-display");
 
-        const enDisp = card.querySelector(".en-display");
-        if (enDisp) enDisp.textContent = getHanziEn(word.hanzi);
+        if (hideHanzi) {
+            // Blind Mode: Hide Hanzi on Front, Show English on Front (if available)
+            if (frontHanzi) {
+                frontHanzi.style.display = "none";
+                frontHanzi.textContent = hanziText;
+            }
+            if (frontEn) {
+                frontEn.style.display = "block"; // Show En on Front
+                frontEn.textContent = enText;
+            }
+        } else {
+            // Normal Mode: Show Hanzi on Front
+            if (frontHanzi) {
+                frontHanzi.style.display = ""; // Reset to CSS default (block)
+                frontHanzi.textContent = hanziText;
+            }
+            if (frontEn) {
+                frontEn.style.display = "none";
+            }
+        }
+
+        // Back always has full info
+        if (backHanzi) backHanzi.textContent = hanziText;
+        if (backEn) backEn.textContent = enText;
+
         return card;
     };
 

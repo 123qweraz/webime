@@ -53,6 +53,7 @@
                                 <div class="card-face card-front">
                                     <div class="pinyin-display"></div>
                                     <div class="hanzi-display"></div>
+                                    <div class="en-display" style="display: none;"></div>
                                 </div>
                                 <div class="card-face card-back">
                                     <div class="pinyin-display" style="visibility: hidden;"></div>
@@ -67,6 +68,7 @@
                                 <div class="card-face card-front">
                                     <div class="pinyin-display"></div>
                                     <div class="hanzi-display"></div>
+                                    <div class="en-display" style="display: none;"></div>
                                 </div>
                                 <div class="card-face card-back">
                                     <div class="pinyin-display" style="visibility: hidden;"></div>
@@ -81,6 +83,7 @@
                                 <div class="card-face card-front">
                                     <div class="pinyin-display"></div>
                                     <div class="hanzi-display"></div>
+                                    <div class="en-display" style="display: none;"></div>
                                 </div>
                                 <div class="card-face card-back">
                                     <div class="pinyin-display" style="visibility: hidden;"></div>
@@ -95,6 +98,7 @@
                         <button id="back-to-dir-btn" class="btn btn-toggle" onclick="showPracticeDirectory()">章节目录</button>
                         <button id="toggle-browse-btn" class="btn btn-toggle" onclick="toggleBrowseMode()">浏览模式</button>
                         <button id="toggle-pinyin-btn" class="btn btn-toggle" onclick="togglePinyinHint()">显示拼音 (F2)</button>
+                        <button id="toggle-hanzi-btn" class="btn btn-toggle" onclick="toggleHanziPrompt()">隐藏汉字 (F4)</button>
                         <button id="play-sound-btn" class="btn btn-toggle" onclick="speakCurrentWord()">朗读 (F3)</button>
                         <button id="toggle-tts-btn" class="btn btn-toggle" onclick="toggleAutoTTS()">自动朗读</button>
                     </div>
