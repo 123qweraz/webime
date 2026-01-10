@@ -50,6 +50,38 @@ function speakCurrentWord(e) {
     });
 }
 
+function speakCurrentEnglish(e) {
+    if (e) {
+        e.stopPropagation();
+        focusHiddenInput();
+    }
+    
+    if (currentPracticeWordIndex >= practiceWords.length) return;
+    const word = practiceWords[currentPracticeWordIndex];
+    if (!word) return;
+
+    let textToRead = "";
+    const en = getHanziEn(word.hanzi);
+    if (en) {
+        textToRead = en;
+    } else if (typeof word.hanzi === 'string') {
+        // Fallback for English dicts or simple KV pairs
+        textToRead = word.pinyin;
+    }
+
+    if (!textToRead) {
+        showToast("无英语内容可朗读", "warning");
+        return;
+    }
+
+    const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(textToRead)}&le=en`;
+    const audio = new Audio(audioUrl);
+    audio.play().catch(err => {
+        console.error("Play English audio failed:", err);
+        showToast("播放失败", "error");
+    });
+}
+
 function toggleAutoTTS() {
     autoTTS = !autoTTS;
     const btn = document.getElementById("toggle-tts-btn");
@@ -248,6 +280,12 @@ function handlePracticeKeyDown(e) {
     if (e.key === "F4") {
         e.preventDefault();
         toggleHanziPrompt();
+        return;
+    }
+
+    if (e.key === "F5") {
+        e.preventDefault();
+        speakCurrentEnglish();
         return;
     }
 
@@ -654,6 +692,7 @@ function showChapterPractice() {
             <button id="toggle-pinyin-btn" class="btn btn-toggle ${showPinyinHint ? 'active' : ''}" onclick="togglePinyinHint()">显示拼音 (F2)</button>
             <button id="toggle-hanzi-btn" class="btn btn-toggle ${hideHanzi ? 'active' : ''}" onclick="toggleHanziPrompt()">隐藏汉字 (F4)</button>
             <button id="play-sound-btn" class="btn btn-toggle" onclick="speakCurrentWord()">朗读 (F3)</button>
+            <button id="play-en-btn" class="btn btn-toggle" onclick="speakCurrentEnglish()">英读 (F5)</button>
             <button id="toggle-tts-btn" class="btn btn-toggle ${autoTTS ? 'active' : ''}" onclick="toggleAutoTTS()">自动朗读</button>
         `;
     }
