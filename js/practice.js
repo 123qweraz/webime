@@ -5,7 +5,9 @@ let cardLeft, cardCenter, cardRight;
 let practiceCards = [];
 let showPinyinHint = false;
 let hideHanzi = false;
-let autoTTS = false;
+// ttsMode: 0=Off, 1=Target(Zh/Jp), 2=Definition(En), 3=Both
+let ttsMode = 0;
+let tempErrorChar = null; 
 let isBrowseMode = false;
 let currentRotationAngle = 0; // New: Track rotation
 let directoryPageIndex = 0;
@@ -45,7 +47,14 @@ function speakCurrentWord(e) {
     // If it's an array (like in English dicts), join them or pick first
     const text = Array.isArray(hanzi) ? hanzi.join("，") : hanzi;
     
-    const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(text)}&le=zh`;
+    // Detect Language based on dictionary path or current settings
+    // Simple heuristic: check if path contains "japanese" or check characters?
+    let lang = 'zh';
+    if (settings.practice_dict_path && settings.practice_dict_path.includes('japanese')) {
+        lang = 'jap';
+    }
+    
+    const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(text)}&le=${lang}`;
     const audio = new Audio(audioUrl);
     
     return new Promise((resolve) => {
@@ -100,27 +109,78 @@ function speakCurrentEnglish(e) {
     });
 }
 
-function toggleAutoTTS() {
-    autoTTS = !autoTTS;
-    const btn = document.getElementById("toggle-tts-btn");
-    if (btn) btn.classList.toggle("active", autoTTS);
+function handleManualRead(e) {
+    if (e) {
+        e.stopPropagation();
+        focusHiddenInput();
+    }
     
-    if (autoTTS) {
+    // If ttsMode is 0 (Off), F3 should read Target (default behavior)
+    if (ttsMode === 2) { 
+        speakCurrentEnglish();
+    } else if (ttsMode === 3) { 
+        speakCurrentWord().then(() => setTimeout(speakCurrentEnglish, 200));
+    } else { 
+        speakCurrentWord();
+    }
+}
+
+function toggleAutoTTS() {
+    ttsMode = (ttsMode + 1) % 4;
+    const btn = document.getElementById("toggle-tts-btn");
+    
+    let label = "自动朗读";
+    let msg = "";
+    
+    switch(ttsMode) {
+        case 0:
+            label = "自动: 关闭";
+            msg = "自动朗读已关闭";
+            if (btn) btn.classList.remove("active");
+            break;
+        case 1:
+            label = "自动: 词";
+            msg = "自动朗读: 仅读单词 (中/日)";
+            if (btn) btn.classList.add("active");
+            break;
+        case 2:
+            label = "自动: 义";
+            msg = "自动朗读: 仅读释义 (英)";
+            if (btn) btn.classList.add("active");
+            break;
+        case 3:
+            label = "自动: 双语";
+            msg = "自动朗读: 双语模式";
+            if (btn) btn.classList.add("active");
+            break;
+    }
+    
+    if (btn) btn.innerText = label;
+    showToast(msg, "info");
+    
+    if (ttsMode > 0) {
         triggerAutoTTS();
-        showToast("自动朗读已开启 (中+英)", "info");
-    } else {
-        showToast("自动朗读已关闭", "info");
     }
     focusHiddenInput();
 }
 
 function triggerAutoTTS() {
-    if (!autoTTS || isBrowseMode) return;
-    // Chain: Chinese -> English
-    speakCurrentWord().then(() => {
-        setTimeout(() => {
-            speakCurrentEnglish();
-        }, 200); // Small pause between
+    if (ttsMode === 0 || isBrowseMode) return;
+    
+    const p1 = (ttsMode === 1 || ttsMode === 3) ? () => speakCurrentWord() : () => Promise.resolve();
+    const p2 = (ttsMode === 2 || ttsMode === 3) ? () => speakCurrentEnglish() : () => Promise.resolve();
+
+    // If Both, play P1 then P2.
+    // If Target Only, play P1.
+    // If Def Only, play P2.
+    // Note: If ttsMode=2, p1 is empty resolve.
+    
+    p1().then(() => {
+        if (ttsMode === 3) {
+             setTimeout(() => p2(), 200);
+        } else if (ttsMode === 2) {
+             p2();
+        }
     });
 }
 
@@ -301,7 +361,7 @@ function handlePracticeKeyDown(e) {
 
     if (e.key === "F3") {
         e.preventDefault();
-        speakCurrentWord();
+        handleManualRead(e);
         return;
     }
 
@@ -719,9 +779,10 @@ function showChapterPractice() {
             <button id="toggle-browse-btn" class="btn btn-toggle" onclick="toggleBrowseMode()">浏览模式</button>
             <button id="toggle-pinyin-btn" class="btn btn-toggle ${showPinyinHint ? 'active' : ''}" onclick="togglePinyinHint()">显示拼音 (F2)</button>
             <button id="toggle-hanzi-btn" class="btn btn-toggle ${hideHanzi ? 'active' : ''}" onclick="toggleHanziPrompt()">隐藏汉字 (F4)</button>
-            <button id="play-sound-btn" class="btn btn-toggle" onclick="speakCurrentWord()">朗读 (F3)</button>
-            <button id="play-en-btn" class="btn btn-toggle" onclick="speakCurrentEnglish()">英读 (F5)</button>
-            <button id="toggle-tts-btn" class="btn btn-toggle ${autoTTS ? 'active' : ''}" onclick="toggleAutoTTS()">自动朗读</button>
+            <button id="play-sound-btn" class="btn btn-toggle" onclick="handleManualRead(event)">朗读 (F3)</button>
+            <button id="toggle-tts-btn" class="btn btn-toggle ${ttsMode > 0 ? 'active' : ''}" onclick="toggleAutoTTS()">
+                ${ttsMode === 0 ? '自动: 关闭' : ttsMode === 1 ? '自动: 词' : ttsMode === 2 ? '自动: 义' : '自动: 双语'}
+            </button>
         `;
     }
 
@@ -806,6 +867,7 @@ function toggleHanziPrompt() {
 }
 
 function loadCards() {
+    tempErrorChar = null;
     // Reset visuals
     practiceCards.forEach((card) => {
         card.classList.remove("visible", "current", "incorrect");
@@ -878,7 +940,7 @@ function loadCards() {
         updatePracticeInputDisplay(); 
         cardCenter.classList.add("visible", "current");
         
-        if (autoTTS && !isBrowseMode) { 
+        if (ttsMode > 0 && !isBrowseMode) { 
             setTimeout(() => triggerAutoTTS(), 300);
         }
     } else {
@@ -985,11 +1047,20 @@ function updatePracticeInputDisplay() {
                 if (i < typedPinyin.length) {
                     // Typed characters: use same style as placeholder but darker/consistent grey
                     cardHTML += `<span class="char-placeholder" style="color: var(--text-main); opacity: 0.8;">${typedPinyin[i]}</span>`;
+                } else if (i === typedPinyin.length && tempErrorChar) {
+                    // Show the temporary error character at the cursor position
+                    cardHTML += `<span class="char-placeholder char-incorrect" style="color: var(--danger); font-weight: bold;">${tempErrorChar}</span>`;
                 } else {
                     const placeholder = showPinyinHint ? char : "_"; 
                     cardHTML += `<span class="char-placeholder">${placeholder}</span>`;
                 }
             }
+            // If the error was extra length (beyond target length), append it?
+            // Usually we truncate, but if target is short and we type extra...
+            if (typedPinyin.length >= targetPinyin.length && tempErrorChar) {
+                 cardHTML += `<span class="char-placeholder char-incorrect" style="color: var(--danger); font-weight: bold;">${tempErrorChar}</span>`;
+            }
+
             cardPinyinDisplay.innerHTML = cardHTML;
         }
     }
@@ -1009,8 +1080,11 @@ function handlePracticeInput(event) {
 
     let val = event.target.value.replace(/[^a-zA-Z']/g, "").toLowerCase();
     
-    // Auto-delete logic: If the new input doesn't match the prefix, revert to old buffer
+    // Error Handling
     if (val && !targetPinyin.startsWith(val)) {
+        // Get the incorrect char (the last one typed)
+        const wrongChar = val.slice(-1);
+        
         // Trigger shake animation
         if (cardCenter) {
             cardCenter.classList.remove("incorrect"); 
@@ -1018,8 +1092,17 @@ function handlePracticeInput(event) {
             cardCenter.classList.add("incorrect");
         }
 
-        // Find the maximum valid prefix length
-        let validVal = val;
+        // Show error visually for 0.5s
+        tempErrorChar = wrongChar;
+        updatePracticeInputDisplay();
+        setTimeout(() => {
+            tempErrorChar = null;
+            updatePracticeInputDisplay();
+        }, 500);
+
+        // Revert to valid prefix immediately for the input buffer
+        let validVal = val.substring(0, val.length - 1);
+        // Double check in case of paste
         while(validVal.length > 0 && !targetPinyin.startsWith(validVal)) {
             validVal = validVal.substring(0, validVal.length - 1);
         }
@@ -1028,6 +1111,12 @@ function handlePracticeInput(event) {
     } else {
         // Clear incorrect state if input is valid prefix
         if (cardCenter) cardCenter.classList.remove("incorrect");
+        // Also clear temp error immediately if they typed correct quickly? 
+        // No, let the timeout handle it or it might flicker. 
+        // Actually, if they fix it, we might want to clear it.
+        if (tempErrorChar) {
+             tempErrorChar = null;
+        }
     }
 
     setBuffer(val);
