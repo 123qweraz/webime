@@ -1,4 +1,4 @@
-let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
+
 
 async function init() {
     try {

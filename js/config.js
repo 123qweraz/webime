@@ -256,3 +256,5 @@ const DICTS_CONFIG_KEY = "ime_dicts_config";
 const SETTINGS_KEY = "ime_settings";
 const HISTORY_KEY = "ime_history_v18";
 const pageSize = 10;
+
+let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
