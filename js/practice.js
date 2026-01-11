@@ -5,6 +5,7 @@ let cardLeft, cardCenter, cardRight;
 let practiceCards = [];
 let showPinyinHint = false;
 let hideHanzi = false;
+let showEnglishHint = false;
 // ttsMode: 0=Off, 1=Target(Zh/Jp), 2=Definition(En), 3=Both
 let ttsMode = 0;
 let tempErrorChar = null; 
@@ -368,6 +369,12 @@ function handlePracticeKeyDown(e) {
     if (e.key === "F4") {
         e.preventDefault();
         toggleHanziPrompt();
+        return;
+    }
+
+    if (e.key === "F8") {
+        e.preventDefault();
+        toggleEnglishHint();
         return;
     }
 
@@ -779,6 +786,7 @@ function showChapterPractice() {
             <button id="toggle-browse-btn" class="btn btn-toggle" onclick="toggleBrowseMode()">浏览模式</button>
             <button id="toggle-pinyin-btn" class="btn btn-toggle ${showPinyinHint ? 'active' : ''}" onclick="togglePinyinHint()">显示拼音 (F2)</button>
             <button id="toggle-hanzi-btn" class="btn btn-toggle ${hideHanzi ? 'active' : ''}" onclick="toggleHanziPrompt()">隐藏汉字 (F4)</button>
+            <button id="toggle-english-btn" class="btn btn-toggle ${showEnglishHint ? 'active' : ''}" onclick="toggleEnglishHint()">显示释义 (F8)</button>
             <button id="play-sound-btn" class="btn btn-toggle" onclick="handleManualRead(event)">朗读 (F3)</button>
             <button id="toggle-tts-btn" class="btn btn-toggle ${ttsMode > 0 ? 'active' : ''}" onclick="toggleAutoTTS()">
                 ${ttsMode === 0 ? '自动: 关闭' : ttsMode === 1 ? '自动: 词' : ttsMode === 2 ? '自动: 义' : '自动: 双语'}
@@ -866,6 +874,19 @@ function toggleHanziPrompt() {
     loadCards();
 }
 
+function toggleEnglishHint() {
+    showEnglishHint = !showEnglishHint;
+    const btn = document.getElementById("toggle-english-btn");
+    if (btn) btn.classList.toggle("active", showEnglishHint);
+    
+    if (showEnglishHint) {
+        showToast("已显示英文释义", "info");
+    } else {
+        showToast("已隐藏英文释义", "info");
+    }
+    loadCards();
+}
+
 function loadCards() {
     tempErrorChar = null;
     // Reset visuals
@@ -940,7 +961,16 @@ function loadCards() {
                 adjustFontSize(frontHanzi, hanziText, 64, hanziThresholds);
             }
             if (frontEn) {
-                frontEn.style.display = "none";
+                if (showEnglishHint) {
+                    frontEn.style.display = "block";
+                    if (enText) {
+                        frontEn.textContent = enText;
+                    } else {
+                        frontEn.innerHTML = `<span style="font-size:16px; color:var(--text-sec);">(无英文释义)</span>`;
+                    }
+                } else {
+                    frontEn.style.display = "none";
+                }
             }
         }
 
