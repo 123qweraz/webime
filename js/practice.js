@@ -1042,11 +1042,13 @@ function showNextPracticeWord() {
         if (enDisp) enDisp.innerHTML = "";
         if (hzDisp) {
             hzDisp.innerHTML = `
-                <div style="font-size: 24px; margin-bottom: 20px;">🎉 章节完成!</div>
-                <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button class="btn btn-action" style="background: var(--primary);" onclick="loadNextChapter()">下一章 (Enter)</button>
-                    <button class="btn" onclick="retryChapter()">重练</button>
-                    <button class="btn" onclick="showPracticeDirectory()">返回</button>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+                    <div style="font-size: 24px; margin-bottom: 20px;">🎉 章节完成!</div>
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                        <button class="btn btn-action" style="background: var(--primary);" onclick="loadNextChapter()">下一章 (Enter)</button>
+                        <button class="btn" onclick="retryChapter()">重练</button>
+                        <button class="btn" onclick="showPracticeDirectory()">返回</button>
+                    </div>
                 </div>
             `;
         }
