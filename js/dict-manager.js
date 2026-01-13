@@ -90,36 +90,47 @@ async function switchDictTab(tabName) {
     }
 }
 
-// Helper function to check if a dictionary is a subject dict
-function isSubjectDict(d) {
-    return d.name.includes("(初中)");
-}
-
-function isEnglishDict(d) {
-    return d.name === "常用英语 (短)" || d.name === "常用英语 (长)";
-}
-
 function renderLanguageTab(lang) {
     const container = document.getElementById(`tab-${lang}`);
-    const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字" && !isSubjectDict(d) && !isEnglishDict(d));
-    const isEnabled = mainDicts.some(d => d.enabled);
     
-    let title = '';
-    let desc = '';
-    if (lang === 'chinese') {
-        title = '中文全能方案';
-        desc = '最完善的中文输入体验，支持词组与智能联想。';
-    } else if (lang === 'japanese') {
-        title = '日文语境方案';
-        desc = '包含完整的假名与 N1-N5 级别常用词汇。';
+    if (lang === 'japanese') {
+        renderJapaneseTab(container, lang);
+        return;
     }
+
+    // Chinese Tag Grouping Logic
+    const charDicts = allDicts.filter(d => d.tag === lang && d.category === 'character');
+    const vocabDicts = allDicts.filter(d => d.tag === lang && d.category === 'vocabulary');
+    const englishDicts = allDicts.filter(d => d.tag === lang && d.category === 'english');
+    const otherDicts = allDicts.filter(d => d.tag === lang && d.category === 'other');
+    
+    let html = '';
+    
+    // --- Section 1: 汉字字库 ---
+    html += renderDictSection('汉字字库', '包含一级字、二级字及生僻字库。', charDicts, true);
+
+    // --- Section 2: 核心词库 ---
+    html += renderDictSection('核心词库', '包含常用词组、简拼及初中全科词汇。', vocabDicts, true, true);
+
+    // --- Section 3: 英语提示 ---
+    html += renderDictSection('英语提示', '在中文输入模式下提供英语单词补全。', englishDicts, false);
+
+    // --- Section 4: 扩展与其他 ---
+    html += renderDictSection('扩展与其他', '包含各类符号、表情及扩展词库。', otherDicts, true, true);
+    
+    container.innerHTML = html;
+}
+
+function renderJapaneseTab(container, lang) {
+    const mainDicts = allDicts.filter(d => d.tag === lang);
+    const isEnabled = mainDicts.some(d => d.enabled);
     
     let html = `
         <div class="dict-card ${isEnabled ? 'enabled' : 'disabled'}" style="border-left: 4px solid var(--primary); padding: 20px;">
             <div style="flex: 1;">
-                <h4 style="margin: 0; font-size: 18px;">${title}</h4>
+                <h4 style="margin: 0; font-size: 18px;">日文语境方案</h4>
                 <p style="font-size: 13px; color: var(--text-sec); margin: 8px 0;">
-                    ${desc}
+                    包含完整的假名与 N1-N5 级别常用词汇。
                 </p>
                 <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
                     ${mainDicts.map(d => `<span style="font-size: 10px; background: var(--bg); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
@@ -130,79 +141,78 @@ function renderLanguageTab(lang) {
             </button>
         </div>
     `;
+    container.innerHTML = html;
+}
+
+function renderDictSection(title, desc, dicts, showToggleAll, collapse = false) {
+    if (dicts.length === 0) return '';
     
-    if (lang === 'chinese') {
-        const rareDict = allDicts.find(d => d.name === "生僻字");
-        const isRareEnabled = rareDict ? rareDict.enabled : false;
-        
-        const subjectDicts = allDicts.filter(d => isSubjectDict(d));
-        // Check if *any* subject dict is enabled to toggle the main switch? 
-        // Or better: allow individual toggling inside the collapse, but provide a master switch.
-        // For simplicity and user request "too long", we collapse them.
-        const activeSubjects = subjectDicts.filter(d => d.enabled).length;
-        const totalSubjects = subjectDicts.length;
-        const isSubjectGroupActive = activeSubjects > 0;
-        
-        const englishDicts = allDicts.filter(d => isEnglishDict(d));
-        const isEnglishEnabled = englishDicts.some(d => d.enabled);
-        
+    const activeCount = dicts.filter(d => d.enabled).length;
+    const totalCount = dicts.length;
+    const isGroupActive = activeCount > 0;
+    
+    let html = `
+        <div class="dict-card ${isGroupActive ? 'enabled' : 'disabled'}" style="flex-direction: column; align-items: stretch; margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="flex: 1;">
+                    <h4 style="margin: 0;">${title} <span style="font-size: 12px; font-weight: normal; color: var(--text-sec);">(${activeCount}/${totalCount})</span></h4>
+                    <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">${desc}</p>
+                </div>
+                ${showToggleAll ? `
+                <button class="btn ${isGroupActive ? 'btn-action' : ''}" onclick="toggleDictGroup('${dicts.map(d => d.path).join(',')}')" style="margin-left: 10px; font-size: 12px; padding: 6px 12px;">
+                    ${isGroupActive ? '全关闭' : '全开启'}
+                </button>` : ''}
+            </div>
+    `;
+    
+    if (collapse) {
         html += `
-            <div class="practice-section-title" style="margin-top: 25px;">扩展选项</div>
-            <div class="dict-card ${isRareEnabled ? 'enabled' : 'disabled'}">
-                <div style="flex: 1;">
-                    <h4 style="margin: 0;">生僻字库</h4>
-                    <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">包含三级字库等极低频汉字。</p>
+            <details style="margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;">
+                <summary style="font-size: 12px; color: var(--primary); cursor: pointer; font-weight: 600; outline: none;">查看详细列表 (${totalCount})</summary>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+                    ${renderDictItems(dicts)}
                 </div>
-                <button class="btn ${isRareEnabled ? 'btn-action' : ''}" onclick="toggleRareDict()">
-                    ${isRareEnabled ? '已启用' : '启用'}
-                </button>
-            </div>
-            
-            <!-- Subject Dictionaries (Collapsible) -->
-            <div class="dict-card ${isSubjectGroupActive ? 'enabled' : 'disabled'}" style="flex-direction: column; align-items: stretch;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div style="flex: 1;">
-                        <h4 style="margin: 0;">初中科目词汇 (${activeSubjects}/${totalSubjects})</h4>
-                        <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">包含语数英、政史地、理化生等学科专用名词。</p>
-                    </div>
-                    <button class="btn ${isSubjectGroupActive ? 'btn-action' : ''}" onclick="toggleSubjectGroup()" style="margin-left: 10px;">
-                        ${isSubjectGroupActive ? '全关闭' : '全开启'}
-                    </button>
-                </div>
-                
-                <details style="margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;">
-                    <summary style="font-size: 12px; color: var(--primary); cursor: pointer; font-weight: 600; outline: none;">查看详细列表 (${totalSubjects})</summary>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                        ${subjectDicts.map(d => `
-                            <div class="subject-item" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg); padding: 6px 10px; border-radius: 6px; border: 1px solid ${d.enabled ? 'var(--primary)' : 'var(--border)'};">
-                                <span style="font-size: 12px; font-weight: 500; ${d.enabled ? 'color: var(--primary);' : ''}">${d.name.replace(' (初中)', '')}</span>
-                                <label class="switch" style="transform: scale(0.7); margin-right: -5px;">
-                                    <input type="checkbox" ${d.enabled ? 'checked' : ''} onchange="toggleSingleDict('${d.path}')">
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
-                        `).join('')}
-                    </div>
-                </details>
-            </div>
-            
-            <div class="dict-card ${isEnglishEnabled ? 'enabled' : 'disabled'}">
-                <div style="flex: 1;">
-                    <h4 style="margin: 0;">英语词汇提示</h4>
-                    <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">在中文输入模式下提供英语单词补全。</p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px;">
-                        ${englishDicts.map(d => `<span style="font-size: 9px; background: var(--bg); padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
-                    </div>
-                </div>
-                <button class="btn ${isEnglishEnabled ? 'btn-action' : ''}" onclick="toggleEnglishGroup()">
-                    ${isEnglishEnabled ? '已启用' : '启用'}
-                </button>
+            </details>
+        `;
+    } else {
+         html += `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;">
+                ${renderDictItems(dicts)}
             </div>
         `;
     }
     
-    container.innerHTML = html;
+    html += `</div>`;
+    return html;
 }
+
+function renderDictItems(dicts) {
+    return dicts.map(d => `
+        <div class="subject-item" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg); padding: 6px 10px; border-radius: 6px; border: 1px solid ${d.enabled ? 'var(--primary)' : 'var(--border)'};">
+            <span style="font-size: 12px; font-weight: 500; ${d.enabled ? 'color: var(--primary);' : ''}">${d.name.replace(' (初中)', '')}</span>
+            <label class="switch" style="transform: scale(0.7); margin-right: -5px;">
+                <input type="checkbox" ${d.enabled ? 'checked' : ''} onchange="toggleSingleDict('${d.path}')">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    `).join('');
+}
+
+async function toggleDictGroup(pathsStr) {
+    const paths = pathsStr.split(',');
+    const groupDicts = allDicts.filter(d => paths.includes(d.path));
+    const currentlyEnabled = groupDicts.some(d => d.enabled);
+    const targetState = !currentlyEnabled;
+    
+    groupDicts.forEach(d => d.enabled = targetState);
+    
+    saveDictConfig();
+    showLoadingMessage(`正在${targetState ? '开启' : '关闭'}组...`);
+    await loadAllDicts();
+    hideLoadingMessage();
+    renderLanguageTab('chinese');
+}
+
 
 async function toggleLanguageGroup(lang) {
     const mainDicts = allDicts.filter(d => d.tag === lang && d.name !== "生僻字" && !isSubjectDict(d) && !isEnglishDict(d));
