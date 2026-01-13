@@ -151,24 +151,15 @@ function renderLanguageTab(lang) {
 
 function renderJapaneseTab(container, lang) {
     const mainDicts = allDicts.filter(d => d.tag === lang);
-    const isEnabled = mainDicts.some(d => d.enabled);
     
-    let html = `
-        <div class="dict-card ${isEnabled ? 'enabled' : 'disabled'}" style="border-left: 4px solid var(--primary); padding: 20px;">
-            <div style="flex: 1;">
-                <h4 style="margin: 0; font-size: 18px;">日文语境方案</h4>
-                <p style="font-size: 13px; color: var(--text-sec); margin: 8px 0;">
-                    包含完整的假名与 N1-N5 级别常用词汇。
-                </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
-                    ${mainDicts.map(d => `<span style="font-size: 10px; background: var(--bg); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
-                </div>
-            </div>
-            <button class="btn ${isEnabled ? 'btn-action' : ''}" onclick="toggleLanguageGroup('${lang}')" style="min-width: 80px; justify-content: center;">
-                ${isEnabled ? '已启用' : '启用'}
-            </button>
-        </div>
-    `;
+    // Use the generic section renderer for Japanese too
+    let html = renderDictSection(
+        '日文语境方案', 
+        '包含完整的假名与 N1-N5 级别常用词汇。', 
+        mainDicts, 
+        true // Enable "Toggle All" button
+    );
+    
     container.innerHTML = html;
 }
 
