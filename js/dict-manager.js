@@ -92,8 +92,7 @@ async function switchDictTab(tabName) {
 
 // Helper function to check if a dictionary is a subject dict
 function isSubjectDict(d) {
-    const subjectNames = ["数学名词", "物理名词", "化学名词", "生物名词", "历史名词", "地理名词", "政治经济", "英语语法", "计算机名词"];
-    return subjectNames.includes(d.name);
+    return d.name.includes("(初中)");
 }
 
 function isEnglishDict(d) {
@@ -126,8 +125,8 @@ function renderLanguageTab(lang) {
                     ${mainDicts.map(d => `<span style="font-size: 10px; background: var(--bg); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
                 </div>
             </div>
-            <button class="btn btn-action" onclick="toggleLanguageGroup('${lang}')" style="min-width: 100px; justify-content: center;">
-                ${isEnabled ? '已启用' : '启用方案'}
+            <button class="btn ${isEnabled ? 'btn-action' : ''}" onclick="toggleLanguageGroup('${lang}')" style="min-width: 80px; justify-content: center;">
+                ${isEnabled ? '已启用' : '启用'}
             </button>
         </div>
     `;
@@ -137,7 +136,12 @@ function renderLanguageTab(lang) {
         const isRareEnabled = rareDict ? rareDict.enabled : false;
         
         const subjectDicts = allDicts.filter(d => isSubjectDict(d));
-        const isSubjectEnabled = subjectDicts.some(d => d.enabled);
+        // Check if *any* subject dict is enabled to toggle the main switch? 
+        // Or better: allow individual toggling inside the collapse, but provide a master switch.
+        // For simplicity and user request "too long", we collapse them.
+        const activeSubjects = subjectDicts.filter(d => d.enabled).length;
+        const totalSubjects = subjectDicts.length;
+        const isSubjectGroupActive = activeSubjects > 0;
         
         const englishDicts = allDicts.filter(d => isEnglishDict(d));
         const isEnglishEnabled = englishDicts.some(d => d.enabled);
@@ -149,22 +153,37 @@ function renderLanguageTab(lang) {
                     <h4 style="margin: 0;">生僻字库</h4>
                     <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">包含三级字库等极低频汉字。</p>
                 </div>
-                <button class="btn btn-action" onclick="toggleRareDict()">
-                    ${isRareEnabled ? '禁用' : '启用'}
+                <button class="btn ${isRareEnabled ? 'btn-action' : ''}" onclick="toggleRareDict()">
+                    ${isRareEnabled ? '已启用' : '启用'}
                 </button>
             </div>
             
-            <div class="dict-card ${isSubjectEnabled ? 'enabled' : 'disabled'}">
-                <div style="flex: 1;">
-                    <h4 style="margin: 0;">专业学科词库</h4>
-                    <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">包含数学、物理、计算机等学科名词。</p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px;">
-                        ${subjectDicts.map(d => `<span style="font-size: 9px; background: var(--bg); padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
+            <!-- Subject Dictionaries (Collapsible) -->
+            <div class="dict-card ${isSubjectGroupActive ? 'enabled' : 'disabled'}" style="flex-direction: column; align-items: stretch;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0;">初中科目词汇 (${activeSubjects}/${totalSubjects})</h4>
+                        <p style="font-size: 12px; color: var(--text-sec); margin: 4px 0;">包含语数英、政史地、理化生等学科专用名词。</p>
                     </div>
+                    <button class="btn ${isSubjectGroupActive ? 'btn-action' : ''}" onclick="toggleSubjectGroup()" style="margin-left: 10px;">
+                        ${isSubjectGroupActive ? '全关闭' : '全开启'}
+                    </button>
                 </div>
-                <button class="btn btn-action" onclick="toggleSubjectGroup()">
-                    ${isSubjectEnabled ? '禁用' : '启用'}
-                </button>
+                
+                <details style="margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;">
+                    <summary style="font-size: 12px; color: var(--primary); cursor: pointer; font-weight: 600; outline: none;">查看详细列表 (${totalSubjects})</summary>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+                        ${subjectDicts.map(d => `
+                            <div class="subject-item" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg); padding: 6px 10px; border-radius: 6px; border: 1px solid ${d.enabled ? 'var(--primary)' : 'var(--border)'};">
+                                <span style="font-size: 12px; font-weight: 500; ${d.enabled ? 'color: var(--primary);' : ''}">${d.name.replace(' (初中)', '')}</span>
+                                <label class="switch" style="transform: scale(0.7); margin-right: -5px;">
+                                    <input type="checkbox" ${d.enabled ? 'checked' : ''} onchange="toggleSingleDict('${d.path}')">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </details>
             </div>
             
             <div class="dict-card ${isEnglishEnabled ? 'enabled' : 'disabled'}">
@@ -175,8 +194,8 @@ function renderLanguageTab(lang) {
                         ${englishDicts.map(d => `<span style="font-size: 9px; background: var(--bg); padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border);">${d.name}</span>`).join('')}
                     </div>
                 </div>
-                <button class="btn btn-action" onclick="toggleEnglishGroup()">
-                    ${isEnglishEnabled ? '禁用' : '启用'}
+                <button class="btn ${isEnglishEnabled ? 'btn-action' : ''}" onclick="toggleEnglishGroup()">
+                    ${isEnglishEnabled ? '已启用' : '启用'}
                 </button>
             </div>
         `;
