@@ -216,15 +216,6 @@ const BUILT_IN_DICTS = [
         priority: 82,
     },
     {
-        name: "CC-CEDICT (完整)",
-        path: "dicts/chinese/other/dict_cedict.json",
-        enabled: false,
-        type: "built-in",
-        tag: "chinese",
-        category: "other",
-        priority: 75,
-    },
-    {
         name: "三字词语",
         path: "dicts/chinese/other/three_character_word.json",
         enabled: true,
