@@ -1,7 +1,7 @@
 const BUILT_IN_DICTS = [
     {
         name: "一级字",
-        path: "dicts/chinese/first_dict/level-1_char_en.json",
+        path: "dicts/chinese/character/level-1_char_en.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -10,7 +10,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "二级字",
-        path: "dicts/chinese/second_dict/level-2_char_en.json",
+        path: "dicts/chinese/character/level-2_char_en.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -19,7 +19,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "生僻字",
-        path: "dicts/chinese/third_dict/level-3_char_en.json",
+        path: "dicts/chinese/character/level-3_char_en.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -28,7 +28,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "词组词典",
-        path: "dicts/chinese/first_dict/dict_cizu.json",
+        path: "dicts/chinese/vocabulary/dict_cizu.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -37,7 +37,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "简拼词典",
-        path: "dicts/chinese/first_dict/dict_jianbin.json",
+        path: "dicts/chinese/vocabulary/dict_jianbin.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -46,7 +46,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "语文 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Chinese.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Chinese.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -55,7 +55,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "数学 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Mathematics.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Mathematics.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -64,7 +64,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "英语 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/English.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/English.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -73,7 +73,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "物理 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Physics.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Physics.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -82,7 +82,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "化学 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Chemistry.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Chemistry.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -91,7 +91,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "生物 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Biology.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Biology.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -100,7 +100,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "历史 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/History.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/History.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -109,7 +109,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "地理 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Geography.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Geography.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -118,7 +118,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "政治 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Politics.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Politics.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -127,7 +127,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "音乐 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Music.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Music.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -136,7 +136,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "美术 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Arts.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Arts.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -145,7 +145,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "体育与健康 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/PE_and_Health.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/PE_and_Health.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -154,7 +154,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "外语 (初中)",
-        path: "dicts/chinese/first_dict/chuzhongcihui/Foreign_Languages.json",
+        path: "dicts/chinese/vocabulary/chuzhongcihui/Foreign_Languages.json",
         enabled: false,
         type: "built-in",
         tag: "chinese",
@@ -181,7 +181,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "常用单字快捷",
-        path: "dicts/chinese/first_dict/dict_single.json",
+        path: "dicts/chinese/other/dict_single.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -190,7 +190,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "百家姓与复姓",
-        path: "dicts/chinese/first_dict/dict_surnames.json",
+        path: "dicts/chinese/other/dict_surnames.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -199,7 +199,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "Emoji 表情",
-        path: "dicts/chinese/first_dict/dict_emoji.json",
+        path: "dicts/chinese/other/dict_emoji.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -208,7 +208,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "世界国家与城市",
-        path: "dicts/chinese/first_dict/dict_world.json",
+        path: "dicts/chinese/other/dict_world.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -217,8 +217,8 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "CC-CEDICT (完整)",
-        path: "dicts/dict_cedict.json",
-        enabled: true,
+        path: "dicts/chinese/other/dict_cedict.json",
+        enabled: false,
         type: "built-in",
         tag: "chinese",
         category: "other",
@@ -226,7 +226,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "三字词语",
-        path: "dicts/chinese/second_dict/three_character_word.json",
+        path: "dicts/chinese/other/three_character_word.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -235,7 +235,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "四字词语",
-        path: "dicts/chinese/second_dict/four_character_word.json",
+        path: "dicts/chinese/other/four_character_word.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -244,7 +244,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "长词组",
-        path: "dicts/chinese/second_dict/longer_pharases.json",
+        path: "dicts/chinese/other/longer_pharases.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
@@ -253,7 +253,7 @@ const BUILT_IN_DICTS = [
     },
     {
         name: "标点符号",
-        path: "dicts/chinese/punctuation.json",
+        path: "dicts/chinese/other/punctuation.json",
         enabled: true,
         type: "built-in",
         tag: "chinese",
