@@ -21,6 +21,11 @@ async function init() {
         setState(InputState.NORMAL);
         update();
         hideLoadingMessage();
+
+        // Show startup guide if first time
+        if (!localStorage.getItem(STARTUP_GUIDE_KEY)) {
+            document.getElementById("startup-guide").style.display = "flex";
+        }
         
         // Ensure focus after everything is rendered
         window.addEventListener('load', () => setTimeout(focusHiddenInput, 100));
@@ -50,6 +55,12 @@ function toggleTheme() {
     saveSettings();
     applySettings();
     showToast(`已切换至${settings.theme === 'dark' ? '深色' : '浅色'}模式`, "info");
+}
+
+function closeStartupGuide() {
+    document.getElementById("startup-guide").style.display = "none";
+    localStorage.setItem(STARTUP_GUIDE_KEY, "true");
+    focusHiddenInput();
 }
 
 function initEventListeners() {

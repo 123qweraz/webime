@@ -148,7 +148,39 @@
             </div>
         </div>
 
+        <div id="startup-guide" class="startup-guide-overlay" style="display: none;">
+            <div class="startup-guide-content">
+                <div class="startup-guide-header">
+                    <h2>欢迎使用 WebIME</h2>
+                    <p>一款轻量级、智能的在线拼音输入法</p>
+                </div>
+                <div class="startup-guide-body">
+                    <div class="guide-item">
+                        <div class="guide-key">Shift</div>
+                        <div class="guide-desc">
+                            <h4>切换中文过滤</h4>
+                            <p>在输入过程中按 <strong>Shift</strong> 键，可以快速在拼音检索和中文过滤模式间切换。</p>
+                        </div>
+                    </div>
+                    <div class="guide-item">
+                        <div class="guide-key">Tab</div>
+                        <div class="guide-desc">
+                            <h4>转成英文模式</h4>
+                            <p>按 <strong>Tab</strong> 键可以直接将当前的输入转换为英文模式，或在不同输入状态间循环。</p>
+                        </div>
+                    </div>
+                    <div class="guide-tips">
+                        <p>💡 提示：按 <strong>Enter</strong> 直接上屏字母，按 <strong>空格</strong> 选择首位候选词。</p>
+                    </div>
+                </div>
+                <div class="startup-guide-footer">
+                    <button class="btn btn-action btn-large" onclick="closeStartupGuide()">开始体验</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Scripts -->
+        <script type="module" src="js/wasm-bridge.js"></script>
         <script src="js/config.js"></script>
         <script src="js/utils.js"></script>
         <script src="js/trie.js"></script>

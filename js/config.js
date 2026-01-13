@@ -260,6 +260,7 @@ const InputState = {
 };
 
 const PRACTICE_PROGRESS_KEY = "webime_practice_progress";
+const STARTUP_GUIDE_KEY = "webime_startup_guide_seen";
 const DICTS_CONFIG_KEY = "ime_dicts_config";
 const SETTINGS_KEY = "ime_settings";
 const HISTORY_KEY = "ime_history_v18";
