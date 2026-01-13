@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <title>Pinyin Input Method</title>
         <link rel="stylesheet" href="css/style.css">
+        <link rel="manifest" href="manifest.json">
     </head>
     <body>
         <div class="main-layout">
@@ -189,5 +190,18 @@
         <script src="js/dict-manager.js"></script>
         <script src="js/ime.js"></script>
         <script src="js/main.js"></script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./sw.js')
+                        .then(registration => {
+                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        })
+                        .catch(err => {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                });
+            }
+        </script>
     </body>
 </html>
