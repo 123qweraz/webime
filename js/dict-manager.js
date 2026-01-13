@@ -38,8 +38,36 @@ function loadDictConfig() {
 }
 
 function saveDictConfig() {
-    localStorage.setItem(DICTS_CONFIG_KEY, JSON.stringify(allDicts));
-    saveSettings();
+    const configToSave = allDicts.map(d => {
+        // Create a shallow copy
+        const copy = { ...d };
+        
+        // Remove large transient data added by loadAllDicts
+        delete copy.fetchedContent;
+        
+        // Optional: for built-in dicts, we technically only need enabled state,
+        // but saving other props is fine as long as content is gone.
+        // To be safe and save space:
+        if (d.type === 'built-in') {
+            return {
+                name: d.name,
+                type: d.type,
+                enabled: d.enabled
+            };
+        }
+        
+        return copy;
+    });
+    
+    try {
+        localStorage.setItem(DICTS_CONFIG_KEY, JSON.stringify(configToSave));
+        saveSettings();
+    } catch (e) {
+        console.error("Failed to save dict config:", e);
+        if (typeof showToast === 'function') {
+            showToast("保存配置失败：存储空间不足", "error");
+        }
+    }
 }
 
 function openSettingsSidebar() {
