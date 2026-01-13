@@ -146,7 +146,7 @@
     },
     {
       "char": "泣",
-      "en": "unknown"
+      "en": "weep"
     }
   ],
   "duo": [
@@ -216,7 +216,7 @@
     },
     {
       "char": "驮",
-      "en": "unknown"
+      "en": "carry on back"
     }
   ],
   "za": [
@@ -230,7 +230,7 @@
     },
     {
       "char": "咱",
-      "en": "unknown"
+      "en": "we/us"
     },
     {
       "char": "嘁",
@@ -320,7 +320,7 @@
     },
     {
       "char": "的",
-      "en": "unknown"
+      "en": "of/possessive"
     },
     {
       "char": "芍",
@@ -332,11 +332,11 @@
     },
     {
       "char": "逐",
-      "en": "unknown"
+      "en": "chase/pursue"
     },
     {
       "char": "逮",
-      "en": "unknown"
+      "en": "catch/arrest"
     },
     {
       "char": "隶",
@@ -580,7 +580,7 @@
     },
     {
       "char": "巴",
-      "en": "unknown"
+      "en": "hope/cling to"
     },
     {
       "char": "罢",
@@ -1156,7 +1156,7 @@
     },
     {
       "char": "洁",
-      "en": "unknown"
+      "en": "clean/pure"
     },
     {
       "char": "秸",
@@ -1390,7 +1390,7 @@
     },
     {
       "char": "稽",
-      "en": "unknown"
+      "en": "inspect/bow"
     },
     {
       "char": "荠",
@@ -1898,7 +1898,7 @@
     },
     {
       "char": "啡",
-      "en": "unknown"
+      "en": "coffee"
     },
     {
       "char": "脾",
@@ -1964,7 +1964,7 @@
     },
     {
       "char": "跛",
-      "en": "unknown"
+      "en": "lame"
     },
     {
       "char": "霸",
@@ -2376,7 +2376,7 @@
     },
     {
       "char": "哩",
-      "en": "unknown"
+      "en": "mile/particle"
     },
     {
       "char": "央",
@@ -2502,7 +2502,7 @@
   "wo": [
     {
       "char": "我",
-      "en": "unknown"
+      "en": "I/me"
     },
     {
       "char": "窝",
@@ -2758,7 +2758,7 @@
     },
     {
       "char": "磺",
-      "en": "unknown"
+      "en": "sulfur"
     },
     {
       "char": "红",
@@ -2904,7 +2904,7 @@
     },
     {
       "char": "揩",
-      "en": "unknown"
+      "en": "wipe"
     },
     {
       "char": "暇",
@@ -2970,7 +2970,7 @@
     },
     {
       "char": "捧",
-      "en": "unknown"
+      "en": "hold up/praise"
     },
     {
       "char": "方",
@@ -3140,7 +3140,7 @@
     },
     {
       "char": "喊",
-      "en": "unknown"
+      "en": "shout/call"
     },
     {
       "char": "沮",
@@ -3432,7 +3432,7 @@
     },
     {
       "char": "池",
-      "en": "unknown"
+      "en": "pool/pond"
     }
   ],
   "zi": [
@@ -4124,7 +4124,7 @@
     },
     {
       "char": "余",
-      "en": "unknown"
+      "en": "surplus/spare"
     },
     {
       "char": "语",
@@ -4280,7 +4280,7 @@
     },
     {
       "char": "懊",
-      "en": "unknown"
+      "en": "regret/annoyed"
     },
     {
       "char": "或",
@@ -4288,7 +4288,7 @@
     },
     {
       "char": "拗",
-      "en": "unknown"
+      "en": "twist/stubborn"
     },
     {
       "char": "昙",
@@ -4374,7 +4374,7 @@
     },
     {
       "char": "穴",
-      "en": "unknown"
+      "en": "cave/hole"
     },
     {
       "char": "脚",
@@ -4516,7 +4516,7 @@
     },
     {
       "char": "潦",
-      "en": "unknown"
+      "en": "flooded/sloppy"
     }
   ],
   "kan": [
@@ -4546,7 +4546,7 @@
     },
     {
       "char": "喊",
-      "en": "unknown"
+      "en": "shout/call"
     },
     {
       "char": "嵌",
@@ -4744,7 +4744,7 @@
     },
     {
       "char": "遇",
-      "en": "unknown"
+      "en": "meet/encounter"
     }
   ],
   "wan": [
@@ -4942,7 +4942,7 @@
     },
     {
       "char": "澡",
-      "en": "unknown"
+      "en": "bath"
     },
     {
       "char": "造",
@@ -5290,7 +5290,7 @@
     },
     {
       "char": "捍",
-      "en": "unknown"
+      "en": "defend/guard"
     },
     {
       "char": "探",
@@ -5406,7 +5406,7 @@
     },
     {
       "char": "澄",
-      "en": "unknown"
+      "en": "clear/settle"
     }
   ],
   "shan": [
@@ -5518,7 +5518,7 @@
     },
     {
       "char": "落",
-      "en": "unknown"
+      "en": "fall/drop"
     },
     {
       "char": "蓝",
@@ -5602,7 +5602,7 @@
     },
     {
       "char": "啊",
-      "en": "unknown"
+      "en": "ah/oh"
     },
     {
       "char": "庵",
@@ -5610,7 +5610,7 @@
     },
     {
       "char": "歹",
-      "en": "unknown"
+      "en": "bad/evil"
     },
     {
       "char": "蛤",
@@ -5618,7 +5618,7 @@
     },
     {
       "char": "邑",
-      "en": "unknown"
+      "en": "city/county"
     },
     {
       "char": "阿",
@@ -5762,7 +5762,7 @@
     },
     {
       "char": "莫",
-      "en": "unknown"
+      "en": "do not/none"
     }
   ],
   "zhun": [
@@ -5878,7 +5878,7 @@
     },
     {
       "char": "肄",
-      "en": "unknown"
+      "en": "study/practice"
     },
     {
       "char": "食",
@@ -5948,7 +5948,7 @@
     },
     {
       "char": "颤",
-      "en": "unknown"
+      "en": "tremble/shiver"
     }
   ],
   "zhuang": [
@@ -6072,7 +6072,7 @@
     },
     {
       "char": "搞",
-      "en": "unknown"
+      "en": "do/make"
     },
     {
       "char": "校",
@@ -6408,7 +6408,7 @@
     },
     {
       "char": "许",
-      "en": "unknown"
+      "en": "allow/promise"
     },
     {
       "char": "雇",
@@ -6574,7 +6574,7 @@
     },
     {
       "char": "魄",
-      "en": "unknown"
+      "en": "soul/spirit"
     }
   ],
   "pang": [
@@ -7006,7 +7006,7 @@
     },
     {
       "char": "颈",
-      "en": "unknown"
+      "en": "neck"
     }
   ],
   "jin": [
@@ -7190,7 +7190,7 @@
     },
     {
       "char": "把",
-      "en": "unknown"
+      "en": "grasp/hold"
     },
     {
       "char": "扒",
@@ -7564,7 +7564,7 @@
     },
     {
       "char": "啡",
-      "en": "unknown"
+      "en": "coffee"
     },
     {
       "char": "扒",
@@ -7586,7 +7586,7 @@
     },
     {
       "char": "没",
-      "en": "unknown"
+      "en": "not/have not"
     },
     {
       "char": "模",
@@ -7934,7 +7934,7 @@
     },
     {
       "char": "磺",
-      "en": "unknown"
+      "en": "sulfur"
     },
     {
       "char": "逛",
@@ -7976,7 +7976,7 @@
     },
     {
       "char": "枉",
-      "en": "unknown"
+      "en": "crooked/wrong"
     },
     {
       "char": "汪",
@@ -8406,7 +8406,7 @@
     },
     {
       "char": "恃",
-      "en": "unknown"
+      "en": "rely on"
     },
     {
       "char": "抵",
@@ -8492,7 +8492,7 @@
     },
     {
       "char": "碟",
-      "en": "unknown"
+      "en": "dish/plate"
     },
     {
       "char": "邪",
@@ -8646,7 +8646,7 @@
     },
     {
       "char": "广",
-      "en": "unknown"
+      "en": "wide/broad"
     },
     {
       "char": "庵",
@@ -8940,7 +8940,7 @@
     },
     {
       "char": "落",
-      "en": "unknown"
+      "en": "fall/drop"
     }
   ],
   "luo": [
@@ -9158,7 +9158,7 @@
     },
     {
       "char": "唧",
-      "en": "unknown"
+      "en": "chirp/pump"
     },
     {
       "char": "圾",
@@ -9436,7 +9436,7 @@
     },
     {
       "char": "靡",
-      "en": "unknown"
+      "en": "waste/extravagant"
     }
   ],
   "hang": [
@@ -9478,7 +9478,7 @@
     },
     {
       "char": "肮",
-      "en": "unknown"
+      "en": "dirty/filthy"
     }
   ],
   "xing": [
@@ -9826,7 +9826,7 @@
     },
     {
       "char": "跛",
-      "en": "unknown"
+      "en": "lame"
     },
     {
       "char": "辟",
@@ -9872,7 +9872,7 @@
     },
     {
       "char": "蔽",
-      "en": "unknown"
+      "en": "cover/shield"
     }
   ],
   "pie": [
@@ -9882,7 +9882,7 @@
     },
     {
       "char": "蔽",
-      "en": "unknown"
+      "en": "cover/shield"
     }
   ],
   "fen": [
@@ -10206,7 +10206,7 @@
     },
     {
       "char": "捍",
-      "en": "unknown"
+      "en": "defend/guard"
     },
     {
       "char": "汗",
@@ -10684,7 +10684,7 @@
     },
     {
       "char": "畜",
-      "en": "unknown"
+      "en": "livestock"
     },
     {
       "char": "旭",
@@ -10732,7 +10732,7 @@
     },
     {
       "char": "姐",
-      "en": "unknown"
+      "en": "sister"
     },
     {
       "char": "芋",
@@ -10774,7 +10774,7 @@
     },
     {
       "char": "年",
-      "en": "unknown"
+      "en": "year"
     },
     {
       "char": "攘",
@@ -11032,7 +11032,7 @@
     },
     {
       "char": "姐",
-      "en": "unknown"
+      "en": "sister"
     },
     {
       "char": "娶",
@@ -11314,7 +11314,7 @@
     },
     {
       "char": "也",
-      "en": "unknown"
+      "en": "also/too"
     },
     {
       "char": "印",
@@ -11540,7 +11540,7 @@
     },
     {
       "char": "嗽",
-      "en": "unknown"
+      "en": "cough"
     },
     {
       "char": "娶",
@@ -11602,11 +11602,11 @@
     },
     {
       "char": "握",
-      "en": "unknown"
+      "en": "grasp/hold"
     },
     {
       "char": "遇",
-      "en": "unknown"
+      "en": "meet/encounter"
     }
   ],
   "lan": [
@@ -12006,7 +12006,7 @@
     },
     {
       "char": "跪",
-      "en": "unknown"
+      "en": "kneel"
     },
     {
       "char": "柜",
@@ -12362,7 +12362,7 @@
     },
     {
       "char": "龟",
-      "en": "unknown"
+      "en": "turtle/tortoise"
     }
   ],
   "zuo": [
@@ -12522,7 +12522,7 @@
     },
     {
       "char": "俺",
-      "en": "unknown"
+      "en": "I/my"
     },
     {
       "char": "庵",
@@ -12546,11 +12546,11 @@
     },
     {
       "char": "广",
-      "en": "unknown"
+      "en": "wide/broad"
     },
     {
       "char": "盒",
-      "en": "unknown"
+      "en": "box/case"
     }
   ],
   "shuan": [
@@ -12648,7 +12648,7 @@
     },
     {
       "char": "塌",
-      "en": "unknown"
+      "en": "collapse"
     },
     {
       "char": "塔",
@@ -12872,7 +12872,7 @@
     },
     {
       "char": "抬",
-      "en": "unknown"
+      "en": "lift/raise"
     },
     {
       "char": "拆",
@@ -12880,7 +12880,7 @@
     },
     {
       "char": "拖",
-      "en": "unknown"
+      "en": "drag/delay"
     },
     {
       "char": "提",
@@ -12896,7 +12896,7 @@
     },
     {
       "char": "移",
-      "en": "unknown"
+      "en": "move/shift"
     },
     {
       "char": "茬",
@@ -12904,7 +12904,7 @@
     },
     {
       "char": "莉",
-      "en": "unknown"
+      "en": "jasmine"
     },
     {
       "char": "蛇",
@@ -13184,7 +13184,7 @@
     },
     {
       "char": "龟",
-      "en": "unknown"
+      "en": "turtle/tortoise"
     }
   ],
   "chou": [
@@ -13400,7 +13400,7 @@
     },
     {
       "char": "臂",
-      "en": "unknown"
+      "en": "arm"
     },
     {
       "char": "菩",
@@ -13408,7 +13408,7 @@
     },
     {
       "char": "葡",
-      "en": "unknown"
+      "en": "grape"
     },
     {
       "char": "跋",
@@ -13756,7 +13756,7 @@
     },
     {
       "char": "投",
-      "en": "unknown"
+      "en": "throw/cast"
     },
     {
       "char": "读",
@@ -13790,7 +13790,7 @@
     },
     {
       "char": "混",
-      "en": "unknown"
+      "en": "mix/confuse"
     }
   ],
   "luan": [
@@ -13914,7 +13914,7 @@
     },
     {
       "char": "蜻",
-      "en": "unknown"
+      "en": "dragonfly"
     },
     {
       "char": "醒",
@@ -14082,7 +14082,7 @@
     },
     {
       "char": "逐",
-      "en": "unknown"
+      "en": "chase/pursue"
     }
   ],
   "chang": [
@@ -14144,15 +14144,15 @@
     },
     {
       "char": "尚",
-      "en": "unknown"
+      "en": "still/esteem"
     },
     {
       "char": "淌",
-      "en": "unknown"
+      "en": "drip/trickle"
     },
     {
       "char": "裳",
-      "en": "unknown"
+      "en": "clothes"
     }
   ],
   "weng": [
@@ -14360,7 +14360,7 @@
     },
     {
       "char": "啡",
-      "en": "unknown"
+      "en": "coffee"
     },
     {
       "char": "坏",
@@ -14552,7 +14552,7 @@
     },
     {
       "char": "奋",
-      "en": "unknown"
+      "en": "strive/exert"
     },
     {
       "char": "杭",
@@ -14680,7 +14680,7 @@
     },
     {
       "char": "歇",
-      "en": "unknown"
+      "en": "rest/stop"
     },
     {
       "char": "邪",
@@ -14924,7 +14924,7 @@
     },
     {
       "char": "否",
-      "en": "unknown"
+      "en": "deny/negate"
     },
     {
       "char": "坏",
@@ -15118,7 +15118,7 @@
     },
     {
       "char": "哩",
-      "en": "unknown"
+      "en": "mile/particle"
     },
     {
       "char": "派",
@@ -15168,7 +15168,7 @@
     },
     {
       "char": "幕",
-      "en": "unknown"
+      "en": "curtain/screen"
     }
   ],
   "diao": [
@@ -15210,7 +15210,7 @@
     },
     {
       "char": "挑",
-      "en": "unknown"
+      "en": "pick/challenge"
     },
     {
       "char": "敦",
@@ -15316,7 +15316,7 @@
     },
     {
       "char": "呢",
-      "en": "unknown"
+      "en": "particle"
     }
   ],
   "sun": [
@@ -15754,7 +15754,7 @@
     },
     {
       "char": "池",
-      "en": "unknown"
+      "en": "pool/pond"
     },
     {
       "char": "税",
@@ -15766,7 +15766,7 @@
     },
     {
       "char": "魄",
-      "en": "unknown"
+      "en": "soul/spirit"
     }
   ],
   "gai": [
@@ -15872,7 +15872,7 @@
     },
     {
       "char": "混",
-      "en": "unknown"
+      "en": "mix/confuse"
     }
   ],
   "ao": [
@@ -16010,7 +16010,7 @@
     },
     {
       "char": "赦",
-      "en": "unknown"
+      "en": "pardon"
     }
   ],
   "chan": [
@@ -16178,7 +16178,7 @@
     },
     {
       "char": "适",
-      "en": "unknown"
+      "en": "fit/suitable"
     }
   ],
   "xun": [
@@ -16368,7 +16368,7 @@
     },
     {
       "char": "挑",
-      "en": "unknown"
+      "en": "pick/challenge"
     },
     {
       "char": "跳",
@@ -16482,7 +16482,7 @@
     },
     {
       "char": "援",
-      "en": "unknown"
+      "en": "help/aid"
     },
     {
       "char": "灌",
@@ -16800,7 +16800,7 @@
     },
     {
       "char": "掘",
-      "en": "unknown"
+      "en": "dig/excavate"
     },
     {
       "char": "跨",
@@ -17202,7 +17202,7 @@
     },
     {
       "char": "愉",
-      "en": "unknown"
+      "en": "happy/pleasant"
     },
     {
       "char": "逗",
@@ -17526,7 +17526,7 @@
     },
     {
       "char": "掀",
-      "en": "unknown"
+      "en": "lift/open"
     }
   ],
   "kao": [
@@ -17552,7 +17552,7 @@
     },
     {
       "char": "搞",
-      "en": "unknown"
+      "en": "do/make"
     }
   ],
   "a": [
@@ -17856,7 +17856,7 @@
     },
     {
       "char": "踩",
-      "en": "unknown"
+      "en": "step on"
     }
   ],
   "ken": [
@@ -17942,7 +17942,7 @@
     },
     {
       "char": "没",
-      "en": "unknown"
+      "en": "not/have not"
     }
   ],
   "chong": [
@@ -18352,7 +18352,7 @@
     },
     {
       "char": "肮",
-      "en": "unknown"
+      "en": "dirty/filthy"
     }
   ],
   "zhou": [
@@ -18430,7 +18430,7 @@
     },
     {
       "char": "逐",
-      "en": "unknown"
+      "en": "chase/pursue"
     }
   ],
   "niang": [
@@ -18452,7 +18452,7 @@
   "zhei": [
     {
       "char": "这",
-      "en": "unknown"
+      "en": "this"
     }
   ],
   "long": [
@@ -18744,7 +18744,7 @@
     },
     {
       "char": "嗽",
-      "en": "unknown"
+      "en": "cough"
     },
     {
       "char": "数",
@@ -18968,7 +18968,7 @@
     },
     {
       "char": "咱",
-      "en": "unknown"
+      "en": "we/us"
     },
     {
       "char": "攒",
@@ -19188,7 +19188,7 @@
     },
     {
       "char": "拗",
-      "en": "unknown"
+      "en": "twist/stubborn"
     }
   ],
   "shang": [
@@ -19294,7 +19294,7 @@
     },
     {
       "char": "蝶",
-      "en": "unknown"
+      "en": "butterfly"
     }
   ],
   "mian": [
@@ -19374,7 +19374,7 @@
     },
     {
       "char": "姐",
-      "en": "unknown"
+      "en": "sister"
     },
     {
       "char": "沮",
@@ -19422,7 +19422,7 @@
     },
     {
       "char": "泣",
-      "en": "unknown"
+      "en": "weep"
     }
   ],
   "shun": [
@@ -19766,7 +19766,7 @@
     },
     {
       "char": "耐",
-      "en": "unknown"
+      "en": "patient/endure"
     }
   ],
   "keng": [
@@ -20144,7 +20144,7 @@
     },
     {
       "char": "若",
-      "en": "unknown"
+      "en": "if/like"
     }
   ],
   "diu": [
