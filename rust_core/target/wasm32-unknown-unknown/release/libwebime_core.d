@@ -1,0 +1,1 @@
+/home/x/Documents/webime/rust_core/target/wasm32-unknown-unknown/release/libwebime_core.rlib: /home/x/Documents/webime/rust_core/src/lib.rs /home/x/Documents/webime/rust_core/src/pinyin.rs /home/x/Documents/webime/rust_core/src/trie.rs

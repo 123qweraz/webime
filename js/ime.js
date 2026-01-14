@@ -115,6 +115,62 @@ function lookupCandidates(activeSegment) {
         const isAllVowels = /^[aeiou]+$/.test(b_segment_for_lookup);
         let useExactMatch = (b_segment_for_lookup.length <= 1) || ((b_segment_for_lookup.length === 3 || b_segment_for_lookup.length === 4) && isAllVowels);
         
+        // --- Rust Engine Hook ---
+        if (window.RustEngine && window.isRustReady) {
+            try {
+                // 1. 常规前缀搜索
+                const jsonStr = window.RustEngine.search(b_segment_for_lookup);
+                const rustCandidates = JSON.parse(jsonStr);
+                
+                if (rustCandidates && rustCandidates.length > 0) {
+                    let baseW = (variant === originalSegment) ? 10000 : 1000;
+                    if (!isExactVariant) baseW -= 500;
+                    
+                    rustCandidates.forEach(c => {
+                         let w = baseW + (c.priority || 0);
+                                                  if (isDynamic) {
+                                                                                   const key = originalSegment + "_" + c.text;
+                                                                                   const freq = userFreq[key] || 0;
+                                                                                   if (freq > 0) {
+                                                                                       // Logarithmic boost
+                                                                                       w += Math.log2(freq + 1) * 200;
+                                                                                   }
+                                                                               }                                                  
+                                                  list.push({ text: c.text, desc: c.desc || "", w: w });
+                                                  count++;
+                                             });
+                }
+
+                // 2. 智能整句/长句搜索 (HMM/Viterbi)
+                // 只有当 buffer 比较长时才触发，避免单字输入时的干扰
+                // 且只针对原始输入 (originalSegment)
+                if (originalSegment.length > 4) {
+                    const sentenceJson = window.RustEngine.search_sentence(originalSegment);
+                    const sentenceCandidates = JSON.parse(sentenceJson);
+                    if (sentenceCandidates && sentenceCandidates.length > 0) {
+                        // 这是一个经过算法计算出的“最佳整句”
+                        // 我们赋予它极高的权重，使其排在第一位
+                        // 并添加一个特殊的标记（如 emoji 或样式）让用户知道这是智能联想
+                        sentenceCandidates.forEach(c => {
+                            list.push({ 
+                                text: c.text, 
+                                desc: "✨ 智能整句", // 添加描述
+                                w: 9999999 // 超级权重
+                            });
+                        });
+                    }
+                }
+                
+                if (rustCandidates && rustCandidates.length > 0) {
+                    // Rust 模式下，如果找到了结果，通常我们就用 Rust 的结果了
+                    // 但为了保险，还是让它流下去被去重逻辑处理
+                }
+            } catch (e) {
+                console.error("Rust search error:", e);
+            }
+        }
+        // ------------------------
+
         const prefixNode = DB.getNode(b_segment_for_lookup);
         if (!prefixNode) continue;
         
@@ -147,7 +203,8 @@ function lookupCandidates(activeSegment) {
                         const key = originalSegment + "_" + text;
                         const freq = userFreq[key] || 0;
                         if (freq > 0) {
-                            w += Math.min(freq * 500, 20000); // Boost! Max 20000 to override most things
+                            // w += Math.min(freq * 500, 20000); // Old Linear
+                            w += Math.log2(freq + 1) * 200; // New Logarithmic
                         }
                     }
                     

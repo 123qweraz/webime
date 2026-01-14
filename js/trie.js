@@ -98,4 +98,60 @@ async function loadAllDicts() {
         }
     }
     console.log("所有启用的词典加载完成。");
+    
+    // 尝试同步到 Rust 引擎
+    if (window.isRustReady) {
+        syncDictsToRust();
+    }
+}
+
+// 监听 Rust 引擎就绪事件
+window.addEventListener('rust-engine-ready', () => {
+    console.log("监听到 Rust 引擎就绪，开始同步词典...");
+    syncDictsToRust();
+});
+
+function syncDictsToRust() {
+    if (!window.RustEngine) return;
+    
+    // 防止重复同步? 或者 Rust 端有清空机制?
+    // 目前简单处理：遍历当前 enabledDicts 同步
+    // 注意：这可能会导致重复插入，但 Trie 树本身是可以处理幂等的（除了权重累加）
+    // TODO: 在 Rust 端添加 clear 接口
+    
+    const enabledDicts = typeof allDicts !== 'undefined' ? allDicts.filter(d => d.enabled) : [];
+    
+    let count = 0;
+    const startTime = performance.now();
+    
+    enabledDicts.forEach(dict => {
+        if (!dict.fetchedContent) return; // 还没加载内容
+        const data = dict.fetchedContent;
+        const priority = dict.priority || 0;
+        
+        for (const key in data) {
+            // 跳过标点符号，或者也加入? 
+            // Rust 端目前全部当做小写处理了，除了 value
+            // 我们保持和 JS 一致的逻辑
+            let processedKey = key;
+            if (dict.name !== "标点符号") {
+                processedKey = key.toLowerCase();
+            }
+            
+            const items = Array.isArray(data[key]) ? data[key] : [data[key]];
+            items.forEach(item => {
+                const text = typeof item === 'string' ? item : (item.char || item.text || ""); 
+                if (!text) return; // Skip invalid items
+                
+                const desc = (typeof item === 'object' && item.en) ? item.en : "";
+                
+                // 调用 WASM 接口: insert_dict(key, text, desc, priority)
+                window.RustEngine.insert_dict(processedKey, text, desc, priority);
+                count++;
+            });
+        }
+    });
+    
+    const timeCost = (performance.now() - startTime).toFixed(2);
+    console.log(`已同步 ${count} 条词语到 Rust 引擎，耗时 ${timeCost}ms`);
 }

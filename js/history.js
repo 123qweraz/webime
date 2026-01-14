@@ -104,7 +104,6 @@ function archiveAndCopy() {
             navigator.clipboard.writeText(textToArchive)
                 .then(() => {
                     clearOutput();
-                    showToast("已归档并复制", "success");
                 })
                 .catch((err) => {
                     console.error("复制失败:", err);
