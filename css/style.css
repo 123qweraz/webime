@@ -875,17 +875,51 @@ body {
 
 .pinyin-display {
     font-size: 22px;
-    height: auto;
-    min-height: 1.2em;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
-    color: var(--text-sec);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    max-width: 90%;
+
+/* Combo Display */
+.combo-display {
+    position: absolute;
+    top: 50px; /* Positioned relative to practice-container which is usually center */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--primary);
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+    opacity: 0;
     text-align: center;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.combo-display.show {
+    opacity: 1;
+}
+
+.combo-display.pop {
+    transform: translateX(-50%) scale(1.5);
+    color: #ff9500; /* Orange highlight on pop */
+}
+
+.combo-label {
+    font-size: 14px;
+    display: block;
+    color: var(--text-sec);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.combo-val {
+    background: linear-gradient(135deg, var(--primary) 0%, #a1c4fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+    line-height: 1;
+}
+
 }
 
 .pinyin-display span { text-decoration: none !important; display: inline-block; }

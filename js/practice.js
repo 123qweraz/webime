@@ -8,6 +8,12 @@ let showPinyinHint = false;
 let currentCommittedHanzi = "";
 let hideHanzi = false;
 let showEnglishHint = false;
+// Gamification State
+let comboCount = 0;
+let chapterStartTime = 0;
+let chapterErrors = 0;
+let chapterKeystrokes = 0;
+
 // ttsMode: 0=Off, 1=Target(Zh/Jp), 2=Definition(En), 3=Both
 let ttsMode = 0;
 let tempErrorChar = null; 
@@ -185,6 +191,39 @@ function triggerAutoTTS() {
              p2();
         }
     });
+}
+
+function updateCombo(isError) {
+    const display = document.getElementById("combo-display");
+    if (!display) return;
+
+    if (isError) {
+        if (comboCount > 5) {
+            // Only show "broken" effect if streak was significant
+            display.classList.add("shake");
+            setTimeout(() => display.classList.remove("shake"), 400);
+        }
+        comboCount = 0;
+        display.style.opacity = "0";
+        setTimeout(() => display.classList.remove("show"), 200);
+    } else {
+        comboCount++;
+        if (comboCount < 2) return; // Start showing from 2
+
+        display.innerHTML = `<span class="combo-label">COMBO</span><span class="combo-val">x${comboCount}</span>`;
+        display.classList.add("show");
+        
+        // Pop effect
+        display.classList.remove("pop");
+        void display.offsetWidth; // Trigger reflow
+        display.classList.add("pop");
+        
+        // Dynamic Color based on combo
+        const valEl = display.querySelector(".combo-val");
+        if (comboCount > 10) valEl.style.webkitTextFillColor = "#FF2D55"; // Red
+        if (comboCount > 20) valEl.style.webkitTextFillColor = "#FF9500"; // Orange
+        if (comboCount > 30) valEl.style.webkitTextFillColor = "#5856D6"; // Purple
+    }
 }
 
 function toggleBrowseMode() {
@@ -807,6 +846,18 @@ function showChapterPractice() {
     const savedIndex = localStorage.getItem(progressKey);
     currentPracticeWordIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
     
+    // Initialize Stats for new session
+    if (currentPracticeWordIndex === 0) {
+        chapterStartTime = Date.now();
+        chapterErrors = 0;
+        chapterKeystrokes = 0;
+        comboCount = 0;
+    } else {
+        // Resuming: keep start time roughly current or just reset? 
+        // Let's reset start time to now to avoid huge durations if they paused for days.
+        chapterStartTime = Date.now(); 
+    }
+
     if (currentPracticeWordIndex >= practiceWords.length) {
         currentPracticeWordIndex = 0;
     }
@@ -1116,6 +1167,13 @@ function showNextPracticeWord() {
         cardCenter.classList.add("visible", "current");
         cardCenter.classList.remove("incorrect");
         
+        // Stats Calculation
+        const durationMin = (Date.now() - chapterStartTime) / 60000;
+        const wpm = durationMin > 0 ? Math.round((practiceWords.length / durationMin)) : 0;
+        const accuracy = chapterKeystrokes > 0 ? Math.round(((chapterKeystrokes - chapterErrors) / chapterKeystrokes) * 100) : 100;
+        
+        if (window.Confetti) window.Confetti.celebrate();
+
         const pyDisp = cardCenter.querySelector(".pinyin-display");
         const hzDisp = cardCenter.querySelector(".hanzi-display");
         const enDisp = cardCenter.querySelector(".en-display");
@@ -1125,7 +1183,23 @@ function showNextPracticeWord() {
         if (hzDisp) {
             hzDisp.innerHTML = `
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-                    <div style="font-size: 24px; margin-bottom: 20px;">🎉 章节完成!</div>
+                    <div style="font-size: 24px; margin-bottom: 10px;">🎉 章节完成!</div>
+                    
+                    <div style="display: flex; gap: 20px; margin-bottom: 20px; text-align: center;">
+                        <div>
+                            <div style="font-size: 12px; color: var(--text-sec); text-transform: uppercase;">WPM (词/分)</div>
+                            <div style="font-size: 24px; font-weight: bold; color: var(--primary);">${wpm}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--text-sec); text-transform: uppercase;">准确率</div>
+                            <div style="font-size: 24px; font-weight: bold; color: ${accuracy > 90 ? '#4CD964' : '#FF9500'};">${accuracy}%</div>
+                        </div>
+                         <div>
+                            <div style="font-size: 12px; color: var(--text-sec); text-transform: uppercase;">错误数</div>
+                            <div style="font-size: 24px; font-weight: bold; color: var(--danger);">${chapterErrors}</div>
+                        </div>
+                    </div>
+
                     <div style="display: flex; gap: 10px; justify-content: center;">
                         <button class="btn btn-action" style="background: var(--primary);" onclick="loadNextChapter()">下一章 (Enter)</button>
                         <button class="btn" onclick="retryChapter()">重练</button>
@@ -1156,6 +1230,13 @@ async function retryChapter() {
     currentPracticeWordIndex = 0;
     isPracticeAnimating = false;
     
+    // Reset Stats
+    comboCount = 0;
+    chapterStartTime = Date.now();
+    chapterErrors = 0;
+    chapterKeystrokes = 0;
+    updateCombo(true); // Hide UI
+
     // Reshuffle current chapter words for variety
     seededShuffle(practiceWords, Date.now().toString());
     
@@ -1330,6 +1411,8 @@ function checkHanziMatch(text) {
         updatePracticeInputDisplay();
         
         if (currentCommittedHanzi === targetText && !isPracticeAnimating) {
+             chapterKeystrokes += targetText.length * 2; // Rough estimate for Hanzi
+             updateCombo(false);
              isPracticeAnimating = true;
              // Success
              setTimeout(() => { 
@@ -1342,6 +1425,8 @@ function checkHanziMatch(text) {
         }
     } else {
         // Incorrect match
+        chapterErrors++;
+        updateCombo(true);
         showToast(`输入错误: 期望 "${nextExpected[0]}", 实际 "${text}"`, "warning");
         // Shake animation
         if (cardCenter) {
@@ -1390,6 +1475,8 @@ function handlePracticeInput(event) {
     
     if (val.length > targetText.length || targetPrefix.toLowerCase() !== val.toLowerCase()) {
          // Error
+         chapterErrors++;
+         updateCombo(true);
          const wrongChar = val.slice(-1);
          if (cardCenter) {
             cardCenter.classList.remove("incorrect"); 
@@ -1421,6 +1508,8 @@ function handlePracticeInput(event) {
 
     // Check completion
     if (val.toLowerCase() === targetText.toLowerCase() && !isPracticeAnimating) {
+        chapterKeystrokes += val.length; // Approximate keystrokes
+        updateCombo(false);
         isPracticeAnimating = true;
         setBuffer("");
         const hInput = document.getElementById("hidden-input");
