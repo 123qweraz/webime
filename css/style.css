@@ -829,6 +829,14 @@ body {
     pointer-events: auto;
 }
 
+@media (hover: none) {
+    .card-rotate-btn {
+        opacity: 1;
+        pointer-events: auto;
+        background: rgba(0, 0, 0, 0.1);
+    }
+}
+
 .card-rotate-btn:hover {
     background: var(--primary-light);
     color: var(--primary);

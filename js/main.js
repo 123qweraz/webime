@@ -113,7 +113,11 @@ function handleKeyDown(e) {
 
     if (currentState === InputState.PRACTICE) {
         if (typeof currentPracticeMode !== 'undefined' && currentPracticeMode === PRACTICE_MODE.HANZI) {
-             // Allow IME logic
+             // If chapter is complete, let the event bubble to document (handled by practice.js)
+             if (typeof currentPracticeWordIndex !== 'undefined' && typeof practiceWords !== 'undefined' && currentPracticeWordIndex >= practiceWords.length) {
+                 return;
+             }
+             // Otherwise allow IME logic
         } else {
              return;
         }

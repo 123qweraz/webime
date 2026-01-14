@@ -1282,10 +1282,51 @@ function checkHanziMatch(text) {
     if (Array.isArray(targetText)) targetText = targetText.join("");
     
     const nextExpected = targetText.substring(currentCommittedHanzi.length);
-    
+    let matchedLength = 0;
+
+    // Direct match
     if (nextExpected.startsWith(text)) {
-        // Correct match
-        currentCommittedHanzi += text;
+        matchedLength = text.length;
+    } else {
+        // Relaxed Punctuation Match
+        // Map common English punctuation to Chinese equivalents if the expected char is Chinese punctuation
+        const punctMap = {
+            ',': '，',
+            '.': '。',
+            '?': '？',
+            '!': '！',
+            ':': '：',
+            ';': '；',
+            '(': '（',
+            ')': '）',
+            '[': '【',
+            ']': '】',
+            '<': '《',
+            '>': '》',
+            ' ': ' ' // Match space with space? Or ignore space?
+        };
+        
+        // Check if the input text (or its mapped version) matches the start of nextExpected
+        let mappedText = "";
+        for (let char of text) {
+            mappedText += punctMap[char] || char;
+        }
+
+        if (nextExpected.startsWith(mappedText)) {
+            matchedLength = mappedText.length;
+        } else if (text.length === 1 && punctMap[text] && nextExpected.startsWith(punctMap[text])) {
+            // Single char check (redundant but safe)
+            matchedLength = 1;
+            text = punctMap[text]; // Use the correct char for display
+        }
+    }
+
+    if (matchedLength > 0) {
+        // Correct match (use the text from target to ensure correct display logic if we did loose match)
+        // Actually, we should append the *Expected* text to committed, to keep it clean.
+        const matchedSegment = nextExpected.substring(0, matchedLength);
+        currentCommittedHanzi += matchedSegment;
+        
         updatePracticeInputDisplay();
         
         if (currentCommittedHanzi === targetText && !isPracticeAnimating) {
