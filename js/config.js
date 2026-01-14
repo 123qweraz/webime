@@ -311,6 +311,12 @@ const InputState = {
     TAB_EN: "tab_en",
 };
 
+const PRACTICE_MODE = {
+    PINYIN: "pinyin",
+    ENGLISH: "english",
+    HANZI: "hanzi"
+};
+
 const PRACTICE_PROGRESS_KEY = "webime_practice_progress";
 const STARTUP_GUIDE_KEY = "webime_startup_guide_seen";
 const DICTS_CONFIG_KEY = "ime_dicts_config";

@@ -1,9 +1,11 @@
 let practiceWords = [];
 let currentPracticeWordIndex = 0;
 let isPracticeAnimating = false;
+let currentPracticeMode = PRACTICE_MODE.PINYIN; // Default to Pinyin
 let cardLeft, cardCenter, cardRight;
 let practiceCards = [];
 let showPinyinHint = false;
+let currentCommittedHanzi = "";
 let hideHanzi = false;
 let showEnglishHint = false;
 // ttsMode: 0=Off, 1=Target(Zh/Jp), 2=Definition(En), 3=Both
@@ -780,8 +782,15 @@ function showChapterPractice() {
     if (footer) {
         footer.style.display = "flex";
         const chapterIndex = parseInt(settings.practice_chapter, 10);
+        
+        // Determine label for current mode
+        let modeLabel = "模式: 拼音";
+        if (currentPracticeMode === PRACTICE_MODE.ENGLISH) modeLabel = "模式: 英语";
+        if (currentPracticeMode === PRACTICE_MODE.HANZI) modeLabel = "模式: 汉字";
+
         footer.innerHTML = `
             <div class="footer-chapter-label">第 ${chapterIndex + 1} 章</div>
+            <button id="toggle-mode-btn" class="btn btn-toggle" onclick="togglePracticeMode()">${modeLabel}</button>
             <button id="back-to-dir-btn" class="btn btn-toggle" onclick="showPracticeDirectory()">章节目录</button>
             <button id="toggle-browse-btn" class="btn btn-toggle" onclick="toggleBrowseMode()">浏览模式</button>
             <button id="toggle-pinyin-btn" class="btn btn-toggle ${showPinyinHint ? 'active' : ''}" onclick="togglePinyinHint()">显示拼音 (F2)</button>
@@ -853,6 +862,22 @@ function exitPracticeMode() {
 
     document.getElementById("practice-mode-btn").style.display = "flex";
     document.getElementById("exit-practice-mode-btn").style.display = "none";
+}
+
+function togglePracticeMode() {
+    if (currentPracticeMode === PRACTICE_MODE.PINYIN) {
+        currentPracticeMode = PRACTICE_MODE.ENGLISH;
+        showToast("已切换至英语练习模式", "info");
+    } else if (currentPracticeMode === PRACTICE_MODE.ENGLISH) {
+        currentPracticeMode = PRACTICE_MODE.HANZI;
+        showToast("已切换至汉字拼写模式", "info");
+    } else {
+        currentPracticeMode = PRACTICE_MODE.PINYIN;
+        showToast("已切换至拼音练习模式", "info");
+    }
+    
+    // Refresh footer label
+    showChapterPractice();
 }
 
 function togglePinyinHint() {
@@ -939,8 +964,14 @@ function loadCards() {
         // Adjust Pinyin Size: Default 22px, >12 chars -> 18px, >20 chars -> 14px
         const pinyinThresholds = [{len: 12, size: 18}, {len: 20, size: 14}];
 
+        const isEnglishMode = currentPracticeMode === PRACTICE_MODE.ENGLISH;
+        const isHanziMode = currentPracticeMode === PRACTICE_MODE.HANZI;
+
         if (hideHanzi) {
-            // Blind Mode
+            // Blind Mode (Applies to all modes basically)
+            // If Hanzi Mode + Blind Mode -> Show English/Pinyin, Hide Hanzi (Target)
+            // Wait, Hanzi Mode ALREADY hides Hanzi because it's the target.
+            
             if (frontHanzi) {
                 frontHanzi.style.display = "none";
                 frontHanzi.textContent = hanziText;
@@ -954,24 +985,62 @@ function loadCards() {
                 }
             }
         } else {
-            // Normal Mode
+            // Normal Visibility Logic
             if (frontHanzi) {
-                frontHanzi.style.display = ""; 
-                frontHanzi.textContent = hanziText;
-                adjustFontSize(frontHanzi, hanziText, 64, hanziThresholds);
-            }
-            if (frontEn) {
-                if (showEnglishHint) {
-                    frontEn.style.display = "block";
-                    if (enText) {
-                        frontEn.textContent = enText;
-                    } else {
-                        frontEn.innerHTML = `<span style="font-size:16px; color:var(--text-sec);">(无英文释义)</span>`;
-                    }
+                if (isHanziMode) {
+                    // In Hanzi Mode, Hanzi is the target, so we hide it on front card (show placeholder usually, but here we just hide text)
+                    // We need to show the prompt (English or Pinyin)
+                    frontHanzi.style.display = "none"; 
                 } else {
-                    frontEn.style.display = "none";
+                    frontHanzi.style.display = ""; 
+                    frontHanzi.textContent = hanziText;
+                    adjustFontSize(frontHanzi, hanziText, 64, hanziThresholds);
                 }
             }
+            
+            if (frontEn) {
+                // In English Mode, English is target (so hidden/placeholder handled by updatePracticeInputDisplay)
+                // In Hanzi Mode, English is prompt (Visible)
+                // In Pinyin Mode, English is optional hint (showEnglishHint)
+                
+                if (isHanziMode) {
+                     frontEn.style.display = "block";
+                     if (enText) frontEn.textContent = enText;
+                     else frontEn.innerHTML = `<span style="font-size:16px; color:var(--text-sec);">(无英文释义)</span>`;
+                } else if (isEnglishMode) {
+                     // Target is English. We show Hanzi/Pinyin. English display is for Input.
+                     // The actual text is hidden, placeholders shown by updatePracticeInputDisplay
+                     frontEn.style.display = "block";
+                     frontEn.textContent = ""; // Will be filled by placeholders
+                } else {
+                    if (showEnglishHint) {
+                        frontEn.style.display = "block";
+                        if (enText) {
+                            frontEn.textContent = enText;
+                        } else {
+                            frontEn.innerHTML = `<span style="font-size:16px; color:var(--text-sec);">(无英文释义)</span>`;
+                        }
+                    } else {
+                        frontEn.style.display = "none";
+                    }
+                }
+            }
+        }
+        
+        // Pinyin Display Logic on Front
+        if (pinyinDisp) {
+             if (isHanziMode) {
+                 // Show Pinyin as hint? Yes, usually useful.
+                 pinyinDisp.textContent = pinyinText;
+                 adjustFontSize(pinyinDisp, pinyinText, 22, pinyinThresholds);
+             } else if (isEnglishMode) {
+                 // Show Pinyin as hint
+                 pinyinDisp.textContent = pinyinText;
+                 adjustFontSize(pinyinDisp, pinyinText, 22, pinyinThresholds);
+             } else {
+                 // Pinyin Mode: Target. Handled by updatePracticeInputDisplay.
+                 pinyinDisp.textContent = ""; 
+             }
         }
 
         // Back always has full info
@@ -982,11 +1051,24 @@ function loadCards() {
         if (backEn) backEn.textContent = enText;
         
         // Adjust Pinyin display if it exists (for history card)
-        if (pinyinDisp && card === cardRight) {
-            adjustFontSize(pinyinDisp, pinyinText, 22, pinyinThresholds);
-        } else if (pinyinDisp && card === cardCenter) {
+        if (card === cardRight) {
+             if (pinyinDisp) {
+                 pinyinDisp.textContent = pinyinText;
+                 adjustFontSize(pinyinDisp, pinyinText, 22, pinyinThresholds);
+             }
+             // History card (Right) should show Hanzi usually
+             if (frontHanzi) {
+                 frontHanzi.style.display = "";
+                 frontHanzi.textContent = hanziText;
+                 adjustFontSize(frontHanzi, hanziText, 32, hanziThresholds);
+             }
+        } 
+        
+        if (card === cardCenter) {
             // For center card, we also want the placeholder font to be smaller if pinyin is long
-            adjustFontSize(pinyinDisp, pinyinText, 22, pinyinThresholds);
+             if (!isHanziMode && !isEnglishMode) {
+                 adjustFontSize(pinyinDisp, pinyinText, 22, pinyinThresholds);
+             }
         }
 
         return card;
@@ -1087,49 +1169,157 @@ function updatePracticeInputDisplay() {
     const currentWord = practiceWords[currentPracticeWordIndex];
     if (!currentWord) return;
 
-    const targetPinyin = currentWord.pinyin.toLowerCase();
-    const typedPinyin = buffer.toLowerCase();
+    let targetText = "";
+    let typedText = "";
+    let displayEl = null;
 
-    if (cardCenter) {
-        const cardPinyinDisplay = cardCenter.querySelector(".pinyin-display");
-        if (cardPinyinDisplay) {
-            if (isBrowseMode && !buffer) {
-                 if (showPinyinHint) {
-                     cardPinyinDisplay.textContent = targetPinyin;
-                 } else {
-                     cardPinyinDisplay.innerHTML = targetPinyin.split('').map(c => `<span class="char-placeholder">${showPinyinHint ? c : "_"}</span>`).join('');
-                 }
-                 return;
-            }
+    if (currentPracticeMode === PRACTICE_MODE.ENGLISH) {
+        targetText = getHanziEn(currentWord.hanzi) || "";
+        typedText = buffer; // In English mode, buffer holds typed letters
+        if (cardCenter) displayEl = cardCenter.querySelector(".card-front .en-display");
+    } else if (currentPracticeMode === PRACTICE_MODE.HANZI) {
+        targetText = getHanziChar(currentWord.hanzi) || "";
+        if (Array.isArray(targetText)) targetText = targetText.join("");
+        typedText = currentCommittedHanzi;
+        if (cardCenter) displayEl = cardCenter.querySelector(".card-front .hanzi-display");
+        
+        // In Hanzi mode, we must ensure the element is visible for placeholders
+        if (displayEl) displayEl.style.display = "block";
+    } else {
+        // Pinyin Mode
+        targetText = currentWord.pinyin.toLowerCase();
+        typedText = buffer.toLowerCase();
+        if (cardCenter) displayEl = cardCenter.querySelector(".pinyin-display");
+    }
 
-            let cardHTML = "";
-            for (let i = 0; i < targetPinyin.length; i++) {
-                const char = targetPinyin[i];
-                if (i < typedPinyin.length) {
-                    // Typed characters: use same style as placeholder but darker/consistent grey
-                    cardHTML += `<span class="char-placeholder" style="color: var(--text-main); opacity: 0.8;">${typedPinyin[i]}</span>`;
-                } else if (i === typedPinyin.length && tempErrorChar) {
-                    // Show the temporary error character at the cursor position
-                    cardHTML += `<span class="char-placeholder char-incorrect" style="color: var(--danger); font-weight: bold;">${tempErrorChar}</span>`;
-                } else {
-                    const placeholder = showPinyinHint ? char : "_"; 
-                    cardHTML += `<span class="char-placeholder">${placeholder}</span>`;
-                }
-            }
-            // If the error was extra length (beyond target length), append it?
-            // Usually we truncate, but if target is short and we type extra...
-            if (typedPinyin.length >= targetPinyin.length && tempErrorChar) {
-                 cardHTML += `<span class="char-placeholder char-incorrect" style="color: var(--danger); font-weight: bold;">${tempErrorChar}</span>`;
-            }
+    if (!displayEl) return;
 
-            cardPinyinDisplay.innerHTML = cardHTML;
+    if (isBrowseMode && !typedText) {
+         if (currentPracticeMode === PRACTICE_MODE.HANZI) {
+             // Browse Mode + Hanzi Mode: Just show the Hanzi (Answer) or Placeholders?
+             // Usually browse mode shows the answer.
+             displayEl.textContent = targetText;
+             return;
+         }
+         
+         if (currentPracticeMode === PRACTICE_MODE.ENGLISH) {
+             if (showEnglishHint) {
+                 displayEl.textContent = targetText;
+             } else {
+                 // English Mode Browse: Show placeholders
+                 displayEl.innerHTML = targetText.split('').map(c => `<span class="char-placeholder">${/[a-zA-Z0-9]/.test(c) ? "_" : c}</span>`).join('');
+             }
+             return;
+         }
+
+         if (showPinyinHint) {
+             displayEl.textContent = targetText;
+         } else {
+             displayEl.innerHTML = targetText.split('').map(c => `<span class="char-placeholder">${showPinyinHint ? c : "_"}</span>`).join('');
+         }
+         return;
+    }
+
+    let cardHTML = "";
+    // Logic: Iterate through targetText. 
+    // If index < typedText.length, show typed char (or check correctness).
+    // Else show placeholder.
+    
+    // Note: typedText for Pinyin/English is raw chars.
+    // For Hanzi, it's correct Hanzi characters (verified by checkHanziMatch).
+    
+    for (let i = 0; i < targetText.length; i++) {
+        const char = targetText[i];
+        
+        if (i < typedText.length) {
+            // Already typed/committed
+            const typedChar = typedText[i];
+            // Check matching (Case insensitive for English/Pinyin)
+            let match = typedChar === char;
+            if (currentPracticeMode !== PRACTICE_MODE.HANZI) {
+                 match = typedChar.toLowerCase() === char.toLowerCase();
+            }
+            
+            if (match) {
+                 cardHTML += `<span class="char-placeholder" style="color: var(--text-main); opacity: 1; border-bottom-color: var(--primary);">${typedChar}</span>`;
+            } else {
+                 cardHTML += `<span class="char-placeholder char-incorrect" style="color: var(--danger); font-weight: bold;">${typedChar}</span>`;
+            }
+        } else if (i === typedText.length && tempErrorChar) {
+            // Temporary error display
+            cardHTML += `<span class="char-placeholder char-incorrect" style="color: var(--danger); font-weight: bold;">${tempErrorChar}</span>`;
+        } else {
+            // Remaining placeholders
+            let placeholder = "_";
+            // For spaces or punctuation, maybe show them?
+            if (!/[a-zA-Z0-9\u4e00-\u9fa5]/.test(char)) {
+                placeholder = char;
+            }
+            
+            // Hints
+            if (currentPracticeMode === PRACTICE_MODE.PINYIN && showPinyinHint) placeholder = char;
+            if (currentPracticeMode === PRACTICE_MODE.ENGLISH && showEnglishHint) placeholder = char;
+            
+            cardHTML += `<span class="char-placeholder">${placeholder}</span>`;
+        }
+    }
+    
+    // Append extra error chars
+    if (typedText.length >= targetText.length && tempErrorChar) {
+          cardHTML += `<span class="char-placeholder char-incorrect" style="color: var(--danger); font-weight: bold;">${tempErrorChar}</span>`;
+    }
+
+    displayEl.innerHTML = cardHTML;
+}
+
+function checkHanziMatch(text) {
+    if (currentPracticeMode !== PRACTICE_MODE.HANZI) return;
+    
+    const currentWord = practiceWords[currentPracticeWordIndex];
+    if (!currentWord) return;
+    
+    let targetText = getHanziChar(currentWord.hanzi) || "";
+    if (Array.isArray(targetText)) targetText = targetText.join("");
+    
+    const nextExpected = targetText.substring(currentCommittedHanzi.length);
+    
+    if (nextExpected.startsWith(text)) {
+        // Correct match
+        currentCommittedHanzi += text;
+        updatePracticeInputDisplay();
+        
+        if (currentCommittedHanzi === targetText && !isPracticeAnimating) {
+             isPracticeAnimating = true;
+             // Success
+             setTimeout(() => { 
+                currentCommittedHanzi = "";
+                currentPracticeWordIndex++;
+                localStorage.setItem(getPracticeProgressKey(), currentPracticeWordIndex);
+                showNextPracticeWord();
+                isPracticeAnimating = false;
+            }, 300);
+        }
+    } else {
+        // Incorrect match
+        showToast(`输入错误: 期望 "${nextExpected[0]}", 实际 "${text}"`, "warning");
+        // Shake animation
+        if (cardCenter) {
+            cardCenter.classList.remove("incorrect"); 
+            void cardCenter.offsetWidth; 
+            cardCenter.classList.add("incorrect");
         }
     }
 }
 
+// Expose globally
+window.checkHanziMatch = checkHanziMatch;
+
 function handlePracticeInput(event) {
     if (currentState !== InputState.PRACTICE) return;
     
+    // Hanzi Mode: Handled by main IME logic -> checkHanziMatch
+    if (currentPracticeMode === PRACTICE_MODE.HANZI) return;
+
     if (isBrowseMode) {
         event.target.value = "";
         return;
@@ -1137,23 +1327,35 @@ function handlePracticeInput(event) {
 
     const currentWord = practiceWords[currentPracticeWordIndex];
     if (!currentWord) return;
-    const targetPinyin = currentWord.pinyin.toLowerCase();
-
-    let val = event.target.value.replace(/[^a-zA-Z']/g, "").toLowerCase();
     
-    // Error Handling
-    if (val && !targetPinyin.startsWith(val)) {
-        // Get the incorrect char (the last one typed)
-        const wrongChar = val.slice(-1);
-        
-        // Trigger shake animation
-        if (cardCenter) {
+    let targetText = "";
+    if (currentPracticeMode === PRACTICE_MODE.ENGLISH) {
+        targetText = getHanziEn(currentWord.hanzi) || "";
+    } else {
+        targetText = currentWord.pinyin.toLowerCase();
+    }
+    
+    // For English, allow spaces and punctuation?
+    // Let's filter input based on target.
+    // If target has spaces, allow spaces.
+    let val = event.target.value;
+    
+    // Case insensitive match
+    // Check prefix
+    const targetPrefix = targetText.substring(0, val.length);
+    
+    // For English, "Apple" vs "apple". Input usually lowercase or whatever.
+    // Let's enforce case-insensitive check but maybe preserve input case in buffer?
+    
+    if (val.length > targetText.length || targetPrefix.toLowerCase() !== val.toLowerCase()) {
+         // Error
+         const wrongChar = val.slice(-1);
+         if (cardCenter) {
             cardCenter.classList.remove("incorrect"); 
-            void cardCenter.offsetWidth; // Force reflow
+            void cardCenter.offsetWidth; 
             cardCenter.classList.add("incorrect");
         }
-
-        // Show error visually for 0.5s
+        
         tempErrorChar = wrongChar;
         updatePracticeInputDisplay();
         setTimeout(() => {
@@ -1161,40 +1363,33 @@ function handlePracticeInput(event) {
             updatePracticeInputDisplay();
         }, 500);
 
-        // Revert to valid prefix immediately for the input buffer
+        // Revert
         let validVal = val.substring(0, val.length - 1);
-        // Double check in case of paste
-        while(validVal.length > 0 && !targetPinyin.startsWith(validVal)) {
+        while(validVal.length > 0 && targetText.substring(0, validVal.length).toLowerCase() !== validVal.toLowerCase()) {
             validVal = validVal.substring(0, validVal.length - 1);
         }
         val = validVal;
         event.target.value = val;
     } else {
-        // Clear incorrect state if input is valid prefix
         if (cardCenter) cardCenter.classList.remove("incorrect");
-        // Also clear temp error immediately if they typed correct quickly? 
-        // No, let the timeout handle it or it might flicker. 
-        // Actually, if they fix it, we might want to clear it.
-        if (tempErrorChar) {
-             tempErrorChar = null;
-        }
+        if (tempErrorChar) tempErrorChar = null;
     }
 
     setBuffer(val);
     updatePracticeInputDisplay();
 
-    const typedPinyin = buffer.toLowerCase();
-
-    if (typedPinyin === targetPinyin && !isPracticeAnimating) {
+    // Check completion
+    if (val.toLowerCase() === targetText.toLowerCase() && !isPracticeAnimating) {
         isPracticeAnimating = true;
-        
         setBuffer("");
         const hInput = document.getElementById("hidden-input");
         if (hInput) hInput.value = "";
         
         if (cardCenter) {
-            const cardPinyinDisplay = cardCenter.querySelector(".pinyin-display");
-            if (cardPinyinDisplay) cardPinyinDisplay.innerHTML = "";
+            const display = currentPracticeMode === PRACTICE_MODE.ENGLISH ? 
+                cardCenter.querySelector(".en-display") : 
+                cardCenter.querySelector(".pinyin-display");
+            if (display) display.innerHTML = "";
         }
 
         currentPracticeWordIndex++;

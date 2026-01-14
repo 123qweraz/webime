@@ -362,6 +362,20 @@ function selectCandidateEnglish() {
 }
 
 function insertAtCursor(text) {
+    // Intercept for Hanzi Practice Mode
+    if (typeof currentState !== 'undefined' && 
+        currentState === InputState.PRACTICE && 
+        typeof currentPracticeMode !== 'undefined' && 
+        currentPracticeMode === PRACTICE_MODE.HANZI) {
+        
+        if (typeof window.checkHanziMatch === 'function') {
+            window.checkHanziMatch(text.trim()); // Trim because English mode appends space, standard mode might not but good safety
+        }
+        resetInput();
+        update(); 
+        return;
+    }
+
     const area = getOutputArea();
     if (!area) return;
     restoreSelection();

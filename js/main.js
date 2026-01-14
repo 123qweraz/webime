@@ -111,7 +111,13 @@ function handleKeyDown(e) {
     const outputArea = document.getElementById("output-area");
     if (!hInput || !outputArea) return;
 
-    if (currentState === InputState.PRACTICE) return;
+    if (currentState === InputState.PRACTICE) {
+        if (typeof currentPracticeMode !== 'undefined' && currentPracticeMode === PRACTICE_MODE.HANZI) {
+             // Allow IME logic
+        } else {
+             return;
+        }
+    }
 
     if (buffer) {
         if (key === "=") { e.preventDefault(); if ((pageIndex + 1) * pageSize < combinedCandidates.length) { pageIndex++; render(); } return; }
@@ -252,7 +258,16 @@ function handleKeyDown(e) {
 function handleInput(event) {
     const hInput = document.getElementById("hidden-input");
     if (!hInput) return;
-    if (currentState === InputState.PRACTICE) { handlePracticeInput(event); return; }
+    
+    if (currentState === InputState.PRACTICE) { 
+        if (typeof currentPracticeMode !== 'undefined' && currentPracticeMode === PRACTICE_MODE.HANZI) {
+             // Fall through to standard logic
+        } else {
+             handlePracticeInput(event); 
+             return; 
+        }
+    }
+    
     setBuffer(hInput.value); pageIndex = 0; update();
 }
 
