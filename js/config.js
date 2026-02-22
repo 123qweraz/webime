@@ -150,3 +150,5 @@ const HISTORY_KEY = "ime_history_v18";
 const pageSize = 10;
 
 let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
+if (settings.showStrokeAux === undefined) settings.showStrokeAux = true;
+

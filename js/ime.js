@@ -321,8 +321,8 @@ function render() {
             div.className = "candidate-item" + (i === 0 ? " active" : "");
             const isEnglishMode = currentState === InputState.EN || currentState === InputState.TAB_EN;
             let displayDesc = "";
-            if (item.stroke_aux) {
-                displayDesc = `<span style="color: #ff9500; font-weight: bold; margin-right: 5px;">[${escapeHtml(item.stroke_aux)}]</span>`;
+            if (item.stroke_aux && typeof settings !== 'undefined' && settings.showStrokeAux) {
+                displayDesc = `<span style="color: var(--text-sec); font-weight: bold; margin-right: 5px;">[${escapeHtml(item.stroke_aux)}]</span>`;
             }
             if (item.desc) {
                 displayDesc += escapeHtml(item.desc);
