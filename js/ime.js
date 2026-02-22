@@ -320,10 +320,18 @@ function render() {
             const div = document.createElement("div");
             div.className = "candidate-item" + (i === 0 ? " active" : "");
             const isEnglishMode = currentState === InputState.EN || currentState === InputState.TAB_EN;
+            let displayDesc = "";
+            if (item.stroke_aux) {
+                displayDesc = `<span style="color: #ff9500; font-weight: bold; margin-right: 5px;">[${escapeHtml(item.stroke_aux)}]</span>`;
+            }
+            if (item.desc) {
+                displayDesc += escapeHtml(item.desc);
+            }
+
             if (isEnglishMode && item.desc) {
-                div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.desc)}</span><span class="cand-desc">${escapeHtml(item.text)}</span>`;
+                div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.desc)}</span><span class="cand-desc">${displayDesc}</span>`;
             } else {
-                div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.text)}</span>${item.desc ? `<span class="cand-desc">${escapeHtml(item.desc)}</span>` : ""}`;
+                div.innerHTML = `<span class="cand-key">${(i + 1) % 10}</span><span class="cand-text">${escapeHtml(item.text)}</span>${displayDesc ? `<span class="cand-desc">${displayDesc}</span>` : ""}`;
             }
             const isEnglishModeClick = currentState === InputState.EN || currentState === InputState.TAB_EN;
             if (isEnglishModeClick && item.desc) {
