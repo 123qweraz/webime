@@ -63,12 +63,12 @@ function getActiveSegment(buffer) {
     }
     let lastPinyinCharIndex = -1;
     for (let i = buffer.length - 1; i >= 0; i--) {
-        if (/[a-zA-Z']/.test(buffer[i])) { lastPinyinCharIndex = i; } else { break; }
+        if (/[a-zA-Z';]/.test(buffer[i])) { lastPinyinCharIndex = i; } else { break; }
     }
     if (lastPinyinCharIndex !== -1) {
         let firstPinyinCharIndex = lastPinyinCharIndex;
         for (let i = lastPinyinCharIndex - 1; i >= 0; i--) {
-            if (/[a-zA-Z']/.test(buffer[i])) { firstPinyinCharIndex = i; } else { break; }
+            if (/[a-zA-Z';]/.test(buffer[i])) { firstPinyinCharIndex = i; } else { break; }
         }
         return { activeSegment: buffer.substring(firstPinyinCharIndex), precedingBuffer: buffer.substring(0, firstPinyinCharIndex) };
     }
@@ -93,17 +93,25 @@ function updateBufferDisplay(buffer, activeSegment, precedingBuffer) {
 
 function lookupCandidates(activeSegment) {
     if (!activeSegment) return [];
+
+    let pinyinPart = activeSegment.toLowerCase();
+    let auxPart = "";
+    if (activeSegment.includes(";")) {
+        const parts = activeSegment.split(";");
+        pinyinPart = parts[0].toLowerCase();
+        auxPart = parts[1] ? parts[1].toLowerCase() : "";
+    }
     
-    // Fuzzy expansion
-    let segmentVariants = [activeSegment.toLowerCase()];
+    // Fuzzy expansion using pinyin part
+    let segmentVariants = [pinyinPart];
     if (typeof settings !== 'undefined' && settings.fuzzy) {
-        segmentVariants = expandFuzzy(activeSegment.toLowerCase());
+        segmentVariants = expandFuzzy(pinyinPart);
     }
 
     let list = [];
     let count = 0;
     const MAX_COLLECT = 500;
-    const originalSegment = activeSegment.toLowerCase();
+    const originalSegment = pinyinPart;
     
     const isDynamic = typeof settings !== 'undefined' && settings.dynamicFreq;
 
@@ -136,34 +144,29 @@ function lookupCandidates(activeSegment) {
                                                                                        w += Math.log2(freq + 1) * 200;
                                                                                    }
                                                                                }                                                  
-                                                  list.push({ text: c.text, desc: c.desc || "", w: w });
+                                                  list.push({ 
+                                                      text: c.text, 
+                                                      desc: c.desc || "", 
+                                                      w: w,
+                                                      stroke_aux: c.stroke_aux // Assume Rust engine returns this if available
+                                                  });
                                                   count++;
                                              });
                 }
 
                 // 2. 智能整句/长句搜索 (HMM/Viterbi)
-                // 只有当 buffer 比较长时才触发，避免单字输入时的干扰
-                // 且只针对原始输入 (originalSegment)
-                if (originalSegment.length > 4) {
+                if (originalSegment.length > 4 && !auxPart) {
                     const sentenceJson = window.RustEngine.search_sentence(originalSegment);
                     const sentenceCandidates = JSON.parse(sentenceJson);
                     if (sentenceCandidates && sentenceCandidates.length > 0) {
-                        // 这是一个经过算法计算出的“最佳整句”
-                        // 我们赋予它极高的权重，使其排在第一位
-                        // 并添加一个特殊的标记（如 emoji 或样式）让用户知道这是智能联想
                         sentenceCandidates.forEach(c => {
                             list.push({ 
                                 text: c.text, 
-                                desc: "✨ 智能整句", // 添加描述
-                                w: 9999999 // 超级权重
+                                desc: "✨ 智能整句", 
+                                w: 9999999 
                             });
                         });
                     }
-                }
-                
-                if (rustCandidates && rustCandidates.length > 0) {
-                    // Rust 模式下，如果找到了结果，通常我们就用 Rust 的结果了
-                    // 但为了保险，还是让它流下去被去重逻辑处理
                 }
             } catch (e) {
                 console.error("Rust search error:", e);
@@ -179,36 +182,31 @@ function lookupCandidates(activeSegment) {
             if (useExactMatch && path !== b_segment_for_lookup) return; 
             if (node.values.length > 0) {
                 let baseW = (path === originalSegment) ? 10000 : 1000;
-                // If fuzzy variant match
                 if (path !== originalSegment) {
-                     // Prefer exact matches of the variant (e.g. "zha" for "zha") over prefixes ("zhang" for "zha")
-                     // But penalize relative to original input
                      baseW = (path === variant) ? 9000 : 900;
                 }
                 
                 baseW -= (path.length - originalSegment.length) * 100;
-                if (!isExactVariant) baseW -= 500; // Fuzzy penalty
+                if (!isExactVariant) baseW -= 500;
 
                 node.values.forEach((i) => {
                     let w = baseW + (i.priority || 0);
                     const text = i.char || i;
                     
                     if (isDynamic) {
-                        // Check usage frequency
-                        // Key: originalSegment + "_" + text (bind to what user actually typed)
-                        // Or bind to the variant? 
-                        // If I type "z", select "在" (freq++). Next time I type "z", "在" should be higher.
-                        // If I type "zai", "在" matches exactly.
-                        // I think binding to originalSegment is better.
                         const key = originalSegment + "_" + text;
                         const freq = userFreq[key] || 0;
                         if (freq > 0) {
-                            // w += Math.min(freq * 500, 20000); // Old Linear
-                            w += Math.log2(freq + 1) * 200; // New Logarithmic
+                            w += Math.log2(freq + 1) * 200;
                         }
                     }
                     
-                    list.push({ text: text, desc: i.en || (typeof i === "object" ? i.en : ""), w: w });
+                    list.push({ 
+                        text: text, 
+                        desc: i.en || (typeof i === "object" ? i.en : ""), 
+                        w: w,
+                        stroke_aux: i.stroke_aux // Carry over from dictionary
+                    });
                     count++;
                 });
             }
@@ -216,6 +214,15 @@ function lookupCandidates(activeSegment) {
         };
         collect(prefixNode, b_segment_for_lookup);
     }
+
+    // Filter by stroke auxiliary code if present
+    if (auxPart) {
+        list = list.filter(item => {
+            if (!item.stroke_aux) return false;
+            return item.stroke_aux.toLowerCase().startsWith(auxPart);
+        });
+    }
+
     return list;
 }
 
