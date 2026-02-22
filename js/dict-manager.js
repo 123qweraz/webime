@@ -504,13 +504,24 @@ function renderSettingsTab() {
                 </label>
             </div>
             
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); margin-bottom: 8px;">
                 <div style="flex: 1; padding-right: 10px;">
-                    <div style="font-weight: 500;">显示辅助码</div>
-                    <div style="font-size: 11px; color: var(--text-sec); margin-top: 2px;">在候选词列表中显示笔画辅助码 [aux]</div>
+                    <div style="font-weight: 500;">显示笔画辅助码</div>
+                    <div style="font-size: 11px; color: var(--text-sec); margin-top: 2px;">在候选词列表中显示笔画辅助码 (形码)</div>
                 </div>
                 <label class="switch">
                     <input type="checkbox" ${settings.showStrokeAux ? 'checked' : ''} onchange="toggleSetting('showStrokeAux')">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0;">
+                <div style="flex: 1; padding-right: 10px;">
+                    <div style="font-weight: 500;">显示英语辅助码</div>
+                    <div style="font-size: 11px; color: var(--text-sec); margin-top: 2px;">在候选词列表中显示英语释义 (English Aux)</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" ${settings.showEnglishAux ? 'checked' : ''} onchange="toggleSetting('showEnglishAux')">
                     <span class="slider round"></span>
                 </label>
             </div>

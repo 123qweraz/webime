@@ -322,10 +322,10 @@ function render() {
             const isEnglishMode = currentState === InputState.EN || currentState === InputState.TAB_EN;
             let displayDesc = "";
             if (item.stroke_aux && typeof settings !== 'undefined' && settings.showStrokeAux) {
-                displayDesc = `<span style="color: var(--text-sec); font-weight: bold; margin-right: 5px;">[${escapeHtml(item.stroke_aux)}]</span>`;
+                displayDesc += `<span class="cand-aux-stroke" style="margin-right: 8px; font-weight: 700;">${escapeHtml(item.stroke_aux)}</span>`;
             }
-            if (item.desc) {
-                displayDesc += escapeHtml(item.desc);
+            if (item.desc && typeof settings !== 'undefined' && settings.showEnglishAux) {
+                displayDesc += `<span class="cand-aux-en">${escapeHtml(item.desc)}</span>`;
             }
 
             if (isEnglishMode && item.desc) {
