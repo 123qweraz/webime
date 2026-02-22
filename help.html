@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rust-ime 终极使用指南</title>
+    <style>
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-card: #ffffff;
+            --apple-accent: #0071e3;
+            --apple-text: #1d1d1f;
+            --apple-secondary: #86868b;
+            --apple-border: #d2d2d7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--apple-bg); color: var(--apple-text); margin: 0; display: flex; line-height: 1.6;
+        }
+
+        aside {
+            width: 260px; height: 100vh; position: sticky; top: 0; background: rgba(245, 245, 247, 0.85);
+            backdrop-filter: blur(25px); border-right: 1px solid var(--apple-border); padding: 40px 20px; box-sizing: border-box;
+        }
+
+        aside h3 { font-size: 18px; margin-bottom: 20px; padding-left: 15px; }
+        aside nav a {
+            display: block; color: var(--apple-text); text-decoration: none; padding: 12px 15px;
+            border-radius: 10px; font-size: 14px; margin-bottom: 5px; transition: all 0.2s;
+        }
+        aside nav a:hover { background: rgba(0,0,0,0.05); }
+        aside nav a.active { color: var(--apple-accent); font-weight: 600; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+
+        .keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+            background: #f0f0f2;
+            padding: 15px;
+            border-radius: 16px;
+        }
+        .key-cap {
+            background: white;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .key-letter { font-weight: 800; color: var(--apple-accent); display: block; font-size: 18px; }
+        .key-desc { font-size: 12px; color: var(--apple-secondary); margin-top: 4px; }
+        .row-label { grid-column: 1 / -1; font-weight: 600; font-size: 13px; color: var(--apple-secondary); margin-top: 10px; border-top: 1px solid #e5e5e5; padding-top: 5px; }
+
+        main { flex: 1; padding: 60px 10%; max-width: 1000px; }
+
+        h1 { font-size: 44px; font-weight: 800; margin-bottom: 10px; letter-spacing: -1.5px; }
+        .subtitle { color: var(--apple-secondary); font-size: 20px; margin-bottom: 60px; }
+
+        section { margin-bottom: 80px; scroll-margin-top: 60px; }
+        h2 { font-size: 32px; font-weight: 700; margin-bottom: 25px; border-bottom: 2px solid var(--apple-accent); display: inline-block; padding-bottom: 5px; }
+        
+        .feature-card {
+            background: var(--apple-card); border-radius: 24px; padding: 35px; margin-bottom: 30px;
+            border: 1px solid var(--apple-border); box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+        }
+
+        .feature-card h3 { margin-top: 0; font-size: 22px; color: var(--apple-accent); margin-bottom: 15px; }
+        
+        .example-box {
+            background: #f8f9fa; border-left: 4px solid var(--apple-accent); padding: 15px 20px;
+            margin: 20px 0; border-radius: 0 12px 12px 0;
+        }
+        .example-box code { color: #d70022; font-weight: 700; font-size: 1.1em; }
+
+        .pro-tip {
+            background: #fff9e6; border: 1px solid #ffe58f; padding: 15px; border-radius: 12px;
+            font-size: 14px; color: #856404; margin-top: 15px;
+        }
+
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", monospace; }
+        .tag { font-size: 12px; background: #e1f0ff; color: #0071e3; padding: 3px 10px; border-radius: 12px; font-weight: 600; margin-left: 10px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 12px; }
+        b { color: var(--apple-accent); }
+    </style>
+</head>
+<body>
+    <aside>
+        <h3>文档导航</h3>
+        <nav>
+            <a href="#intro">1. 产品定位</a>
+            <a href="#aux-code">2. 核心：英文辅助码</a>
+            <a href="#stroke-aux">3. 进阶：笔画辅助码</a>
+            <a href="#proper-nouns">4. 专有名词原生隔离</a>
+            <a href="#mixed-input">5. 多方案混输</a>
+            <a href="#quick-rime">6. 长按与双击定制</a>
+            <a href="#nav-mode">7. 智能导航与平卷互换</a>
+            <a href="#sentence-mode">8. 智能长句模式</a>
+            <a href="#ui-custom">9. 视觉与样式定制</a>
+        </nav>
+    </aside>
+
+    <main>
+        <h1>rust-ime 终极指南</h1>
+        <div class="subtitle">一款专为程序员与效率极客设计的拼音输入法</div>
+
+        <section id="intro">
+            <h2>产品定位</h2>
+            <div class="feature-card">
+                <p>rust-ime 是一款基于 Rust 编写的高性能拼音输入法。它的设计核心是<b>“零干扰”</b>与<b>“极致效率”</b>。</p>
+                <p>对于普通用户，它表现得像任何主流输入法一样：支持全拼、简拼、模糊音。但为了效率，我们做了两个果断的选择：</p>
+                <ul>
+                    <li><b>Tab 键即正义</b>：摒弃了复杂的切换键，默认使用 <code>Tab</code> 键（单按）瞬间切换中英文。</li>
+                    <li><b>位置固定</b>：候选框不跟随光标（减少视觉抖动），默认固定在屏幕底部（位置可完全自定义）。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="aux-code">
+            <h2>核心：英文辅助码</h2>
+            <div class="feature-card">
+                <p>这是 rust-ime 的灵魂功能。在拼音重码极多（如同音字、简拼）时，您无需翻页，只需输入一个<b>大写字母</b>即可精准定位。</p>
+                
+                <h3>它是如何工作的？</h3>
+                <p>输入法会自动扫描候选词对应的<b>英文翻译/释义</b>。当您输入一个大写字母时，它会匹配释义中第一个大写单词的首字母。</p>
+
+                <div class="example-box">
+                    <p><b>场景 A：解决同音字重码</b></p>
+                    <p>输入 <code>li</code>，候选词可能有“里、离、礼、理...”。</p>
+                    <ul>
+                        <li>输入 <code>liC</code> ⮕ <b>礼</b> (Ceremony) 瞬间排到第一。</li>
+                        <li>输入 <code>liL</code> ⮕ <b>理</b> (Logic) 瞬间排到第一。</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <p><b>场景 B：简拼精准定位</b></p>
+                    <p>输入 <code>sh</code>，候选词可能有“书、水、数、树...”。</p>
+                    <ul>
+                        <li>输入 <code>shB</code> ⮕ <b>书</b> (Book) 瞬间出现。</li>
+                        <li>输入 <code>shW</code> ⮕ <b>水</b> (Water) 瞬间出现。</li>
+                        <li>输入 <code>shT</code> ⮕ <b>树</b> (Tree) 瞬间出现。</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <p><b>场景 C：长词组过滤</b></p>
+                    <p>输入 <code>ha</code>，想输入“号”。</p>
+                    <ul>
+                        <li>输入 <code>haN</code> ⮕ <b>号</b> (Number) 排除掉“好、哈”。</li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip">
+                    <b>技巧：</b>该功能会自动跳过声调符号。例如翻译是 "ne Particle"，输入 <code>P</code> 即可精准匹配 "Particle"。
+                </div>
+            </div>
+        </section>
+
+        <section id="stroke-aux">
+            <h2>进阶：笔画辅助码 (SBSRF)</h2>
+            <div class="feature-card">
+                <p>笔画辅助码是基于汉字<b>笔画结构</b>的精准过滤方案。它使用 5x5 的 <b>QWER 按键矩阵</b>，每个按键代表两个连续笔画。</p>
+                
+                <h3>1. 笔画映射键盘布局</h3>
+                <p>我们将 1(横)、2(竖)、3(撇)、4(捺/点)、5(折) 映射到键盘。矩阵的<b>行代表第 1 笔</b>，<b>列代表第 2 笔</b>。</p>
+
+                <div class="keyboard-grid">
+                    <div class="row-label">横 (1) 行：第 1 笔是“横”</div>
+                    <div class="key-cap"><span class="key-letter">G</span><span class="key-desc">横横</span></div>
+                    <div class="key-cap"><span class="key-letter">F</span><span class="key-desc">横竖</span></div>
+                    <div class="key-cap"><span class="key-letter">D</span><span class="key-desc">横撇</span></div>
+                    <div class="key-cap"><span class="key-letter">S</span><span class="key-desc">横捺</span></div>
+                    <div class="key-cap"><span class="key-letter">A</span><span class="key-desc">横折</span></div>
+
+                    <div class="row-label">竖 (2) 行：第 1 笔是“竖”</div>
+                    <div class="key-cap"><span class="key-letter">H</span><span class="key-desc">竖横</span></div>
+                    <div class="key-cap"><span class="key-letter">J</span><span class="key-desc">竖竖</span></div>
+                    <div class="key-cap"><span class="key-letter">K</span><span class="key-desc">竖撇</span></div>
+                    <div class="key-cap"><span class="key-letter">L</span><span class="key-desc">竖捺</span></div>
+                    <div class="key-cap"><span class="key-letter">M</span><span class="key-desc">竖折</span></div>
+
+                    <div class="row-label">撇 (3) 行：第 1 笔是“撇”</div>
+                    <div class="key-cap"><span class="key-letter">T</span><span class="key-desc">撇横</span></div>
+                    <div class="key-cap"><span class="key-letter">R</span><span class="key-desc">撇竖</span></div>
+                    <div class="key-cap"><span class="key-letter">E</span><span class="key-desc">撇撇</span></div>
+                    <div class="key-cap"><span class="key-letter">W</span><span class="key-desc">撇捺</span></div>
+                    <div class="key-cap"><span class="key-letter">Q</span><span class="key-desc">撇折</span></div>
+
+                    <div class="row-label">捺 (4) 行：第 1 笔是“捺”</div>
+                    <div class="key-cap"><span class="key-letter">Y</span><span class="key-desc">捺横</span></div>
+                    <div class="key-cap"><span class="key-letter">U</span><span class="key-desc">捺竖</span></div>
+                    <div class="key-cap"><span class="key-letter">I</span><span class="key-desc">捺撇</span></div>
+                    <div class="key-cap"><span class="key-letter">O</span><span class="key-desc">捺捺</span></div>
+                    <div class="key-cap"><span class="key-letter">P</span><span class="key-desc">捺折</span></div>
+
+                    <div class="row-label">折 (5) 行：第 1 笔是“折”</div>
+                    <div class="key-cap"><span class="key-letter">N</span><span class="key-desc">折横</span></div>
+                    <div class="key-cap"><span class="key-letter">B</span><span class="key-desc">折竖</span></div>
+                    <div class="key-cap"><span class="key-letter">V</span><span class="key-desc">折撇</span></div>
+                    <div class="key-cap"><span class="key-letter">C</span><span class="key-desc">折捺</span></div>
+                    <div class="key-cap"><span class="key-letter">X</span><span class="key-desc">折折</span></div>
+                </div>
+
+                <h3>2. 编码规则</h3>
+                <ul>
+                    <li><b>首 2 笔 (第 1 键)</b>：汉字的前两画。例如“的”前两画是撇、竖，对应 <code>x</code>。</li>
+                    <li><b>末 2 笔 (第 2 键)</b>：汉字的最后两画。例如“的”最后两画是捺、点（按捺处理），对应 <code>o</code>，但系统规则为了兼容性，此处对应 <code>y</code> (捺横)。</li>
+                </ul>
+
+                <div class="example-box">
+                    <p><b>实战演练</b></p>
+                    <ul>
+                        <li><b>人</b> (ren)：前两画“撇捺” ⮕ 输入 <code>renv</code> 瞬间定位。</li>
+                        <li><b>的</b> (de)：前两画“撇竖”(x)，末两画“捺横”(y) ⮕ 输入 <code>dexy</code> 精准定位。</li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip">
+                    <b>说明：</b>笔画辅助码默认开启。如果发现某个字无法定位，可以在 Web 端“词库编辑器”中查看该字的 <code>stroke_aux</code> 字段进行确认。
+                </div>
+            </div>
+        </section>
+
+        <section id="proper-nouns">
+            <h2>4. 专有名词原生隔离</h2>
+            <div class="feature-card">
+                <p>在普通输入法中，输入 <code>beijing</code> 可能会混杂“背景”和“北京”。在 rust-ime 中：</p>
+                <ul>
+                    <li><b>全小写</b>：<code>beijing</code> 只会匹配普通词汇（如：背景）。</li>
+                    <li><b>首字母大写</b>：<code>Beijing</code> 或 <code>Be</code> 将触发<b>专有名词索引</b>，精准匹配“北京”，完全隔离干扰。</li>
+                </ul>
+                <p>这对于输入人名、地名、软件名非常有效，实现了索引层面的清爽。</p>
+            </div>
+        </section>
+
+        <section id="mixed-input">
+            <h2>5. 多方案混输</h2>
+            <div class="feature-card">
+                <p>rust-ime 允许您在网页端自由组合活跃方案（如 <b>中文+英文</b>）。</p>
+                <ul>
+                    <li><b>程序员友好</b>：在写注释时，不需要切换模式，直接输入 <code>git</code>, <code>cargo</code>, <code>sudo</code>，它们会出现在候选词中。</li>
+                    <li><b>英文自动补全</b>：支持英文前缀联想。输入 <code>com</code> 即可选择 <code>complete</code>, <code>command</code> 等词。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="quick-rime">
+            <h2>6. 长按与双击定制 <span class="tag">New</span></h2>
+            <div class="feature-card">
+                <p>rust-ime 提供了极致的按键行为定制能力，您可以利用<b>双击</b>或<b>长按</b>来实现极速输入。</p>
+                
+                <h3>1. 双击快捷输入 (Double-Tap)</h3>
+                <p>快速点击同一个字母键两次，注入长韵母或常用短语。例如：</p>
+                <ul>
+                    <li><code>i, i</code> ⮕ 注入 <code>ing</code></li>
+                    <li><code>u, u</code> ⮕ 注入 <code>sh</code></li>
+                </ul>
+
+                <h3>2. 长按行为定制 (Long Press)</h3>
+                <p>按住字母键不放（约 400ms），触发预设操作。默认映射为该字母的<b>大写形式</b>。</p>
+
+                <div class="pro-tip">
+                    <b>配置提示：</b>访问配置中心，点击可视化键盘上的字母，即可分别为“双击”和“长按”分配任何您想要的字符串、变音字符或音调符号。
+                </div>
+            </div>
+        </section>
+
+        <section id="nav-mode">
+            <h2>7. 智能导航与平卷互换 <span class="tag">New</span></h2>
+            <div class="feature-card">
+                <h3>1. HJKL 导航模式</h3>
+                <p>在输入拼音的过程中，按下 <code>`</code> (反引号) 即可进入导航模式。此时您可以像使用 Vim 一样操作候选词：</p>
+                <ul>
+                    <li><code>H</code> / <code>L</code>：切换上一个/下一个候选词</li>
+                    <li><code>J</code> / <code>K</code>：向下/向上翻页</li>
+                </ul>
+                <p>按任意其他字母键将自动退出导航并继续拼写。</p>
+
+                <h3>2. 平卷舌一键互换 (/)</h3>
+                <p>拼错平/卷舌音时无需删除重打。在输入 <code>zan</code> 时发现应该是 <code>zhan</code>？只需按一下 <code>/</code> 键，系统会自动完成互换。</p>
+
+                <h3>3. 提示词上屏 (Shift + Space)</h3>
+                <p>如果您想直接输入候选词旁边的英文提示或注音，只需按下 <code>Shift + Space</code> 即可将其直接上屏。</p>
+            </div>
+        </section>
+
+        <section id="sentence-mode">
+            <h2>8. 智能长句模式</h2>
+            <div class="feature-card">
+                <p>在“系统总览”中将上屏模式切换为<b>“双空格上屏”</b>即可进入长句模式。</p>
+                <p>在此模式下，输入法会尝试进行全句切分和联想。虽然目前仍处于完善阶段，但我们计划在未来引入基于语境的智能纠错，让长篇大论的输入更加流畅。</p>
+            </div>
+        </section>
+
+        <section id="ui-custom">
+            <h2>9. 视觉与样式定制</h2>
+            <div class="feature-card">
+                <p>我们提供了一个极致自由的皮肤引擎，全部可通过网页控制中心调节：</p>
+                <ul>
+                    <li><b>双模选择</b>：传统横向窗 vs 现代侧边卡片窗。</li>
+                    <li><b>精准调色</b>：点击颜色球，为背景、高亮、文字选择任何您喜欢的颜色（支持透明度）。</li>
+                    <li><b>字号调节</b>：主词条与辅助码（Hint）的字号可以分开控制，满足不同的视力习惯。</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const links = document.querySelectorAll('aside nav a');
+        const sections = document.querySelectorAll('section');
+
+        window.onscroll = () => {
+            let current = "";
+            sections.forEach(s => {
+                const top = s.offsetTop;
+                if (pageYOffset >= top - 150) { current = s.getAttribute('id'); }
+            });
+            links.forEach(l => {
+                l.classList.remove('active');
+                if (l.getAttribute('href').includes(current)) { l.classList.add('active'); }
+            });
+        };
+    </script>
+</body>
+</html>
