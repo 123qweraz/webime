@@ -135,6 +135,11 @@ function lookupCandidates(activeSegment) {
                     if (!isExactVariant) baseW -= 500;
                     
                     rustCandidates.forEach(c => {
+                        // Apply auxiliary code filtering to Rust results as well if it has the field
+                        if (auxPart && c.stroke_aux && !c.stroke_aux.toLowerCase().startsWith(auxPart)) {
+                            return;
+                        }
+
                          let w = baseW + (c.priority || 0);
                                                   if (isDynamic) {
                                                                                    const key = originalSegment + "_" + c.text;

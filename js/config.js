@@ -151,5 +151,5 @@ const pageSize = 10;
 
 let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
 if (settings.showStrokeAux === undefined) settings.showStrokeAux = true;
-if (settings.showEnglishAux === undefined) settings.showEnglishAux = true;
+if (settings.showEnglishAux === undefined) settings.showEnglishAux = false;
 
